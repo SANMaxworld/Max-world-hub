@@ -5,7 +5,7 @@ const mwHubData = [
         category: "GAMES",
         desc: "Survival & Creative. Extract the ZIP and install APK.",
         url: "https://www.mediafire.com/file/2u9x6hn1l4u6d7o/Minecraft.zip/file",
-        logo: "assets/logo.png"
+        logo: "assets/nawaz3.jpg"
     },
     {
         id: 2,
