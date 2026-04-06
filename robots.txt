@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://sanmaxworld.github.io/Max-world-hub/sitemap.xml
