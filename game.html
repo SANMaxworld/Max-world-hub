@@ -5,55 +5,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" href="assets/logo.png">
     <link rel="stylesheet" href="style.css">
-    <title>Category - MW Hub</title>
+    <title>Games Section - MW Hub</title>
 </head>
 <body>
-
     <header>
         <div class="logo-section">
             <a href="index.html" style="text-decoration:none; color:white; display:flex; align-items:center; gap:15px;">
                 <img src="assets/logo.jpg" alt="MW Hub" class="main-logo">
-                <h1 class="brand-name" id="pageTitle">SECTION</h1>
+                <h1 class="brand-name">GAMES <span style="color:#007bff;">SECTION</span></h1>
             </a>
         </div>
     </header>
-
     <div class="glass-container">
         <div id="categoryList"></div>
-
-        <a href="index.html" class="nav-btn" style="display:block; margin-top:30px; background:#333; font-size:0.9rem;">⬅️ BACK TO HOME</a>
+        <a href="index.html" class="nav-btn" style="display:block; margin-top:30px; background:#333;">⬅️ BACK TO HOME</a>
     </div>
-
-    <footer>
-        <p style="color:#666; font-size: 0.8rem; text-align:center;">© 2026 Max World (MW Hub). All Rights Reserved.</p>
-    </footer>
-
     <script src="data.js"></script>
     <script>
-        // Yahan apni category set karein (Jaise: 'GAMES', 'APPS', 'MOVIES', 'PDF')
-        // Har file mein ye badal dena:
-        const CURRENT_CATEGORY = "GAMES"; 
-
-        document.getElementById('pageTitle').innerHTML = `${CURRENT_CATEGORY} <span style="color:#007bff;">SECTION</span>`;
-
         const container = document.getElementById('categoryList');
-        const filteredData = mwHubData.filter(item => item.category === CURRENT_CATEGORY);
-
-        if (filteredData.length === 0) {
-            container.innerHTML = `<p style="text-align:center; color:#888; padding:20px;">Coming Soon: New ${CURRENT_CATEGORY} content will be added here!</p>`;
+        const filtered = mwHubData.filter(item => item.category === "GAMES");
+        if (filtered.length === 0) {
+            container.innerHTML = '<p style="text-align:center; color:#888; padding:20px;">Coming Soon: Exciting games are on the way!</p>';
         } else {
-            filteredData.forEach(item => {
-                const card = document.createElement('div');
-                card.style.cssText = "background:rgba(255,255,255,0.05); padding:15px; border-radius:15px; margin-bottom:15px; display:flex; align-items:center; gap:15px; border:1px solid rgba(255,255,255,0.1);";
-                card.innerHTML = `
-                    <img src="${item.logo}" style="width:55px; height:55px; border-radius:10px; border:1px solid rgba(255,255,255,0.1);">
-                    <div style="flex:1;">
-                        <h4 style="font-size:0.95rem; margin-bottom:3px;">${item.name}</h4>
-                        <p style="font-size:0.8rem; color:#aaa;">${item.desc}</p>
-                    </div>
-                    <a href="${item.url}" target="_blank" style="background:#007bff; color:#fff; padding:8px 15px; border-radius:8px; text-decoration:none; font-weight:700; font-size:0.8rem;">GET</a>
-                `;
-                container.appendChild(card);
+            filtered.forEach(item => {
+                const div = document.createElement('div');
+                div.style.cssText = "background:rgba(255,255,255,0.05); padding:15px; border-radius:15px; margin-bottom:15px; display:flex; align-items:center; gap:15px; border:1px solid rgba(255,255,255,0.1);";
+                div.innerHTML = `<img src="${item.logo}" style="width:55px; height:55px; border-radius:10px;"><div style="flex:1;"><h4 style="font-size:0.95rem;">${item.name}</h4><p style="font-size:0.8rem; color:#aaa;">${item.desc}</p></div><a href="${item.url}" target="_blank" style="background:#007bff; color:#fff; padding:8px 15px; border-radius:8px; text-decoration:none; font-weight:700;">GET</a>`;
+                container.appendChild(div);
             });
         }
     </script>
