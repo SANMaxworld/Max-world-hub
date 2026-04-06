@@ -10,7 +10,7 @@ body {
     overflow-x: hidden;
 }
 
-/* ✨ Shooting Stars Animation */
+/* ✨ Shooting Stars (One-Time Animation) */
 .star-container {
     position: fixed;
     top: 0; left: 0; width: 100%; height: 100%;
@@ -21,78 +21,114 @@ body {
 .star {
     position: absolute;
     right: -100px;
-    width: 100px;
+    width: 150px;
     height: 2px;
-    background: linear-gradient(90deg, rgba(255,255,255,1), transparent);
-    animation: shoot 3s linear infinite;
+    background: linear-gradient(90deg, #fff, transparent);
+    /* '1' matlab sirf ek baar chalega */
+    animation: shoot 2.5s linear 1 forwards; 
+    opacity: 0;
 }
 
 @keyframes shoot {
     0% { transform: translateX(0) translateY(0) rotate(-45deg); opacity: 1; }
-    70% { opacity: 1; }
-    100% { transform: translateX(-120vw) translateY(120vh) rotate(-45deg); opacity: 0; }
+    100% { transform: translateX(-150vw) translateY(150vh) rotate(-45deg); opacity: 0; }
 }
 
-/* 🔝 Compact Header */
+/* 🔝 Header (Fixed as requested) */
 header {
     background: #000;
-    padding: 10px 15px;
+    padding: 12px 20px;
     display: flex;
     justify-content: center;
     align-items: center;
-    border-bottom: 1px solid rgba(0, 123, 255, 0.3);
+    border-bottom: 1px solid rgba(0, 123, 255, 0.4);
     position: sticky;
     top: 0; z-index: 100;
 }
 
-.logo-section { display: flex; align-items: center; gap: 10px; }
+.logo-section { display: flex; align-items: center; gap: 15px; }
 
 .main-logo {
-    width: 50px; height: 50px;
-    border-radius: 8px;
+    width: 55px; height: 55px;
+    border-radius: 10px;
     border: 1px solid #007bff;
+    object-fit: cover;
 }
 
 .brand-name {
-    font-size: 1.2rem; font-weight: 800;
+    font-size: 1.5rem; font-weight: 800;
     text-transform: uppercase; white-space: nowrap;
 }
 
 /* 💎 Glass Container */
 .glass-container {
     background: rgba(255, 255, 255, 0.03);
-    backdrop-filter: blur(15px);
+    backdrop-filter: blur(20px);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 20px;
-    margin: 20px auto;
-    padding: 20px;
-    max-width: 800px; width: 92%;
+    margin: 30px auto;
+    padding: 25px;
+    max-width: 850px; width: 92%;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
 }
 
+/* 🔎 Search Bar Fix */
 .search-box {
-    width: 100%; padding: 12px 20px;
-    border-radius: 30px; border: 1px solid rgba(255,255,255,0.1);
-    background: rgba(0,0,0,0.3); color: #fff;
-    margin-bottom: 20px; outline: none;
+    width: 100%; padding: 15px 25px;
+    border-radius: 50px; border: 2px solid rgba(255,255,255,0.1);
+    background: rgba(0,0,0,0.4); color: #fff;
+    margin-bottom: 25px; outline: none;
+    transition: 0.3s;
 }
 
-/* 🔘 2x2 Grid Buttons */
+.search-box:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 15px rgba(0, 123, 255, 0.6);
+}
+
+/* 🔘 Buttons & Animation Fix */
 .grid-container {
-    display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;
 }
 
 .nav-btn {
     background: #007bff; color: #fff;
-    padding: 20px 10px; border-radius: 12px;
+    padding: 18px; border-radius: 15px;
     text-align: center; text-decoration: none;
-    font-weight: 700; font-size: 0.9rem;
-    transition: 0.3s;
+    font-weight: 700; font-size: 1rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 123, 255, 0.2);
 }
 
-.nav-btn:active { transform: scale(0.95); background: #0056b3; }
+.nav-btn:hover {
+    background: #0056b3;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 123, 255, 0.4);
+}
+
+/* 🏆 About Heading Styling */
+.about-header {
+    display: inline-block;
+    padding: 8px 20px;
+    background: rgba(0, 123, 255, 0.1);
+    border-left: 4px solid #007bff;
+    border-radius: 0 10px 10px 0;
+    margin-bottom: 20px;
+    font-size: 1.4rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* 🔚 Footer Fix */
+footer {
+    background: #000;
+    padding: 40px 20px;
+    margin-top: 50px;
+    border-top: 2px solid rgba(255,255,255,0.05);
+    text-align: center;
+}
 
 @media (min-width: 768px) {
     .grid-container { grid-template-columns: repeat(4, 1fr); }
-    .brand-name { font-size: 1.8rem; }
-    .main-logo { width: 60px; height: 60px; }
+    .brand-name { font-size: 2.2rem; }
 }
