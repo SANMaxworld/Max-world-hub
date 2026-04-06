@@ -3,71 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MW Hub | Max World - Premium Assets</title>
+    <title>MW Hub | Max World</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
+    <div class="star-container">
+        <div class="star" style="top: 10%; animation-delay: 0s;"></div>
+        <div class="star" style="top: 30%; animation-delay: 1.5s;"></div>
+        <div class="star" style="top: 50%; animation-delay: 0.8s;"></div>
+        <div class="star" style="top: 70%; animation-delay: 2.2s;"></div>
+    </div>
+
     <header>
         <div class="logo-section">
-            <img src="assets/logo.png" alt="MW Hub Logo" class="main-logo">
-            <h1 class="brand-name">MAX WORLD <span style="color:#007bff; text-shadow: 0 0 15px rgba(0,123,255,0.6);">HUB</span></h1>
+            <img src="assets/logo.jpg" alt="MW" class="main-logo">
+            <h1 class="brand-name">MAX WORLD <span style="color:#007bff; text-shadow: 0 0 10px #007bff;">HUB</span></h1>
         </div>
     </header>
 
-    <nav class="menu-bar">
-        <ul class="menu-list">
-            <li class="menu-item">📱 APPS
-                <div class="dropdown">
-                    <a href="#">Social Media Tools</a>
-                    <a href="#">Photo & Video Editor</a>
-                    <a href="#">System Tools</a>
-                    <a href="#">Premium Mod Apps</a>
-                </div>
-            </li>
-            <li class="menu-item">🎮 GAMES
-                <div class="dropdown">
-                    <a href="#">Action & Adventure</a>
-                    <a href="#">Racing Games</a>
-                    <a href="#">Sports Games</a>
-                    <a href="#">Simulation Games</a>
-                </div>
-            </li>
-            <li class="menu-item">🎬 MOVIES
-                <div class="dropdown">
-                    <a href="#">Bollywood 2026</a>
-                    <a href="#">Hollywood Dubbed</a>
-                    <a href="#">TV Series & Shows</a>
-                    <a href="#">Web Series Collection</a>
-                </div>
-            </li>
-        </ul>
-    </nav>
+    <div class="glass-container">
+        <input type="text" id="searchInput" class="search-box" placeholder="Search premium assets...">
 
-    <div class="glass-container" style="margin-top: 50px;">
-        <div class="search-wrapper">
-            <input type="text" id="searchInput" class="search-box" placeholder="Search premium assets...">
+        <div class="grid-container">
+            <a href="#resultContainer" class="nav-btn">🎮 GAMES</a>
+            <a href="#resultContainer" class="nav-btn">📱 APPS</a>
+            <a href="#resultContainer" class="nav-btn">🎬 MOVIES</a>
+            <a href="#resultContainer" class="nav-btn">📄 PDF</a>
         </div>
 
-        <div id="resultContainer" style="margin-top:30px;"></div>
+        <div id="resultContainer" style="margin-top:20px;"></div>
 
-        <hr style="border:0; border-top:2px solid rgba(255,255,255,0.1); margin:40px 0;">
+        <hr style="border:0; border-top:1px solid rgba(255,255,255,0.1); margin:30px 0;">
 
-        <div class="about-box" style="padding: 10px;">
-            <h3 style="color:#007bff; margin-bottom:15px; font-size:1.5rem;">About Max World Hub</h3>
-            <p style="color:#ccc;">Welcome to <b>MW Hub</b>. We provide high-quality digital assets.</p>
-            <p style="margin-top:15px; color:#ddd;"><span style="color: #ffcc00; font-weight:700;">⚠️ Note:</span> All files are in <b>ZIP format</b> for fast & safe download.</p>
-            <p style="margin-top:15px; color:#ddd;"><b>How to Use:</b> Download from MediaFire, <b>Extract Here</b> using WinRAR or 7-Zip, and enjoy!</p>
+        <div class="about-box">
+            <h3 style="color:#007bff; margin-bottom:10px;">About Max World Hub</h3>
+            <p style="font-size:0.9rem; color:#ccc;">Welcome to <b>MW Hub</b>. Note: All files are in <b>ZIP format</b>. Extract after download!</p>
         </div>
     </div>
 
-    <footer style="background: #000; padding:40px 10%; margin-top:50px; border-top: 2px solid rgba(255,255,255,0.05);">
-        <div class="footer-links" style="display:flex; justify-content:center; gap:30px;">
-            <a href="#" style="color:#ccc; text-decoration:none;">Telegram</a>
-            <a href="#" style="color:#ccc; text-decoration:none;">YouTube</a>
-            <a href="#" style="color:#ccc; text-decoration:none;">Privacy Policy</a>
-        </div>
-        <p style="margin-top:25px; text-align:center; color:#888;">© 2026 Max World (MW Hub). All Rights Reserved.</p>
+    <footer style="text-align:center; padding:30px; font-size:0.8rem; color:#666;">
+        © 2026 Max World (MW Hub). All Rights Reserved.
     </footer>
 
     <script src="data.js"></script>
