@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Games Section | MW Hub</title>
+    
+    <link rel="icon" type="image/png" href="assets/logo.png">
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <div class="logo-section">
+            <a href="index.html" style="text-decoration:none; color:white; display:flex; align-items:center; gap:15px;">
+                <img src="assets/logo.jpg" alt="MW Hub" class="main-logo">
+                <h1 class="brand-name">GAMES <span style="color:#007bff; text-shadow: 0 0 10px #007bff;">SECTION</span></h1>
+            </a>
+        </div>
+    </header>
+
+    <div class="glass-container">
+        <div id="gamesList">
+            </div>
+
+        <a href="index.html" class="nav-btn" style="display:block; margin-top:30px; background:#333; text-align:center; font-size:0.9rem;">
+            ⬅️ BACK TO HOME
+        </a>
+    </div>
+
+    <footer>
+        <p style="color:#666; font-size: 0.8rem; text-align:center; margin-top:20px;">
+            © 2026 Max World (MW Hub). All Rights Reserved.
+        </p>
+    </footer>
+
+    <script src="data.js"></script>
+    <script>
+        const gamesContainer = document.getElementById('gamesList');
+        
+        // Filter only 'GAMES' from mwHubData
+        const gamesData = mwHubData.filter(item => item.category === "GAMES");
+
+        if (gamesData.length === 0) {
+            gamesContainer.innerHTML = `
+                <div style="text-align:center; padding:40px; color:#888;">
+                    <p style="font-size:1.2rem;">🚀 Coming Soon!</p>
+                    <p style="font-size:0.8rem;">High-quality games are being uploaded.</p>
+                </div>`;
+        } else {
+            gamesData.forEach(item => {
+                const card = document.createElement('div');
+                // Premium Styling
+                card.style.cssText = "background:rgba(255,255,255,0.05); padding:15px; border-radius:15px; margin-bottom:15px; display:flex; align-items:center; gap:15px; border:1px solid rgba(255,255,255,0.1); animation: fadeIn 0.5s ease-in-out;";
+                
+                card.innerHTML = `
+                    <img src="${item.logo}" alt="game icon" style="width:55px; height:55px; border-radius:12px; border:1px solid rgba(255,255,255,0.1); object-fit:cover;">
+                    <div style="flex:1;">
+                        <h4 style="margin-bottom:3px; font-size:1rem; color:#fff;">${item.name}</h4>
+                        <p style="font-size:0.8rem; color:#aaa; line-height:1.4;">${item.desc}</p>
+                    </div>
+                    <a href="${item.url}" target="_blank" style="background:#007bff; color:#fff; padding:10px 18px; border-radius:10px; text-decoration:none; font-weight:700; font-size:0.85rem; box-shadow: 0 4px 15px rgba(0,123,255,0.3);">
+                        GET
+                    </a>
+                `;
+                gamesContainer.appendChild(card);
+            });
+        }
+    </script>
+</body>
+</html>
