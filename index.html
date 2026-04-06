@@ -3,11 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MW Hub | Max World</title>
     
+    <title>MW Hub | Max World - Apps, Games, Movies & PDF</title>
+    <meta name="description" content="MW Hub (Max World) - Your ultimate digital center for premium Apps, Games, Movies, and educational PDFs. Explore the best content in one place.">
+    <meta name="keywords" content="MW Hub, Max World, Download Premium Games, Best Mod Apps, MW Hub Movies, Educational PDF, MaxWorld Digital Hub">
+    <meta name="author" content="Max World">
+    <meta name="robots" content="index, follow">
+
     <link rel="icon" type="image/png" href="assets/logo.png">
-    
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
 
@@ -20,26 +25,27 @@
 
     <div class="glass-container">
         <div class="search-box">
+            <i class="fas fa-search"></i>
             <input type="text" id="searchInput" placeholder="Search Apps, Games, Movies...">
         </div>
 
         <div class="grid-menu">
-            <a href="games.html" class="menu-item" id="nav-games">
-                <span class="icon">🎮</span>
-                <span>GAMES</span>
-            </a>
-            <a href="apps.html" class="menu-item" id="nav-apps">
-                <span class="icon">📱</span>
-                <span>APPS</span>
-            </a>
-            <a href="movies.html" class="menu-item" id="nav-movies">
-                <span class="icon">🎬</span>
-                <span>MOVIES</span>
-            </a>
-            <a href="pdf.html" class="menu-item" id="nav-pdf">
-                <span class="icon">📄</span>
-                <span>PDF</span>
-            </a>
+            <div class="menu-item" onclick="location.href='games.html'" style="border-bottom: 3px solid #007bff;">
+                <div class="icon">🎮</div>
+                <div class="text">GAMES</div>
+            </div>
+            <div class="menu-item" onclick="location.href='apps.html'" style="border-bottom: 3px solid #00d2ff;">
+                <div class="icon">📱</div>
+                <div class="text">APPS</div>
+            </div>
+            <div class="menu-item" onclick="location.href='movies.html'" style="border-bottom: 3px solid #e50914;">
+                <div class="icon">🎬</div>
+                <div class="text">MOVIES</div>
+            </div>
+            <div class="menu-item" onclick="location.href='pdf.html'" style="border-bottom: 3px solid #28a745;">
+                <div class="icon">📄</div>
+                <div class="text">PDF</div>
+            </div>
         </div>
 
         <div class="welcome-text" style="text-align:center; margin-top:20px; color:#aaa; font-size:0.9rem;">
@@ -53,10 +59,5 @@
         </p>
     </footer>
 
-    <script src="data.js"></script>
-    <script>
-        // Original JS function for search and dynamic behavior can be added here if needed,
-        // but since index.html is just navigation, no complex JS is required.
-    </script>
 </body>
 </html>
