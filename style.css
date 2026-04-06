@@ -1,183 +1,98 @@
-/* MW HUB - OFFICIAL PREMIUM THEME 2026 
-   Design: Premium Glassmorphism + Dynamic Menu + Deep Ocean BG
-*/
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap');
 
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap');
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
-}
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
 
 body {
-    background: linear-gradient(135deg, #05031a, #1a0b36, #110e3d, #0d0c1f);
-    background-size: 400% 400%;
-    animation: gradientBG 15s ease infinite;
+    background: radial-gradient(circle at center, #1a0b36 0%, #05031a 100%);
     background-attachment: fixed;
     color: white;
     min-height: 100vh;
     overflow-x: hidden;
 }
 
-@keyframes gradientBG {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+/* ✨ Shooting Stars Animation */
+.star-container {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    z-index: -1;
+    pointer-events: none;
 }
 
-/* 🔝 Centered Header: Black Bar */
+.star {
+    position: absolute;
+    right: -100px;
+    width: 100px;
+    height: 2px;
+    background: linear-gradient(90deg, rgba(255,255,255,1), transparent);
+    animation: shoot 3s linear infinite;
+}
+
+@keyframes shoot {
+    0% { transform: translateX(0) translateY(0) rotate(-45deg); opacity: 1; }
+    70% { opacity: 1; }
+    100% { transform: translateX(-120vw) translateY(120vh) rotate(-45deg); opacity: 0; }
+}
+
+/* 🔝 Compact Header */
 header {
-    background: #000000;
-    padding: 20px 5%;
+    background: #000;
+    padding: 10px 15px;
     display: flex;
-    justify-content: center; /* Centered everything */
+    justify-content: center;
     align-items: center;
-    border-bottom: 2px solid rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid rgba(0, 123, 255, 0.3);
     position: sticky;
-    top: 0;
-    z-index: 1001;
+    top: 0; z-index: 100;
 }
 
-.logo-section {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-}
+.logo-section { display: flex; align-items: center; gap: 10px; }
 
 .main-logo {
-    width: 80px; /* Bada Logo */
-    height: 80px;
-    border-radius: 15px;
-    object-fit: cover;
-    border: 2px solid rgba(255,255,255,0.1);
-    box-shadow: 0 4px 15px rgba(0,123,255,0.5);
+    width: 50px; height: 50px;
+    border-radius: 8px;
+    border: 1px solid #007bff;
 }
 
 .brand-name {
-    font-weight: 800;
-    font-size: 2.5rem; /* Bada Text */
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
+    font-size: 1.2rem; font-weight: 800;
+    text-transform: uppercase; white-space: nowrap;
 }
 
-/* 🍔 Menu Bar (Glass Effect) */
-.menu-bar {
-    background: rgba(255, 255, 255, 0.01);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    padding: 15px 5%;
-    display: flex;
-    justify-content: center;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    position: sticky;
-    top: 110px; /* Header ke niche */
-    z-index: 1000;
-}
-
-.menu-list {
-    display: flex;
-    gap: 40px;
-    list-style: none;
-}
-
-.menu-item {
-    position: relative;
-    cursor: pointer;
-    font-weight: 600;
-    font-size: 1rem;
-    color: #ccc;
-    transition: 0.3s;
-}
-
-.menu-item:hover {
-    color: #007bff;
-}
-
-/* Dropdown Menu styling */
-.dropdown {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: -20px;
-    background: rgba(10, 10, 10, 0.9);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    min-width: 200px;
-    padding: 10px 0;
-    border-radius: 10px;
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
-    z-index: 1002;
-    animation: fadeInDropdown 0.3s ease-out;
-}
-
-.menu-item:hover .dropdown {
-    display: block;
-}
-
-.dropdown a {
-    color: white;
-    padding: 12px 20px;
-    text-decoration: none;
-    display: block;
-    font-weight: 400;
-    font-size: 0.9rem;
-    transition: 0.3s;
-}
-
-.dropdown a:hover {
-    background: rgba(0, 123, 255, 0.2);
-    color: #007bff;
-}
-
-@keyframes fadeInDropdown {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-/* 💎 The Master Glass Container (Intense Blur) */
+/* 💎 Glass Container */
 .glass-container {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.01), rgba(255, 255, 255, 0.05));
-    backdrop-filter: blur(25px); /* Increased Blur */
-    -webkit-backdrop-filter: blur(25px);
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(15px);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 20px;
-    margin: 30px auto;
-    padding: 30px;
-    max-width: 900px;
-    width: 92%;
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
-    animation: fadeIn 1s ease-out;
-}
-
-/* 🔎 Search Bar Styling (Option A) */
-.search-wrapper {
-    margin-bottom: 30px;
+    margin: 20px auto;
+    padding: 20px;
+    max-width: 800px; width: 92%;
 }
 
 .search-box {
-    width: 100%;
-    padding: 16px 30px;
-    border-radius: 50px;
-    border: 2px solid rgba(255, 255, 255, 0.1);
-    background: rgba(255, 255, 255, 0.05);
-    color: white;
-    font-size: 1.1rem;
-    outline: none;
-    transition: 0.4s;
+    width: 100%; padding: 12px 20px;
+    border-radius: 30px; border: 1px solid rgba(255,255,255,0.1);
+    background: rgba(0,0,0,0.3); color: #fff;
+    margin-bottom: 20px; outline: none;
 }
 
-.search-box:focus {
-    border-color: #007bff;
-    box-shadow: 0 0 20px rgba(0, 123, 255, 0.5);
-    background: rgba(255, 255, 255, 0.1);
+/* 🔘 2x2 Grid Buttons */
+.grid-container {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;
 }
 
-/* PC View (4 Buttons) */
+.nav-btn {
+    background: #007bff; color: #fff;
+    padding: 20px 10px; border-radius: 12px;
+    text-align: center; text-decoration: none;
+    font-weight: 700; font-size: 0.9rem;
+    transition: 0.3s;
+}
+
+.nav-btn:active { transform: scale(0.95); background: #0056b3; }
+
 @media (min-width: 768px) {
-    .grid-container {
-        grid-template-columns: repeat(4, 1fr);
-    }
+    .grid-container { grid-template-columns: repeat(4, 1fr); }
+    .brand-name { font-size: 1.8rem; }
+    .main-logo { width: 60px; height: 60px; }
 }
