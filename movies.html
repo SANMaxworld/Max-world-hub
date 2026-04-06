@@ -3,14 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Movies Section | MW Hub</title>
-    
+    <title>Movies Section | MW Hub - Cinematic Content</title>
+    <meta name="description" content="Watch and download latest movie clips and series at MW Hub Movies Section. High quality cinematic content.">
+    <meta name="keywords" content="MW Hub Movies, Cinematic Clips, Watch Movies MW Hub, Entertainment Hub">
     <link rel="icon" type="image/png" href="assets/logo.png">
-    
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
     <header>
         <div class="logo-section">
             <a href="index.html" style="text-decoration:none; color:white; display:flex; align-items:center; gap:15px;">
@@ -19,53 +18,29 @@
             </a>
         </div>
     </header>
-
     <div class="glass-container">
-        <div id="moviesList">
-            </div>
-
-        <a href="index.html" class="nav-btn" style="display:block; margin-top:30px; background:#333; text-align:center; font-size:0.9rem;">
-            ⬅️ BACK TO HOME
-        </a>
+        <div id="moviesList"></div>
+        <a href="index.html" class="nav-btn" style="display:block; margin-top:30px; background:#333; text-align:center; font-size:0.9rem;">⬅️ BACK TO HOME</a>
     </div>
-
-    <footer>
-        <p style="color:#666; font-size: 0.8rem; text-align:center; margin-top:20px;">
-            © 2026 Max World (MW Hub). All Rights Reserved.
-        </p>
-    </footer>
-
     <script src="data.js"></script>
     <script>
-        const moviesContainer = document.getElementById('moviesList');
-        
-        // Filter only 'MOVIES' from mwHubData
-        const moviesData = mwHubData.filter(item => item.category === "MOVIES");
-
-        if (moviesData.length === 0) {
-            moviesContainer.innerHTML = `
-                <div style="text-align:center; padding:40px; color:#888;">
-                    <p style="font-size:1.2rem;">🍿 Coming Soon!</p>
-                    <p style="font-size:0.8rem;">Latest Movies & Series in High Quality are being processed.</p>
-                </div>`;
-        } else {
-            moviesData.forEach(item => {
-                const card = document.createElement('div');
-                // Cinematic Style Card
-                card.style.cssText = "background:rgba(255,255,255,0.05); padding:15px; border-radius:15px; margin-bottom:15px; display:flex; align-items:center; gap:15px; border:1px solid rgba(255,255,255,0.1); animation: fadeIn 0.5s ease-in-out;";
-                
-                card.innerHTML = `
-                    <img src="${item.logo}" alt="poster" style="width:60px; height:85px; border-radius:8px; border:1px solid rgba(255,255,255,0.1); object-fit:cover;">
-                    <div style="flex:1;">
-                        <h4 style="margin-bottom:3px; font-size:1rem; color:#fff;">${item.name}</h4>
-                        <p style="font-size:0.8rem; color:#aaa; line-height:1.4;">${item.desc}</p>
-                    </div>
-                    <a href="${item.url}" target="_blank" style="background:#e50914; color:#fff; padding:10px 18px; border-radius:10px; text-decoration:none; font-weight:700; font-size:0.85rem; box-shadow: 0 4px 15px rgba(229,9,20,0.4);">
-                        WATCH
-                    </a>
-                `;
-                moviesContainer.appendChild(card);
-            });
+        if (typeof mwHubData !== 'undefined') {
+            const moviesContainer = document.getElementById('moviesList');
+            const moviesData = mwHubData.filter(item => item.category.trim() === "MOVIES");
+            moviesContainer.innerHTML = '';
+            if (moviesData.length === 0) {
+                moviesContainer.innerHTML = '<div style="text-align:center; padding:40px; color:#888;"><p>🍿 Coming Soon!</p></div>';
+            } else {
+                moviesData.forEach(item => {
+                    const card = document.createElement('div');
+                    card.style.cssText = "background:rgba(255,255,255,0.05); padding:15px; border-radius:15px; margin-bottom:15px; display:flex; align-items:center; gap:15px; border:1px solid rgba(229,9,20,0.1);";
+                    card.innerHTML = `
+                        <img src="${item.logo}" style="width:60px; height:85px; border-radius:8px; object-fit:cover;">
+                        <div style="flex:1;"><h4 style="color:#fff;">${item.name}</h4><p style="font-size:0.8rem; color:#aaa;">${item.desc}</p></div>
+                        <a href="${item.url}" target="_blank" style="background:#e50914; color:#fff; padding:10px 18px; border-radius:10px; text-decoration:none; font-weight:700;">WATCH</a>`;
+                    moviesContainer.appendChild(card);
+                });
+            }
         }
     </script>
 </body>
