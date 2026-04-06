@@ -1,54 +1,49 @@
-/* MW HUB - LOGIC & SEARCH ENGINE 2026 
-   Ye file search aur categories ko control karti hai.
-*/
-
-// 1. Elements ko select karna
-const searchInput = document.getElementById('searchInput');
 const resultContainer = document.getElementById('resultContainer');
+const searchInput = document.getElementById('searchInput');
+const navButtons = document.querySelectorAll('.nav-btn');
 
-// 2. Data dikhane ka function
-function displayData(items) {
-    resultContainer.innerHTML = ''; // Pehle purana maal saaf karo
-
+// Function to display result cards
+function displayItems(items) {
+    resultContainer.innerHTML = '';
     if (items.length === 0) {
-        resultContainer.innerHTML = '<p style="text-align:center; padding:20px; color:#888;">Nahi mila! Kuch aur search karein.</p>';
+        resultContainer.innerHTML = '<p style="text-align:center; color:#888;">No items found.</p>';
         return;
     }
 
     items.forEach(item => {
-        const card = `
-            <div class="glass-container" style="margin:10px 0; animation: fadeIn 0.5s;">
-                <div style="display:flex; align-items:center; gap:15px;">
-                    <img src="${item.logo}" alt="Logo" style="width:50px; height:50px; border-radius:10px;">
-                    <div>
-                        <h4 style="color:#007bff;">${item.name}</h4>
-                        <p style="font-size:0.8rem; color:#ccc;">${item.desc}</p>
-                        <a href="${item.url}" target="_blank" class="nav-btn" style="padding:8px 15px; font-size:0.8rem; margin-top:10px; display:inline-block;">Download ZIP</a>
-                    </div>
-                </div>
+        const div = document.createElement('div');
+        div.style.cssText = "background:rgba(255,255,255,0.05); padding:15px; border-radius:15px; margin-bottom:15px; display:flex; align-items:center; gap:15px; border:1px solid rgba(255,255,255,0.1);";
+        div.innerHTML = `
+            <img src="${item.logo}" style="width:55px; height:55px; border-radius:10px; border:1px solid rgba(255,255,255,0.1);">
+            <div style="flex:1;">
+                <h4 style="margin-bottom:3px; font-size:0.95rem;">${item.name}</h4>
+                <p style="font-size:0.8rem; color:#aaa;">${item.desc}</p>
             </div>
+            <a href="${item.url}" target="_blank" style="background:#007bff; color:#fff; padding:8px 15px; border-radius:8px; text-decoration:none; font-weight:700; font-size:0.8rem;">GET</a>
         `;
-        resultContainer.innerHTML += card;
+        resultContainer.appendChild(div);
     });
 }
 
-// 3. Search Bar Logic (Live Search)
-if (searchInput) {
-    searchInput.addEventListener('input', (e) => {
-        const term = e.target.value.toLowerCase();
-        const filtered = mwHubData.filter(item => 
-            item.name.toLowerCase().includes(term) || 
-            item.category.toLowerCase().includes(term)
-        );
-        
-        // Agar search box khali hai toh results chhupa do (Optional)
-        if (term === "") {
-            resultContainer.innerHTML = "";
-        } else {
-            displayData(filtered);
-        }
-    });
-}
+// Search Logic
+searchInput.addEventListener('input', (e) => {
+    const val = e.target.value.toLowerCase();
+    const filtered = mwHubData.filter(item => 
+        item.name.toLowerCase().includes(val) || item.category.toLowerCase().includes(val)
+    );
+    displayItems(filtered);
+});
 
-// 4. Zip Extraction Tip for SEO/User
-console.log("MW Hub Tip: All files are in ZIP format. Extract after download!");
+// Category Button Logic
+navButtons.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const category = btn.getAttribute('data-category');
+        const filtered = mwHubData.filter(item => item.category === category);
+        displayItems(filtered);
+        resultContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+});
+
+// Initial Load
+displayItems(mwHubData);
