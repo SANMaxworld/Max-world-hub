@@ -4,13 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <title>MW Hub | Max World - Premium Apps, Games & Movies</title>
-    <meta name="description" content="MW Hub (Max World) - Your ultimate destination for premium apps, games, movies, and digital assets in ZIP format. Download safe and fast.">
-    <meta name="keywords" content="Max World Hub, MW Hub, Premium Apps, ZIP Games, Max World Digital, Jamnagar Digital Hub">
+    <title>MW Hub | Max World - Watch Anime Series & Download Movies</title>
+    <meta name="description" content="MW Hub (Max World) - Your ultimate destination for the latest Anime Series, Movies, Premium Apps, and Games. Fast downloads in ZIP format.">
+    <meta name="keywords" content="Max World Hub, MW Hub, Anime Series Download, Latest Movies, Premium Apps, ZIP Games, Max World Anime Hub">
     <meta name="author" content="Max World">
     <meta name="robots" content="index, follow">
 
     <link rel="icon" type="image/png" href="assets/logo.png">
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -24,18 +26,32 @@
     <header>
         <div class="logo-section">
             <img src="assets/logo.png" alt="MW Hub Logo" class="main-logo">
-            <h1 class="brand-name">MAX WORLD <span style="color:#007bff; text-shadow: 0 0 10px #007bff;">HUB</span></h1>
+            <h1 class="brand-name">MAX WORLD <span class="neon-red-text">HUB</span></h1>
         </div>
     </header>
 
-    <div class="glass-container">
-        <input type="text" id="searchInput" class="search-box" placeholder="Search premium assets...">
+    <div class="glass-container main-glow">
+        <input type="text" id="searchInput" class="search-box" placeholder="Search Movies, Anime, Games...">
+
+        <div class="swiper mySwiper">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <img src="assets/banner1.jpg" alt="Trending Anime">
+                    <div class="slide-content">Trending Anime Now</div>
+                </div>
+                <div class="swiper-slide">
+                    <img src="assets/banner2.jpg" alt="Latest Movie">
+                    <div class="slide-content">Latest Blockbuster</div>
+                </div>
+            </div>
+            <div class="swiper-pagination"></div>
+        </div>
 
         <div class="grid-container">
-            <a href="games.html" class="nav-btn" style="border-bottom: 3px solid #00f2ff;">🎮 GAMES</a>
-            <a href="apps.html" class="nav-btn" style="border-bottom: 3px solid #00d2ff;">📱 APPS</a>
-            <a href="movies.html" class="nav-btn" style="border-bottom: 3px solid #e50914;">🎬 MOVIES</a>
-            <a href="pdf.html" class="nav-btn" style="border-bottom: 3px solid #28a745;">📄 PDF</a>
+            <a href="movies.html" class="nav-btn btn-movies">🎬 MOVIES</a>
+            <a href="series.html" class="nav-btn btn-series">📺 ( Anime series )</a>
+            <a href="games.html" class="nav-btn btn-games">🎮 GAMES</a>
+            <a href="apps.html" class="nav-btn btn-apps">📱 APPS</a>
         </div>
 
         <div id="resultContainer" style="margin-top:30px;"></div>
@@ -45,28 +61,29 @@
         <div class="about-section">
             <h3 class="about-header">About Max World Hub</h3>
             <p style="line-height: 1.8; color: #ddd; font-size: 1rem;">
-                <b>MW Hub</b> is your ultimate destination for high-quality digital content. Our mission is to bring the best premium resources—ranging from gaming assets to professional tools—all under one roof for a seamless user experience.
+                <b>MW Hub</b> is your ultimate digital destination for high-quality entertainment and resources. From the latest <b>Anime Series</b> and <b>Movies</b> to professional tools and gaming assets, we provide everything in an optimized format for a seamless experience.
             </p>
 
-            <div style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 15px; margin-top: 20px; border: 1px solid rgba(255,255,255,0.1);">
-                <h4 style="color: #ffcc00; margin-bottom: 10px;">📦 Why ZIP Files?</h4>
+            <div class="zip-info-card">
+                <h4 style="color: #ff0000; margin-bottom: 10px;">📦 Why ZIP Files?</h4>
                 <p style="font-size: 0.95rem; color: #eee;">
-                    All our files are provided in <b>.ZIP format</b> to ensure maximum download speed and to prevent file corruption.
+                    We use <b>.ZIP format</b> to bundle multiple episodes and ensure fast, secure downloads without file corruption.
                     <br><br>
-                    <b>Pro Tip:</b> After downloading, simply use apps like <b>ZArchiver</b> or <b>WinRAR</b>. Select the file and click <b>"Extract Here"</b> to access your content instantly.
+                    <b>Pro Tip:</b> Use <b>ZArchiver</b> (Mobile) or <b>WinRAR</b> (PC) to extract and enjoy your content instantly.
                 </p>
             </div>
         </div>
     </div>
 
     <footer>
-        <div style="display: flex; justify-content: center; gap: 25px; margin-bottom: 20px;">
-            <a href="https://t.me/tntmeOP" style="color:#007bff; text-decoration:none; font-weight:600;">Telegram</a>
-            <a href="https://youtube.com/@tntnas5534?si=s3MECRyamaIvytry" style="color:#007bff; text-decoration:none; font-weight:600;">YouTube</a>
+        <div class="footer-links">
+            <a href="https://t.me/tntmeOP">Telegram</a>
+            <a href="https://youtube.com/@tntnas5534?si=s3MECRyamaIvytry">YouTube</a>
         </div>
         <p style="color:#666; font-size: 0.9rem;">© 2026 Max World (MW Hub). All Rights Reserved.</p>
     </footer>
 
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="data.js"></script>
     <script src="script.js"></script>
 </body>
