@@ -1,28 +1,17 @@
-// 🎡 1. Swiper Slider Logic (5 Images + Mobile Touch Support)
+// 🎡 Swiper Slider (Fix for Mobile/PC)
 const swiper = new Swiper('.mySwiper', {
     loop: true,
-    speed: 800,
-    spaceBetween: 10,
-    centeredSlides: true,
-    autoplay: {
-        delay: 3000,
-        disableOnInteraction: false,
-    },
-    pagination: {
-        el: '.swiper-pagination',
-        clickable: true,
-    },
+    autoplay: { delay: 3000, disableOnInteraction: false },
+    pagination: { el: '.swiper-pagination', clickable: true },
     grabCursor: true,
-    touchEventsTarget: 'container',
 });
 
-// 🔍 2. Automated Search & Series System
+// 🔍 Search Logic
 const resultContainer = document.getElementById('resultContainer');
 const searchInput = document.getElementById('searchInput');
 
 function displayItems(items) {
-    const searchTerm = searchInput.value.trim().toLowerCase();
-    if (searchTerm === "") {
+    if (searchInput.value.trim() === "") {
         resultContainer.innerHTML = '';
         return;
     }
@@ -36,54 +25,52 @@ function displayItems(items) {
 
     items.forEach(item => {
         const div = document.createElement('div');
-        div.className = "search-result-item"; // Make sure to style this in CSS
+        div.style.cssText = "background:rgba(255,255,255,0.05); padding:12px; border-radius:15px; margin-bottom:15px; border:1px solid rgba(255,0,0,0.2);";
         
-        // Check if it's a Series to show Episode List
-        let actionHTML = `<a href="${item.url}" target="_blank" class="get-btn">GET</a>`;
+        // 🛠️ YAHAN HAI FIX: Pehle sirf clean info dikhegi
+        let actionContent = `<a href="${item.url}" target="_blank" class="get-btn" style="background:#ff0000; color:#fff; padding:8px 15px; border-radius:8px; text-decoration:none; font-weight:700; font-size:0.8rem;">GET</a>`;
         
         if (item.isSeries) {
-            let epList = item.episodes.map(e => 
-                `<a href="${e.link}" target="_blank" style="display:block; background:#222; color:#ff0000; padding:5px; margin-top:5px; border-radius:5px; text-decoration:none; font-size:0.7rem; border:1px solid #ff0000;">Download ${e.ep}</a>`
-            ).join('');
-            
-            actionHTML = `<div class="ep-container">${epList}</div>`;
+            // Series ke liye "View Episodes" button
+            actionContent = `<button onclick="toggleEpisodes(${item.id})" style="background:#222; color:#ff0000; padding:8px 12px; border-radius:8px; border:1px solid #ff0000; cursor:pointer; font-weight:700; font-size:0.75rem;">VIEW EPISODES</button>`;
         }
 
-        div.style.cssText = "background:rgba(255,255,255,0.05); padding:15px; border-radius:15px; margin-bottom:15px; border:1px solid rgba(255,0,0,0.2);";
-        
         div.innerHTML = `
             <div style="display:flex; align-items:center; gap:15px;">
-                <img src="${item.logo}" style="width:50px; height:50px; border-radius:10px; border:1px solid #ff0000;">
+                <img src="${item.logo}" style="width:60px; height:60px; border-radius:10px; border:1px solid #ff0000; object-fit:cover;">
                 <div style="flex:1;">
-                    <h4 style="font-size:0.9rem; color:#fff;">${item.name}</h4>
+                    <h4 style="font-size:1rem; color:#fff; margin-bottom:2px;">${item.name}</h4>
                     <p style="font-size:0.75rem; color:#bbb;">${item.desc}</p>
                 </div>
-                ${!item.isSeries ? actionHTML : ''}
+                ${actionContent}
             </div>
-            ${item.isSeries ? `<div style="margin-top:10px;">${actionHTML}</div>` : ''}
+            <div id="ep-list-${item.id}" style="display:none; margin-top:15px; border-top:1px solid rgba(255,0,0,0.2); padding-top:10px;">
+                ${item.isSeries ? item.episodes.map(e => `
+                    <a href="${e.link}" target="_blank" style="display:block; background:rgba(255,0,0,0.1); color:#fff; padding:10px; margin-bottom:5px; border-radius:8px; text-decoration:none; font-size:0.8rem; border-left:4px solid #ff0000;">📥 Download ${e.ep}</a>
+                `).join('') : ''}
+            </div>
         `;
         resultContainer.appendChild(div);
     });
 }
 
-// Search Listener
+// 🟢 Toggle Function: Click karne par hi episodes khulenge
+function toggleEpisodes(id) {
+    const el = document.getElementById(`ep-list-${id}`);
+    if (el.style.display === "none") {
+        el.style.display = "block";
+    } else {
+        el.style.display = "none";
+    }
+}
+
+// Listener
 if (searchInput) {
     searchInput.addEventListener('input', (e) => {
         const val = e.target.value.toLowerCase();
         const filtered = mwHubData.filter(item => 
-            item.name.toLowerCase().includes(val) || 
-            item.category.toLowerCase().includes(val)
+            item.name.toLowerCase().includes(val) || item.category.toLowerCase().includes(val)
         );
         displayItems(filtered);
     });
 }
-
-// 🔴 Search Bar Red Glow on Click
-searchInput.addEventListener('focus', () => {
-    searchInput.style.boxShadow = "0 0 20px rgba(255, 0, 0, 0.6)";
-    searchInput.style.borderColor = "#ff0000";
-});
-searchInput.addEventListener('blur', () => {
-    searchInput.style.boxShadow = "none";
-    searchInput.style.borderColor = "rgba(255,255,255,0.1)";
-});
