@@ -1,4 +1,4 @@
-// 🎡 Swiper Slider (Fix for Mobile/PC)
+// 🎡 1. Swiper Slider Logic
 const swiper = new Swiper('.mySwiper', {
     loop: true,
     autoplay: { delay: 3000, disableOnInteraction: false },
@@ -6,9 +6,12 @@ const swiper = new Swiper('.mySwiper', {
     grabCursor: true,
 });
 
-// 🔍 Search Logic
+// 🔍 2. Master Search & Filter Logic
 const resultContainer = document.getElementById('resultContainer');
 const searchInput = document.getElementById('searchInput');
+
+// Check karo ki user kaunse page par hai
+const isSeriesPage = window.location.pathname.includes('series.html');
 
 function displayItems(items) {
     if (searchInput.value.trim() === "") {
@@ -18,59 +21,101 @@ function displayItems(items) {
 
     resultContainer.innerHTML = '';
     
-    if (items.length === 0) {
-        resultContainer.innerHTML = '<p style="text-align:center; color:#ff0000; padding:20px;">No items found.</p>';
+    // 🎯 FILTER: Agar series page hai toh sirf SERIES dikhao
+    let filteredItems = items;
+    if (isSeriesPage) {
+        filteredItems = items.filter(item => item.category === 'SERIES');
+    }
+
+    if (filteredItems.length === 0) {
+        resultContainer.innerHTML = '<p style="text-align:center; color:#ff0000; padding:20px;">No results found.</p>';
         return;
     }
 
-    items.forEach(item => {
+    filteredItems.forEach(item => {
         const div = document.createElement('div');
-        div.style.cssText = "background:rgba(255,255,255,0.05); padding:12px; border-radius:15px; margin-bottom:15px; border:1px solid rgba(255,0,0,0.2);";
+        div.className = "search-item";
         
-        // 🛠️ YAHAN HAI FIX: Pehle sirf clean info dikhegi
-        let actionContent = `<a href="${item.url}" target="_blank" class="get-btn" style="background:#ff0000; color:#fff; padding:8px 15px; border-radius:8px; text-decoration:none; font-weight:700; font-size:0.8rem;">GET</a>`;
-        
-        if (item.isSeries) {
-            // Series ke liye "View Episodes" button
-            actionContent = `<button onclick="toggleEpisodes(${item.id})" style="background:#222; color:#ff0000; padding:8px 12px; border-radius:8px; border:1px solid #ff0000; cursor:pointer; font-weight:700; font-size:0.75rem;">VIEW EPISODES</button>`;
-        }
+        // 🖼️ ICON LOGIC: Series/Movies ke liye lamba poster, baaki ke liye square
+        const isVisual = (item.category === 'SERIES' || item.category === 'MOVIES');
+        const imgClass = isVisual ? 'icon-poster' : 'icon-square';
 
         div.innerHTML = `
-            <div style="display:flex; align-items:center; gap:15px;">
-                <img src="${item.logo}" style="width:60px; height:60px; border-radius:10px; border:1px solid #ff0000; object-fit:cover;">
-                <div style="flex:1;">
-                    <h4 style="font-size:1rem; color:#fff; margin-bottom:2px;">${item.name}</h4>
-                    <p style="font-size:0.75rem; color:#bbb;">${item.desc}</p>
-                </div>
-                ${actionContent}
+            <img src="${item.logo}" class="${imgClass}" alt="Poster">
+            <div style="flex:1;">
+                <h4 style="font-size:1rem; color:#fff; margin-bottom:2px;">${item.name}</h4>
+                <p style="font-size:0.75rem; color:#bbb;">${item.category} • ${item.desc}</p>
             </div>
-            <div id="ep-list-${item.id}" style="display:none; margin-top:15px; border-top:1px solid rgba(255,0,0,0.2); padding-top:10px;">
-                ${item.isSeries ? item.episodes.map(e => `
-                    <a href="${e.link}" target="_blank" style="display:block; background:rgba(255,0,0,0.1); color:#fff; padding:10px; margin-bottom:5px; border-radius:8px; text-decoration:none; font-size:0.8rem; border-left:4px solid #ff0000;">📥 Download ${e.ep}</a>
-                `).join('') : ''}
-            </div>
+            ${item.isSeries 
+                ? `<button onclick="openSeriesModal(${item.id})" class="get-btn">VIEW</button>` 
+                : `<a href="${item.url}" target="_blank" class="get-btn">GET</a>`}
         `;
         resultContainer.appendChild(div);
     });
 }
 
-// 🟢 Toggle Function: Click karne par hi episodes khulenge
-function toggleEpisodes(id) {
-    const el = document.getElementById(`ep-list-${id}`);
-    if (el.style.display === "none") {
-        el.style.display = "block";
-    } else {
-        el.style.display = "none";
+// 🍿 3. Series Detail Pop-up (Modal) Logic
+function openSeriesModal(id) {
+    const item = mwHubData.find(i => i.id === id);
+    if (!item) return;
+
+    // Modal Create/Update
+    let modal = document.getElementById('seriesModal');
+    if (!modal) {
+        modal = document.createElement('div');
+        modal.id = 'seriesModal';
+        modal.className = 'modal-overlay';
+        document.body.appendChild(modal);
     }
+
+    modal.innerHTML = `
+        <div class="modal-card">
+            <span class="close-modal" onclick="closeModal()">&times;</span>
+            <div class="modal-header">
+                <img src="${item.logo}" style="width:80px; height:110px; border-radius:8px; margin-bottom:10px; border:1px solid #ff0000;">
+                <h2>${item.name}</h2>
+                <p>${item.desc}</p>
+            </div>
+            
+            <button class="download-all-btn" onclick="window.open('${item.downloadAll || '#'}', '_blank')">
+                📥 Download Full Series (All Episodes)
+            </button>
+
+            <div class="divider"></div>
+
+            <div class="ep-list">
+                ${item.episodes.map(e => `
+                    <div class="ep-row">
+                        <span>${e.ep}</span>
+                        <a href="${e.link}" target="_blank" class="ep-dl-link">DOWNLOAD</a>
+                    </div>
+                `).join('')}
+            </div>
+        </div>
+    `;
+    modal.style.display = 'flex';
 }
 
-// Listener
+function closeModal() {
+    document.getElementById('seriesModal').style.display = 'none';
+}
+
+// ⌨️ Search Listener
 if (searchInput) {
     searchInput.addEventListener('input', (e) => {
         const val = e.target.value.toLowerCase();
-        const filtered = mwHubData.filter(item => 
-            item.name.toLowerCase().includes(val) || item.category.toLowerCase().includes(val)
+        const results = mwHubData.filter(item => 
+            item.name.toLowerCase().includes(val) || 
+            item.category.toLowerCase().includes(val)
         );
-        displayItems(filtered);
+        displayItems(results);
     });
+}
+
+// Modal band karne ke liye bahar click
+window.onclick = function(event) {
+    const modal = document.getElementById('seriesModal');
+    if (event.target == modal) {
+        closeModal();
+    }
 }
