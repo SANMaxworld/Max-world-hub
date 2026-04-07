@@ -1,42 +1,55 @@
-// 🎡 1. Swiper Slider Logic
-const swiper = new Swiper('.mySwiper', {
-    loop: true,
-    autoplay: { delay: 3000, disableOnInteraction: false },
-    pagination: { el: '.swiper-pagination', clickable: true },
-    grabCursor: true,
-});
+// 🎡 1. Swiper Slider (Only runs if element exists on page)
+if (document.querySelector('.mySwiper')) {
+    const swiper = new Swiper('.mySwiper', {
+        loop: true,
+        autoplay: { delay: 3000, disableOnInteraction: false },
+        pagination: { el: '.swiper-pagination', clickable: true },
+        grabCursor: true,
+    });
+}
 
-// 🔍 2. Master Search & Filter Logic
+// 🔍 2. Master Search & Result Logic
 const resultContainer = document.getElementById('resultContainer');
 const searchInput = document.getElementById('searchInput');
 
-// Check karo ki user kaunse page par hai
+// Smart Page Detection
 const isSeriesPage = window.location.pathname.includes('series.html');
 
-function displayItems(items) {
-    if (searchInput.value.trim() === "") {
+function displayItems(items, isInitialLoad = false) {
+    const query = searchInput.value.trim().toLowerCase();
+
+    // Home Page par tabhi dikhao jab search ho, Series page par hamesha dikhao
+    if (!isSeriesPage && query === "" && !isInitialLoad) {
         resultContainer.innerHTML = '';
         return;
     }
 
     resultContainer.innerHTML = '';
     
-    // 🎯 FILTER: Agar series page hai toh sirf SERIES dikhao
-    let filteredItems = items;
+    // Filter by Category
+    let filtered = items;
     if (isSeriesPage) {
-        filteredItems = items.filter(item => item.category === 'SERIES');
+        filtered = items.filter(item => item.category === 'SERIES');
     }
 
-    if (filteredItems.length === 0) {
+    // Search Filter
+    if (query !== "") {
+        filtered = filtered.filter(item => 
+            item.name.toLowerCase().includes(query) || 
+            item.category.toLowerCase().includes(query)
+        );
+    }
+
+    if (filtered.length === 0) {
         resultContainer.innerHTML = '<p style="text-align:center; color:#ff0000; padding:20px;">No results found.</p>';
         return;
     }
 
-    filteredItems.forEach(item => {
+    filtered.forEach(item => {
         const div = document.createElement('div');
         div.className = "search-item";
         
-        // 🖼️ ICON LOGIC: Series/Movies ke liye lamba poster, baaki ke liye square
+        // Dynamic Icon/Poster Logic
         const isVisual = (item.category === 'SERIES' || item.category === 'MOVIES');
         const imgClass = isVisual ? 'icon-poster' : 'icon-square';
 
@@ -44,7 +57,7 @@ function displayItems(items) {
             <img src="${item.logo}" class="${imgClass}" alt="Poster">
             <div style="flex:1;">
                 <h4 style="font-size:1rem; color:#fff; margin-bottom:2px;">${item.name}</h4>
-                <p style="font-size:0.75rem; color:#bbb;">${item.category} • ${item.desc}</p>
+                <p style="font-size:0.75rem; color:#bbb;">${item.desc}</p>
             </div>
             ${item.isSeries 
                 ? `<button onclick="openSeriesModal(${item.id})" class="get-btn">VIEW</button>` 
@@ -59,7 +72,6 @@ function openSeriesModal(id) {
     const item = mwHubData.find(i => i.id === id);
     if (!item) return;
 
-    // Modal Create/Update
     let modal = document.getElementById('seriesModal');
     if (!modal) {
         modal = document.createElement('div');
@@ -72,9 +84,10 @@ function openSeriesModal(id) {
         <div class="modal-card">
             <span class="close-modal" onclick="closeModal()">&times;</span>
             <div class="modal-header">
-                <img src="${item.logo}" style="width:80px; height:110px; border-radius:8px; margin-bottom:10px; border:1px solid #ff0000;">
+                <img src="${item.logo}" style="width:80px; height:110px; border-radius:8px; margin-bottom:10px; border:1px solid #ff0000; object-fit:cover;">
                 <h2>${item.name}</h2>
-                <p>${item.desc}</p>
+                <p style="color:#ff0000; font-weight:bold;">${item.category}</p>
+                <p style="font-size:0.85rem; margin-top:5px;">${item.desc}</p>
             </div>
             
             <button class="download-all-btn" onclick="window.open('${item.downloadAll || '#'}', '_blank')">
@@ -97,25 +110,26 @@ function openSeriesModal(id) {
 }
 
 function closeModal() {
-    document.getElementById('seriesModal').style.display = 'none';
+    const modal = document.getElementById('seriesModal');
+    if (modal) modal.style.display = 'none';
 }
 
-// ⌨️ Search Listener
+// 🚀 4. Trigger Auto-Load on Page Start
+window.addEventListener('DOMContentLoaded', () => {
+    if (isSeriesPage) {
+        displayItems(mwHubData, true); // Anime page khulte hi cards dikhayega
+    }
+});
+
+// Search Listener
 if (searchInput) {
-    searchInput.addEventListener('input', (e) => {
-        const val = e.target.value.toLowerCase();
-        const results = mwHubData.filter(item => 
-            item.name.toLowerCase().includes(val) || 
-            item.category.toLowerCase().includes(val)
-        );
-        displayItems(results);
+    searchInput.addEventListener('input', () => {
+        displayItems(mwHubData);
     });
 }
 
-// Modal band karne ke liye bahar click
-window.onclick = function(event) {
+// Click outside modal to close
+window.onclick = (event) => {
     const modal = document.getElementById('seriesModal');
-    if (event.target == modal) {
-        closeModal();
-    }
+    if (event.target == modal) closeModal();
 }
