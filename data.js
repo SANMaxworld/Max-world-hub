@@ -1,34 +1,43 @@
 const mwHubData = [
     {
         id: 1,
-        name: "Minecraft PE (Premium)",
-        category: "GAMES",
-        desc: "Survival & Creative. Extract the ZIP and install APK.",
-        url: "https://www.mediafire.com/file/2u9x6hn1l4u6d7o/Minecraft.zip/file",
-        logo: "assets/nawaz3.jpg"
+        name: "Solo Leveling",
+        category: "SERIES",
+        desc: "S1 Full Episodes in Hindi/Eng (ZIP)",
+        logo: "assets/logo.png",
+        url: "#", 
+        isSeries: true, // System ko batayega ki ye series hai
+        episodes: [
+            { ep: "Episode 01", link: "link_here" },
+            { ep: "Episode 02", link: "link_here" },
+            { ep: "Episode 03", link: "link_here" }
+        ]
     },
     {
         id: 2,
-        name: "Lightroom Premium",
-        category: "APPS",
-        desc: "All premium filters unlocked. ZIP contains setup.",
-        url: "#",
-        logo: "assets/logo.png"
+        name: "Minecraft PE (Premium)",
+        category: "GAMES",
+        desc: "Survival & Creative. Extract ZIP and install.",
+        logo: "assets/nawaz3.jpg",
+        url: "game_link_here",
+        isSeries: false
     },
     {
         id: 3,
         name: "Pushpa 2: The Rule",
         category: "MOVIES",
-        desc: "High Quality Movie Clip / Full Movie (ZIP).",
-        url: "#",
-        logo: "assets/logo.png"
+        desc: "High Quality Movie Full (ZIP).",
+        logo: "assets/logo.png",
+        url: "movie_link_here",
+        isSeries: false
     },
     {
         id: 4,
-        name: "Sample Project PDF",
-        category: "PDF",
-        desc: "Important documentation and study materials.",
-        url: "#",
-        logo: "assets/logo.png"
+        name: "Lightroom Premium",
+        category: "APPS",
+        desc: "All filters unlocked. ZIP contains setup.",
+        logo: "assets/logo.png",
+        url: "app_link_here",
+        isSeries: false
     }
 ];
