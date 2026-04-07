@@ -8,16 +8,14 @@ body {
     color: white;
     min-height: 100vh;
     overflow-x: hidden;
-    /* Fast Scrolling */
     -webkit-overflow-scrolling: touch;
 }
 
-/* ✨ Shooting Stars (Hard Fix: 1 Time Only) */
+/* ✨ Shooting Stars */
 .star-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
 .star {
     position: absolute; right: -100px; width: 150px; height: 2px;
     background: linear-gradient(90deg, #fff, transparent);
-    /* Strict 1-time animation */
     animation: shoot 2.5s cubic-bezier(0.25, 0.1, 0.25, 1) 1 forwards; 
     opacity: 0;
     visibility: hidden;
@@ -28,7 +26,7 @@ body {
     100% { transform: translateX(-150vw) translateY(150vh) rotate(-45deg); opacity: 0; visibility: hidden; }
 }
 
-/* 🔝 Header & Neon HUB */
+/* 🔝 Header */
 header {
     background: #000; padding: 12px 20px; display: flex; justify-content: center; align-items: center;
     border-bottom: 2px solid #ff0000;
@@ -39,7 +37,7 @@ header {
 .brand-name { font-size: 1.3rem; font-weight: 800; text-transform: uppercase; }
 .neon-red-text { color: #ff0000; text-shadow: 0 0 10px #ff0000; }
 
-/* 💎 Glass Container (No Transitions = No Lag) */
+/* 💎 Containers */
 .glass-container {
     background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
     border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 20px;
@@ -51,6 +49,7 @@ header {
 .search-box {
     width: 100%; padding: 15px; border-radius: 50px; border: 2px solid rgba(255,255,255,0.1);
     background: rgba(0,0,0,0.6); color: #fff; margin-bottom: 20px; outline: none;
+    transition: 0.3s;
 }
 .search-box:focus { border-color: #ff0000; box-shadow: 0 0 15px rgba(255, 0, 0, 0.4); }
 
@@ -58,19 +57,73 @@ header {
 .swiper { width: 100%; height: 180px; border-radius: 15px; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.1); }
 .swiper-slide img { width: 100%; height: 100%; object-fit: cover; }
 
-/* 🔘 Grid & Buttons (Fixed Alignment) */
+/* 🔘 Grid Buttons */
 .grid-container { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
 .nav-btn {
     background: rgba(255, 255, 255, 0.05); color: #fff; padding: 18px 5px; border-radius: 12px;
     text-decoration: none; font-weight: 700; font-size: 0.85rem;
     border: 1px solid rgba(255,255,255,0.1);
-    /* 🎯 CENTER ALIGNMENT FIX */
     display: flex; align-items: center; justify-content: center; text-align: center;
 }
-
 .btn-movies, .btn-series { border-bottom: 3px solid #ff0000; }
 .btn-games { border-bottom: 3px solid #00f2ff; }
 .btn-apps { border-bottom: 3px solid #28a745; }
+
+/* 🎬 --- DYNAMIC SEARCH RESULTS --- */
+.search-item {
+    display: flex; align-items: center; gap: 15px;
+    background: rgba(255,255,255,0.05); padding: 12px; border-radius: 15px;
+    margin-bottom: 15px; border: 1px solid rgba(255,255,255,0.1);
+}
+
+/* 📱 App/Game Icon (Square) */
+.icon-square { width: 55px; height: 55px; border-radius: 12px; object-fit: cover; }
+
+/* ⛩️ Anime/Movie Poster (Lamba) */
+.icon-poster { width: 70px; height: 100px; border-radius: 8px; object-fit: cover; border: 1px solid #ff0000; }
+
+.get-btn {
+    background: #ff0000; color: #fff; padding: 8px 15px; border-radius: 8px;
+    text-decoration: none; font-weight: 800; font-size: 0.8rem;
+}
+
+/* 🍿 --- SERIES DETAIL POP-UP (Modal) --- */
+.modal-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.85); backdrop-filter: blur(8px);
+    display: none; justify-content: center; align-items: center; z-index: 1000;
+}
+.modal-card {
+    background: #0f0a1f; border: 1px solid #ff0000; border-radius: 20px;
+    width: 90%; max-width: 450px; padding: 20px; position: relative;
+    box-shadow: 0 0 30px rgba(255,0,0,0.3);
+}
+.modal-header { text-align: center; margin-bottom: 15px; }
+.modal-header h2 { font-size: 1.2rem; color: #fff; }
+.modal-header p { font-size: 0.8rem; color: #ff0000; font-weight: 600; }
+
+/* 📥 Master Download Button */
+.download-all-btn {
+    width: 100%; background: #ff0000; color: #fff; padding: 12px;
+    border-radius: 10px; border: none; font-weight: 800; font-size: 0.9rem;
+    cursor: pointer; margin-bottom: 15px; display: flex; align-items: center; justify-content: center; gap: 8px;
+    box-shadow: 0 5px 15px rgba(255,0,0,0.4);
+}
+
+/* ➖ Divider */
+.divider { height: 1px; background: linear-gradient(90deg, transparent, #ff0000, transparent); margin-bottom: 15px; }
+
+/* 📜 Episode List */
+.ep-list { max-height: 250px; overflow-y: auto; padding-right: 5px; }
+.ep-row {
+    display: flex; justify-content: space-between; align-items: center;
+    background: rgba(255,255,255,0.05); padding: 10px; border-radius: 8px;
+    margin-bottom: 8px; border-left: 3px solid #ff0000;
+}
+.ep-row span { font-size: 0.85rem; font-weight: 600; }
+.ep-dl-link { color: #ff0000; text-decoration: none; font-weight: 800; font-size: 0.8rem; }
+
+.close-modal { position: absolute; top: 10px; right: 15px; font-size: 1.5rem; color: #fff; cursor: pointer; }
 
 /* 📱 PC Tweaks */
 @media (min-width: 768px) {
