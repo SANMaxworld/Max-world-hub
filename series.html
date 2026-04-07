@@ -5,23 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Anime Series Hub | MW Hub</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
 </head>
 <body>
+
     <header>
         <div class="logo-section">
-            <img src="assets/logo.png" class="main-logo">
-            <h1 class="brand-name">ANIME <span class="neon-red-text">SERIES</span></h1>
+            <a href="index.html" style="text-decoration: none; display: flex; align-items: center; gap: 10px;">
+                <img src="assets/logo.png" class="main-logo" alt="MW Logo">
+                <h1 class="brand-name">ANIME <span class="neon-red-text">SERIES</span></h1>
+            </a>
         </div>
     </header>
 
-    <div class="glass-container">
-        <h2 style="text-align:center; margin-bottom:15px; font-size:1rem; color:#ff0000;">Search Your Favorite Anime</h2>
-        <input type="text" id="searchInput" class="search-box" placeholder="Search Only Anime Series...">
+    <div class="glass-container main-glow">
+        <h2 style="text-align:center; margin-bottom:15px; font-size:1rem; color:#ff0000; text-transform: uppercase; letter-spacing: 1px;">
+            ⛩️ Explore All Anime Series
+        </h2>
+        
+        <input type="text" id="searchInput" class="search-box" placeholder="Search your favorite anime...">
         
         <div id="resultContainer"></div>
 
-        <p style="text-align:center; color:#666; font-size:0.8rem; margin-top:20px;">
-            Tip: Click 'VIEW' to see all episodes and season details.
+        <p style="text-align:center; color:#666; font-size:0.75rem; margin-top:30px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 15px;">
+            Click 'VIEW' to see details & download all episodes.
         </p>
     </div>
 
