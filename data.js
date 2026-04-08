@@ -27,7 +27,7 @@ const mwHubData = [
         name: "Attack on Titan",
         category: "SERIES",
         desc: "Season 1 • Dark Fantasy Action Anime (Hindi) Download Attack on Titan Season 1 in Hindi Dubbed 1080p Full HD. All episodes available with direct MediaFire links on MW Hub. Experience the brutal survival battle of humanity against the giant Titans.",
-        logo: "assets/poster.jpg",
+        logo: "assets/A.O.T.jpeg",
         downloadAll: "https://mega.nz/full_zip_link",
         isSeries: true,
         episodes: [
