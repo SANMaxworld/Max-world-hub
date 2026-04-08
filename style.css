@@ -71,48 +71,32 @@ header {
 
 /* 🎬 --- DYNAMIC SEARCH RESULTS --- */
 .search-item {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    background: rgba(255,255,255,0.05);
-    padding: 12px;
-    border-radius: 15px;
-    margin-bottom: 15px;
-    border: 1px solid rgba(255,255,255,0.1);
-    width: 100%; /* Default width mobile par */
+    display: flex; align-items: center; gap: 15px;
+    background: rgba(255,255,255,0.05); padding: 15px; border-radius: 15px;
+    margin-bottom: 15px; border: 1px solid rgba(255,255,255,0.1);
 }
 
 .search-item div { flex: 1; overflow: hidden; }
 
 .search-item div p {
-    font-size: 0.82rem;
-    line-height: 1.4;
-    color: #bbb;
-    margin-top: 4px;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    font-size: 0.85rem; line-height: 1.4; color: #bbb; margin-top: 4px;
+    display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;
+    overflow: hidden; text-overflow: ellipsis;
 }
 
-/* Base Image Styles */
-.icon-square { 
-    width: 55px; height: 55px; border-radius: 12px; object-fit: cover; 
-}
-
+/* 📱 Mobile Icon/Poster Bada Kar Diya */
+.icon-square { width: 65px; height: 65px; border-radius: 12px; object-fit: cover; }
 .icon-poster { 
-    width: 70px; height: 105px; border-radius: 8px; object-fit: cover; border: 1px solid #ff0000; 
-    flex-shrink: 0;
+    width: 90px; height: 130px; border-radius: 8px; object-fit: cover; border: 1px solid #ff0000;
+    image-rendering: -webkit-optimize-contrast; /* Sharpness fix */
 }
 
 .get-btn {
-    background: #ff0000; color: #fff; padding: 8px 15px; border-radius: 8px;
-    text-decoration: none; font-weight: 800; font-size: 0.8rem;
-    white-space: nowrap;
+    background: #ff0000; color: #fff; padding: 10px 18px; border-radius: 8px;
+    text-decoration: none; font-weight: 800; font-size: 0.85rem; white-space: nowrap;
 }
 
-/* 🍿 --- SERIES DETAIL POP-UP --- */
+/* 🍿 --- SERIES DETAIL POP-UP (Wapis Sahi Kiya) --- */
 .modal-overlay {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     background: rgba(0,0,0,0.85); backdrop-filter: blur(8px);
@@ -120,56 +104,49 @@ header {
 }
 .modal-card {
     background: #0f0a1f; border: 1px solid #ff0000; border-radius: 20px;
-    width: 90%; max-width: 450px; padding: 20px; position: relative;
-    box-shadow: 0 0 30px rgba(255,0,0,0.3);
+    width: 90%; max-width: 450px; padding: 25px; position: relative;
+    box-shadow: 0 0 30px rgba(255,0,0,0.3); text-align: center;
+}
+.modal-header { margin-bottom: 15px; }
+.modal-header h2 { font-size: 1.4rem; color: #fff; }
+.modal-header p { font-size: 0.9rem; color: #ff0000; font-weight: 600; margin-top: 5px; }
+
+.download-all-btn {
+    width: 100%; background: #ff0000; color: #fff; padding: 12px;
+    border-radius: 10px; border: none; font-weight: 800; font-size: 0.95rem;
+    cursor: pointer; margin: 10px 0 20px; display: flex; align-items: center; justify-content: center; gap: 8px;
+    box-shadow: 0 5px 15px rgba(255,0,0,0.4);
 }
 
-/* 📜 Episode List */
-.ep-list { max-height: 250px; overflow-y: auto; padding-right: 5px; }
+.divider { height: 1px; background: linear-gradient(90deg, transparent, #ff0000, transparent); margin-bottom: 15px; }
+
+.ep-list { max-height: 250px; overflow-y: auto; padding-right: 5px; text-align: left; }
 .ep-row {
     display: flex; justify-content: space-between; align-items: center;
     background: rgba(255,255,255,0.05); padding: 10px; border-radius: 8px;
     margin-bottom: 8px; border-left: 3px solid #ff0000;
 }
+.ep-dl-link { color: #ff0000; text-decoration: none; font-weight: 800; }
+.close-modal { position: absolute; top: 12px; right: 18px; font-size: 1.6rem; color: #fff; cursor: pointer; }
 
-/* 💻 PC TWEAKS - High Quality Big Card Fix */
+/* 💻 PC Tweaks - Final Quality Fix */
 @media (min-width: 768px) {
     .grid-container { grid-template-columns: repeat(4, 1fr); }
     .brand-name { font-size: 2rem; }
     .swiper { height: 350px; }
 
-    /* Card ko wapas bada karna aur high-res image allow karna */
-    .search-item {
-        padding: 20px;
-        gap: 25px; /* Text aur image ke beech zyada gap */
-    }
-
+    /* PC par poster ko bada aur sharp dikhane ke liye */
     .icon-poster {
-        width: 180px; /* Badi image PC ke liye */
-        height: 260px;
-        border-radius: 12px;
-        box-shadow: 0 0 20px rgba(255,0,0,0.2);
+        width: 150px; 
+        height: 220px;
+        image-rendering: -webkit-optimize-contrast; /* Pixelation filter */
+        flex-shrink: 0;
     }
-
-    .icon-square {
-        width: 120px;
-        height: 120px;
-    }
-
-    .search-item div h3 {
-        font-size: 1.5rem; /* Bada title */
-        margin-bottom: 10px;
-    }
-
-    .search-item div p {
-        font-size: 1rem; /* Badi description */
-        -webkit-line-clamp: 5; /* PC par zyada text dikhao */
-    }
-
-    .get-btn {
-        padding: 12px 25px;
-        font-size: 1rem;
-    }
+    .icon-square { width: 100px; height: 100px; flex-shrink: 0; }
+    
+    .search-item { padding: 25px; gap: 25px; }
+    .search-item div h3 { font-size: 1.5rem; }
+    .search-item div p { -webkit-line-clamp: 5; font-size: 1rem; }
 }
 
 footer { padding: 30px; text-align: center; border-top: 1px solid rgba(255,255,255,0.1); }
