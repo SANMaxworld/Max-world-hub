@@ -76,6 +76,25 @@ header {
     margin-bottom: 15px; border: 1px solid rgba(255,255,255,0.1);
 }
 
+/* Fix for Long Description on Mobile */
+.search-item div {
+    flex: 1;
+    overflow: hidden;
+}
+
+.search-item div p {
+    font-size: 0.82rem;
+    line-height: 1.4;
+    color: #bbb;
+    margin-top: 4px;
+    /* Limit to 3 lines on mobile */
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 /* 📱 App/Game Icon (Square) */
 .icon-square { width: 55px; height: 55px; border-radius: 12px; object-fit: cover; }
 
@@ -85,6 +104,7 @@ header {
 .get-btn {
     background: #ff0000; color: #fff; padding: 8px 15px; border-radius: 8px;
     text-decoration: none; font-weight: 800; font-size: 0.8rem;
+    white-space: nowrap; /* Button ek hi line mein rahega */
 }
 
 /* 🍿 --- SERIES DETAIL POP-UP (Modal) --- */
@@ -130,6 +150,9 @@ header {
     .grid-container { grid-template-columns: repeat(4, 1fr); }
     .brand-name { font-size: 2rem; }
     .swiper { height: 350px; }
+    .search-item div p {
+        -webkit-line-clamp: 4; /* PC par 4 lines dikhengi */
+    }
 }
 
 footer { padding: 30px; text-align: center; border-top: 1px solid rgba(255,255,255,0.1); }
