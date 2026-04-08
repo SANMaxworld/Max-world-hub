@@ -4,7 +4,7 @@ const mwHubData = [
         name: "Solo Leveling",
         category: "SERIES",
         desc: "Season 1 • Full Action Anime (Hindi)Download Solo Leveling Season 1 in Hindi Dubbed 1080p Full HD. All 12 episodes available with direct MediaFire links on MW Hub. Experience the epic journey of the world's weakest hunter. ",
-        logo: "assets/solo_poster.jpg", // Yahan lamba poster use karein
+        logo: "solo poster.jpeg", // Yahan lamba poster use karein
         downloadAll: "link_to_full_zip", // 📥 Master Download Button ke liye link
         isSeries: true,
         episodes: [
