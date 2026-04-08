@@ -71,15 +71,18 @@ header {
 
 /* 🎬 --- DYNAMIC SEARCH RESULTS --- */
 .search-item {
-    display: flex; align-items: center; gap: 15px;
-    background: rgba(255,255,255,0.05); padding: 12px; border-radius: 15px;
-    margin-bottom: 15px; border: 1px solid rgba(255,255,255,0.1);
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: rgba(255,255,255,0.05);
+    padding: 12px;
+    border-radius: 15px;
+    margin-bottom: 15px;
+    border: 1px solid rgba(255,255,255,0.1);
+    transition: 0.3s;
 }
 
-.search-item div {
-    flex: 1;
-    overflow: hidden;
-}
+.search-item div { flex: 1; overflow: hidden; }
 
 .search-item div p {
     font-size: 0.82rem;
@@ -93,15 +96,16 @@ header {
     text-overflow: ellipsis;
 }
 
-/* 📱 Mobile Settings - Pehle jaisi */
+/* Image Quality Fix */
 .icon-square { 
     width: 55px; height: 55px; border-radius: 12px; object-fit: cover; 
-    image-rendering: -webkit-optimize-contrast; 
+    image-rendering: -webkit-optimize-contrast;
 }
 
 .icon-poster { 
-    width: 70px; height: 100px; border-radius: 8px; object-fit: cover; border: 1px solid #ff0000; 
-    image-rendering: -webkit-optimize-contrast; 
+    width: 75px; height: 110px; border-radius: 8px; object-fit: cover; border: 1px solid #ff0000; 
+    image-rendering: -webkit-optimize-contrast;
+    flex-shrink: 0; /* Image ko kisi bhi haal mein stretch nahi hone dega */
 }
 
 .get-btn {
@@ -148,26 +152,22 @@ header {
 
 .close-modal { position: absolute; top: 10px; right: 15px; font-size: 1.5rem; color: #fff; cursor: pointer; }
 
-/* 💻 PC Tweaks - Sharpness Fix yahan hai */
+/* 💻 PC Tweaks - Sabse Bada Change Yahan Hai */
 @media (min-width: 768px) {
     .grid-container { grid-template-columns: repeat(4, 1fr); }
     .brand-name { font-size: 2rem; }
     .swiper { height: 350px; }
-    
-    .icon-poster {
-        width: 90px; /* PC par size thoda control mein */
-        height: 130px;
-        flex-shrink: 0; /* Stretching prevent karega */
-    }
-    
-    .icon-square {
-        width: 75px;
-        height: 75px;
-        flex-shrink: 0;
+
+    /* PC par card ko chota aur tight rakhenge taaki image na phate */
+    .search-item {
+        max-width: 450px; /* Card ki width limit kar di */
+        margin-left: auto;
+        margin-right: auto;
     }
 
-    .search-item div p {
-        -webkit-line-clamp: 4; 
+    .icon-poster {
+        width: 100px; /* PC par fix size */
+        height: 150px;
     }
 }
 
