@@ -1,11 +1,9 @@
-// Master Result Logic with Hybrid Layout
 const resultContainer = document.getElementById('resultContainer');
 const searchInput = document.getElementById('searchInput');
 const isSeriesPage = window.location.pathname.includes('series.html');
 
 function displayItems(items, isInitialLoad = false) {
     const query = searchInput.value.trim().toLowerCase();
-
     if (!isSeriesPage && query === "" && !isInitialLoad) {
         resultContainer.innerHTML = '';
         return;
@@ -15,9 +13,9 @@ function displayItems(items, isInitialLoad = false) {
     let filtered = items;
     if (isSeriesPage) {
         filtered = items.filter(item => item.category === 'SERIES');
-        resultContainer.classList.add('movie-layout'); // Anime page par horizontal scroll on
+        resultContainer.className = "movie-layout-grid"; // PC Layout Fix
     } else {
-        resultContainer.classList.remove('movie-layout');
+        resultContainer.className = "default-list-layout"; // Apps Layout
     }
 
     if (query !== "") {
@@ -32,15 +30,7 @@ function displayItems(items, isInitialLoad = false) {
         return;
     }
 
-    // PC Section Logic: Split into rows of 5
-    let currentSection;
-    filtered.forEach((item, index) => {
-        if (isSeriesPage && index % 5 === 0) {
-            currentSection = document.createElement('div');
-            currentSection.className = "anime-section";
-            resultContainer.appendChild(currentSection);
-        }
-
+    filtered.forEach(item => {
         const div = document.createElement('div');
         div.className = "search-item";
         const isVisual = (item.category === 'SERIES' || item.category === 'MOVIES');
@@ -48,7 +38,7 @@ function displayItems(items, isInitialLoad = false) {
 
         div.innerHTML = `
             <img src="${item.logo}" class="${imgClass}" alt="Poster">
-            <div class="item-info">
+            <div class="item-details">
                 <h4>${item.name}</h4>
                 <p>${item.desc}</p>
             </div>
@@ -56,16 +46,10 @@ function displayItems(items, isInitialLoad = false) {
                 ? `<button onclick="openSeriesModal(${item.id})" class="get-btn">VIEW</button>` 
                 : `<a href="${item.url}" target="_blank" class="get-btn">GET</a>`}
         `;
-
-        if (isSeriesPage) {
-            currentSection.appendChild(div);
-        } else {
-            resultContainer.appendChild(div);
-        }
+        resultContainer.appendChild(div);
     });
 }
 
-// Modal Structure Fix (Inside script.js)
 function openSeriesModal(id) {
     const item = mwHubData.find(i => i.id === id);
     if (!item) return;
@@ -99,3 +83,6 @@ function openSeriesModal(id) {
     `;
     modal.style.display = 'flex';
 }
+
+function closeModal() { document.getElementById('seriesModal').style.display = 'none'; }
+window.onclick = (e) => { if (e.target.className === 'modal-overlay') closeModal(); }
