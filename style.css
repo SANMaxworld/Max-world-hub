@@ -1,23 +1,13 @@
-/* --- HYBRID SYSTEM --- */
+/* --- 📱 Default List Layout (Apps/Games) --- */
+.default-list-layout { display: flex; flex-direction: column; gap: 15px; }
 
-/* Default List (Apps/Games) */
-#resultContainer { display: flex; flex-direction: column; gap: 15px; }
-
-/* Movie Layout (Horizontal Sections) */
-#resultContainer.movie-layout { flex-direction: column; gap: 30px; }
-
-.anime-section {
-    display: flex;
-    overflow-x: auto;
+/* --- 🎬 Movie Layout (Netflix Style) --- */
+.movie-layout-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Mobile: 2 Cards */
     gap: 15px;
-    padding-bottom: 10px;
-    scroll-behavior: smooth;
 }
 
-.anime-section::-webkit-scrollbar { height: 5px; }
-.anime-section::-webkit-scrollbar-thumb { background: #ff0000; border-radius: 10px; }
-
-/* Card Styling */
 .search-item {
     background: rgba(255,255,255,0.05);
     padding: 12px;
@@ -25,57 +15,60 @@
     border: 1px solid rgba(255,255,255,0.1);
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 12px;
 }
 
-.movie-layout .search-item {
+/* Movie Card Specifics */
+.movie-layout-grid .search-item {
     flex-direction: column;
-    min-width: 160px;
     text-align: center;
 }
 
-/* 🖼️ IMAGE CLARITY & PC FIX */
+.item-details h4 { font-size: 0.95rem; color: #fff; }
+.item-details p { font-size: 0.75rem; color: #bbb; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+
+/* 🖼️ PC Photo Clarity Fix */
 .icon-poster {
-    width: 90px; height: 130px;
+    width: 100%; height: 200px;
     object-fit: cover;
-    border-radius: 8px;
-    border: 1px solid #ff0000;
+    border-radius: 10px;
+    border-bottom: 2px solid #ff0000;
+    image-rendering: -webkit-optimize-contrast;
 }
 
-.movie-layout .icon-poster {
-    width: 100%; height: 220px;
-}
+.icon-square { width: 60px; height: 60px; border-radius: 12px; }
 
-/* 🍿 MODAL FIXES */
+/* 🍿 Pop-up Modal Fix */
+.modal-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.9); z-index: 1000; display: none; justify-content: center; align-items: center;
+}
 .modal-card {
-    background: #0f0a1f;
-    border: 2px solid #ff0000;
-    border-radius: 20px;
-    padding: 25px;
-    width: 90%;
-    max-width: 400px;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    background: #0f0a1f; border: 2px solid #ff0000; border-radius: 20px;
+    padding: 25px; width: 90%; max-width: 400px; position: relative;
+    display: flex; flex-direction: column; align-items: center;
 }
+.modal-img { width: 90px; height: 130px; border-radius: 8px; margin-bottom: 10px; object-fit: cover; border: 1px solid #ff0000; }
+.download-all-btn { width: 100%; background: #ff0000; color: #fff; padding: 12px; border: none; border-radius: 8px; font-weight: 800; margin: 15px 0; cursor: pointer; }
+.ep-list { width: 100%; max-height: 200px; overflow-y: auto; }
+.ep-row { display: flex; justify-content: space-between; padding: 10px; background: rgba(255,255,255,0.05); margin-bottom: 5px; border-radius: 5px; }
 
-.modal-img { width: 100px; height: 140px; object-fit: cover; border-radius: 10px; margin-bottom: 10px; border: 1px solid #ff0000; }
-.ep-list { width: 100%; max-height: 200px; overflow-y: auto; margin-top: 15px; }
-.ep-row {
-    display: flex; justify-content: space-between;
-    padding: 10px; background: rgba(255,255,255,0.05);
-    margin-bottom: 5px; border-radius: 8px;
-}
-.ep-dl-link { color: #ff0000; text-decoration: none; font-weight: 800; }
-
-/* 💻 PC OPTIMIZATION */
+/* 💻 PC UNIVERSAL FIX (Netflix Style) */
 @media (min-width: 1024px) {
-    .movie-layout .search-item { min-width: 220px; }
-    .movie-layout .icon-poster {
-        height: 310px;
-        object-fit: contain; /* Clarity Fix: Khinchega nahi */
-        background: #000; /* Letterbox look for bad quality pics */
+    .movie-layout-grid {
+        grid-template-columns: repeat(5, 1fr); /* PC: 5 Cards Row */
+        gap: 25px;
     }
-    .anime-section { gap: 25px; }
+    
+    .movie-layout-grid .icon-poster {
+        height: 320px;
+        object-fit: contain; /* Clarity Fix: Sharp photos */
+        background: #000;
+    }
+
+    .movie-layout-grid .search-item:hover {
+        transform: scale(1.05);
+        border-color: #ff0000;
+        transition: 0.3s;
+    }
 }
