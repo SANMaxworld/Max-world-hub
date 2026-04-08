@@ -76,7 +76,6 @@ header {
     margin-bottom: 15px; border: 1px solid rgba(255,255,255,0.1);
 }
 
-/* Fix for Long Description on Mobile */
 .search-item div {
     flex: 1;
     overflow: hidden;
@@ -87,7 +86,6 @@ header {
     line-height: 1.4;
     color: #bbb;
     margin-top: 4px;
-    /* Limit to 3 lines on mobile */
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
@@ -95,16 +93,21 @@ header {
     text-overflow: ellipsis;
 }
 
-/* 📱 App/Game Icon (Square) */
-.icon-square { width: 55px; height: 55px; border-radius: 12px; object-fit: cover; }
+/* 📱 Mobile Settings - Pehle jaisi */
+.icon-square { 
+    width: 55px; height: 55px; border-radius: 12px; object-fit: cover; 
+    image-rendering: -webkit-optimize-contrast; 
+}
 
-/* ⛩️ Anime/Movie Poster (Lamba) */
-.icon-poster { width: 70px; height: 100px; border-radius: 8px; object-fit: cover; border: 1px solid #ff0000; }
+.icon-poster { 
+    width: 70px; height: 100px; border-radius: 8px; object-fit: cover; border: 1px solid #ff0000; 
+    image-rendering: -webkit-optimize-contrast; 
+}
 
 .get-btn {
     background: #ff0000; color: #fff; padding: 8px 15px; border-radius: 8px;
     text-decoration: none; font-weight: 800; font-size: 0.8rem;
-    white-space: nowrap; /* Button ek hi line mein rahega */
+    white-space: nowrap;
 }
 
 /* 🍿 --- SERIES DETAIL POP-UP (Modal) --- */
@@ -145,13 +148,26 @@ header {
 
 .close-modal { position: absolute; top: 10px; right: 15px; font-size: 1.5rem; color: #fff; cursor: pointer; }
 
-/* 📱 PC Tweaks */
+/* 💻 PC Tweaks - Sharpness Fix yahan hai */
 @media (min-width: 768px) {
     .grid-container { grid-template-columns: repeat(4, 1fr); }
     .brand-name { font-size: 2rem; }
     .swiper { height: 350px; }
+    
+    .icon-poster {
+        width: 90px; /* PC par size thoda control mein */
+        height: 130px;
+        flex-shrink: 0; /* Stretching prevent karega */
+    }
+    
+    .icon-square {
+        width: 75px;
+        height: 75px;
+        flex-shrink: 0;
+    }
+
     .search-item div p {
-        -webkit-line-clamp: 4; /* PC par 4 lines dikhengi */
+        -webkit-line-clamp: 4; 
     }
 }
 
