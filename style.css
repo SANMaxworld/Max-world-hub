@@ -80,10 +80,10 @@ header {
     overflow: hidden; text-overflow: ellipsis;
 }
 
-/* 📱 Mobile Quality Settings */
+/* 📱 Mobile - Large Clear Icons */
 .icon-square { width: 65px; height: 65px; border-radius: 12px; object-fit: cover; }
 .icon-poster { 
-    width: 90px; height: 130px; border-radius: 8px; object-fit: cover; 
+    width: 95px; height: 140px; border-radius: 8px; object-fit: cover; 
     border: 1px solid #ff0000; image-rendering: -webkit-optimize-contrast; 
 }
 
@@ -120,31 +120,32 @@ header {
 }
 .close-modal { position: absolute; top: 12px; right: 18px; font-size: 1.6rem; color: #fff; cursor: pointer; }
 
-/* 💻 UNIVERSAL PC FIX (For 1080p & High-Res Monitors) */
+/* 💻 --- UNIVERSAL PC FIX (1080p Standard) --- */
 @media (min-width: 768px) {
     .grid-container { grid-template-columns: repeat(4, 1fr); }
     .brand-name { font-size: 2.2rem; }
     .swiper { height: 380px; }
 
-    .search-item { padding: 20px; gap: 30px; transition: 0.3s ease; }
-    .search-item:hover { background: rgba(255,255,255,0.08); transform: scale(1.01); }
+    .search-item { padding: 25px; gap: 30px; align-items: flex-start; }
 
-    /* ⛩️ PC Poster - Crisp & Sharp */
+    /* PC Poster Fix - Sharp & Professional */
     .icon-poster {
-        width: 165px; 
-        height: 240px;
+        width: 145px; 
+        height: 215px;
         flex-shrink: 0;
-        object-fit: cover;
-        image-rendering: -webkit-optimize-contrast; /* Best for 1080p */
+        object-fit: contain; /* 💡 Image stretch nahi hogi, black background handle karega */
+        background: #000; 
+        border-radius: 12px;
+        image-rendering: -webkit-optimize-contrast; 
         image-rendering: crisp-edges;
-        box-shadow: 0 5px 20px rgba(0,0,0,0.4);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.5);
     }
     .icon-square { width: 110px; height: 110px; flex-shrink: 0; image-rendering: -webkit-optimize-contrast; }
     
-    .search-item div h3 { font-size: 1.6rem; margin-bottom: 5px; }
-    .search-item div p { -webkit-line-clamp: 5; font-size: 1.05rem; line-height: 1.6; }
+    .search-item div h3 { font-size: 1.7rem; margin-bottom: 8px; }
+    .search-item div p { -webkit-line-clamp: 5; font-size: 1.1rem; line-height: 1.6; }
     
-    .get-btn { padding: 12px 25px; font-size: 1rem; }
+    .get-btn { padding: 12px 25px; font-size: 1rem; margin-top: 10px; }
 }
 
 footer { padding: 30px; text-align: center; border-top: 1px solid rgba(255,255,255,0.1); }
