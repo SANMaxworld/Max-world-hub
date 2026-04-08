@@ -79,7 +79,7 @@ header {
     border-radius: 15px;
     margin-bottom: 15px;
     border: 1px solid rgba(255,255,255,0.1);
-    transition: 0.3s;
+    width: 100%; /* Default width mobile par */
 }
 
 .search-item div { flex: 1; overflow: hidden; }
@@ -96,16 +96,14 @@ header {
     text-overflow: ellipsis;
 }
 
-/* Image Quality Fix */
+/* Base Image Styles */
 .icon-square { 
     width: 55px; height: 55px; border-radius: 12px; object-fit: cover; 
-    image-rendering: -webkit-optimize-contrast;
 }
 
 .icon-poster { 
-    width: 75px; height: 110px; border-radius: 8px; object-fit: cover; border: 1px solid #ff0000; 
-    image-rendering: -webkit-optimize-contrast;
-    flex-shrink: 0; /* Image ko kisi bhi haal mein stretch nahi hone dega */
+    width: 70px; height: 105px; border-radius: 8px; object-fit: cover; border: 1px solid #ff0000; 
+    flex-shrink: 0;
 }
 
 .get-btn {
@@ -114,7 +112,7 @@ header {
     white-space: nowrap;
 }
 
-/* 🍿 --- SERIES DETAIL POP-UP (Modal) --- */
+/* 🍿 --- SERIES DETAIL POP-UP --- */
 .modal-overlay {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     background: rgba(0,0,0,0.85); backdrop-filter: blur(8px);
@@ -125,20 +123,6 @@ header {
     width: 90%; max-width: 450px; padding: 20px; position: relative;
     box-shadow: 0 0 30px rgba(255,0,0,0.3);
 }
-.modal-header { text-align: center; margin-bottom: 15px; }
-.modal-header h2 { font-size: 1.2rem; color: #fff; }
-.modal-header p { font-size: 0.8rem; color: #ff0000; font-weight: 600; }
-
-/* 📥 Master Download Button */
-.download-all-btn {
-    width: 100%; background: #ff0000; color: #fff; padding: 12px;
-    border-radius: 10px; border: none; font-weight: 800; font-size: 0.9rem;
-    cursor: pointer; margin-bottom: 15px; display: flex; align-items: center; justify-content: center; gap: 8px;
-    box-shadow: 0 5px 15px rgba(255,0,0,0.4);
-}
-
-/* ➖ Divider */
-.divider { height: 1px; background: linear-gradient(90deg, transparent, #ff0000, transparent); margin-bottom: 15px; }
 
 /* 📜 Episode List */
 .ep-list { max-height: 250px; overflow-y: auto; padding-right: 5px; }
@@ -147,27 +131,44 @@ header {
     background: rgba(255,255,255,0.05); padding: 10px; border-radius: 8px;
     margin-bottom: 8px; border-left: 3px solid #ff0000;
 }
-.ep-row span { font-size: 0.85rem; font-weight: 600; }
-.ep-dl-link { color: #ff0000; text-decoration: none; font-weight: 800; font-size: 0.8rem; }
 
-.close-modal { position: absolute; top: 10px; right: 15px; font-size: 1.5rem; color: #fff; cursor: pointer; }
-
-/* 💻 PC Tweaks - Sabse Bada Change Yahan Hai */
+/* 💻 PC TWEAKS - High Quality Big Card Fix */
 @media (min-width: 768px) {
     .grid-container { grid-template-columns: repeat(4, 1fr); }
     .brand-name { font-size: 2rem; }
     .swiper { height: 350px; }
 
-    /* PC par card ko chota aur tight rakhenge taaki image na phate */
+    /* Card ko wapas bada karna aur high-res image allow karna */
     .search-item {
-        max-width: 450px; /* Card ki width limit kar di */
-        margin-left: auto;
-        margin-right: auto;
+        padding: 20px;
+        gap: 25px; /* Text aur image ke beech zyada gap */
     }
 
     .icon-poster {
-        width: 100px; /* PC par fix size */
-        height: 150px;
+        width: 180px; /* Badi image PC ke liye */
+        height: 260px;
+        border-radius: 12px;
+        box-shadow: 0 0 20px rgba(255,0,0,0.2);
+    }
+
+    .icon-square {
+        width: 120px;
+        height: 120px;
+    }
+
+    .search-item div h3 {
+        font-size: 1.5rem; /* Bada title */
+        margin-bottom: 10px;
+    }
+
+    .search-item div p {
+        font-size: 1rem; /* Badi description */
+        -webkit-line-clamp: 5; /* PC par zyada text dikhao */
+    }
+
+    .get-btn {
+        padding: 12px 25px;
+        font-size: 1rem;
     }
 }
 
