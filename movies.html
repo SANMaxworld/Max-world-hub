@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>MW Hub - Movies Section</title>
+    
+    <link rel="stylesheet" href="style.css">
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+</head>
+<body>
+
+    <div class="star-container" id="starContainer"></div>
+
+    <header>
+        <div class="logo-section">
+            <img src="logo.png" alt="MW Hub" class="main-logo"> <h1 class="brand-name"><span class="neon-red-text">MW</span> HUB</h1>
+        </div>
+    </header>
+
+    <div class="glass-container">
+        <input type="text" id="searchInput" class="search-box" placeholder="Search Movies...">
+
+        <div id="resultContainer">
+            </div>
+    </div>
+
+    <div id="seriesModal" class="modal-overlay"></div>
+
+    <footer>
+        <div class="footer-links">
+            <a href="index.html">Home</a>
+            <a href="series.html">Series</a>
+            <a href="#">Contact</a>
+        </div>
+        <p style="margin-top:15px; font-size:0.8rem; opacity:0.5;">&copy; 2026 Max World Hub</p>
+    </footer>
+
+    <script src="data.js"></script> <script src="script.js"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+    <script>
+        // Star Background Generator (Chota sa script background ke liye)
+        function createStars() {
+            const container = document.getElementById('starContainer');
+            for (let i = 0; i < 15; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.top = Math.random() * 100 + 'vh';
+                star.style.left = Math.random() * 100 + 'vw';
+                star.style.animationDelay = Math.random() * 5 + 's';
+                container.appendChild(star);
+            }
+        }
+        createStars();
+    </script>
+</body>
+</html>
