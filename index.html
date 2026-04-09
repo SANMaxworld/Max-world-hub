@@ -18,6 +18,15 @@
 </head>
 <body>
 
+    <div id="welcome-popup" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); background:rgba(20,20,20,0.98); border:2px solid #ff0000; padding:25px; z-index:9999; border-radius:20px; width:90%; max-width:400px; text-align:center; box-shadow:0 0 40px rgba(255,0,0,0.6); backdrop-filter: blur(10px);">
+        <h2 style="color:#ff0000; margin-bottom: 15px; font-weight: 800; letter-spacing: 1px;">ZAROORI SUCHNA! 📢</h2>
+        <p style="color:#fff; margin-bottom: 20px; line-height: 1.5; font-size: 1.05rem;">
+            Bhai, agar download page load nahi ho raha ya slow hai, toh <b style="color: #00ff00;">Turbo VPN (USA Server)</b> connect karein. Isse link ek jhatke mein khulega!
+        </p>
+        <a href="https://play.google.com/store/apps/details?id=free.vpn.unblock.proxy.turbovpn" target="_blank" style="display:block; background:#00c853; color:#fff; padding:12px; border-radius:10px; text-decoration:none; font-weight:bold; margin-bottom:10px;">🚀 DOWNLOAD TURBO VPN</a>
+        <button onclick="closePopup()" style="background:transparent; color:#ff0000; border:1px solid #ff0000; padding:8px 20px; border-radius:8px; cursor:pointer; font-weight:bold; width: 100%;">THEEK HAI, SAMAJH GAYA</button>
+    </div>
+
     <div class="star-container">
         <div class="star" style="top: 15%; animation-delay: 0.2s;"></div>
         <div class="star" style="top: 40%; animation-delay: 0.5s;"></div>
@@ -41,8 +50,8 @@
                     <div class="slide-content">Trending Anime</div>
                 </div>
                 <div class="swiper-slide">
-                    <img src="assets/D.S Bannar.jpeg" alt="Latest Movie">
-                    <div class="slide-content">New Blockbusters</div>
+                    <img src="assets/D.S style.jpeg" alt="Latest Movie">
+                    <div class="slide-content">Demon Slayer: Infinity Castle</div>
                 </div>
                 <div class="swiper-slide">
                     <img src="assets/D.N bannar.jpeg" alt="Premium Games">
@@ -72,17 +81,17 @@
         <hr style="border:0; border-top:1px solid rgba(255,255,255,0.1); margin:40px 0;">
 
         <div class="about-section">
-            <h3 class="about-header">About Max World Hub</h3>
-            <p style="line-height: 1.8; color: #ddd; font-size: 1rem;">
-                <b>MW Hub (Max World)</b> is your premium digital hub for high-quality entertainment. We offer the latest <b>Anime Series</b> and <b>Movies</b> in 1080p FHD. While our media is provided in <b>Direct Video Formats</b> for instant viewing, we use <b>Optimized ZIPs</b> for professional tools and gaming assets to ensure a seamless experience.
+            <h3 class="about-header">Max World Hub Kya Hai?</h3>
+            <p style="line-height: 1.8; color: #ddd; font-size: 1rem; text-align: center;">
+                <b>MW Hub (Max World)</b> aapka apna digital platform hai jahan aapko milenge sabse naye <b>Anime Series</b> aur <b>Movies</b> ekdum high quality (1080p FHD) mein. Hum direct links dete hain taaki aapka time waste na ho.
             </p>
 
-            <div class="zip-info-card">
-                <h4 style="color: #ff0000; margin-bottom: 10px;">🚀 Fast & Secure Downloads</h4>
+            <div class="zip-info-card" style="border: 1px dashed #ff0000; background: rgba(255,0,0,0.05);">
+                <h4 style="color: #ff0000; margin-bottom: 10px;">🚀 Download Kaise Karein?</h4>
                 <p style="font-size: 0.95rem; color: #eee;">
-                    For Anime and Movies, we provide direct <b>MediaFire links</b>. For Apps and Games, we bundle files into <b>ZIPs</b> to ensure maximum speed and zero data corruption.
+                    Humne sabhi files ko <b>MediaFire</b> par upload kiya hai. Agar link khulne mein der lage, toh <b>Turbo VPN</b> ka use karein. Movies direct milengi, lekin Apps aur Games <b>ZIP format</b> mein honge taaki file kharab na ho.
                     <br><br>
-                    <b>Pro Tip:</b> Use <b>ZArchiver</b> (Android) or <b>WinRAR</b> (PC) to extract ZIP files.
+                    <b>Yaad rakhein:</b> ZIP file kholne ke liye <b>ZArchiver</b> app ka use karein.
                 </p>
             </div>
         </div>
@@ -90,22 +99,35 @@
 
     <footer>
         <div class="footer-links" style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
+            <a href="about.html" style="color: #ff0000; text-decoration: none; font-weight: bold;">About Us</a>
             <a href="https://t.me/tntmeOP" target="_blank" style="color: #39ff14; text-decoration: none;">Telegram</a>
-            <a href="https://youtube.com/@tntnas5534?si=s3MECRyamaIvytry" target="_blank" style="color: #39ff14; text-decoration: none;">YouTube</a>
+            <a href="https://youtube.com/@tntnas5534" target="_blank" style="color: #39ff14; text-decoration: none;">YouTube</a>
             <a href="disclaimer.html" style="color: #39ff14; text-decoration: none;">Disclaimer</a>
-            <a href="https://discord.com/channels/1491705580212060281/1491705875440861205" style="color: #39ff14; text-decoration: none;">Contact Us</a>
+            <a href="https://discord.com/" style="color: #39ff14; text-decoration: none;">Contact Us</a>
         </div>
         
         <div class="copyright-shield" style="margin-top: 20px; padding: 0 15px;">
-            <p style="color:#888; font-size: 0.75rem; max-width: 600px; margin: 0 auto; line-height: 1.4;">
-                <b>Copyright Notice:</b> MW Hub does not host any files on its server. All contents are provided by non-affiliated third parties. We are a digital catalog of links already available on the internet.
-            </p>
             <p style="color:#666; font-size: 0.8rem; margin-top: 10px;">© 2026 Max World (MW Hub). All Rights Reserved.</p>
         </div>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="data.js"></script>
+    
+    <script>
+        window.onload = function() {
+            // Sirf ek baar dikhane ke liye sessionStorage check
+            if (!sessionStorage.getItem('popupShown')) {
+                setTimeout(() => {
+                    document.getElementById('welcome-popup').style.display = 'block';
+                }, 1500);
+            }
+        }
+        function closePopup() {
+            document.getElementById('welcome-popup').style.display = 'none';
+            sessionStorage.setItem('popupShown', 'true'); // Is session mein dobara nahi dikhega
+        }
+    </script>
     <script src="script.js"></script>
 </body>
 </html>
