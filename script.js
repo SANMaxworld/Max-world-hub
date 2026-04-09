@@ -1,4 +1,4 @@
-// 🎡 1. Swiper Slider (Only runs if element exists on page)
+// 🎡 1. Swiper Slider (Original)
 if (document.querySelector('.mySwiper')) {
     const swiper = new Swiper('.mySwiper', {
         loop: true,
@@ -12,14 +12,14 @@ if (document.querySelector('.mySwiper')) {
 const resultContainer = document.getElementById('resultContainer');
 const searchInput = document.getElementById('searchInput');
 
-// ✅ MOD: Movies aur Series dono pages ko recognize karo
+// Logic ko bacha kar rakhte huye Movies/Series dhoondhne ke liye
 const isSeriesPage = window.location.pathname.includes('series.html');
 const isMoviePage = window.location.pathname.includes('movies.html');
 
 function displayItems(items, isInitialLoad = false) {
     const query = searchInput.value.trim().toLowerCase();
 
-    // ✅ MOD: Dono pages par khali search par bhi initial load chalne do
+    // ✅ SAVE LOGIC: Movies/Series logic ko bacha kar rakha hai
     if (!isSeriesPage && !isMoviePage && query === "" && !isInitialLoad) {
         resultContainer.innerHTML = '';
         return;
@@ -53,36 +53,26 @@ function displayItems(items, isInitialLoad = false) {
         const isVisual = (item.category === 'SERIES' || item.category === 'MOVIES');
         const imgClass = isVisual ? 'icon-poster' : 'icon-square';
 
-        // ✅ MOD: Poster aur Text ko center karne ke liye layout fix
-        div.style.display = "flex";
-        div.style.alignItems = "center";
-        div.style.gap = "15px";
-
         div.innerHTML = `
-            <img src="${item.logo}" class="${imgClass}" alt="Poster" style="flex-shrink:0;">
-            <div style="flex:1; display:flex; flex-direction:column; justify-content:center; overflow:hidden;">
+            <img src="${item.logo}" class="${imgClass}" alt="Poster">
+            <div style="flex:1;">
                 <h4 style="font-size:1rem; color:#fff; margin-bottom:2px;">${item.name}</h4>
-                
-                <p style="font-size:0.75rem; color:#bbb; display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; text-overflow:ellipsis; line-height:1.4;">
-                    ${item.desc}
-                </p>
+                <p style="font-size:0.75rem; color:#bbb;">${item.desc}</p>
                 
                 <div style="border-top: 1px solid purple; margin: 8px 0 5px 0;"></div>
-                <p style="color: #ff4d4d; font-size: 10px; font-weight: bold; line-height:1.2; margin:0;">
+                <p style="color: #ff4d4d; font-size: 10px; font-weight: bold; line-height:1.2;">
                     ⚠️ Agar page load na ho toh Turbo VPN (USA Server) use karein!
                 </p>
             </div>
-            <div style="margin-left: 5px;">
-                ${item.isSeries 
-                    ? `<button onclick="openSeriesModal(${item.id})" class="get-btn">VIEW</button>` 
-                    : `<a href="${item.url}" target="_blank" class="get-btn" style="text-decoration:none;">GET</a>`}
-            </div>
+            ${item.isSeries 
+                ? `<button onclick="openSeriesModal(${item.id})" class="get-btn">VIEW</button>` 
+                : `<a href="${item.url}" target="_blank" class="get-btn" style="text-decoration:none;">WATCH</a>`}
         `;
         resultContainer.appendChild(div);
     });
 }
 
-// 🍿 3. Series Detail Pop-up (Modal) Logic - (Original)
+// 🍿 3. Series Detail Pop-up (Modal) Logic - (Unchanged)
 function openSeriesModal(id) {
     const item = mwHubData.find(i => i.id === id);
     if (!item) return;
@@ -133,7 +123,6 @@ function closeModal() {
 
 // 🚀 4. Trigger Auto-Load on Page Start
 window.addEventListener('DOMContentLoaded', () => {
-    // ✅ MOD: Movies aur Series dono pages par auto-load chalega
     if (isSeriesPage || isMoviePage) {
         displayItems(mwHubData, true); 
     }
@@ -152,7 +141,7 @@ window.onclick = (event) => {
     if (event.target == modal) closeModal();
 }
 
-// Pop-up Close Logic (From Index.html)
+// Pop-up Close Logic
 function closePopup() {
     const popup = document.getElementById('welcome-popup');
     if (popup) {
