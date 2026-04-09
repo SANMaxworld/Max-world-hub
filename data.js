@@ -99,7 +99,7 @@ const mwHubData = [
         name: "Pushpa 2: The Rule",
         category: "MOVIES",
         desc: "4K Ultra HD • High Quality Full Movie. Direct download link.",
-        logo: "assets/pushpa_poster.jpg",
+        logo: "assets/A.O.T.jpeg",
         url: "GPLINK_PUSHPA2",
         isSeries: false
     },
