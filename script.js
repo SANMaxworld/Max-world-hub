@@ -95,17 +95,13 @@ function openSeriesModal(id) {
 
                 <p style="font-size:0.85rem; margin-top:12px; color:#ddd;">${item.desc}</p>
             </div>
-            
-            <button class="download-all-btn" onclick="window.open('${item.downloadAll || '#'}', '_blank')" style="background:#ff0000;">
-                📥 Download Full Series (Direct)
-            </button>
 
             <div class="divider" style="background: purple; height: 2px; margin: 15px 0;"></div>
 
             <div class="ep-list">
                 ${item.episodes.map(e => `
                     <div class="ep-row" style="border-bottom: 1px solid rgba(255,255,255,0.05); padding: 10px 0;">
-                        <span style="color:#fff; font-weight:bold;">EP ${e.ep}</span>
+                        <span style="color:#fff; font-weight:bold;">${e.ep}</span>
                         <a href="${e.link}" target="_blank" class="ep-dl-link">DOWNLOAD</a>
                     </div>
                 `).join('')}
@@ -140,7 +136,7 @@ window.onclick = (event) => {
     if (event.target == modal) closeModal();
 }
 
-// Pop-up Close Logic
+// Pop-up Close Logic (From Index.html)
 function closePopup() {
     const popup = document.getElementById('welcome-popup');
     if (popup) {
