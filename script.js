@@ -11,6 +11,7 @@ if (document.querySelector('.mySwiper')) {
 // 🔍 2. Master Search & Result Logic
 const resultContainer = document.getElementById('resultContainer');
 const searchInput = document.getElementById('searchInput');
+
 const isSeriesPage = window.location.pathname.includes('series.html');
 
 function displayItems(items, isInitialLoad = false) {
@@ -21,8 +22,6 @@ function displayItems(items, isInitialLoad = false) {
         return;
     }
 
-    // Grid Layout: Ek ke bagal mein ek cards (Netflix Style)
-    resultContainer.style.cssText = "display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 15px; padding: 15px;";
     resultContainer.innerHTML = '';
     
     let filtered = items;
@@ -38,7 +37,7 @@ function displayItems(items, isInitialLoad = false) {
     }
 
     if (filtered.length === 0) {
-        resultContainer.innerHTML = '<p style="text-align:center; color:#ff0000; padding:20px; grid-column: 1/-1;">No results found.</p>';
+        resultContainer.innerHTML = '<p style="text-align:center; color:#ff0000; padding:20px;">No results found.</p>';
         return;
     }
 
@@ -46,39 +45,23 @@ function displayItems(items, isInitialLoad = false) {
         const div = document.createElement('div');
         div.className = "search-item card-glow"; 
         
-        // Khada Card Style
-        div.style.cssText = "display: flex; flex-direction: column; background: #111; border-radius: 10px; overflow: hidden; border: 1px solid #333; transition: 0.3s; cursor: pointer;";
-
-        // Card Click Logic
-        div.onclick = () => {
-            if (item.isSeries) {
-                openSeriesModal(item.id);
-            } else {
-                window.open(item.url, '_blank');
-            }
-        };
+        const isVisual = (item.category === 'SERIES' || item.category === 'MOVIES');
+        const imgClass = isVisual ? 'icon-poster' : 'icon-square';
 
         div.innerHTML = `
-            <div style="width: 100%; height: 210px; overflow: hidden;">
-                <img src="${item.logo}" style="width: 100%; height: 100%; object-fit: cover;" alt="Poster">
-            </div>
-
-            <div style="padding: 10px; flex: 1; display: flex; flex-direction: column;">
-                <h4 style="font-size: 0.95rem; color: #fff; margin-bottom: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                    ${item.name}
-                </h4>
+            <img src="${item.logo}" class="${imgClass}" alt="Poster">
+            <div style="flex:1;">
+                <h4 style="font-size:1rem; color:#fff; margin-bottom:2px;">${item.name}</h4>
+                <p style="font-size:0.75rem; color:#bbb;">${item.desc}</p>
                 
-                <p style="font-size: 0.75rem; color: #bbb; line-height: 1.3; height: 2.6em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; margin-bottom: 10px;">
-                    ${item.desc}
+                <div style="border-top: 1px solid purple; margin: 8px 0 5px 0;"></div>
+                <p style="color: #ff4d4d; font-size: 10px; font-weight: bold; line-height:1.2;">
+                    ⚠️ Agar page load na ho toh Turbo VPN (USA Server) use karein!
                 </p>
-                
-                <div style="margin-top: auto;">
-                    <div style="border-top: 1px solid purple; margin-bottom: 8px; opacity: 0.5;"></div>
-                    <p style="color: #ff4d4d; font-size: 9px; font-weight: bold; text-align: center; text-transform: uppercase;">
-                        ${item.isSeries ? 'Series (View)' : 'Movie (Get)'}
-                    </p>
-                </div>
             </div>
+            ${item.isSeries 
+                ? `<button onclick="openSeriesModal(${item.id})" class="get-btn">VIEW</button>` 
+                : `<a href="${item.url}" target="_blank" class="get-btn">GET</a>`}
         `;
         resultContainer.appendChild(div);
     });
@@ -98,28 +81,28 @@ function openSeriesModal(id) {
     }
 
     modal.innerHTML = `
-        <div class="modal-card" style="border: 2px solid #ff0000; background: rgba(10,10,10,0.98); max-width: 400px; width: 90%;">
+        <div class="modal-card" style="border: 2px solid #ff0000; background: rgba(15,15,15,0.95);">
             <span class="close-modal" onclick="closeModal()">&times;</span>
-            <div class="modal-header" style="text-align: center;">
-                <img src="${item.logo}" style="width:100px; height:140px; border-radius:8px; margin-bottom:12px; border:2px solid #ff0000; object-fit:cover;">
-                <h2 style="color:#fff; font-size: 1.4rem;">${item.name}</h2>
-                <p style="color:#ff0000; font-weight:bold; font-size: 0.8rem;">${item.category}</p>
+            <div class="modal-header">
+                <img src="${item.logo}" style="width:80px; height:110px; border-radius:8px; margin-bottom:10px; border:1px solid #ff0000; object-fit:cover;">
+                <h2 style="color:#fff;">${item.name}</h2>
+                <p style="color:#ff0000; font-weight:bold; letter-spacing:1px;">${item.category}</p>
                 
                 <a href="https://play.google.com/store/apps/details?id=free.vpn.unblock.proxy.turbovpn" target="_blank" 
-                   style="display:block; background:#00c853; color:#fff; text-align:center; padding:10px; border-radius:8px; text-decoration:none; font-weight:bold; margin-top:15px; font-size:12px;">
-                    🚀 DOWNLOAD TURBO VPN
+                   style="display:block; background:#00c853; color:#fff; text-align:center; padding:12px; border-radius:10px; text-decoration:none; font-weight:bold; margin-top:15px; font-size:13px; box-shadow: 0 4px 12px rgba(0,200,83,0.4);">
+                    🚀 DOWNLOAD TURBO VPN (FAST LOADING)
                 </a>
 
-                <p style="font-size:0.8rem; margin-top:12px; color:#ddd; line-height: 1.4;">${item.desc}</p>
+                <p style="font-size:0.85rem; margin-top:12px; color:#ddd;">${item.desc}</p>
             </div>
 
-            <div class="divider" style="background: purple; height: 1px; margin: 20px 0;"></div>
+            <div class="divider" style="background: purple; height: 2px; margin: 15px 0;"></div>
 
-            <div class="ep-list" style="max-height: 250px; overflow-y: auto;">
+            <div class="ep-list">
                 ${item.episodes.map(e => `
-                    <div class="ep-row" style="border-bottom: 1px solid rgba(255,255,255,0.05); padding: 10px 0; display: flex; justify-content: space-between; align-items: center;">
-                        <span style="color:#fff; font-weight:bold; font-size: 14px;">${e.ep}</span>
-                        <a href="${e.link}" target="_blank" class="ep-dl-link" style="padding: 5px 12px; font-size: 12px;">DOWNLOAD</a>
+                    <div class="ep-row" style="border-bottom: 1px solid rgba(255,255,255,0.05); padding: 10px 0;">
+                        <span style="color:#fff; font-weight:bold;">${e.ep}</span>
+                        <a href="${e.link}" target="_blank" class="ep-dl-link">DOWNLOAD</a>
                     </div>
                 `).join('')}
             </div>
@@ -133,24 +116,27 @@ function closeModal() {
     if (modal) modal.style.display = 'none';
 }
 
-// 🚀 4. Init & Listeners
+// 🚀 4. Trigger Auto-Load on Page Start
 window.addEventListener('DOMContentLoaded', () => {
     if (isSeriesPage) {
         displayItems(mwHubData, true); 
     }
 });
 
+// Search Listener
 if (searchInput) {
     searchInput.addEventListener('input', () => {
         displayItems(mwHubData);
     });
 }
 
+// Click outside modal to close
 window.onclick = (event) => {
     const modal = document.getElementById('seriesModal');
     if (event.target == modal) closeModal();
 }
 
+// Pop-up Close Logic (From Index.html)
 function closePopup() {
     const popup = document.getElementById('welcome-popup');
     if (popup) {
