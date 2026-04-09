@@ -45,34 +45,23 @@ function displayItems(items, isInitialLoad = false) {
         const div = document.createElement('div');
         div.className = "search-item card-glow"; 
         
-        const isMovie = (item.category === 'MOVIES');
-        const isSeries = (item.category === 'SERIES');
-        const imgClass = (isMovie || isSeries) ? 'icon-poster' : 'icon-square';
-
-        // Movie card alignment logic
-        if (isMovie) {
-            div.style.display = "flex";
-            div.style.alignItems = "center";
-        }
+        const isVisual = (item.category === 'SERIES' || item.category === 'MOVIES');
+        const imgClass = isVisual ? 'icon-poster' : 'icon-square';
 
         div.innerHTML = `
             <img src="${item.logo}" class="${imgClass}" alt="Poster">
-            <div style="flex:1; display: flex; flex-direction: column; justify-content: center;">
+            <div style="flex:1;">
                 <h4 style="font-size:1rem; color:#fff; margin-bottom:2px;">${item.name}</h4>
-                <p class="${isMovie ? 'movie-desc-fix' : ''}" style="${!isMovie ? 'font-size:0.75rem; color:#bbb;' : ''}">
-                    ${item.desc}
-                </p>
+                <p style="font-size:0.75rem; color:#bbb;">${item.desc}</p>
                 
-                <div style="border-top: 1px solid purple; margin: 8px 0 5px 0; opacity: 0.3;"></div>
+                <div style="border-top: 1px solid purple; margin: 8px 0 5px 0;"></div>
                 <p style="color: #ff4d4d; font-size: 10px; font-weight: bold; line-height:1.2;">
                     ⚠️ Agar page load na ho toh Turbo VPN (USA Server) use karein!
                 </p>
             </div>
-            <div style="margin-left: 10px;">
-                ${item.isSeries 
-                    ? `<button onclick="openSeriesModal(${item.id})" class="get-btn">VIEW</button>` 
-                    : `<a href="${item.url}" target="_blank" class="get-btn">GET</a>`}
-            </div>
+            ${item.isSeries 
+                ? `<button onclick="openSeriesModal(${item.id})" class="get-btn">VIEW</button>` 
+                : `<a href="${item.url}" target="_blank" class="get-btn">GET</a>`}
         `;
         resultContainer.appendChild(div);
     });
