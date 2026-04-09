@@ -68,32 +68,34 @@ header {
 /* 🎬 --- DYNAMIC SEARCH RESULTS --- */
 .search-item {
     display: flex; 
-    align-items: center; /* Vertical Center Logic */
+    align-items: stretch; /* Content top-level par rahega */
     gap: 15px;
     background: rgba(255,255,255,0.05); 
     padding: 15px; 
     border-radius: 15px;
     margin-bottom: 15px; 
     border: 1px solid rgba(255,255,255,0.1);
-    min-height: 110px; /* Card size stable rakhta hai */
 }
 
 .search-item div { 
     flex: 1; 
     display: flex;
     flex-direction: column;
-    justify-content: center; /* Text ko center mein rakhne ke liye */
+    justify-content: flex-start; /* Content top par hi stable rahega */
     overflow: hidden; 
 }
 
-/* Description 3 line limit fix */
+/* ⛩️ PC Title (Unchanged) */
+.search-item div h3 { font-size: 1.6rem; color: #fff; margin-bottom: 5px; }
+
+/* 🎯 DESCRIPTION - Strict 3 line limit fix for mobile */
 .search-item div p {
-    font-size: 0.75rem; /* Mobile ke liye optimize kiya */
+    font-size: 0.75rem; 
     line-height: 1.4; 
     color: #bbb; 
     margin-top: 4px;
     display: -webkit-box; 
-    -webkit-line-clamp: 3; 
+    -webkit-line-clamp: 3; /* Fixed to max 3 lines with dots (...) */
     -webkit-box-orient: vertical;
     overflow: hidden; 
     text-overflow: ellipsis;
@@ -102,13 +104,14 @@ header {
 /* 📱 Mobile Quality Settings */
 .icon-square { width: 65px; height: 65px; border-radius: 12px; object-fit: cover; flex-shrink: 0; }
 .icon-poster { 
-    width: 95px; /* Bada poster mobile ke liye */
+    width: 95px; /* Mobile poster size */
     height: 140px; 
     border-radius: 8px; 
     object-fit: cover; 
-    flex-shrink: 0; /* Poster dabega nahi */
+    flex-shrink: 0; 
     border: 1.5px solid #ff0000; 
     image-rendering: -webkit-optimize-contrast; 
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
 }
 
 .get-btn {
@@ -144,7 +147,7 @@ header {
 }
 .close-modal { position: absolute; top: 12px; right: 18px; font-size: 1.6rem; color: #fff; cursor: pointer; }
 
-/* 💻 UNIVERSAL PC FIX */
+/* 💻 UNIVERSAL PC FIX (Unchanged) */
 @media (min-width: 768px) {
     .grid-container { grid-template-columns: repeat(4, 1fr); }
     .brand-name { font-size: 2.2rem; }
@@ -161,7 +164,6 @@ header {
     }
     .icon-square { width: 110px; height: 110px; flex-shrink: 0; }
     
-    .search-item div h3 { font-size: 1.6rem; margin-bottom: 5px; }
     .search-item div p { -webkit-line-clamp: 5; font-size: 1.05rem; line-height: 1.6; }
     
     .get-btn { padding: 12px 25px; font-size: 1rem; }
