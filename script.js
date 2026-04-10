@@ -71,13 +71,16 @@ function displayItems(items, isInitialLoad = false) {
     });
 }
 
-// 🍿 3. Modal Logic
+// 🍿 3. Modal Logic (Updated with Back Button Fix)
 function openAdvancedModal(id) {
     const item = mwHubData.find(i => i.id === id);
     if (!item) return;
 
     const modal = document.getElementById('seriesModal');
     if (!modal) return;
+
+    // 🔙 Phone Back Button Fix: Push a dummy state to browser history
+    history.pushState({ modalOpen: true }, "");
 
     modal.className = 'modal-overlay';
     modal.style.display = 'block';
@@ -110,13 +113,28 @@ function openAdvancedModal(id) {
     `;
 }
 
+// ❌ Close Modal Function (Updated to sync with history)
 function closeModal() {
     const modal = document.getElementById('seriesModal');
-    if (modal) {
+    if (modal && modal.style.display === 'block') {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+        
+        // Agar modal manually band kiya (X button se), toh extra history entry hatao
+        if (history.state && history.state.modalOpen) {
+            history.back();
+        }
+    }
+}
+
+// 🔙 Global Back Button Listener (Mobile Back Button)
+window.addEventListener('popstate', function(event) {
+    const modal = document.getElementById('seriesModal');
+    if (modal && modal.style.display === 'block') {
         modal.style.display = 'none';
         document.body.style.overflow = 'auto';
     }
-}
+});
 
 // 🚀 Initialization
 window.addEventListener('DOMContentLoaded', () => {
