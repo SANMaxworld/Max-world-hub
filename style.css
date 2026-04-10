@@ -1,6 +1,6 @@
+/* --- TUMHARA PURA FRESH CODE YAHA SE SHURU HOTA HAI --- */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap');
 
-/* --- 🎨 GLOBAL & THEME --- */
 * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
 
 body {
@@ -12,7 +12,7 @@ body {
     -webkit-overflow-scrolling: touch;
 }
 
-/* ✨ Shooting Stars (Unchanged) */
+/* ✨ Shooting Stars (No Change) */
 .star-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
 .star {
     position: absolute; right: -100px; width: 150px; height: 2px;
@@ -25,7 +25,6 @@ body {
     100% { transform: translateX(-150vw) translateY(150vh) rotate(-45deg); opacity: 0; visibility: hidden; }
 }
 
-/* 🔝 Header */
 header {
     background: #000; padding: 12px 20px; display: flex; justify-content: center; align-items: center;
     border-bottom: 2px solid #ff0000; position: sticky; top: 0; z-index: 100;
@@ -35,7 +34,6 @@ header {
 .brand-name { font-size: 1.3rem; font-weight: 800; text-transform: uppercase; }
 .neon-red-text { color: #ff0000; text-shadow: 0 0 10px #ff0000; }
 
-/* 💎 Search Bar & Glass Container */
 .glass-container { margin: 15px auto; padding: 15px; max-width: 850px; width: 94%; }
 .search-box {
     width: 100%; padding: 15px; border-radius: 50px; border: 2px solid rgba(255,255,255,0.1);
@@ -43,11 +41,9 @@ header {
 }
 .search-box:focus { border-color: #ff0000; box-shadow: 0 0 15px rgba(255, 0, 0, 0.4); }
 
-/* 🚀 HERO SLIDER FIX (Back to Original Size) */
 .swiper { width: 100%; height: 180px; border-radius: 15px; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.1); }
 .swiper-slide img { width: 100%; height: 100%; object-fit: cover; }
 
-/* 🔘 Grid Buttons */
 .grid-container { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 25px; }
 .nav-btn {
     background: rgba(255, 255, 255, 0.05); color: #fff; padding: 18px 5px; border-radius: 12px;
@@ -58,26 +54,28 @@ header {
 .btn-games { border-bottom: 3px solid #00f2ff; }
 .btn-apps { border-bottom: 3px solid #28a745; }
 
-/* 🎬 --- DYNAMIC GRID LAYOUT (Vertical & Longer) --- */
+/* 🎬 Card Layout */
 #resultContainer { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
-
 .search-item {
     background: rgba(255,255,255,0.05); border-radius: 12px; overflow: hidden;
     border: 1px solid rgba(255,255,255,0.1); display: flex; flex-direction: column; cursor: pointer;
 }
 
+/* 🟢 SQUARE ICON LOGIC (Sirf add kiya hai, kuch hataya nahi) */
+.icon-square { 
+    width: 100px; height: 100px; border-radius: 20px; object-fit: cover; 
+    margin: 15px auto 10px auto; border: 2px solid #39ff14; display: block;
+}
+
 .icon-poster { 
-    width: 100%; 
-    height: 240px; /* Item Card ko Lamba kar diya (Mobile) */
-    object-fit: cover; 
-    border-bottom: 2px solid #ff0000; 
+    width: 100%; height: 240px; object-fit: cover; border-bottom: 2px solid #ff0000; 
 }
 
 .content-box { padding: 8px; text-align: left; }
 .content-box h4 { font-size: 0.85rem; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .desc-text { font-size: 0.7rem; color: #bbb; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 
-/* 🍿 --- FULL SCREEN MODAL --- */
+/* 🍿 Modal (Full Screen) */
 .modal-overlay {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     background: #05031a; z-index: 9999; display: none; overflow-y: auto;
@@ -101,12 +99,11 @@ header {
 }
 .dl-btn { color: #ff0000; font-weight: 800; text-decoration: none; }
 
-/* 💻 UNIVERSAL PC FIX */
 @media (min-width: 768px) {
     #resultContainer { grid-template-columns: repeat(4, 1fr); }
-    .icon-poster { height: 320px; } /* Item Card PC par bhi lamba */
+    .icon-poster { height: 320px; }
     .brand-name { font-size: 2.2rem; }
-    .swiper { height: 380px; } /* Slider back to original for PC */
+    .swiper { height: 380px; }
 }
 
 footer { padding: 30px; text-align: center; border-top: 1px solid rgba(255,255,255,0.1); font-size: 0.8rem; }
