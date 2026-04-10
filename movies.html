@@ -3,10 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>MW Hub - Movies Section</title>
+    
+    <title>Movies Section | MW Hub - Max World</title>
+    <meta name="description" content="Download the latest movies in high quality on MW Hub. Managed by Nawaz Khan and team.">
+    <meta name="keywords" content="MW Hub, Movies Download, Max World, Nawaz Khan, HD Movies, New Movies 2026">
     
     <link rel="stylesheet" href="style.css">
-    
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 </head>
 <body>
@@ -20,10 +22,32 @@
     </header>
 
     <div class="glass-container">
+        <h2 style="text-align: center; color: #ff0000; margin-bottom: 20px; font-size: 1.5rem; letter-spacing: 1px;">MOVIES HUB</h2>
+        
         <input type="text" id="searchInput" class="search-box" placeholder="Search Movies...">
 
         <div id="resultContainer">
             </div>
+
+        <div style="text-align: center; margin-top: 40px; margin-bottom: 10px;">
+            <a href="index.html" style="
+                display: inline-block;
+                padding: 12px 30px;
+                background: rgba(255, 0, 0, 0.05);
+                color: #fff;
+                text-decoration: none;
+                border-radius: 50px;
+                border: 1px solid #ff0000;
+                font-weight: bold;
+                font-size: 0.9rem;
+                transition: 0.3s;
+                box-shadow: 0 0 15px rgba(255, 0, 0, 0.3);
+                text-transform: uppercase;
+                letter-spacing: 1px;
+            ">
+                ← BACK TO HOME DASHBOARD
+            </a>
+        </div>
     </div>
 
     <div id="seriesModal" class="modal-overlay"></div>
@@ -42,9 +66,10 @@
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
     <script>
-        // Star Background Generator (Chota sa script background ke liye)
+        // Star Background Generator
         function createStars() {
             const container = document.getElementById('starContainer');
+            if(!container) return;
             for (let i = 0; i < 15; i++) {
                 const star = document.createElement('div');
                 star.className = 'star';
