@@ -22,7 +22,7 @@ const mwHubData = [
         id: 2,
         name: "Attack on Titan",
         category: "SERIES",
-        logo: "assets/A.O.T bannar.jpeg",
+        logo: "assets/A.O.T.jpeg",
         desc: "Insaaniyat ki aakhiri umeed Titans ke khilaaf ek bhayankar jung.",
         genres: ["Action", "Dark Fantasy", "Mystery"],
         audio: ["Hindi", "Japanese", "English"],
