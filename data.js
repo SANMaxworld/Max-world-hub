@@ -3,7 +3,7 @@ const mwHubData = [
         id: 1,
         name: "Solo Leveling",
         category: "SERIES",
-        logo: "assets/S.L Bannar.jpeg",
+        logo: "assets/soloposter.jpeg",
         desc: "Jin-Woo Sung ek low-rank hunter hai jo duniya ka sabse powerful hunter banne ka safar shuru karta hai.",
         genres: ["Action", "Fantasy", "Adventure"],
         audio: ["Hindi", "Japanese", "English"],
