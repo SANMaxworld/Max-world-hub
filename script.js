@@ -93,7 +93,7 @@ function openAdvancedModal(id) {
                    style="display: inline-block; background: #39ff14; color: #000; padding: 8px 15px; border-radius: 5px; font-weight: bold; text-decoration: none; font-size: 0.75rem; box-shadow: 0 0 10px #39ff14;">
                    📱 MOBILE VPN
                 </a>
-                <a href="https://chromewebstore.google.com/detail/turbo-vpn-free-vpn-proxy/mabfaplkeidmclbhfbgihocemidngmcn" target="_blank" 
+                <a href="https://chromewebstore.google.com/detail/turbo-vpn-secure-free-vpn/bnlofglpdlboacepdieejiecfbfpmhlb?hl=en-GB" target="_blank" 
                    style="display: inline-block; background: #00e5ff; color: #000; padding: 8px 15px; border-radius: 5px; font-weight: bold; text-decoration: none; font-size: 0.75rem; box-shadow: 0 0 10px #00e5ff;">
                    💻 PC EXTENSION
                 </a>
