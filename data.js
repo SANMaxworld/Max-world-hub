@@ -19,7 +19,7 @@ const mwHubData = [
         id: 2,
         name: "Attack on Titan",
         category: "SERIES",
-        logo: "assets/A.O.T bannar.jpeg",
+        logo: "assets/A.O.T.jpeg",
         desc: "Insaaniyat deewaron ke peeche qaid hai kyunki bahar bhayanak Titans ka raaj hai. Eren Yeager ne kasam khai hai ki wo har ek Titan ko mita dega.",
         genres: ["Action", "Drama", "Mystery"],
         audio: ["Hindi", "Japanese"],
