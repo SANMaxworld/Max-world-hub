@@ -68,7 +68,7 @@ function displayItems(items, isInitialLoad = false) {
     });
 }
 
-// 🍿 3. Modal Logic (Sari Categories ke liye Turbo VPN Fix)
+// 🍿 3. Modal Logic (Updated with Mobile & PC VPN Links)
 function openAdvancedModal(id) {
     const item = mwHubData.find(i => i.id === id);
     if (!item) return;
@@ -82,16 +82,22 @@ function openAdvancedModal(id) {
     modal.style.display = 'block';
     document.body.style.overflow = 'hidden';
 
-    // 🚀 Turbo VPN Section (Ab ye SERIES, MOVIES, GAMES aur APPS sab mein dikhega)
+    // 🚀 Turbo VPN Section (Mobile App & PC Extension)
     const vpnSection = `
-        <div style="border-top: 1px solid #800080; border-bottom: 1px solid #800080; padding: 10px 0; margin: 20px 0; text-align: center;">
-            <p style="color: #ff0000; font-size: 0.8rem; font-weight: bold; margin-bottom: 8px;">
+        <div style="border-top: 1px solid #800080; border-bottom: 1px solid #800080; padding: 15px 0; margin: 20px 0; text-align: center;">
+            <p style="color: #ff0000; font-size: 0.85rem; font-weight: bold; margin-bottom: 10px; padding: 0 10px;">
                 ⚠️ WARNING: Agar download page slow load ho raha hai, toh Turbo VPN (USA Server) use karein. Isse page fast khulega!
             </p>
-            <a href="https://play.google.com/store/apps/details?id=free.vpn.unblock.proxy.turbovpn" target="_blank" 
-               style="display: inline-block; background: #39ff14; color: #000; padding: 8px 15px; border-radius: 5px; font-weight: bold; text-decoration: none; font-size: 0.75rem; box-shadow: 0 0 10px #39ff14;">
-               ⚡ DOWNLOAD TURBO VPN
-            </a>
+            <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
+                <a href="https://play.google.com/store/apps/details?id=free.vpn.unblock.proxy.turbovpn" target="_blank" 
+                   style="display: inline-block; background: #39ff14; color: #000; padding: 8px 15px; border-radius: 5px; font-weight: bold; text-decoration: none; font-size: 0.75rem; box-shadow: 0 0 10px #39ff14;">
+                   📱 MOBILE VPN
+                </a>
+                <a href="https://chromewebstore.google.com/detail/turbo-vpn-free-vpn-proxy/mabfaplkeidmclbhfbgihocemidngmcn" target="_blank" 
+                   style="display: inline-block; background: #00e5ff; color: #000; padding: 8px 15px; border-radius: 5px; font-weight: bold; text-decoration: none; font-size: 0.75rem; box-shadow: 0 0 10px #00e5ff;">
+                   💻 PC EXTENSION
+                </a>
+            </div>
         </div>
     `;
 
