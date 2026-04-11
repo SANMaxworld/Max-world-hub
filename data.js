@@ -55,19 +55,19 @@ const mwHubData = [
         quality: "1080p",
         season: "Season 01",
         episodes: [
-            { ep: "Episode 01", link: "#" }, { ep: "Episode 02", link: "#" },
-            { ep: "Episode 03", link: "#" }, { ep: "Episode 04", link: "#" },
-            { ep: "Episode 05", link: "#" }, { ep: "Episode 06", link: "#" },
-            { ep: "Episode 07", link: "#" }, { ep: "Episode 08", link: "#" },
-            { ep: "Episode 09", link: "#" }, { ep: "Episode 10", link: "#" },
-            { ep: "Episode 11", link: "#" }, { ep: "Episode 12", link: "#" },
-            { ep: "Episode 13", link: "#" }, { ep: "Episode 14", link: "#" },
-            { ep: "Episode 15", link: "#" }, { ep: "Episode 16", link: "#" },
-            { ep: "Episode 17", link: "#" }, { ep: "Episode 18", link: "#" },
-            { ep: "Episode 19", link: "#" }, { ep: "Episode 20", link: "#" },
-            { ep: "Episode 21", link: "#" }, { ep: "Episode 22", link: "#" },
-            { ep: "Episode 23", link: "#" }, { ep: "Episode 24", link: "#" },
-            { ep: "Episode 25", link: "#" }, { ep: "Episode 26", link: "#" }
+            { ep: "Episode 01", link: "https://gplinks.co/eHw2m81" }, { ep: "Episode 02", link: "https://gplinks.co/AbP1Ernl" },
+            { ep: "Episode 03", link: "https://gplinks.co/42uuObN" }, { ep: "Episode 04", link: "https://gplinks.co/u9FwDay" },
+            { ep: "Episode 05", link: "https://gplinks.co/TiHlrlX" }, { ep: "Episode 06", link: "https://gplinks.co/kaDNSvVW" },
+            { ep: "Episode 07", link: "https://gplinks.co/ZTdvnM" }, { ep: "Episode 08", link: "https://gplinks.co/OGD6ws" },
+            { ep: "Episode 09", link: "https://gplinks.co/cHYCfUZl" }, { ep: "Episode 10", link: "https://gplinks.co/oViDy" },
+            { ep: "Episode 11", link: "https://gplinks.co/EnnmXIj" }, { ep: "Episode 12", link: "https://gplinks.co/nONU" },
+            { ep: "Episode 13", link: "https://gplinks.co/bPpAmt3E" }, { ep: "Episode 14", link: "https://gplinks.co/Peitd1Ly" },
+            { ep: "Episode 15", link: "https://gplinks.co/nQPHvA" }, { ep: "Episode 16", link: "https://gplinks.co/2JJoN" },
+            { ep: "Episode 17", link: "https://gplinks.co/lFPF" }, { ep: "Episode 18", link: "https://gplinks.co/CslEJyaR" },
+            { ep: "Episode 19", link: "https://gplinks.co/RX2i5PHH" }, { ep: "Episode 20", link: "https://gplinks.co/kQ1aH" },
+            { ep: "Episode 21", link: "https://gplinks.co/S16sH" }, { ep: "Episode 22", link: "https://gplinks.co/uy6ISmk" },
+            { ep: "Episode 23", link: "https://gplinks.co/biKoqEU" }, { ep: "Episode 24", link: "https://gplinks.co/jpcrTT91" },
+            { ep: "Episode 25", link: "https://gplinks.co/NWsQy3" }, { ep: "Episode 26", link: "https://gplinks.co/JPvCrlOo" }
         ]
     },
     {
