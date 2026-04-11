@@ -74,7 +74,7 @@ const mwHubData = [
         id: 4,
         name: "Demon Slayer Infinity Castle",
         category: "MOVIES",
-        logo: "assets/D.S style.jpeg",
+        logo: "assets/D.S infinity ca.jpeg",
         desc: "Infinity Castle ki aakhiri aur bhayankar jung.",
         genres: ["Action", "Fantasy", "Animation"],
         audio: ["Hindi", "Japanese", "English"],
