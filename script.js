@@ -68,7 +68,7 @@ function displayItems(items, isInitialLoad = false) {
     });
 }
 
-// 🍿 3. Modal Logic (Updated with Mobile & PC VPN Links)
+// 🍿 3. Modal Logic (Updated with Tutorial Button & VPN)
 function openAdvancedModal(id) {
     const item = mwHubData.find(i => i.id === id);
     if (!item) return;
@@ -82,7 +82,7 @@ function openAdvancedModal(id) {
     modal.style.display = 'block';
     document.body.style.overflow = 'hidden';
 
-    // 🚀 Turbo VPN Section (Mobile App & PC Extension)
+    // 🚀 Turbo VPN Section
     const vpnSection = `
         <div style="border-top: 1px solid #800080; border-bottom: 1px solid #800080; padding: 15px 0; margin: 20px 0; text-align: center;">
             <p style="color: #ff0000; font-size: 0.85rem; font-weight: bold; margin-bottom: 10px; padding: 0 10px;">
@@ -98,6 +98,19 @@ function openAdvancedModal(id) {
                    💻 PC EXTENSION
                 </a>
             </div>
+        </div>
+    `;
+
+    // 🎬 Tutorial Section (Directly from your Telegram)
+    const tutorialSection = `
+        <div style="background: rgba(0, 229, 255, 0.1); border: 1px dashed #00E5FF; padding: 12px; border-radius: 8px; margin: 15px 0; text-align: center;">
+            <p style="color: #fff; font-size: 0.8rem; margin-bottom: 8px;">
+                💡 <b>Mobile aur PC</b> dono par download karne ka process same hai. Tutorial dekhein:
+            </p>
+            <a href="https://t.me/+lljXiSUu3FQ3Mjc9" target="_blank" 
+               style="background-color: #00E5FF; color: #000; padding: 10px 18px; border-radius: 5px; text-decoration: none; font-weight: bold; display: inline-block; font-size: 0.85rem; box-shadow: 0 0 15px rgba(0,229,255,0.4);">
+                🎬 HOW TO DOWNLOAD (MOBILE & PC) 🅥
+            </a>
         </div>
     `;
 
@@ -118,6 +131,8 @@ function openAdvancedModal(id) {
             </table>
 
             ${vpnSection}
+            
+            ${tutorialSection}
 
             <h3 style="margin: 25px 0 15px 0; font-size:1.1rem; border-left: 4px solid #ff0000; padding-left:10px;">Download Links</h3>
             <div class="ep-list">
