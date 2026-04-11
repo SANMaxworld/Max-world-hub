@@ -1,7 +1,7 @@
 const mwHubData = [
     {
         id: 1,
-        name: "Solo Leveling",
+        name: "Solo Leveling:Season 1",
         category: "SERIES",
         logo: "assets/soloposter.jpeg",
         desc: "Solo leveling season 1:Jin-Woo Sung ek low-rank hunter hai jo duniya ka sabse powerful hunter banne ka safar shuru karta hai.",
@@ -20,7 +20,7 @@ const mwHubData = [
     },
     {
         id: 2,
-        name: "Attack on Titan",
+        name: "Attack on Titan:Season 1",
         category: "SERIES",
         logo: "assets/A.O.T.jpeg",
         desc: "Attack on Titan season 1:Insaaniyat ki aakhiri umeed Titans ke khilaaf ek bhayankar jung.",
@@ -46,7 +46,7 @@ const mwHubData = [
     },
     {
         id: 3,
-        name: "Demon Slayer",
+        name: "Demon Slayer:Season 1",
         category: "SERIES",
         logo: "assets/D.S style.jpeg",
         desc: "Demon Slayer season 1:Tanjiro ki kahani jo apni behen ko insaan banane ke liye Demon Slayer banta hai.",
