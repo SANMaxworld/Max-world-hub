@@ -81,7 +81,7 @@ const mwHubData = [
         quality: "1080p",
         season: "Movie 01",
         episodes: [
-            { ep: "Download Full Movie", link: "#" }
+            { ep: "Download Full Movie", link: "https://gplinks.co/cR1d4Yg" }
         ]
     },
     {
@@ -95,12 +95,12 @@ const mwHubData = [
         quality: "Pro Unlocked",
         season: "Latest",
         episodes: [
-            { ep: "Download APK", link: "#" }
+            { ep: "Download APK", link: "https://www.mediafire.com/file/g2mkzc5txu0qsor/turbo_VPN.zip/file" }
         ]
     },
     {
         id: 6,
-        name: "Minecraft PE",
+        name: "Minecraft PE 1.16",
         category: "GAMES",
         logo: "assets/logo.png",
         desc: "Popular sandbox survival game.",
@@ -109,7 +109,7 @@ const mwHubData = [
         quality: "Latest",
         season: "Mobile",
         episodes: [
-            { ep: "Download Game", link: "#" }
+            { ep: "Download Game", link: "https://www.mediafire.com/file/2u9x6hn1l4u6d7o/Minecraft.zip/file" }
         ]
     }
 ];
