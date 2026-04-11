@@ -48,7 +48,7 @@ const mwHubData = [
         id: 3,
         name: "Demon Slayer Season 1",
         category: "SERIES",
-        logo: "assets/D.S style.jpeg",
+        logo: "assets/D.S poster.jpeg",
         desc: "Demon Slayer season 1:Tanjiro ki kahani jo apni behen ko insaan banane ke liye Demon Slayer banta hai.",
         genres: ["Action", "Supernatural", "Historical"],
         audio: ["Hindi", "Japanese", "English"],
