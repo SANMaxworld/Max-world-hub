@@ -10,12 +10,12 @@ const mwHubData = [
         quality: "1080p",
         season: "01",
         episodes: [
-            { ep: "Episode 01", link: "#" }, { ep: "Episode 02", link: "#" },
-            { ep: "Episode 03", link: "#" }, { ep: "Episode 04", link: "#" },
-            { ep: "Episode 05", link: "#" }, { ep: "Episode 06", link: "#" },
-            { ep: "Episode 07", link: "#" }, { ep: "Episode 08", link: "#" },
-            { ep: "Episode 09", link: "#" }, { ep: "Episode 10", link: "#" },
-            { ep: "Episode 11", link: "#" }, { ep: "Episode 12", link: "#" }
+            { ep: "Episode 01", link: "https://gplinks.co/71AySb9" }, { ep: "Episode 02", link: "https://gplinks.co/KFDP4UQ" },
+            { ep: "Episode 03", link: "https://gplinks.co/6bz0Y5" }, { ep: "Episode 04", link: "https://gplinks.co/f3Vgf" },
+            { ep: "Episode 05", link: "https://gplinks.co/x0zF" }, { ep: "Episode 06", link: "https://gplinks.co/Wpjtl" },
+            { ep: "Episode 07", link: "https://gplinks.co/VzQQz" }, { ep: "Episode 08", link: "https://gplinks.co/bEFMxULI" },
+            { ep: "Episode 09", link: "https://gplinks.co/MSbcaXY" }, { ep: "Episode 10", link: "https://gplinks.co/RTEnsL2p" },
+            { ep: "Episode 11", link: "https://gplinks.co/XNxAswXT" }, { ep: "Episode 12", link: "https://gplinks.co/bhnQ0o" }
         ]
     },
     {
