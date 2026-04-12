@@ -8,13 +8,13 @@
     <style>
         body { background-color: #000; color: white; font-family: sans-serif; margin: 0; padding: 0; }
         
-        /* 1. Kali Patti Branding Fix */
+        /* 1. Kali Patti Branding */
         .main-header { background: #000; padding: 10px; text-align: center; border-bottom: 1px solid #222; }
         
-        /* 2. Telegram Blue Button (Patti se chota) */
+        /* 2. Telegram Blue Button */
         .telegram-btn {
             background: #248ad2;
-            width: 80%; /* Patti se thoda chota */
+            width: 80%;
             margin: 15px auto;
             padding: 12px;
             border-radius: 5px;
@@ -39,12 +39,12 @@
         }
         .mw-text { color: white; font-weight: bold; padding: 0 15px; text-shadow: 0 0 8px #fff; font-size: 1.2rem; }
 
-        /* 4. IMAGE FIX: Badi aur Khadi (Vertical) */
+        /* 4. Huge Vertical Image */
         .main-poster-huge {
-            width: 90%; /* Mobile screen par badi dikhegi */
-            max-width: 400px; /* Desktop par limit rahegi */
+            width: 90%;
+            max-width: 400px;
             height: auto;
-            aspect-ratio: 2/3; /* Khadi image ka ratio */
+            aspect-ratio: 2/3;
             display: block;
             margin: 0 auto;
             border: 2px solid #333;
@@ -76,6 +76,31 @@
             text-decoration: none;
             font-weight: bold;
             font-size: 0.9rem;
+        }
+
+        /* Footer Buttons Fix */
+        .home-btn {
+            background: #fff;
+            color: #000;
+            padding: 15px 40px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 800;
+            font-size: 1.1rem;
+            display: inline-block;
+            width: 80%;
+            margin-bottom: 15px;
+            box-shadow: 0 5px 15px rgba(255,255,255,0.2);
+        }
+        .support-btn {
+            background: #ff0000;
+            color: #fff;
+            padding: 10px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 0.9rem;
+            display: inline-block;
         }
     </style>
 </head>
@@ -126,7 +151,7 @@
             <span style="font-weight: bold;">Episode 01</span>
             <a href="#" style="color: #39ff14; text-decoration: none; font-weight: bold; border: 1px solid #39ff14; padding: 5px 12px; border-radius: 4px; font-size: 0.8rem;">DOWNLOAD</a>
         </div>
-        </div>
+    </div>
 
     <div class="mw-divider"><span class="mw-text">MW</span></div>
 
@@ -138,8 +163,11 @@
     <div class="mw-divider"><span class="mw-text">MW</span></div>
 
     <div style="text-align: center; padding: 20px;">
-        <p style="color: #ff4444; font-size: 0.9rem; margin-bottom: 15px;">Agar koi link na chal raha ho to support channel per complaint karen.</p>
-        <a href="#" style="background: #fff; color: #000; padding: 12px 30px; border-radius: 50px; text-decoration: none; font-weight: bold; font-size: 0.9rem; box-shadow: 0 5px 15px rgba(255,255,255,0.2);">SUPPORT CHANNEL</a>
+        <a href="../index.html" class="home-btn">🏠 GO TO HOME</a>
+        
+        <p style="color: #ff4444; font-size: 0.9rem; margin: 15px 0;">Agar koi link na chal raha ho to support channel per complaint karen.</p>
+        
+        <a href="#" class="support-btn">SUPPORT CHANNEL</a>
     </div>
 
     <footer style="text-align: center; padding: 30px; color: #555; font-size: 0.75rem; border-top: 1px solid #111; margin-top: 20px;">
