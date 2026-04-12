@@ -5,11 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <title>All Anime Series | MW Hub - Max World</title>
-    <meta name="description" content="Watch and download the best Anime Series on MW Hub. From Solo Leveling to classic hits, curated by Nawaz Khan and team.">
-    <meta name="keywords" content="MW Hub, Anime Series, Max World, Nawaz Khan, Download Anime, Hindi Subbed Anime, Anime Hub">
+    <meta name="description" content="Watch and download the best Anime Series on MW Hub. From Solo Leveling to classic hits, curated by Max World team.">
+    <meta name="keywords" content="MW Hub, Anime Series, Max World, Download Anime, Hindi Subbed Anime, Anime Hub">
     
     <link rel="icon" type="image/png" href="assets/logo.png">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -30,34 +29,52 @@
     </header>
 
     <div class="glass-container">
-        <h2 style="text-align: center; color: #ff0000; margin-bottom: 20px; text-shadow: 0 0 10px rgba(255,0,0,0.5);">⛩️ ALL ANIME SERIES</h2>
+        <h2 style="text-align: center; color: #ff0000; margin-bottom: 20px; text-shadow: 0 0 10px rgba(255,0,0,0.5); text-transform: uppercase; letter-spacing: 2px;">⛩️ ALL ANIME SERIES</h2>
         
-        <input type="text" id="searchInput" class="search-box" placeholder="Search Anime...">
+        <input type="text" id="searchInput" class="search-box" placeholder="Search Anime (e.g. Solo Leveling, AOT)...">
 
-        <div id="resultContainer"></div>
+        <div id="resultContainer">
 
-        <div style="text-align: center; margin-top: 40px; margin-bottom: 10px;">
+            <div class="search-item" data-name="Solo Leveling Season 1 Hindi Dubbed Anime">
+                <img src="assets/S.L Bannar.jpeg" class="icon-poster" alt="Solo Leveling Poster">
+                <div class="content-box">
+                    <h4>Solo Leveling</h4>
+                    <p class="desc-text">Hindi Dubbed | 1080p</p>
+                    <a href="anime/solo-leveling.html" class="nav-btn" style="margin-top:10px; border-bottom:2px solid #ff0000; padding:8px; text-decoration:none; color:white; font-size:0.75rem;">WATCH NOW</a>
+                </div>
+            </div>
+
+            <div class="search-item" data-name="Attack on Titan Season 2 Hindi Dubbed Anime">
+                <img src="assets/A.O.T bannar.jpeg" class="icon-poster" alt="AOT Poster">
+                <div class="content-box">
+                    <h4>Attack on Titan S2</h4>
+                    <p class="desc-text">Hindi Dubbed | Multi-Audio</p>
+                    <a href="anime/aot-s2.html" class="nav-btn" style="margin-top:10px; border-bottom:2px solid #ff0000; padding:8px; text-decoration:none; color:white; font-size:0.75rem;">WATCH NOW</a>
+                </div>
+            </div>
+
+            </div>
+
+        <div style="margin-top: 40px; padding: 0 10px;">
             <a href="index.html" style="
-                display: inline-block;
-                padding: 12px 30px;
-                background: rgba(255, 0, 0, 0.05);
+                display: block;
+                width: 100%;
+                padding: 18px;
+                background: linear-gradient(90deg, #111, #000);
                 color: #fff;
                 text-decoration: none;
-                border-radius: 50px;
+                border-radius: 15px;
                 border: 1px solid #ff0000;
-                font-weight: bold;
-                font-size: 0.9rem;
-                transition: 0.3s;
-                box-shadow: 0 0 15px rgba(255, 0, 0, 0.3);
+                font-weight: 800;
+                text-align: center;
+                box-shadow: 0 5px 15px rgba(255, 0, 0, 0.2);
                 text-transform: uppercase;
                 letter-spacing: 1px;
             ">
-                ← BACK TO HOME DASHBOARD
+                🏠 BACK TO HOME DASHBOARD
             </a>
         </div>
     </div>
-
-    <div id="seriesModal"></div>
 
     <footer>
         <div class="footer-links" style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
@@ -66,10 +83,9 @@
             <a href="https://youtube.com/@tntnas5534" target="_blank" style="color: #39ff14; text-decoration: none;">YouTube</a>
             <a href="disclaimer.html" style="color: #39ff14; text-decoration: none;">Disclaimer</a>
         </div>
-        <p style="color:#666; font-size: 0.8rem; margin-top: 20px;">© 2026 Max World (MW Hub). All Rights Reserved.</p>
+        <p style="color:#666; font-size: 0.8rem; margin-top: 20px; text-align: center;">© 2026 Max World (MW Hub). All Rights Reserved.</p>
     </footer>
 
-    <script src="data.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
