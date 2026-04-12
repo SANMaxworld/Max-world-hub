@@ -2,82 +2,46 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    
-    <title>Movies Section | MW Hub - Max World</title>
-    <meta name="description" content="Download the latest movies in high quality on MW Hub. Managed by Nawaz Khan and team.">
-    <meta name="keywords" content="MW Hub, Movies Download, Max World, Nawaz Khan, HD Movies, New Movies 2026">
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movies Hub | MW Hub - Download Latest 1080p Movies</title>
+    <meta name="description" content="Download the latest Hollywood and International movies in 1080p Full HD on MW Hub. High-speed secure links managed by Max World.">
+    <meta name="keywords" content="MW Hub, Movies Download, Max World, 1080p Movies, New Movies 2026, HD Cinema">
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 </head>
 <body>
-
     <div class="star-container" id="starContainer"></div>
 
     <header>
         <div class="logo-section">
-            <img src="logo.png" alt="MW Hub" class="main-logo"> <h1 class="brand-name"><span class="neon-red-text">MW</span> HUB</h1>
+            <a href="index.html" style="text-decoration: none; display: flex; align-items: center; gap: 10px;">
+                <img src="assets/logo.png" alt="MW Hub Logo" class="main-logo">
+                <h1 class="brand-name">MAX WORLD <span class="neon-red-text">HUB</span></h1>
+            </a>
         </div>
     </header>
 
     <div class="glass-container">
-        <h2 style="text-align: center; color: #ff0000; margin-bottom: 20px; font-size: 1.5rem; letter-spacing: 1px;">MOVIES HUB</h2>
-        
-        <input type="text" id="searchInput" class="search-box" placeholder="Search Movies...">
+        <h2 style="text-align: center; color: #ff0000; margin-bottom: 20px; font-size: 1.5rem; letter-spacing: 2px;">🎬 MOVIES HUB</h2>
+        <input type="text" id="searchInput" class="search-box" placeholder="Search Movies (e.g. Deadpool, Batman)...">
 
         <div id="resultContainer">
+            <div class="search-item" data-name="Sample Movie Name 2026 Hindi Dubbed">
+                <img src="assets/movie-poster.jpg" class="icon-poster" alt="Download Sample Movie 2026 in HD">
+                <div class="content-box">
+                    <h4>Movie Name Here</h4>
+                    <p class="desc-text">Hindi Dubbed | 1080p</p>
+                    <a href="movies/movie-page.html" class="nav-btn" style="margin-top:10px; border-bottom:2px solid #ff0000; padding:8px; text-decoration:none; color:white; font-size:0.75rem;">DOWNLOAD NOW</a>
+                </div>
             </div>
+        </div>
 
-        <div style="text-align: center; margin-top: 40px; margin-bottom: 10px;">
-            <a href="index.html" style="
-                display: inline-block;
-                padding: 12px 30px;
-                background: rgba(255, 0, 0, 0.05);
-                color: #fff;
-                text-decoration: none;
-                border-radius: 50px;
-                border: 1px solid #ff0000;
-                font-weight: bold;
-                font-size: 0.9rem;
-                transition: 0.3s;
-                box-shadow: 0 0 15px rgba(255, 0, 0, 0.3);
-                text-transform: uppercase;
-                letter-spacing: 1px;
-            ">
-                ← BACK TO HOME DASHBOARD
-            </a>
+        <div style="margin-top: 40px;">
+            <a href="index.html" style="display: block; width: 100%; padding: 18px; background: linear-gradient(90deg, #111, #000); color: #fff; text-decoration: none; border-radius: 15px; border: 1px solid #ff0000; font-weight: 800; text-align: center; text-transform: uppercase;">🏠 BACK TO HOME DASHBOARD</a>
         </div>
     </div>
 
-    <div id="seriesModal" class="modal-overlay"></div>
+    <footer><p style="text-align:center; padding:20px; font-size:0.8rem; opacity:0.5;">© 2026 Max World (MW Hub). All Rights Reserved.</p></footer>
 
-    <footer>
-        <div class="footer-links">
-           
-        </div>
-        <p style="margin-top:15px; font-size:0.8rem; opacity:0.5;">© 2026 Max World (MW Hub). All Rights Reserved.</p>
-    </footer>
-
-    <script src="data.js"></script> <script src="script.js"></script>
-    
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-
-    <script>
-        // Star Background Generator
-        function createStars() {
-            const container = document.getElementById('starContainer');
-            if(!container) return;
-            for (let i = 0; i < 15; i++) {
-                const star = document.createElement('div');
-                star.className = 'star';
-                star.style.top = Math.random() * 100 + 'vh';
-                star.style.left = Math.random() * 100 + 'vw';
-                star.style.animationDelay = Math.random() * 5 + 's';
-                container.appendChild(star);
-            }
-        }
-        createStars();
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
