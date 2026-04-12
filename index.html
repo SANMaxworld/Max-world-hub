@@ -41,11 +41,11 @@
 
         <div class="swiper mySwiper">
             <div class="swiper-wrapper">
-                <div class="swiper-slide"><img src="assets/A.O.T bannar.jpeg"></div>
-                <div class="swiper-slide"><img src="assets/D.S movie.jpeg"></div>
-                <div class="swiper-slide"><img src="assets/D.N bannar.jpeg"></div>
-                <div class="swiper-slide"><img src="assets/S.L Bannar.jpeg"></div>
-                <div class="swiper-slide"><img src="assets/T.R bannar.jpeg"></div>
+                <div class="swiper-slide"><img src="assets/S.L Bannar.jpeg" alt="Solo Leveling Banner"></div>
+                <div class="swiper-slide"><img src="assets/A.O.T bannar.jpeg" alt="Attack on Titan Banner"></div>
+                <div class="swiper-slide"><img src="assets/D.S movie.jpeg" alt="Demon Slayer Banner"></div>
+                <div class="swiper-slide"><img src="assets/D.N bannar.jpeg" alt="Death Note Banner"></div>
+                <div class="swiper-slide"><img src="assets/T.R bannar.jpeg" alt="Tokyo Revengers Banner"></div>
             </div>
             <div class="swiper-pagination"></div>
         </div>
@@ -57,15 +57,37 @@
             <a href="apps.html" class="nav-btn btn-apps">📱 APPS</a>
         </div>
 
+        <h2 style="color: #fff; font-size: 1.2rem; margin: 25px 0 15px; border-left: 4px solid #ff0000; padding-left: 10px; letter-spacing: 1px;">🔥 TRENDING NOW</h2>
+        
         <div id="resultContainer">
-            <div class="search-item" data-name="Attack on Titan S2 Hindi Dubbed Anime">
-                <img src="assets/A.O.T bannar.jpeg" class="icon-poster" alt="AOT">
+            
+            <div class="search-item" data-name="Solo Leveling Season 1 Hindi Dubbed Anime">
+                <img src="assets/soloposter.jpeg" class="icon-poster" alt="Download Solo Leveling Hindi Dubbed">
                 <div class="content-box">
-                    <h4>Attack on Titan S2</h4>
+                    <h4>Solo Leveling S1</h4>
                     <p class="desc-text">Hindi Dubbed | 1080p</p>
-                    <a href="anime/Attack-on-Titan.html" class="nav-btn" style="margin-top:10px; border-bottom:2px solid #ff0000; padding:8px; text-decoration:none; color:white;">WATCH NOW</a>
+                    <a href="anime/solo-leveling-s1.html" class="nav-btn" style="margin-top:10px; border-bottom:2px solid #ff0000; padding:8px; text-decoration:none; color:white; font-size: 0.8rem; display: inline-block;">WATCH NOW</a>
                 </div>
             </div>
+
+            <div class="search-item" data-name="Attack on Titan Season 1 Hindi Dubbed Anime">
+                <img src="assets/A.O.T.jpeg" class="icon-poster" alt="Download Attack on Titan Hindi Dubbed">
+                <div class="content-box">
+                    <h4>Attack on Titan S1</h4>
+                    <p class="desc-text">Hindi Dubbed | 1080p</p>
+                    <a href="anime/aot-s1.html" class="nav-btn" style="margin-top:10px; border-bottom:2px solid #ff0000; padding:8px; text-decoration:none; color:white; font-size: 0.8rem; display: inline-block;">WATCH NOW</a>
+                </div>
+            </div>
+
+            <div class="search-item" data-name="Demon Slayer Season 1 Hindi Dubbed Anime">
+                <img src="assets/D.S poster.jpeg" class="icon-poster" alt="Download Demon Slayer Hindi Dubbed">
+                <div class="content-box">
+                    <h4>Demon Slayer S1</h4>
+                    <p class="desc-text">Hindi Dubbed | 1080p</p>
+                    <a href="anime/demon-slayer-s1.html" class="nav-btn" style="margin-top:10px; border-bottom:2px solid #ff0000; padding:8px; text-decoration:none; color:white; font-size: 0.8rem; display: inline-block;">WATCH NOW</a>
+                </div>
+            </div>
+
         </div>
 
         <div style="margin-top: 40px; padding: 25px; border-radius: 15px; background: rgba(57, 255, 20, 0.04); border: 1px solid rgba(57, 255, 20, 0.2); text-align: left;">
@@ -77,7 +99,7 @@
                     <li style="margin-bottom: 10px;">⛩️ <b>Anime & Series:</b> High-quality Direct Download Links.</li>
                     <li style="margin-bottom: 10px;">🎬 <b>Movies & Cinema:</b> Hollywood blockbusters in 1080p.</li>
                     <li style="margin-bottom: 10px;">🚀 <b>Android Apps & Games:</b> Premium content in ZIP format.</li>
-                    <li style="margin-bottom: 10px;">🛡️ <b>Verified Links:</b> 100% working links.</li>
+                    <li style="margin-bottom: 10px;">🛡️ <b>Verified Links:</b> 100% working links for global users.</li>
                 </ul>
             </div>
         </div>
@@ -90,12 +112,18 @@
             <a href="https://youtube.com/@tntnas5534" target="_blank" style="color: #39ff14; text-decoration: none;">YouTube</a>
             <a href="disclaimer.html" style="color: #39ff14; text-decoration: none;">Disclaimer</a>
         </div>
-        <p style="color:#666; font-size: 0.8rem; margin-top: 20px;">© 2026 Max World (MW Hub). All Rights Reserved.</p>
+        <p style="color:#666; font-size: 0.8rem; margin-top: 20px; text-align: center;">© 2026 Max World (MW Hub). All Rights Reserved.</p>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="script.js"></script>
     <script>
+        var swiper = new Swiper(".mySwiper", {
+            pagination: { el: ".swiper-pagination", clickable: true },
+            autoplay: { delay: 3000 },
+            loop: true
+        });
+
         window.onload = function() {
             if (!sessionStorage.getItem('popupShown')) {
                 setTimeout(() => {
