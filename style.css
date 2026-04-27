@@ -1,7 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&family=Roboto:wght@400;500;700&display=swap');
 
 /* --- GLOBAL & THEME --- */
-* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
     background: radial-gradient(circle at center, #1a0b36 0%, #05031a 100%);
@@ -9,9 +9,10 @@ body {
     color: white;
     min-height: 100vh;
     overflow-x: hidden;
+    font-family: 'Poppins', sans-serif; /* Default Font */
 }
 
-/* ✨ Shooting Stars */
+/* ✨ Shooting Stars (Existing Function) */
 .star-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
 .star {
     position: absolute; right: -100px; width: 150px; height: 2px;
@@ -24,7 +25,7 @@ body {
     100% { transform: translateX(-150vw) translateY(150vh) rotate(-45deg); opacity: 0; visibility: hidden; }
 }
 
-/* 🔝 Header */
+/* 🔝 Header (Existing) */
 header {
     background: #000; padding: 12px 20px; display: flex; justify-content: center; align-items: center;
     border-bottom: 2px solid #ff0000; position: sticky; top: 0; z-index: 100;
@@ -34,7 +35,7 @@ header {
 .brand-name { font-size: 1.3rem; font-weight: 800; text-transform: uppercase; }
 .neon-red-text { color: #ff0000; text-shadow: 0 0 10px #ff0000; }
 
-/* 💎 Search & Glass Container */
+/* 💎 Home Page Containers */
 .glass-container { margin: 15px auto; padding: 15px; max-width: 850px; width: 94%; }
 .search-box {
     width: 100%; padding: 15px; border-radius: 50px; border: 2px solid rgba(255,255,255,0.1);
@@ -54,59 +55,71 @@ header {
     border: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center;
 }
 .btn-movies, .btn-series { border-bottom: 3px solid #ff0000; }
-.btn-games { border-bottom: 3px solid #00f2ff; }
-.btn-apps { border-bottom: 3px solid #28a745; }
 
-/* 🎬 --- DYNAMIC GRID (INDEX CARDS) --- */
+/* 🎬 --- INDEX CARDS (Existing) --- */
 #resultContainer { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
 .search-item {
     background: rgba(255,255,255,0.05); border-radius: 12px; overflow: hidden;
-    border: 1px solid rgba(255,255,255,0.1); display: flex; flex-direction: column;
+    border: 1px solid rgba(255,255,255,0.1); display: flex; flex-direction: column; cursor: pointer; transition: 0.2s;
 }
-.icon-poster { width: 100%; height: 240px; object-fit: cover; border-bottom: 2px solid #ff0000; }
-.content-box { padding: 10px; text-align: center; }
-.content-box h4 { font-size: 0.85rem; color: #fff; margin-bottom: 5px; }
+.search-item:hover { transform: translateY(-5px); box-shadow: 0 5px 15px rgba(255, 0, 0, 0.2); }
+.icon-poster { width: 100%; aspect-ratio: 2/3; object-fit: cover; border-bottom: 2px solid #ff0000; }
+.content-box { padding: 10px; text-align: left; }
+.content-box h4 { font-size: 0.85rem; color: #fff; margin-bottom: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .desc-text { font-size: 0.7rem; color: #bbb; }
 
-/* 🏆 --- PRO ANIME PAGE STYLES (FROM SCREENSHOT) --- */
-.anime-container { max-width: 800px; margin: 20px auto; padding: 15px; }
-.tag-container { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 15px; justify-content: center; }
-.meta-tag {
-    background: #7d2ae8; color: #fff; padding: 5px 12px; border-radius: 5px;
-    font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
+/* 📺 --- UNIVERSAL WATCH TEMPLATE STYLES --- */
+/* (Isolated to not disturb index page) */
+
+.player-wrapper { position: relative; width: 100%; aspect-ratio: 16/9; background: #000; overflow: hidden; }
+.poster-img { width: 100%; height: 100%; object-fit: cover; }
+.iframe-container { display: none; width: 100%; height: 100%; }
+.iframe-container iframe { width: 100%; height: 100%; border: 0; }
+.player-wrapper::after {
+    content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 40%;
+    background: linear-gradient(to top, #05031a, transparent); pointer-events: none;
 }
 
-.info-card { background: #111; border: 1px solid #333; border-radius: 15px; overflow: hidden; margin-bottom: 20px; }
-.main-poster { width: 100%; max-height: 450px; object-fit: cover; }
+.watch-content { padding: 15px; font-family: 'Roboto', sans-serif; }
+.title-row h1 { font-size: 18px; font-weight: 500; color: #fff; margin: 0; }
+.meta-stats { display: flex; align-items: center; gap: 6px; font-size: 11px; color: #aaa; margin: 10px 0; }
+.rating { color: #facc15; }
 
-.info-table { width: 100%; background: #222; border-collapse: collapse; }
-.info-table td { padding: 12px; border: 1px solid #333; color: #ccc; font-size: 0.8rem; text-align: center; font-weight: 600; }
-
-.synopsis-box {
-    background: rgba(57, 255, 20, 0.05); border-left: 4px solid #39ff14;
-    padding: 15px; border-radius: 8px; margin: 25px 0;
+.action-scroll { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 10px; }
+.action-scroll::-webkit-scrollbar { display: none; }
+.action-btn { 
+    background: #2a2a2a; border: none; color: #e5e5e5; padding: 8px 15px; 
+    border-radius: 20px; font-size: 12px; white-space: nowrap; cursor: pointer;
 }
-.synopsis-box h3 { color: #39ff14; font-size: 1rem; margin-bottom: 8px; }
-.synopsis-box p { font-size: 0.85rem; line-height: 1.6; color: #eee; }
 
-.episode-list { margin-top: 30px; }
-.ep-row {
-    display: flex; justify-content: space-between; align-items: center;
-    background: #1a1a1a; padding: 15px; border-radius: 10px; margin-bottom: 10px;
-    border: 1px solid #333;
+.episode-slider { display: flex; gap: 8px; overflow-x: auto; padding: 10px 0; margin-bottom: 20px; }
+.episode-slider::-webkit-scrollbar { display: none; }
+.ep-box { 
+    min-width: 50px; height: 50px; background: #262626; color: #bbb;
+    display: flex; align-items: center; justify-content: center; 
+    border-radius: 6px; font-size: 13px; cursor: pointer; transition: 0.2s;
 }
-.dl-btn {
-    background: #ff0000; color: #fff; padding: 6px 15px; border-radius: 5px;
-    text-decoration: none; font-weight: 800; font-size: 0.75rem; transition: 0.3s;
-}
-.dl-btn:hover { background: #cc0000; box-shadow: 0 0 10px #ff0000; }
+.ep-box.active { background: linear-gradient(180deg, #ff0000, #990000); color: #fff; font-weight: 700; }
 
-/* 💻 UNIVERSAL PC FIX */
+.rec-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.rec-card { position: relative; border-radius: 8px; overflow: hidden; background: #1a1a1a; text-decoration: none; }
+.rec-card img { width: 100%; aspect-ratio: 2/3; object-fit: cover; display: block; }
+.rec-title { font-size: 11px; padding: 8px 5px; color: #ccc; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+.floating-dl-btn {
+    position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+    background: #39ff14; color: #000; font-weight: 700; font-size: 14px;
+    padding: 12px 25px; border-radius: 30px; border: none; z-index: 100; cursor: pointer;
+    box-shadow: 0 0 15px rgba(57, 255, 20, 0.4);
+}
+
+/* 💻 RESPONSIVE PC FIX */
 @media (min-width: 768px) {
     #resultContainer { grid-template-columns: repeat(4, 1fr); }
     .icon-poster { height: 320px; }
     .brand-name { font-size: 2.2rem; }
     .swiper { height: 380px; }
+    .rec-grid { grid-template-columns: repeat(6, 1fr); }
 }
 
-footer { padding: 30px; text-align: center; border-top: 1px solid rgba(255,255,255,0.1); font-size: 0.8rem; }
+footer { padding: 30px; text-align: center; border-top: 1px solid rgba(255,255,255,0.1); font-size: 0.8rem; color: #666; }
