@@ -6,24 +6,33 @@
     
     <meta name="google-site-verification" content="NG4wURQsouhbrK2D7mUQlDSLc0OWTFZjGf1TQMUt_FE" />
 
-    <title>Max World Hub | MW Hub | Maxworldhub - Watch Anime, Movies & Apps</title>
-    
-    <meta name="description" content="Welcome to Max World Hub (MW Hub). Download High-Quality 1080p Anime, Latest Movies, and Apps. Maxworldhub is your premium digital destination for fast and secure content.">
-    
-    <meta name="keywords" content="Max World Hub, MW Hub, Maxworldhub, MWHub, Max World Digital Hub, Maxworldhub online, MW Hub Anime, Max World Movies, Download Apps MW Hub, Hindi Dubbed Anime Max World">
+    <title>Max World Hub | MW Hub - Watch Anime & Movies Online Hindi Dubbed</title>
+    <meta name="description" content="Welcome to Max World Hub (MW Hub). Stream High-Quality 1080p Anime and Latest Movies in Hindi Dubbed. Your premium destination for fast anime streaming.">
+    <meta name="keywords" content="Max World Hub, MW Hub, Maxworldhub, Anime Hindi Dubbed, Watch Anime Online, MW Hub Movies, Hindi Dubbed Movies MW Hub">
 
     <link rel="icon" type="image/png" href="assets/logo.png">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
     <link rel="stylesheet" href="style.css">
+
+    <style>
+        /* Design kept exactly as requested */
+        .search-item {
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            position: relative;
+        }
+        .search-item:hover {
+            transform: translateY(-5);
+            box-shadow: 0 5px 15px rgba(255, 0, 0, 0.2);
+        }
+        .grid-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+    </style>
 </head>
 <body>
-
-    <div id="welcome-popup" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); background:rgba(20,20,20,0.98); border:2px solid #ff0000; padding:25px; z-index:9999; border-radius:20px; width:90%; max-width:400px; text-align:center; box-shadow:0 0 40px rgba(255,0,0,0.6); backdrop-filter: blur(10px);">
-        <h2 style="color:#ff0000; margin-bottom: 15px; font-weight: 800;">IMPORTANT NOTICE! 📢</h2>
-        <p style="color:#fff; margin-bottom: 20px; line-height: 1.5;">If the download page is not loading, please connect to <b style="color: #00ff00;">Turbo VPN (USA Server)</b>.</p>
-        <a href="https://play.google.com/store/apps/details?id=free.vpn.unblock.proxy.turbovpn" target="_blank" style="display:block; background:#00c853; color:#fff; padding:12px; border-radius:10px; text-decoration:none; font-weight:bold; margin-bottom:10px;">🚀 DOWNLOAD TURBO VPN</a>
-        <button onclick="closePopup()" style="background:transparent; color:#ff0000; border:1px solid #ff0000; padding:8px 20px; border-radius:8px; cursor:pointer; font-weight:bold; width: 100%;">OK, I UNDERSTAND</button>
-    </div>
 
     <div class="star-container">
         <div class="star" style="top: 15%; animation-delay: 0.2s;"></div>
@@ -39,7 +48,7 @@
     </header>
 
     <div class="glass-container">
-        <input type="text" id="searchInput" class="search-box" placeholder="Search Movies, Anime, Games...">
+        <input type="text" id="searchInput" class="search-box" placeholder="Search Anime or Movies...">
 
         <div class="swiper mySwiper">
             <div class="swiper-wrapper">
@@ -55,53 +64,47 @@
         <div class="grid-container">
             <a href="movies.html" class="nav-btn btn-movies">🎬 MOVIES</a>
             <a href="series.html" class="nav-btn btn-series">⛩️ ANIME</a>
-            <a href="game.html" class="nav-btn btn-games">🎮 GAMES</a>
-            <a href="apps.html" class="nav-btn btn-apps">📱 APPS</a>
-        </div>
+            </div>
 
         <h2 style="color: #fff; font-size: 1.2rem; margin: 25px 0 15px; border-left: 4px solid #ff0000; padding-left: 10px; letter-spacing: 1px;">🔥 TRENDING NOW</h2>
         
         <div id="resultContainer">
-            
-            <div class="search-item" data-name="Solo Leveling Season 1 Hindi Dubbed Anime">
-                <img src="assets/soloposter.jpeg" class="icon-poster" alt="Download Solo Leveling Hindi Dubbed">
+            <div class="search-item" onclick="window.location.href='anime/solo-leveling-s1.html'" data-name="Solo Leveling Season 1 Hindi Dubbed Anime">
+                <img src="assets/soloposter.jpeg" class="icon-poster" alt="Watch Solo Leveling Hindi Dubbed">
                 <div class="content-box">
                     <h4>Solo Leveling S1</h4>
                     <p class="desc-text">Hindi Dubbed | 1080p</p>
-                    <a href="anime/solo-leveling-s1.html" class="nav-btn" style="margin-top:10px; border-bottom:2px solid #ff0000; padding:8px; text-decoration:none; color:white; font-size: 0.8rem; display: inline-block;">WATCH NOW</a>
+                    <span class="nav-btn" style="margin-top:10px; border-bottom:2px solid #ff0000; padding:4px 8px; color:white; font-size: 0.75rem; display: inline-block;">CLICK TO WATCH</span>
                 </div>
             </div>
 
-            <div class="search-item" data-name="Attack on Titan Season 1 Hindi Dubbed Anime">
-                <img src="assets/A.O.T.jpeg" class="icon-poster" alt="Download Attack on Titan Hindi Dubbed">
+            <div class="search-item" onclick="window.location.href='anime/Attack-on-Titan.html'" data-name="Attack on Titan Season 1 Hindi Dubbed Anime">
+                <img src="assets/A.O.T.jpeg" class="icon-poster" alt="Watch Attack on Titan Hindi Dubbed">
                 <div class="content-box">
                     <h4>Attack on Titan S1</h4>
                     <p class="desc-text">Hindi Dubbed | 1080p</p>
-                    <a href="anime/Attack-on-Titan.html" class="nav-btn" style="margin-top:10px; border-bottom:2px solid #ff0000; padding:8px; text-decoration:none; color:white; font-size: 0.8rem; display: inline-block;">WATCH NOW</a>
+                    <span class="nav-btn" style="margin-top:10px; border-bottom:2px solid #ff0000; padding:4px 8px; color:white; font-size: 0.75rem; display: inline-block;">CLICK TO WATCH</span>
                 </div>
             </div>
 
-            <div class="search-item" data-name="Demon Slayer Season 1 Hindi Dubbed Anime">
-                <img src="assets/D.S poster.jpeg" class="icon-poster" alt="Download Demon Slayer Hindi Dubbed">
+            <div class="search-item" onclick="window.location.href='anime/demon-slayer-s1.html'" data-name="Demon Slayer Season 1 Hindi Dubbed Anime">
+                <img src="assets/D.S poster.jpeg" class="icon-poster" alt="Watch Demon Slayer Hindi Dubbed">
                 <div class="content-box">
                     <h4>Demon Slayer S1</h4>
                     <p class="desc-text">Hindi Dubbed | 1080p</p>
-                    <a href="anime/demon-slayer-s1.html" class="nav-btn" style="margin-top:10px; border-bottom:2px solid #ff0000; padding:8px; text-decoration:none; color:white; font-size: 0.8rem; display: inline-block;">WATCH NOW</a>
+                    <span class="nav-btn" style="margin-top:10px; border-bottom:2px solid #ff0000; padding:4px 8px; color:white; font-size: 0.75rem; display: inline-block;">CLICK TO WATCH</span>
                 </div>
             </div>
-
         </div>
 
-        <div style="margin-top: 40px; padding: 25px; border-radius: 15px; background: rgba(57, 255, 20, 0.04); border: 1px solid rgba(57, 255, 20, 0.2); text-align: left;">
-            <h3 style="color: #39ff14; font-size: 1.1rem; margin-bottom: 15px; text-align: center; letter-spacing: 1px;">WELCOME TO THE ULTIMATE DIGITAL HUB</h3>
-            
+        <div style="margin-top: 40px; padding: 25px; border-radius: 15px; background: rgba(255, 0, 0, 0.04); border: 1px solid rgba(255, 0, 0, 0.2); text-align: left;">
+            <h3 style="color: #ff0000; font-size: 1.1rem; margin-bottom: 15px; text-align: center; letter-spacing: 1px;">WELCOME TO THE ANIME HUB</h3>
             <div style="color: #eee; font-size: 0.85rem; line-height: 1.7;">
-                <p style="margin-bottom: 12px; text-align: center;"><b>MW Hub (Max World)</b>—Your premium destination for high-quality digital content with no compromises on speed.</p>
-                <ul style="list-style: none; padding: 0;">
-                    <li style="margin-bottom: 10px;">⛩️ <b>Anime & Series:</b> High-quality Direct Download Links.</li>
-                    <li style="margin-bottom: 10px;">🎬 <b>Movies & Cinema:</b> Hollywood blockbusters in 1080p.</li>
-                    <li style="margin-bottom: 10px;">🚀 <b>Android Apps & Games:</b> Premium content in ZIP format.</li>
-                    <li style="margin-bottom: 10px;">🛡️ <b>Verified Links:</b> 100% working links for global users.</li>
+                <p style="margin-bottom: 12px; text-align: center;"><b>MW Hub (Max World)</b>—Your premium destination for high-quality Anime and Movies with direct streaming links.</p>
+                <ul style="list-style: none; padding: 0; text-align: center;">
+                    <li style="margin-bottom: 10px;">⛩️ <b>Anime & Series:</b> Latest Hindi Dubbed Episodes.</li>
+                    <li style="margin-bottom: 10px;">🎬 <b>Movies & Cinema:</b> Full HD Streaming.</li>
+                    <li style="margin-bottom: 10px;">🛡️ <b>Verified Player:</b> No ads, High-speed streaming.</li>
                 </ul>
             </div>
         </div>
@@ -125,18 +128,6 @@
             autoplay: { delay: 3000 },
             loop: true
         });
-
-        window.onload = function() {
-            if (!sessionStorage.getItem('popupShown')) {
-                setTimeout(() => {
-                    document.getElementById('welcome-popup').style.display = 'block';
-                }, 1500);
-            }
-        }
-        function closePopup() {
-            document.getElementById('welcome-popup').style.display = 'none';
-            sessionStorage.setItem('popupShown', 'true');
-        }
     </script>
 </body>
 </html>
