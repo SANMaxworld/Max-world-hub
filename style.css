@@ -35,13 +35,27 @@ header {
 .brand-name { font-size: 1.3rem; font-weight: 800; text-transform: uppercase; }
 .neon-red-text { color: #ff0000; text-shadow: 0 0 10px #ff0000; }
 
+/* --- GLASSMORPHISM SEARCH OVERLAY --- */
+.search-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 900;
+    opacity: 0;
+    visibility: hidden;
+    transition: 0.3s ease;
+}
+.search-overlay.active { opacity: 1; visibility: visible; }
+
 /* 💎 HOME PAGE SPECIFIC */
 .glass-container { margin: 15px auto; padding: 15px; max-width: 850px; width: 94%; }
 .search-box {
     width: 100%; padding: 15px; border-radius: 50px; border: 2px solid rgba(255,255,255,0.1);
-    background: rgba(0,0,0,0.6); color: #fff; margin-bottom: 20px; outline: none; transition: 0.3s;
+    background: rgba(0,0,0,0.8); color: #fff; margin-bottom: 20px; outline: none; transition: 0.3s;
+    position: relative; z-index: 999; /* Search mode me upar rahega */
 }
-.search-box:focus { border-color: #ff0000; box-shadow: 0 0 15px rgba(255, 0, 0, 0.4); }
+.search-box:focus { border-color: #ff0000; box-shadow: 0 0 20px rgba(255, 0, 0, 0.5); }
 
 .swiper { width: 100%; height: 180px; border-radius: 15px; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.1); overflow: hidden; }
 .swiper-slide img { width: 100%; height: 100%; object-fit: cover; }
@@ -54,18 +68,26 @@ header {
 }
 .btn-movies, .btn-series { border-bottom: 3px solid #ff0000; }
 
-/* 🎬 INDEX/TRENDING CARDS (Centralized) */
-#resultContainer { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+/* 🎬 INDEX/TRENDING CARDS (Clean & Sharp) */
+#resultContainer { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; position: relative; z-index: 999; }
 .search-item {
     background: rgba(255,255,255,0.05); border-radius: 12px; overflow: hidden;
     border: 1px solid rgba(255,255,255,0.1); display: flex; flex-direction: column;
-    align-items: center; text-align: center; transition: 0.2s; cursor: pointer;
+    align-items: center; text-align: center; transition: 0.2s; cursor: pointer; position: relative;
 }
 .search-item:hover { transform: translateY(-5px); box-shadow: 0 5px 15px rgba(255, 0, 0, 0.2); }
+
+/* RED BADGE */
+.badge-hindi {
+    position: absolute; top: 8px; left: 8px; background: #ff0000; color: #fff;
+    font-size: 0.65rem; font-weight: 800; padding: 4px 8px; border-radius: 4px;
+    z-index: 2; box-shadow: 0 0 10px rgba(255,0,0,0.6); letter-spacing: 0.5px;
+}
+
 .icon-poster { width: 100%; aspect-ratio: 2/3; object-fit: cover; border-bottom: 2px solid #ff0000; }
-.content-box { padding: 12px 10px; width: 100%; display: flex; flex-direction: column; align-items: center; }
-.content-box h4 { font-size: 0.85rem; color: #fff; margin-bottom: 5px; width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.desc-text { font-size: 0.7rem; color: #bbb; margin-bottom: 8px; }
+.content-box { padding: 10px; width: 100%; display: flex; flex-direction: column; align-items: center; }
+.content-box h4 { font-size: 0.85rem; color: #fff; margin-bottom: 2px; width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 700; }
+.desc-text { font-size: 0.7rem; color: #bbb; margin-bottom: 0; }
 
 /* 📺 --- UNIVERSAL WATCH TEMPLATE (FIXED) --- */
 .watch-container { width: 100%; max-width: 1000px; margin: 0 auto; background: rgba(0,0,0,0.3); min-height: 100vh; }
@@ -85,7 +107,6 @@ header {
 .rating { color: #facc15; font-weight: bold; }
 .divider { color: #444; }
 
-/* --- FIX 2: ACTION BUTTONS --- */
 .action-scroll { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 15px; scrollbar-width: none; }
 .action-scroll::-webkit-scrollbar { display: none; }
 .action-btn { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.1); color: #eee; padding: 10px 20px; border-radius: 30px; font-size: 12px; font-weight: 600; white-space: nowrap; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: 0.3s; }
@@ -95,7 +116,6 @@ header {
 .resources-title { font-size: 16px; font-weight: 700; color: #fff; }
 .uploader-text { font-size: 11px; color: #888; }
 
-/* --- FIX 1: SEASON BOX & HINDI TAG --- */
 .dropdown-row { display: flex; gap: 10px; margin-bottom: 20px; }
 .custom-select { position: relative; background: #1a1a1a; border: 1px solid #333; color: #ccc; padding: 10px 15px; border-radius: 8px; font-size: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
 .custom-select select { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
@@ -103,13 +123,11 @@ header {
 
 .lang-tag { position: absolute; top: 8px; right: 8px; background: #ff0000; color: white; font-size: 10px; padding: 3px 7px; border-radius: 4px; font-weight: 800; z-index: 2; box-shadow: 0 0 10px rgba(255,0,0,0.5); }
 
-/* Episode Slider Logic */
 .episode-slider { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; margin-bottom: 25px; padding-bottom: 5px; }
 .episode-slider::-webkit-scrollbar { display: none; }
 .ep-box { min-width: 50px; height: 50px; background: #222; color: #aaa; display: flex; align-items: center; justify-content: center; border-radius: 6px; font-size: 14px; font-weight: bold; cursor: pointer; transition: 0.2s; border: 1px solid #333; }
 .ep-box.active { background: linear-gradient(180deg, #ff0000, #990000); color: #fff; border-color: #ff0000; box-shadow: 0 0 10px rgba(255,0,0,0.3); }
 
-/* Tabs & Recommendation Grid */
 .tabs-container { display: flex; gap: 25px; border-bottom: 1px solid #222; margin-bottom: 15px; }
 .tab { font-size: 14px; font-weight: 700; color: #666; padding-bottom: 10px; cursor: pointer; }
 .tab.active { color: #fff; border-bottom: 2px solid #ff0000; }
@@ -121,48 +139,28 @@ header {
 .hindi-badge { position: absolute; top: 5px; right: 5px; background: #ff0000; color: #fff; font-size: 9px; padding: 2px 5px; border-radius: 3px; font-weight: bold; }
 .rec-title { font-size: 11px; padding: 8px 5px; color: #bbb; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: center; }
 
-/* --- FIX 3: BACK TO HOME BUTTON --- */
 .back-home-btn { display: block; width: 100%; background: rgba(255,255,255,0.05); color: #fff; text-align: center; padding: 15px; border-radius: 12px; margin-top: 35px; text-decoration: none; font-weight: 700; font-size: 14px; border: 1px solid rgba(255,255,255,0.1); transition: 0.3s; }
 .back-home-btn:hover { background: #ff0000; border-color: #ff0000; box-shadow: 0 0 20px rgba(255,0,0,0.3); }
 
-/* --- FIX 4: COPYRIGHT FOOTER --- */
 .copyright-footer { text-align: center; padding: 40px 10px 20px; color: #555; font-size: 11px; width: 100%; letter-spacing: 0.8px; border-top: 1px solid rgba(255,255,255,0.05); margin-top: 30px; }
 .copyright-footer p { margin-bottom: 5px; }
 
-/* 🟢 UPDATED FLOATING DOWNLOAD BUTTON (Simple & Centralized) */
 .floating-dl-btn {
-    position: fixed; 
-    bottom: 20px; 
-    left: 50%; 
-    transform: translateX(-50%);
-    background: #39ff14; 
-    color: #000; 
-    font-weight: 800; 
-    font-size: 16px;
-    padding: 12px 40px; 
-    border-radius: 50px; 
-    border: none; 
-    z-index: 9999; 
-    cursor: pointer;
-    box-shadow: 0 5px 20px rgba(57, 255, 20, 0.4);
-    text-transform: uppercase;
-    text-decoration: none; /* Link underline hatane ke liye */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-width: 180px;
-    text-align: center;
+    position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+    background: #39ff14; color: #000; font-weight: 800; font-size: 16px;
+    padding: 12px 40px; border-radius: 50px; border: none; z-index: 9999; 
+    cursor: pointer; box-shadow: 0 5px 20px rgba(57, 255, 20, 0.4);
+    text-transform: uppercase; text-decoration: none; display: flex;
+    justify-content: center; align-items: center; min-width: 180px; text-align: center;
 }
 
 /* 💻 RESPONSIVE DESIGN (PC & TABLET) */
 @media (min-width: 768px) {
-    /* Home PC */
     #resultContainer { grid-template-columns: repeat(4, 1fr); gap: 20px; }
     .icon-poster { height: 350px; }
     .swiper { height: 400px; }
     .brand-name { font-size: 2rem; }
     
-    /* Watch Page PC */
     .watch-container { margin: 30px auto; border-radius: 15px; overflow: hidden; box-shadow: 0 0 40px rgba(0,0,0,0.8); border: 1px solid #222; }
     .watch-content { padding: 40px; }
     .title-row h1 { font-size: 1.8rem; }
