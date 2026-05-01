@@ -3,115 +3,132 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MW Hub - Demon Slayer S1</title>
+    <title>Watch Solo Leveling Season 1 Hindi Dubbed Online - Max World Hub</title>
+    <meta name="description" content="Stream Solo Leveling Season 1 in Hindi Dubbed on Max World Hub. Watch Sung Jinwoo evolve from the weakest hunter to the strongest monarch in 1080p high quality. All 12 episodes available.">
+    <link rel="stylesheet" href="../style.css">
     <style>
-        body {
-            background-color: #0b0b0b;
-            color: white;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
-
-        .player-card {
-            width: 90%;
-            max-width: 900px;
-            background: #161616;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
-            border: 1px solid #222;
-        }
-
-        .video-header {
-            padding: 15px 20px;
-            background: linear-gradient(90deg, #e50914, #0b0b0b);
-        }
-
-        .video-header h1 {
-            margin: 0;
-            font-size: 1.2rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        /* Responsive Video Container */
-        .video-wrapper {
-            position: relative;
-            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
-            height: 0;
-            background: #000;
-        }
-
-        .video-wrapper iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-
-        .video-info {
-            padding: 20px;
-        }
-
-        .btn-group {
-            display: flex;
-            gap: 15px;
-            margin-top: 10px;
-        }
-
-        .btn {
-            background: #333;
-            color: white;
-            padding: 10px 20px;
-            text-decoration: none;
-            border-radius: 5px;
-            font-weight: bold;
-            transition: 0.3s;
-            font-size: 14px;
-        }
-
-        .btn:hover {
-            background: #e50914;
-        }
-
-        .btn-download {
-            background: #e50914;
-        }
+        /* DESIGN IS LOCKED - DO NOT MODIFY CSS */
+        .rec-card { position: relative; width: 100%; aspect-ratio: 2/3; border-radius: 8px; overflow: hidden; cursor: pointer; background: #1a1a1a; transition: transform 0.2s; display: block; text-decoration: none; }
+        .rec-card:hover { transform: scale(1.03); }
+        .rec-poster { width: 100%; height: 100%; object-fit: cover; }
+        .lang-tag { position: absolute; top: 5px; right: 5px; background: #ff0000; color: white; font-size: 9px; padding: 2px 5px; border-radius: 3px; font-weight: bold; z-index: 2; }
+        .rec-title { position: absolute; bottom: 0; width: 100%; padding: 15px 5px 5px; background: linear-gradient(transparent, rgba(0,0,0,0.9)); color: white; font-size: 11px; text-align: center; }
+        .seo-about-section { margin-top: 30px; padding: 15px; background: rgba(255,255,255,0.03); border-radius: 10px; border: 1px solid rgba(255,255,255,0.05); }
+        .seo-about-section h2 { font-size: 16px; color: #fff; margin-bottom: 10px; border-left: 3px solid #ff0000; padding-left: 10px; }
+        .seo-about-section p { font-size: 12px; color: #aaa; line-height: 1.6; text-align: justify; margin: 0; }
+        .player-wrapper { position: relative; }
+        #popoutBlocker { position: absolute; top: 0; right: 0; width: 65px; height: 60px; z-index: 999; cursor: default; background: transparent; }
+        .custom-select { position: relative; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+        .custom-select select { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
+        .dropdown-icon { font-size: 9px; margin-left: 6px; color: #888; }
+        .support-link { display: block; text-align: center; font-size: 11px; color: #666; text-decoration: none; margin-top: 10px; transition: 0.3s; }
+        .support-link:hover { color: #ff0000; text-decoration: underline; }
     </style>
 </head>
 <body>
-
-    <div class="player-card">
-        <div class="video-header">
-            <h1>Demon Slayer: S1 Episode 1 (Hindi Dubbed)</h1>
-        </div>
-
-        <div class="video-wrapper">
-            <iframe 
-                src="https://voe.sx/e/mfqeaptjjdon" 
-                allowfullscreen 
-                allow="autoplay" 
-                scrolling="no">
-            </iframe>
-        </div>
-
-        <div class="video-info">
-            <p style="color: #bbb; font-size: 14px; margin-bottom: 15px;">
-                Tanjiro Kamado's journey begins here. Watch the high-quality stream of Season 1.
-            </p>
-            
-            <div class="btn-group">
-                <a href="https://voe.sx/mfqeaptjjdon" target="_blank" class="btn btn-download">Download Video</a>
-                <a href="#" class="btn">Next Episode</a>
+    <div class="watch-container">
+        <div class="player-wrapper" id="videoArea">
+            <div id="popoutBlocker"></div>
+            <img src="../assets/solo-leveling-s1.jpg" class="poster-img" id="mainPoster" alt="Solo Leveling Season 1">
+            <div class="iframe-container" id="iframeContainer">
+                <iframe id="mainPlayer" src="" allowfullscreen allowtransparency allow="autoplay" scrolling="no" frameborder="0"></iframe>
             </div>
         </div>
-    </div>
+        <div class="watch-content">
+            <div class="title-row">
+                <h1>Solo Leveling Season 1 [Hindi Dubbed]</h1>
+                <a href="#" class="info-link">Info</a>
+            </div>
+            <div class="meta-stats">
+                <span class="rating">⭐ 8.7</span> <span class="divider">|</span>
+                <span>2024</span> <span class="divider">|</span>
+                <span>South Korea</span> <span class="divider">|</span>
+                <span>Action, Fantasy, Adventure</span>
+            </div>
+            <div class="action-scroll">
+                <button class="action-btn">📂 Added</button>
+                <button class="action-btn" onclick="sharePage()">🔗 Share</button>
+                <button class="action-btn" onclick="window.location.href='DOWNLOAD_LINK_HERE'">⬇️ Download</button>
+            </div>
+            <div class="resources-row">
+                <h2 class="resources-title">Resources</h2>
+                <span class="uploader-text">Uploaded by Max World Hub</span>
+            </div>
+            <div class="dropdown-row">
+                <div class="custom-select">Hindi Dubbed</div>
+                <div class="custom-select">Season 01 <span class="dropdown-icon">▼</span><select onchange="location = this.value;">
+                    <option value="#" selected>Season 01</option>
+                    <option value="LINK_TO_S2">Season 02 (Arise from the Shadow)</option>
+                </select></div>
+            </div>
+            
+            <div class="episode-slider" id="epSlider">
+                <div class="ep-box active" onclick="playEpisode('zvqkaaryn3xf', this)">1</div>
+                <div class="ep-box" onclick="playEpisode('stsar6yeujuu', this)">2</div>
+                <div class="ep-box" onclick="playEpisode('u0jawgfr7lgm', this)">3</div>
+                <div class="ep-box" onclick="playEpisode('wcpv885tqjmw', this)">4</div>
+                <div class="ep-box" onclick="playEpisode('mw9xpxlz7vhi', this)">5</div>
+                <div class="ep-box" onclick="playEpisode('osjheazfabuq', this)">6</div>
+                <div class="ep-box" onclick="playEpisode('vaonxiurjssy', this)">7</div>
+                <div class="ep-box" onclick="playEpisode('x8jep2acvrb3', this)">8</div>
+                <div class="ep-box" onclick="playEpisode('3dwgtqvakhen', this)">9</div>
+                <div class="ep-box" onclick="playEpisode('gtzzkgiyfynk', this)">10</div>
+                <div class="ep-box" onclick="playEpisode('qjmvbdy3bfwr', this)">11</div>
+                <div class="ep-box" onclick="playEpisode('orh2fx68yjke', this)">12</div>
+            </div>
 
+            <div class="tabs-container"><div class="tab active">Recommended</div><div class="tab">Similar Anime</div></div>
+            <div class="rec-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 15px;">
+                <a href="LINK_HERE" class="rec-card">
+                    <div class="lang-tag">Hindi</div>
+                    <img src="../assets/jujutsu_kaisen.jpg" class="rec-poster">
+                    <div class="rec-title">Jujutsu Kaisen</div>
+                </a>
+                <a href="LINK_HERE" class="rec-card">
+                    <div class="lang-tag">Hindi</div>
+                    <img src="../assets/demon_slayer.jpg" class="rec-poster">
+                    <div class="rec-title">Demon Slayer</div>
+                </a>
+                <a href="LINK_HERE" class="rec-card">
+                    <div class="lang-tag">Hindi</div>
+                    <img src="../assets/naruto.jpg" class="rec-poster">
+                    <div class="rec-title">Naruto Shippuden</div>
+                </a>
+            </div>
+            <div class="seo-about-section">
+                <h2>About Solo Leveling Hindi Dubbed</h2>
+                <p>Welcome to <strong>Max World Hub</strong>, your ultimate destination to <strong>watch Solo Leveling Season 1 Online</strong>. Experience the journey of Sung Jinwoo, known as the world's weakest hunter, who survives a deadly trial in a double dungeon and discovers a mysterious system that allows him to level up without limits. We provide <strong>Solo Leveling Hindi Dubbed Max World Hub</strong> exclusive episodes in stunning 1080p and 720p quality. If you want to <strong>download Solo Leveling all episodes in Hindi</strong>, our fast Voe.sx mirrors offer the best speed. Don't miss out on this global sensation featuring the Shadow Monarch's rise. Stay tuned with <strong>Max World Hub</strong> for high-quality anime streaming and the latest updates on Season 2.</p>
+            </div>
+            <a href="../index.html" class="back-home-btn">← Back to Homepage</a>
+            <a href="https://t.me/+pnQEnRYbIDtiYzFl" class="support-link">Report Issue / Request Help?</a>
+            <div class="copyright-footer"><p>© 2026 Max World Hub | Powered by SAN Team</p></div>
+        </div>
+    </div> 
+    <a href="DOWNLOAD_LINK_HERE" target="_blank" class="floating-dl-btn">Download</a>
+    
+    <script>
+        window.onload = function() {
+            const firstEpId = 'zvqkaaryn3xf'; 
+            document.getElementById('mainPoster').style.display = 'none';
+            document.getElementById('iframeContainer').style.display = 'block';
+            document.getElementById('mainPlayer').src = "https://voe.sx/e/" + firstEpId;
+        };
+
+        function playEpisode(voeId, element) {
+            document.getElementById('mainPoster').style.display = 'none';
+            document.getElementById('iframeContainer').style.display = 'block';
+            document.getElementById('mainPlayer').src = "https://voe.sx/e/" + voeId;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            let boxes = document.getElementsByClassName('ep-box');
+            for(let i=0; i<boxes.length; i++){ boxes[i].classList.remove('active'); }
+            element.classList.add('active');
+        }
+
+        function sharePage() {
+            if (navigator.share) { navigator.share({ title: document.querySelector('h1').innerText, url: window.location.href }); }
+            else { navigator.clipboard.writeText(window.location.href); alert('URL Copied!'); }
+        }
+    </script>
 </body>
-</html>
+                </html>
+                                                                                               
