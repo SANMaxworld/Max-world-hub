@@ -17,9 +17,7 @@
         .seo-about-section h2 { font-size: 16px; color: #fff; margin-bottom: 10px; border-left: 3px solid #ff0000; padding-left: 10px; }
         .seo-about-section p { font-size: 12px; color: #aaa; line-height: 1.6; text-align: justify; margin: 0; }
         .player-wrapper { position: relative; }
-        
-        /* [CLEANUP]: popoutBlocker CSS removed to allow player interaction */
-
+        /* Popout Blocker Removed per Technical Note */
         .custom-select { position: relative; cursor: pointer; display: flex; align-items: center; justify-content: center; }
         .custom-select select { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
         .dropdown-icon { font-size: 9px; margin-left: 6px; color: #888; }
@@ -30,7 +28,7 @@
 <body>
     <div class="watch-container">
         <div class="player-wrapper" id="videoArea">
-            <img src="../assets/solo_poster.jpg" class="poster-img" id="mainPoster" alt="Solo Leveling">
+            <img src="../assets/solo_leveling_poster.jpg" class="poster-img" id="mainPoster" alt="Solo Leveling Poster">
             <div class="iframe-container" id="iframeContainer">
                 <iframe id="mainPlayer" src="" allowfullscreen allowtransparency allow="autoplay" scrolling="no" frameborder="0"></iframe>
             </div>
@@ -43,8 +41,8 @@
             <div class="meta-stats">
                 <span class="rating">⭐ 8.7</span> <span class="divider">|</span>
                 <span>2024</span> <span class="divider">|</span>
-                <span>South Korea</span> <span class="divider">|</span>
-                <span>Action, Adventure, Fantasy</span>
+                <span>Japan/Korea</span> <span class="divider">|</span>
+                <span>Action, Fantasy, Adventure</span>
             </div>
             <div class="action-scroll">
                 <button class="action-btn">📂 Added</button>
@@ -59,46 +57,46 @@
                 <div class="custom-select">Hindi Dubbed</div>
                 <div class="custom-select">Season 01 <span class="dropdown-icon">▼</span><select onchange="location = this.value;">
                     <option value="#" selected>Season 01</option>
-                    <option value="LINK_TO_S2">Season 02</option>
+                    <option value="LINK_TO_S2">Season 02 (Arise)</option>
                 </select></div>
             </div>
             
             <div class="episode-slider" id="epSlider">
                 <div class="ep-box active" onclick="playEpisode('orh2fx68yjke', this)">1</div>
-                <div class="ep-box" onclick="playEpisode('qjmvbdy3bfwr', this)">2</div>
-                <div class="ep-box" onclick="playEpisode('gtzzkgiyfynk', this)">3</div>
-                <div class="ep-box" onclick="playEpisode('3dwgtqvakhen', this)">4</div>
-                <div class="ep-box" onclick="playEpisode('x8jep2acvrb3', this)">5</div>
-                <div class="ep-box" onclick="playEpisode('vaonxiurjssy', this)">6</div>
-                <div class="ep-box" onclick="playEpisode('osjheazfabuq', this)">7</div>
+                <div class="ep-box" onclick="playEpisode('wcpv885tqjmw', this)">2</div>
+                <div class="ep-box" onclick="playEpisode('vaonxiurjssy', this)">3</div>
+                <div class="ep-box" onclick="playEpisode('qjmvbdy3bfwr', this)">4</div>
+                <div class="ep-box" onclick="playEpisode('gtzzkgiyfynk', this)">5</div>
+                <div class="ep-box" onclick="playEpisode('x8jep2acvrb3', this)">6</div>
+                <div class="ep-box" onclick="playEpisode('3dwgtqvakhen', this)">7</div>
                 <div class="ep-box" onclick="playEpisode('mw9xpxlz7vhi', this)">8</div>
-                <div class="ep-box" onclick="playEpisode('wcpv885tqjmw', this)">9</div>
-                <div class="ep-box" onclick="playEpisode('u0jawgfr7lgm', this)">10</div>
-                <div class="ep-box" onclick="playEpisode('stsar6yeujuu', this)">11</div>
-                <div class="ep-box" onclick="playEpisode('zvqkaaryn3xf', this)">12</div>
+                <div class="ep-box" onclick="playEpisode('u0jawgfr7lgm', this)">9</div>
+                <div class="ep-box" onclick="playEpisode('osjheazfabuq', this)">10</div>
+                <div class="ep-box" onclick="playEpisode('zvqkaaryn3xf', this)">11</div>
+                <div class="ep-box" onclick="playEpisode('stsar6yeujuu', this)">12</div>
             </div>
 
             <div class="tabs-container"><div class="tab active">Recommended</div><div class="tab">Similar Anime</div></div>
             <div class="rec-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 15px;">
                 <a href="LINK_HERE" class="rec-card">
                     <div class="lang-tag">Hindi</div>
-                    <img src="../assets/jujutsu_kaisen.jpg" class="rec-poster">
+                    <img src="../assets/jujutsu_poster.jpeg" class="rec-poster">
                     <div class="rec-title">Jujutsu Kaisen</div>
                 </a>
                 <a href="LINK_HERE" class="rec-card">
                     <div class="lang-tag">Hindi</div>
-                    <img src="../assets/demon_slayer.jpg" class="rec-poster">
+                    <img src="../assets/demon_slayer_poster.jpeg" class="rec-poster">
                     <div class="rec-title">Demon Slayer</div>
                 </a>
                 <a href="LINK_HERE" class="rec-card">
                     <div class="lang-tag">Hindi</div>
-                    <img src="../assets/chainsaw_man.jpg" class="rec-poster">
+                    <img src="../assets/chainsaw_man.jpeg" class="rec-poster">
                     <div class="rec-title">Chainsaw Man</div>
                 </a>
             </div>
             <div class="seo-about-section">
                 <h2>About Solo Leveling Hindi Dubbed</h2>
-                <p>Welcome to <strong>Max World Hub</strong>, your #1 source to <strong>watch Solo Leveling Season 1 Hindi Dubbed</strong> online. Witness the epic transformation of Sung Jinwoo from the world's weakest hunter into the ultimate powerhouse. Our platform, <strong>Max World Hub</strong>, offers all 12 episodes of <strong>Solo Leveling online</strong> with crystal clear 1080p quality and fast Voe.sx streaming links. If you are looking to <strong>download Solo Leveling episodes</strong> in Hindi for offline viewing, we've got you covered with high-speed download options. Experience the thrill of the System, the S-Rank hunters, and the legendary shadows only on <strong>Max World Hub</strong> today!</p>
+                <p>Welcome to <strong>Max World Hub</strong>, your #1 source to <strong>watch Solo Leveling Season 1 Hindi Dubbed</strong> online. Witness the epic transformation of Sung Jinwoo from the world's weakest hunter into the ultimate powerhouse. Our platform, <strong>Max World Hub</strong>, offers all 12 episodes of <strong>Solo Leveling online</strong> with crystal clear 1080p quality and fast Voe.sx streaming links. If you are looking to <strong>download Solo Leveling episodes</strong> for offline viewing, we've got you covered with high-speed download options. Experience the thrill of the System, the S-Rank hunters, and the legendary shadows only on <strong>Max World Hub</strong> today!</p>
             </div>
             <a href="../index.html" class="back-home-btn">← Back to Homepage</a>
             <a href="https://t.me/+pnQEnRYbIDtiYzFl" class="support-link">Report Issue / Request Help?</a>
