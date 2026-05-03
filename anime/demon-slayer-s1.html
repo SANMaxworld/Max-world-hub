@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Watch Demon Slayer Hindi Dubbed - Max World Hub</title>
-    <meta name="description" content="Stream Demon Slayer in Hindi Dubbed on Max World Hub. High-quality Google Drive streaming with fast download options.">
+    <title>Watch Demon Slayer Season 1 Hindi Dubbed Online - Max World Hub</title>
+    <meta name="description" content="Stream Demon Slayer: Kimetsu no Yaiba Season 1 in Hindi Dubbed on Max World Hub. Watch Tanjiro's journey to save Nezuko in high quality 1080p. All 26 episodes available with fast streaming.">
     <link rel="stylesheet" href="../style.css">
     <style>
-        .rec-card { position: relative; width: 100%; aspect-ratio: 2/3; border-radius: 8px; overflow: hidden; cursor: pointer; background: #1a1a1a; transition: transform 0.2s; }
+        /* DESIGN IS LOCKED - DO NOT MODIFY CSS */
+        .rec-card { position: relative; width: 100%; aspect-ratio: 2/3; border-radius: 8px; overflow: hidden; cursor: pointer; background: #1a1a1a; transition: transform 0.2s; display: block; text-decoration: none; }
         .rec-card:hover { transform: scale(1.03); }
         .rec-poster { width: 100%; height: 100%; object-fit: cover; }
         .lang-tag { position: absolute; top: 5px; right: 5px; background: #ff0000; color: white; font-size: 9px; padding: 2px 5px; border-radius: 3px; font-weight: bold; z-index: 2; }
@@ -16,7 +17,7 @@
         .seo-about-section h2 { font-size: 16px; color: #fff; margin-bottom: 10px; border-left: 3px solid #ff0000; padding-left: 10px; }
         .seo-about-section p { font-size: 12px; color: #aaa; line-height: 1.6; text-align: justify; margin: 0; }
         .player-wrapper { position: relative; }
-        #popoutBlocker { position: absolute; top: 0; right: 0; width: 65px; height: 60px; z-index: 999; cursor: default; background: transparent; }
+        /* Popout Blocker Removed per Technical Note */
         .custom-select { position: relative; cursor: pointer; display: flex; align-items: center; justify-content: center; }
         .custom-select select { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
         .dropdown-icon { font-size: 9px; margin-left: 6px; color: #888; }
@@ -27,27 +28,26 @@
 <body>
     <div class="watch-container">
         <div class="player-wrapper" id="videoArea">
-            <div id="popoutBlocker"></div>
-            <img src="../assets/POSTER.jpg" class="poster-img" id="mainPoster" alt="Demon Slayer Poster">
+            <img src="../assets/demon_slayer_s1.jpg" class="poster-img" id="mainPoster" alt="Demon Slayer Season 1">
             <div class="iframe-container" id="iframeContainer">
-                <iframe id="mainPlayer" src="" allowfullscreen allow="autoplay"></iframe>
+                <iframe id="mainPlayer" src="" allowfullscreen allowtransparency allow="autoplay" scrolling="no" frameborder="0"></iframe>
             </div>
         </div>
         <div class="watch-content">
             <div class="title-row">
-                <h1>Demon Slayer [Hindi Dubbed]</h1>
+                <h1>Demon Slayer Season 1 [Hindi Dubbed]</h1>
                 <a href="#" class="info-link">Info</a>
             </div>
             <div class="meta-stats">
                 <span class="rating">⭐ 8.7</span> <span class="divider">|</span>
                 <span>2019</span> <span class="divider">|</span>
                 <span>Japan</span> <span class="divider">|</span>
-                <span>Action, Fantasy</span>
+                <span>Action, Fantasy, Dark Fantasy</span>
             </div>
             <div class="action-scroll">
                 <button class="action-btn">📂 Added</button>
                 <button class="action-btn" onclick="sharePage()">🔗 Share</button>
-                <button class="action-btn" onclick="window.location.href='#'">⬇️ Download</button>
+                <button class="action-btn" onclick="window.location.href='DOWNLOAD_LINK_HERE'">⬇️ Download</button>
             </div>
             <div class="resources-row">
                 <h2 class="resources-title">Resources</h2>
@@ -55,79 +55,94 @@
             </div>
             <div class="dropdown-row">
                 <div class="custom-select">Hindi Dubbed</div>
-                <div class="custom-select">Season 01 <span class="dropdown-icon">▼</span>
-                    <select onchange="location = this.value;">
-                        <option value="#" selected>Season 01</option>
-                        <option value="#">Season 02</option>
-                        <option value="#">Season 03</option>
-                        <option value="#">Season 04</option>
-                    </select>
-                </div>
+                <div class="custom-select">Season 01 <span class="dropdown-icon">▼</span><select onchange="location = this.value;">
+                    <option value="#" selected>Season 01 (Unwavering Resolve)</option>
+                    <option value="LINK_S2">Season 02 (Entertainment District)</option>
+                    <option value="LINK_S3">Season 03 (Swordsmith Village)</option>
+                    <option value="LINK_S4">Season 04 (Hashira Training)</option>
+                </select></div>
             </div>
+            
             <div class="episode-slider" id="epSlider">
-                <div class="ep-box active" onclick="playEpisode('1GKYDWSVgGenoDL8QuHQ8n0CeuXqyGnYk', this)">1</div>
-                <div class="ep-box" onclick="playEpisode('1qSOJNRY4O1lE-Ym8V_3pnbF3hVNt1MOX', this)">2</div>
-                <div class="ep-box" onclick="playEpisode('1onl21hKY0UnbankYjEDfLukNn0R93d9-', this)">3</div>
-                <div class="ep-box" onclick="playEpisode('12GLyWS5m1WBP_KTPsyVWsKZIKAmv7PJ9', this)">4</div>
-                <div class="ep-box" onclick="playEpisode('1XZ4YGDPkOP2WBiTTf-1AO7bvaclageSm', this)">5</div>
-                <div class="ep-box" onclick="playEpisode('1v2gTQNlhJ4ZlpeWGcQYqIS9cHy6MrKRi', this)">6</div>
-                <div class="ep-box" onclick="playEpisode('1S8WL9K3L3jH5Qlb5sFomLaPwpyEEEpQh', this)">7</div>
-                <div class="ep-box" onclick="playEpisode('1BAkGHEN4Hz3k6xrPQUdZzIuwCcUk4KX8', this)">8</div>
-                <div class="ep-box" onclick="playEpisode('1CY6dpih8UOUrrdsNFqU_nOVpcze_eUAw', this)">9</div>
-                <div class="ep-box" onclick="playEpisode('1-iHIysAzlJYRZBbbt7cWwY_7dfYSYJHg', this)">10</div>
-                <div class="ep-box" onclick="playEpisode('1-fMHxwSx9XVqTtdp1CrvBd8lnT0zeTZf', this)">11</div>
-                <div class="ep-box" onclick="playEpisode('1JAM4KBfznQW4Ek4xBZ7QKlM6b7kYkxMV', this)">12</div>
-                <div class="ep-box" onclick="playEpisode('1cVbKMQEW1tW5rJGEpTAQ_kaZEUuOGYLB', this)">13</div>
-                <div class="ep-box" onclick="playEpisode('1i-cdpirIFBjBPqSc2XA2rIRAkEdsnNZR', this)">14</div>
-                <div class="ep-box" onclick="playEpisode('1ZP_ZmJ_HhJoBnCp78Lpel0B4dlXWJOdC', this)">15</div>
-                <div class="ep-box" onclick="playEpisode('15eFFpxBbdnLm1aLAY7Kc8M-6xWZIXOTk', this)">16</div>
-                <div class="ep-box" onclick="playEpisode('1___anLVAQ8iZFPivabt26V7E5YTmLcS2', this)">17</div>
-                <div class="ep-box" onclick="playEpisode('1yuzeuTZGMqTtOdy8MvjxXyMaSIFCdHiz', this)">18</div>
-                <div class="ep-box" onclick="playEpisode('1gCXVkpkR-JyYysayrXRDSeTF_92HRQaW', this)">19</div>
-                <div class="ep-box" onclick="playEpisode('138eEf1_J8osThWpB9y1FS-xQOK1Z1P9u', this)">20</div>
-                <div class="ep-box" onclick="playEpisode('1Iq3j3t0-OWfgzILS4PyDaOIQZrOsQLAf', this)">21</div>
-                <div class="ep-box" onclick="playEpisode('1hqliCSIAEL0WqL6TN_8h3bnWUKzQAtXk', this)">22</div>
-                <div class="ep-box" onclick="playEpisode('10bL4jrPEc3170_mi-o9j_6CIUVxXllof', this)">23</div>
-                <div class="ep-box" onclick="playEpisode('1QFhIcebzNtPaYbvkcQsC9jf65X5s0kQy', this)">24</div>
-                <div class="ep-box" onclick="playEpisode('1NFBeBoP4OtVaF0srcq0yMEW437aXjhK-', this)">25</div>
-                <div class="ep-box" onclick="playEpisode('1M187a6aYNzjWA-zIUIw38nNprwK7oJRt', this)">26</div>
+                <div class="ep-box active" onclick="playEpisode('40utdw02wqim', this)">1</div>
+                <div class="ep-box" onclick="playEpisode('rghl9wsi1wda', this)">2</div>
+                <div class="ep-box" onclick="playEpisode('8b6sswozkrt2', this)">3</div>
+                <div class="ep-box" onclick="playEpisode('qqambriw06yo', this)">4</div>
+                <div class="ep-box" onclick="playEpisode('7g5getz2uk3b', this)">5</div>
+                <div class="ep-box" onclick="playEpisode('3qh2yp1oogtt', this)">6</div>
+                <div class="ep-box" onclick="playEpisode('72os8cdblexe', this)">7</div>
+                <div class="ep-box" onclick="playEpisode('lckkpkom1b2n', this)">8</div>
+                <div class="ep-box" onclick="playEpisode('yjvi8eo8bltr', this)">9</div>
+                <div class="ep-box" onclick="playEpisode('brirgkrvkgnv', this)">10</div>
+                <div class="ep-box" onclick="playEpisode('3lprfhbylp5w', this)">11</div>
+                <div class="ep-box" onclick="playEpisode('mapkkqopwrqe', this)">12</div>
+                <div class="ep-box" onclick="playEpisode('croyoej9ym48', this)">13</div>
+                <div class="ep-box" onclick="playEpisode('syawmey9eqs9', this)">14</div>
+                <div class="ep-box" onclick="playEpisode('7mszswrjm3bh', this)">15</div>
+                <div class="ep-box" onclick="playEpisode('7qv4npttunii', this)">16</div>
+                <div class="ep-box" onclick="playEpisode('iqqqovhqfqyl', this)">17</div>
+                <div class="ep-box" onclick="playEpisode('auybrmbheilo', this)">18</div>
+                <div class="ep-box" onclick="playEpisode('gvpmk5peq55g', this)">19</div>
+                <div class="ep-box" onclick="playEpisode('voatl1jrlnhl', this)">20</div>
+                <div class="ep-box" onclick="playEpisode('8s9hxdcqhgvx', this)">21</div>
+                <div class="ep-box" onclick="playEpisode('wz1bvsx3vr5x', this)">22</div>
+                <div class="ep-box" onclick="playEpisode('qmzkg4wwswuo', this)">23</div>
+                <div class="ep-box" onclick="playEpisode('l1qja8enklie', this)">24</div>
+                <div class="ep-box" onclick="playEpisode('gxdkcbj2tjhy', this)">25</div>
+                <div class="ep-box" onclick="playEpisode('fwf0ngpfh6oq', this)">26</div>
             </div>
+
             <div class="tabs-container"><div class="tab active">Recommended</div><div class="tab">Similar Anime</div></div>
             <div class="rec-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 15px;">
-                <div class="rec-card"><div class="lang-tag">Hindi</div><img src="../assets/rec1.jpg" class="rec-poster"><div class="rec-title">Jujutsu Kaisen</div></div>
-                <div class="rec-card"><div class="lang-tag">Hindi</div><img src="../assets/rec2.jpg" class="rec-poster"><div class="rec-title">Naruto</div></div>
-                <div class="rec-card"><div class="lang-tag">Hindi</div><img src="../assets/rec3.jpg" class="rec-poster"><div class="rec-title">Black Clover</div></div>
+                <a href="LINK_HERE" class="rec-card">
+                    <div class="lang-tag">Hindi</div>
+                    <img src="../assets/jujutsu_kaisen.jpg" class="rec-poster">
+                    <div class="rec-title">Jujutsu Kaisen</div>
+                </a>
+                <a href="LINK_HERE" class="rec-card">
+                    <div class="lang-tag">Hindi</div>
+                    <img src="../assets/soloposter.jpeg" class="rec-poster">
+                    <div class="rec-title">Solo Leveling S1</div>
+                </a>
+                <a href="LINK_HERE" class="rec-card">
+                    <div class="lang-tag">Hindi</div>
+                    <img src="../assets/naruto.jpg" class="rec-poster">
+                    <div class="rec-title">Naruto Shippuden</div>
+                </a>
             </div>
             <div class="seo-about-section">
-                <h2>About Demon Slayer Hindi Dubbed</h2>
-                <p>Welcome to <strong>Max World Hub</strong>, watch <strong>Demon Slayer Max World Hub</strong> online. High-quality <strong>Demon Slayer Hindi Dubbed Max World Hub</strong> episodes with fast Google Drive links. Stay tuned with <strong>Max World HUB</strong>.</p>
+                <h2>About Demon Slayer Season 1 Hindi Dubbed</h2>
+                <p>Welcome to <strong>Max World Hub</strong>, your ultimate source to <strong>watch Demon Slayer Season 1 online</strong> in high definition. Kimetsu no Yaiba follows Tanjiro Kamado, a kindhearted boy whose life is shattered when his family is slaughtered by a demon, and his sister Nezuko is transformed into one. On <strong>Max World Hub</strong>, you can stream all 26 episodes of <strong>Demon Slayer Hindi Dubbed</strong> with premium Voe.sx links for a buffer-free experience. Whether you want to <strong>download Demon Slayer all episodes in Hindi</strong> or watch the epic Hinokami Kagura fight in 1080p, we provide the best streaming quality. Join the Demon Slayer Corps and witness the breathtaking animation by Ufotable. Stay tuned with <strong>Max World HUB</strong> for all seasons and the latest movie updates.</p>
             </div>
             <a href="../index.html" class="back-home-btn">← Back to Homepage</a>
             <a href="https://t.me/+pnQEnRYbIDtiYzFl" class="support-link">Report Issue / Request Help?</a>
             <div class="copyright-footer"><p>© 2026 Max World Hub | Powered by SAN Team</p></div>
         </div>
     </div> 
-    <a href="#" target="_blank" class="floating-dl-btn">Download</a>
+    <a href="DOWNLOAD_LINK_HERE" target="_blank" class="floating-dl-btn">Download</a>
+    
     <script>
         window.onload = function() {
-            const firstEpId = '1GKYDWSVgGenoDL8QuHQ8n0CeuXqyGnYk';
+            const firstEpId = '40utdw02wqim'; 
             document.getElementById('mainPoster').style.display = 'none';
             document.getElementById('iframeContainer').style.display = 'block';
-            document.getElementById('mainPlayer').src = "https://drive.google.com/file/d/" + firstEpId + "/preview?rm=minimal";
+            document.getElementById('mainPlayer').src = "https://voe.sx/e/" + firstEpId;
         };
-        function playEpisode(driveId, element) {
+
+        function playEpisode(voeId, element) {
             document.getElementById('mainPoster').style.display = 'none';
             document.getElementById('iframeContainer').style.display = 'block';
-            document.getElementById('mainPlayer').src = "https://drive.google.com/file/d/" + driveId + "/preview?rm=minimal";
+            document.getElementById('mainPlayer').src = "https://voe.sx/e/" + voeId;
             window.scrollTo({ top: 0, behavior: 'smooth' });
             let boxes = document.getElementsByClassName('ep-box');
             for(let i=0; i<boxes.length; i++){ boxes[i].classList.remove('active'); }
             element.classList.add('active');
         }
+
         function sharePage() {
             if (navigator.share) { navigator.share({ title: document.querySelector('h1').innerText, url: window.location.href }); }
             else { navigator.clipboard.writeText(window.location.href); alert('URL Copied!'); }
         }
     </script>
 </body>
-</html>
+</html>```
