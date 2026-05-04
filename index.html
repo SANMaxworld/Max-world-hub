@@ -10,6 +10,11 @@
     <meta name="description" content="Welcome to Max World Hub (MW Hub). Stream High-Quality 1080p Anime and Latest Movies in Hindi Dubbed. Your premium destination for fast anime streaming.">
     <meta name="keywords" content="Max World Hub, MW Hub, Maxworldhub, Anime Hindi Dubbed, Watch Anime Online, MW Hub Movies, Hindi Dubbed Movies MW Hub">
 
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#ff0000">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
     <link rel="icon" type="image/png" href="assets/logo.png">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
     <link rel="stylesheet" href="style.css">
@@ -144,6 +149,12 @@
             autoplay: { delay: 3000 },
             loop: true
         });
+
+        // Service Worker Registration for PWA (Added)
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js')
+            .then(function() { console.log("Service Worker Registered"); });
+        }
     </script>
 </body>
 </html>
