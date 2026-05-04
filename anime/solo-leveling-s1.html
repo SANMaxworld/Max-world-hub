@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Watch Solo Leveling Season 1 Hindi Dubbed Online - Max World Hub</title>
     <meta name="description" content="Stream Solo Leveling Season 1 in Hindi Dubbed on Max World Hub. Watch every episode of Sung Jinwoo's evolution in 1080p high quality. Fast Voe.sx player with easy download options.">
+    
+    <link rel="manifest" href="../manifest.json">
+    <meta name="theme-color" content="#000000">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
     <link rel="stylesheet" href="../style.css">
     <style>
         /* DESIGN IS LOCKED - DO NOT MODIFY CSS */
@@ -79,8 +85,7 @@
                 <div class="ep-box" onclick="playEpisode('3dwgtqvakhen', this)">7</div>
                 <div class="ep-box" onclick="playEpisode('mw9xpxlz7vhi', this)">8</div>
                 <div class="ep-box" onclick="playEpisode('u0jawgfr7lgm', this)">9</div>
-                <div class="ep-box" onclick="playEpisode('osjheazfabuq', this)">10</div>
-                <div class="ep-box" onclick="playEpisode('zvqkaaryn3xf', this)">11</div>
+                <div class="ep-box" onclick="playEpisode('osjheazfabuq', function(){})">10</div> <div class="ep-box" onclick="playEpisode('zvqkaaryn3xf', this)">11</div>
                 <div class="ep-box" onclick="playEpisode('stsar6yeujuu', this)">12</div>
             </div>
 
@@ -114,7 +119,6 @@
     <a href="DOWNLOAD_LINK_HERE" target="_blank" class="floating-dl-btn">Download</a>
     
     <script>
-        // Start playing the first episode automatically
         window.onload = function() {
             const firstEpId = 'orh2fx68yjke';
             setTimeout(function() {
@@ -130,7 +134,6 @@
             poster.style.display = 'none';
             container.style.display = 'block';
             
-            // Clean load to avoid black screen
             player.src = "about:blank"; 
             setTimeout(function() {
                 player.src = "https://voe.sx/e/" + voeId;
@@ -139,7 +142,7 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
             let boxes = document.getElementsByClassName('ep-box');
             for(let i=0; i<boxes.length; i++){ boxes[i].classList.remove('active'); }
-            element.classList.add('active');
+            if(element) element.classList.add('active');
         }
 
         function sharePage() {
