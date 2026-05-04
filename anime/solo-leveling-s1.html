@@ -16,8 +16,8 @@
         .seo-about-section { margin-top: 30px; padding: 15px; background: rgba(255,255,255,0.03); border-radius: 10px; border: 1px solid rgba(255,255,255,0.05); }
         .seo-about-section h2 { font-size: 16px; color: #fff; margin-bottom: 10px; border-left: 3px solid #ff0000; padding-left: 10px; }
         .seo-about-section p { font-size: 12px; color: #aaa; line-height: 1.6; text-align: justify; margin: 0; }
-        .player-wrapper { position: relative; background: #000; overflow: hidden; }
-        .iframe-container { width: 100%; height: 100%; display: none; }
+        .player-wrapper { position: relative; background: #000; overflow: hidden; width: 100%; }
+        .iframe-container { width: 100%; height: 100%; display: none; aspect-ratio: 16/9; }
         /* Popout Blocker Removed per Technical Note */
         .custom-select { position: relative; cursor: pointer; display: flex; align-items: center; justify-content: center; }
         .custom-select select { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
@@ -29,13 +29,12 @@
 <body>
     <div class="watch-container">
         <div class="player-wrapper" id="videoArea">
-            <img src="../assets/solo_leveling_poster.jpg" class="poster-img" id="mainPoster" alt="Solo Leveling Poster" style="width: 100%;">
-            <div class="iframe-container" id="iframeContainer" style="aspect-ratio: 16/9;">
+            <img src="../assets/solo_leveling_poster.jpg" class="poster-img" id="mainPoster" alt="Solo Leveling Poster" style="width: 100%; display: block;">
+            <div class="iframe-container" id="iframeContainer">
                 <iframe id="mainPlayer" src="" 
                     allowfullscreen 
                     allowtransparency 
                     allow="autoplay; encrypted-media; picture-in-picture" 
-                    sandbox="allow-forms allow-scripts allow-same-origin allow-presentation" 
                     scrolling="no" 
                     frameborder="0" 
                     style="width:100%; height:100%; border:none;">
@@ -87,17 +86,17 @@
 
             <div class="tabs-container"><div class="tab active">Recommended</div><div class="tab">Similar Anime</div></div>
             <div class="rec-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 15px;">
-                <a href="LINK_HERE" class="rec-card">
+                <a href="#" class="rec-card">
                     <div class="lang-tag">Hindi</div>
                     <img src="../assets/jujutsu_poster.jpeg" class="rec-poster">
                     <div class="rec-title">Jujutsu Kaisen</div>
                 </a>
-                <a href="LINK_HERE" class="rec-card">
+                <a href="#" class="rec-card">
                     <div class="lang-tag">Hindi</div>
                     <img src="../assets/demon_slayer_poster.jpeg" class="rec-poster">
                     <div class="rec-title">Demon Slayer</div>
                 </a>
-                <a href="LINK_HERE" class="rec-card">
+                <a href="#" class="rec-card">
                     <div class="lang-tag">Hindi</div>
                     <img src="../assets/chainsaw_man.jpeg" class="rec-poster">
                     <div class="rec-title">Chainsaw Man</div>
@@ -105,7 +104,7 @@
             </div>
             <div class="seo-about-section">
                 <h2>About Solo Leveling Hindi Dubbed</h2>
-                <p>Welcome to <strong>Max World Hub</strong>, your #1 source to <strong>watch Solo Leveling Season 1 Hindi Dubbed</strong> online. Witness the epic transformation of Sung Jinwoo from the world's weakest hunter into the ultimate powerhouse. Our platform, <strong>Max World Hub</strong>, offers all 12 episodes of <strong>Solo Leveling online</strong> with crystal clear 1080p quality and fast Voe.sx streaming links.</p>
+                <p>Welcome to <strong>Max World Hub</strong>, your #1 source to watch <strong>Solo Leveling Hindi Dubbed</strong>.</p>
             </div>
             <a href="../index.html" class="back-home-btn">← Back to Homepage</a>
             <a href="https://t.me/+pnQEnRYbIDtiYzFl" class="support-link">Report Issue / Request Help?</a>
@@ -115,10 +114,11 @@
     <a href="DOWNLOAD_LINK_HERE" target="_blank" class="floating-dl-btn">Download</a>
     
     <script>
-        // SMART LOADING FOR APP WEBVIEW
+        // Start playing the first episode automatically
         window.onload = function() {
+            const firstEpId = 'orh2fx68yjke';
             setTimeout(function() {
-                playEpisode('orh2fx68yjke', document.querySelector('.ep-box.active'));
+                playEpisode(firstEpId, document.querySelector('.ep-box.active'));
             }, 500);
         };
 
@@ -130,11 +130,11 @@
             poster.style.display = 'none';
             container.style.display = 'block';
             
-            // SECURITY FIX: Resetting src before loading new one
+            // Clean load to avoid black screen
             player.src = "about:blank"; 
             setTimeout(function() {
                 player.src = "https://voe.sx/e/" + voeId;
-            }, 100);
+            }, 150);
 
             window.scrollTo({ top: 0, behavior: 'smooth' });
             let boxes = document.getElementsByClassName('ep-box');
