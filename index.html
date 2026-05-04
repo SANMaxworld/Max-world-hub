@@ -13,7 +13,7 @@
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#ff0000">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
     <link rel="icon" type="image/png" href="assets/logo.png">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
@@ -150,10 +150,13 @@
             loop: true
         });
 
-        // Service Worker Registration for PWA (Added)
+        // Service Worker Registration with relative path
         if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('sw.js')
-            .then(function() { console.log("Service Worker Registered"); });
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('sw.js')
+                .then(function(reg) { console.log("Service Worker Registered for scope:", reg.scope); })
+                .catch(function(err) { console.log("Service Worker Failed:", err); });
+            });
         }
     </script>
 </body>
