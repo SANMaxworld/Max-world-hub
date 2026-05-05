@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Me | Max World Hub</title>
+    
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#000000">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+    <link rel="icon" type="image/png" href="assets/logo.png">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .profile-header { display: flex; align-items: center; padding: 40px 20px 20px; gap: 15px; }
+        .profile-img-container { position: relative; width: 75px; height: 75px; }
+        .profile-img { width: 100%; height: 100%; border-radius: 50%; border: 2px solid #ff0000; object-fit: cover; cursor: pointer; }
+        .edit-icon { position: absolute; bottom: 0; right: 0; background: #ff0000; font-size: 10px; padding: 3px; border-radius: 50%; }
+        
+        .user-info h2 { font-size: 1.2rem; font-weight: 800; cursor: pointer; }
+        .user-id { font-size: 0.7rem; color: #888; background: rgba(255,255,255,0.05); padding: 2px 8px; border-radius: 10px; }
+
+        .menu-list { margin: 0 15px; background: rgba(255,255,255,0.02); border-radius: 15px; overflow: hidden; }
+        .menu-item { display: flex; justify-content: space-between; align-items: center; padding: 18px 20px; border-bottom: 1px solid rgba(255,255,255,0.03); cursor: pointer; }
+        
+        .history-scroll { display: flex; gap: 12px; overflow-x: auto; padding: 10px 0; scrollbar-width: none; min-height: 100px; }
+        .history-scroll::-webkit-scrollbar { display: none; }
+        
+        .history-card { min-width: 100px; text-align: center; position: relative; cursor: pointer; }
+        .history-thumb { width: 100px; aspect-ratio: 2/3; border-radius: 8px; object-fit: cover; border: 1px solid rgba(255,255,255,0.1); }
+        .history-title { font-size: 0.65rem; margin-top: 5px; color: #bbb; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100px; }
+        
+        .prog-bar-bg { position: absolute; bottom: 25px; left: 5px; right: 5px; height: 3px; background: rgba(0,0,0,0.5); border-radius: 10px; overflow: hidden; }
+        .prog-bar-fill { height: 100%; background: #ff0000; box-shadow: 0 0 5px #ff0000; }
+
+        #fileInput { display: none; }
+    </style>
+</head>
+<body>
+
+    <div class="glass-container" style="padding: 0;">
+        <div class="profile-header">
+            <div class="profile-img-container" onclick="document.getElementById('fileInput').click()">
+                <img src="assets/logo.png" id="userPhoto" class="profile-img">
+                <span class="edit-icon">✏️</span>
+            </div>
+            <input type="file" id="fileInput" accept="image/*" onchange="updatePhoto(this)">
+            <div class="user-info">
+                <h2 id="userName" onclick="updateName()">Max World User</h2>
+                <span class="user-id">ID: 262387399</span>
+            </div>
+        </div>
+
+        <div class="menu-list">
+            <div style="padding: 15px 20px; border-bottom: 1px solid rgba(255,255,255,0.03);">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                    <div style="display: flex; align-items: center; gap: 10px; font-weight: 600;"><span>🕒</span> Continue Watching</div>
+                </div>
+                <div class="history-scroll" id="historyList">
+                    <p style="font-size: 12px; color: #555; padding: 20px;">No history yet...</p>
+                </div>
+            </div>
+
+            <div class="menu-item"><div style="display: flex; gap: 15px;"><span>📑</span> My List</div><span>0 ➤</span></div>
+            <div class="menu-item" onclick="syncWithDrive()"><div style="display: flex; gap: 15px;"><span>☁️</span> Google Drive Sync</div><span id="syncStatus" style="color: #00ff00;">Ready ➤</span></div>
+        </div>
+    </div>
+
+    <nav class="bottom-nav">
+        <div class="nav-item" onclick="location.href='index.html'"><span class="nav-icon">🧭</span><span>Explore</span></div>
+        <div class="nav-item" onclick="location.href='index.html'"><span class="nav-icon">🏠</span><span>Home</span></div>
+        <div class="nav-item active"><span class="nav-icon">👤</span><span>Me</span></div>
+    </nav>
+
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+
+    <script>
+        // --- 🚀 GOOGLE DRIVE CONFIG ---
+        const CLIENT_ID = '111546422023-9q4uts32jab0t03p9e6kk4fnh2pgubec.apps.googleusercontent.com';
+        const SCOPES = 'https://www.googleapis.com/auth/drive.appdata';
+        let accessToken = null;
+
+        window.onload = function() {
+            renderDashboard();
+        };
+
+        function renderDashboard() {
+            let userData = JSON.parse(localStorage.getItem("MW_USER_DATA") || '{"profile":{}, "history":{}}');
+            if(userData.profile.name) document.getElementById('userName').innerText = userData.profile.name;
+            if(userData.profile.photo) document.getElementById('userPhoto').src = userData.profile.photo;
+
+            const historyList = document.getElementById('historyList');
+            const historyItems = Object.values(userData.history || {}).sort((a,b) => b.updatedAt - a.updatedAt);
+
+            if(historyItems.length > 0) {
+                historyList.innerHTML = "";
+                historyItems.forEach(item => {
+                    historyList.innerHTML += `
+                        <div class="history-card" onclick="location.href='${item.url}'">
+                            <img src="${item.poster}" class="history-thumb">
+                            <div class="prog-bar-bg">
+                                <div class="prog-bar-fill" style="width: ${item.progress}%"></div>
+                            </div>
+                            <p class="history-title">${item.title}</p>
+                            <p style="font-size: 8px; color: #ff0000; margin-top: -3px;">EP ${item.lastEp}</p>
+                        </div>
+                    `;
+                });
+            }
+        }
+
+        function updateName() {
+            let newName = prompt("Enter your name:");
+            if(newName) {
+                let userData = JSON.parse(localStorage.getItem("MW_USER_DATA") || '{"profile":{}, "history":{}}');
+                userData.profile.name = newName;
+                localStorage.setItem("MW_USER_DATA", JSON.stringify(userData));
+                renderDashboard();
+            }
+        }
+
+        function updatePhoto(input) {
+            if (input.files && input.files[0]) {
+                let reader = new FileReader();
+                reader.onload = function(e) {
+                    let userData = JSON.parse(localStorage.getItem("MW_USER_DATA") || '{"profile":{}, "history":{}}');
+                    userData.profile.photo = e.target.result;
+                    localStorage.setItem("MW_USER_DATA", JSON.stringify(userData));
+                    renderDashboard();
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        // --- ☁️ GOOGLE DRIVE SYNC LOGIC ---
+        function syncWithDrive() {
+            const status = document.getElementById('syncStatus');
+            status.innerText = "Connecting...";
+
+            const client = google.accounts.oauth2.initTokenClient({
+                client_id: CLIENT_ID,
+                scope: SCOPES,
+                callback: async (response) => {
+                    if (response.access_token) {
+                        accessToken = response.access_token;
+                        status.innerText = "Syncing...";
+                        await startFullSync();
+                    }
+                },
+            });
+            client.requestAccessToken();
+        }
+
+        async function startFullSync() {
+            try {
+                const fileName = "mw_user_backup.json";
+                const searchRes = await fetch(`https://www.googleapis.com/drive/v3/files?spaces=appDataFolder&q=name='${fileName}'`, {
+                    headers: { 'Authorization': `Bearer ${accessToken}` }
+                });
+                const searchData = await searchRes.json();
+                let localData = JSON.parse(localStorage.getItem("MW_USER_DATA") || '{"profile":{}, "history":{}}');
+
+                if (searchData.files.length > 0) {
+                    const fileId = searchData.files[0].id;
+                    const downloadRes = await fetch(`https://www.googleapis.com/drive/v3/files/${fileId}?alt=media`, {
+                        headers: { 'Authorization': `Bearer ${accessToken}` }
+                    });
+                    const cloudData = await downloadRes.json();
+                    
+                    // Merge local and cloud data
+                    let finalData = mergeData(localData, cloudData);
+                    localStorage.setItem("MW_USER_DATA", JSON.stringify(finalData));
+
+                    await fetch(`https://www.googleapis.com/upload/drive/v3/files/${fileId}?uploadType=media`, {
+                        method: 'PATCH',
+                        headers: { 'Authorization': `Bearer ${accessToken}`, 'Content-Type': 'application/json' },
+                        body: JSON.stringify(finalData)
+                    });
+                } else {
+                    const metadata = { name: fileName, parents: ['appDataFolder'] };
+                    const formData = new FormData();
+                    formData.append('metadata', new Blob([JSON.stringify(metadata)], { type: 'application/json' }));
+                    formData.append('file', new Blob([JSON.stringify(localData)], { type: 'application/json' }));
+
+                    await fetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart', {
+                        method: 'POST',
+                        headers: { 'Authorization': `Bearer ${accessToken}` },
+                        body: formData
+                    });
+                }
+                document.getElementById('syncStatus').innerText = "Synced ✓";
+                renderDashboard();
+            } catch (err) {
+                console.error(err);
+                document.getElementById('syncStatus').innerText = "Error ❌";
+            }
+        }
+
+        function mergeData(local, cloud) {
+            let merged = { ...cloud, ...local };
+            merged.history = { ...(cloud.history || {}), ...(local.history || {}) };
+            merged.profile = { ...(cloud.profile || {}), ...(local.profile || {}) };
+            return merged;
+        }
+    </script>
+</body>
+  </html>
+  
