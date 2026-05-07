@@ -61,8 +61,15 @@
             color: #fff; text-shadow: 0 0 15px #fff, 0 0 25px #fff; transform: scale(1.1);
         }
 
-        .swiper { width: 100%; height: 180px; border-radius: 15px; margin-bottom: 25px; border: 1px solid rgba(255,255,255,0.1); overflow: hidden; }
+        .swiper { width: 100%; height: 180px; border-radius: 15px; margin-bottom: 25px; border: 1px solid rgba(255,255,255,0.1); overflow: hidden; position: relative; }
         .swiper-slide img { width: 100%; height: 100%; object-fit: cover; }
+        
+        .slider-trending-tag {
+            position: absolute; top: 10px; right: 10px; background: #ff0000;
+            color: #fff; font-size: 0.65rem; font-weight: 800; padding: 4px 8px;
+            border-radius: 4px; z-index: 10; box-shadow: 0 0 10px rgba(255,0,0,0.5);
+            text-transform: uppercase;
+        }
 
         .content-section { scroll-margin-top: 85px; margin-bottom: 40px; }
         .section-title { font-size: 1.1rem; font-weight: 800; margin-bottom: 15px; color: #fff; border-left: 4px solid #ff0000; padding-left: 10px; }
@@ -118,19 +125,11 @@
             display: none; position: fixed; bottom: 75px; left: 50%; transform: translateX(-50%);
             background: rgba(0, 0, 0, 0.95); border: 1px solid #ff0000; padding: 15px;
             border-radius: 15px; flex-direction: column; gap: 12px; z-index: 1001; min-width: 160px;
-            box-shadow: 0 0 30px rgba(255, 0, 0, 0.3);
-            opacity: 0; transform: translate(-50%, 20px);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 0 30px rgba(255, 0, 0, 0.3); opacity: 0; transition: 0.3s;
         }
-        .explore-popup.show { display: flex; opacity: 1; transform: translate(-50%, 0); }
+        .explore-popup.show { display: flex; opacity: 1; transform: translate(-50%, -5px); }
         .explore-popup a { color: white; text-decoration: none; font-weight: 600; text-align: center; font-size: 14px; padding: 5px; }
         .explore-popup a:hover { color: #ff0000; }
-
-        .footer-desc {
-            margin: 20px 0; padding: 15px; background: rgba(255, 255, 255, 0.03);
-            border-radius: 10px; text-align: center; border: 1px dashed rgba(255, 255, 255, 0.1);
-        }
-        .footer-desc p { font-size: 0.75rem; color: #aaa; line-height: 1.5; }
 
         footer { padding: 30px 20px 100px; text-align: center; border-top: 1px solid rgba(255,255,255,0.05); }
         .footer-links { display: flex; justify-content: center; gap: 15px; margin-bottom: 12px; }
@@ -165,10 +164,10 @@
             <div class="foggy-tags-container">
                 <a href="#movies" class="foggy-tag">🎬 Movies</a>
                 <a href="#series" class="foggy-tag">📺 Web Series</a>
+                <a href="#fantasy" class="foggy-tag">🪄 Fantasy</a>
                 <a href="#action" class="foggy-tag">⚔️ Action</a>
                 <a href="#adventure" class="foggy-tag">🗺️ Adventure</a>
                 <a href="#romance" class="foggy-tag">💖 Romance</a>
-                <a href="#fantasy" class="foggy-tag">🪄 Fantasy</a>
                 <a href="#scifi" class="foggy-tag">🚀 Sci-Fi</a>
                 <a href="#horror" class="foggy-tag">👻 Horror</a>
                 <a href="#comedy" class="foggy-tag">😂 Comedy</a>
@@ -176,12 +175,13 @@
             </div>
 
             <div class="swiper mySwiper" id="heroSlider">
+                <div class="slider-trending-tag">Trending</div>
                 <div class="swiper-wrapper">
-                    <div class="swiper-slide"><img src="assets/S.L Bannar.jpeg" alt="Slide 1" decoding="async"></div>
-                    <div class="swiper-slide"><img src="assets/A.O.T bannar.jpeg" alt="Slide 2" decoding="async"></div>
-                    <div class="swiper-slide"><img src="assets/D.S movie.jpeg" alt="Slide 3" decoding="async"></div>
-                    <div class="swiper-slide"><img src="assets/img4.jpeg" alt="Slide 4" decoding="async"></div>
-                    <div class="swiper-slide"><img src="assets/img5.jpeg" alt="Slide 5" decoding="async"></div>
+                    <div class="swiper-slide"><img src="assets/S.L Bannar.jpeg" alt="Slide 1"></div>
+                    <div class="swiper-slide"><img src="assets/A.O.T bannar.jpeg" alt="Slide 2"></div>
+                    <div class="swiper-slide"><img src="assets/D.S movie.jpeg" alt="Slide 3"></div>
+                    <div class="swiper-slide"><img src="assets/img4.jpeg" alt="Slide 4"></div>
+                    <div class="swiper-slide"><img src="assets/img5.jpeg" alt="Slide 5"></div>
                 </div>
                 <div class="swiper-pagination"></div>
             </div>
@@ -189,38 +189,10 @@
             <section id="trending" class="content-section">
                 <h2 class="section-title">🔥 TRENDING NOW</h2>
                 <div class="grid-container">
-                    <a href="anime/death-note.html" class="search-item" style="text-decoration: none;">
-                        <span class="badge-hindi">HINDI</span>
-                        <img src="assets/death_note.jpeg" class="icon-poster">
-                        <div class="content-box">
-                            <h4>Death Note</h4>
-                            <p class="desc-text">Drama • 2024</p>
-                        </div>
-                    </a>
-                    <a href="anime/demon-slayer-s1.html" class="search-item" style="text-decoration: none;">
-                        <span class="badge-hindi">HINDI</span>
-                        <img src="assets/ds_s1.jpeg" class="icon-poster">
-                        <div class="content-box">
-                            <h4>Demon Slayer S1</h4>
-                            <p class="desc-text">Action • 2024</p>
-                        </div>
-                    </a>
-                    <a href="anime/aot-s1.html" class="search-item" style="text-decoration: none;">
-                        <span class="badge-hindi">HINDI</span>
-                        <img src="assets/aot_s1.jpeg" class="icon-poster">
-                        <div class="content-box">
-                            <h4>Attack on Titan S1</h4>
-                            <p class="desc-text">Action • 2024</p>
-                        </div>
-                    </a>
-                    <a href="anime/solo-leveling-s1.html" class="search-item" style="text-decoration: none;">
-                        <span class="badge-hindi">HINDI</span>
-                        <img src="assets/soloposter.jpeg" class="icon-poster">
-                        <div class="content-box">
-                            <h4>Solo Leveling S1</h4>
-                            <p class="desc-text">Action • 2024</p>
-                        </div>
-                    </a>
+                    <a href="anime/death-note.html" class="search-item"><span class="badge-hindi">HINDI</span><img src="assets/deathnote.jpeg" class="icon-poster"><div class="content-box"><h4>Death Note</h4><p class="desc-text">Trending #1</p></div></a>
+                    <a href="anime/aot.html" class="search-item"><span class="badge-hindi">HINDI</span><img src="assets/A.O.T.jpeg" class="icon-poster"><div class="content-box"><h4>Attack on Titan S1</h4><p class="desc-text">Trending #2</p></div></a>
+                    <a href="anime/demon-slayer.html" class="search-item"><span class="badge-hindi">HINDI</span><img src="assets/demonslayer.jpeg" class="icon-poster"><div class="content-box"><h4>Demon Slayer S1</h4><p class="desc-text">Trending #3</p></div></a>
+                    <a href="anime/solo-leveling.html" class="search-item"><span class="badge-hindi">HINDI</span><img src="assets/soloposter.jpeg" class="icon-poster"><div class="content-box"><h4>Solo Leveling S1</h4><p class="desc-text">Trending #4</p></div></a>
                 </div>
                 <a href="page2.html#trending" class="show-more-btn">Show More</a>
             </section>
@@ -228,17 +200,26 @@
             <section id="movies" class="content-section">
                 <h2 class="section-title">🎬 LATEST MOVIES</h2>
                 <div class="grid-container">
-                    <a href="#" class="search-item"><span class="badge-hindi">HINDI</span><img src="assets/movie_sample.jpeg" class="icon-poster"><div class="content-box"><h4>Your Name</h4><p class="desc-text">Movie • Romance</p></div></a>
-                    <a href="#" class="search-item"><span class="badge-hindi">HINDI</span><img src="assets/movie2_sample.jpeg" class="icon-poster"><div class="content-box"><h4>Suzume</h4><p class="desc-text">Movie • Fantasy</p></div></a>
+                    <a href="#" class="search-item"><span class="badge-hindi">HINDI</span><img src="assets/movie_sample.jpeg" class="icon-poster"><div class="content-box"><h4>Your Name</h4><p class="desc-text">Romance</p></div></a>
+                    <a href="#" class="search-item"><span class="badge-hindi">HINDI</span><img src="assets/movie2_sample.jpeg" class="icon-poster"><div class="content-box"><h4>Suzume</h4><p class="desc-text">Fantasy</p></div></a>
                 </div>
                 <a href="page2.html#movies" class="show-more-btn">Show More</a>
+            </section>
+
+            <section id="fantasy" class="content-section">
+                <h2 class="section-title">🪄 FANTASY</h2>
+                <div class="grid-container">
+                    <a href="anime/solo-leveling.html" class="search-item"><span class="badge-hindi">HINDI</span><img src="assets/soloposter.jpeg" class="icon-poster"><div class="content-box"><h4>Solo Leveling S1</h4><p class="desc-text">Fantasy Action</p></div></a>
+                    <a href="anime/demon-slayer.html" class="search-item"><span class="badge-hindi">HINDI</span><img src="assets/demonslayer.jpeg" class="icon-poster"><div class="content-box"><h4>Demon Slayer S1</h4><p class="desc-text">Fantasy Adventure</p></div></a>
+                </div>
+                <a href="page2.html#fantasy" class="show-more-btn">Show More</a>
             </section>
 
             <section id="series" class="content-section">
                 <h2 class="section-title">📺 TOP WEB SERIES</h2>
                 <div class="grid-container">
-                    <a href="#" class="search-item"><span class="badge-hindi">HINDI</span><img src="assets/series_sample.jpeg" class="icon-poster"><div class="content-box"><h4>Money Heist</h4><p class="desc-text">Series • Thriller</p></div></a>
-                    <a href="#" class="search-item"><span class="badge-hindi">HINDI</span><img src="assets/series2_sample.jpeg" class="icon-poster"><div class="content-box"><h4>Stranger Things</h4><p class="desc-text">Series • Sci-Fi</p></div></a>
+                    <a href="#" class="search-item"><span class="badge-hindi">HINDI</span><img src="assets/series_sample.jpeg" class="icon-poster"><div class="content-box"><h4>Money Heist</h4><p class="desc-text">Thriller</p></div></a>
+                    <a href="#" class="search-item"><span class="badge-hindi">HINDI</span><img src="assets/series2_sample.jpeg" class="icon-poster"><div class="content-box"><h4>Stranger Things</h4><p class="desc-text">Sci-Fi</p></div></a>
                 </div>
                 <a href="page2.html#series" class="show-more-btn">Show More</a>
             </section>
@@ -246,31 +227,8 @@
             <section id="action" class="content-section">
                 <h2 class="section-title">⚔️ ACTION ANIME</h2>
                 <div class="grid-container">
-                    <a href="anime/solo-leveling-s1.html" class="search-item" style="text-decoration: none;">
-                        <span class="badge-hindi">HINDI</span>
-                        <img src="assets/soloposter.jpeg" class="icon-poster">
-                        <div class="content-box">
-                            <h4>Solo Leveling S1</h4>
-                            <p class="desc-text">Action • 2024</p>
-                        </div>
-                    </a>
-                    <a href="anime/demon-slayer-s1.html" class="search-item" style="text-decoration: none;">
-                        <span class="badge-hindi">HINDI</span>
-                        <img src="assets/ds_s1.jpeg" class="icon-poster">
-                        <div class="content-box">
-                            <h4>Demon Slayer S1</h4>
-                            <p class="desc-text">Action • 2024</p>
-                        </div>
-                    </a>
-                    <a href="anime/aot-s1.html" class="search-item" style="text-decoration: none;">
-                        <span class="badge-hindi">HINDI</span>
-                        <img src="assets/aot_s1.jpeg" class="icon-poster">
-                        <div class="content-box">
-                            <h4>Attack on Titan S1</h4>
-                            <p class="desc-text">Action • 2024</p>
-                        </div>
-                    </a>
-                    <a href="YOUR_LINK_HERE" class="search-item"><span class="badge-hindi">HINDI</span><img src="assets/action_sample.jpeg" class="icon-poster"><div class="content-box"><h4>Jujutsu Kaisen</h4><p class="desc-text">Action • 2024</p></div></a>
+                    <a href="anime/aot.html" class="search-item"><span class="badge-hindi">HINDI</span><img src="assets/A.O.T.jpeg" class="icon-poster"><div class="content-box"><h4>Attack on Titan S1</h4><p class="desc-text">Action</p></div></a>
+                    <a href="anime/solo-leveling.html" class="search-item"><span class="badge-hindi">HINDI</span><img src="assets/soloposter.jpeg" class="icon-poster"><div class="content-box"><h4>Solo Leveling S1</h4><p class="desc-text">Action</p></div></a>
                 </div>
                 <a href="page2.html#action" class="show-more-btn">Show More</a>
             </section>
@@ -278,68 +236,81 @@
             <section id="adventure" class="content-section">
                 <h2 class="section-title">🗺️ ADVENTURE</h2>
                 <div class="grid-container">
-                    <a href="YOUR_LINK_HERE" class="search-item"><span class="badge-hindi">HINDI</span><img src="assets/adv_sample.jpeg" class="icon-poster"><div class="content-box"><h4>One Piece</h4><p class="desc-text">Adventure • 2024</p></div></a>
+                    <a href="anime/demon-slayer.html" class="search-item"><span class="badge-hindi">HINDI</span><img src="assets/demonslayer.jpeg" class="icon-poster"><div class="content-box"><h4>Demon Slayer S1</h4><p class="desc-text">Adventure</p></div></a>
+                    <a href="#" class="search-item"><span class="badge-hindi">HINDI</span><img src="assets/adv_sample.jpeg" class="icon-poster"><div class="content-box"><h4>One Piece</h4><p class="desc-text">Adventure</p></div></a>
                 </div>
                 <a href="page2.html#adventure" class="show-more-btn">Show More</a>
             </section>
-            
+
             <section id="romance" class="content-section">
                 <h2 class="section-title">💖 ROMANCE</h2>
                 <div class="grid-container">
-                    <a href="YOUR_LINK_HERE" class="search-item"><span class="badge-hindi">HINDI</span><img src="assets/rom_sample.jpeg" class="icon-poster"><div class="content-box"><h4>Horimiya</h4><p class="desc-text">Romance • 2024</p></div></a>
+                    <a href="#" class="search-item"><span class="badge-hindi">HINDI</span><img src="assets/rom_sample.jpeg" class="icon-poster"><div class="content-box"><h4>Horimiya</h4><p class="desc-text">Romance</p></div></a>
+                    <a href="#" class="search-item"><span class="badge-hindi">HINDI</span><img src="assets/rom2_sample.jpeg" class="icon-poster"><div class="content-box"><h4>A Silent Voice</h4><p class="desc-text">Romance Drama</p></div></a>
                 </div>
                 <a href="page2.html#romance" class="show-more-btn">Show More</a>
             </section>
-            
-            <section id="fantasy" class="content-section">
-                <h2 class="section-title">🪄 FANTASY</h2>
-                <div class="grid-container">
-                    <a href="anime/solo-leveling-s1.html" class="search-item" style="text-decoration: none;">
-                        <span class="badge-hindi">HINDI</span>
-                        <img src="assets/soloposter.jpeg" class="icon-poster">
-                        <div class="content-box">
-                            <h4>Solo Leveling S1</h4>
-                            <p class="desc-text">Fantasy • 2024</p>
-                        </div>
-                    </a>
-                    <a href="YOUR_LINK_HERE" class="search-item"><span class="badge-hindi">HINDI</span><img src="assets/fan_sample.jpeg" class="icon-poster"><div class="content-box"><h4>Black Clover</h4><p class="desc-text">Fantasy • 2024</p></div></a>
-                </div>
-                <a href="page2.html#fantasy" class="show-more-btn">Show More</a>
-            </section>
-            
+
             <section id="scifi" class="content-section">
                 <h2 class="section-title">🚀 SCI-FI</h2>
                 <div class="grid-container">
-                    <a href="YOUR_LINK_HERE" class="search-item"><span class="badge-hindi">HINDI</span><img src="assets/sci_sample.jpeg" class="icon-poster"><div class="content-box"><h4>Dr. Stone</h4><p class="desc-text">Sci-Fi • 2024</p></div></a>
+                    <a href="#" class="search-item"><span class="badge-hindi">HINDI</span><img src="assets/sci_sample.jpeg" class="icon-poster"><div class="content-box"><h4>Dr. Stone</h4><p class="desc-text">Sci-Fi</p></div></a>
+                    <a href="#" class="search-item"><span class="badge-hindi">HINDI</span><img src="assets/sci2_sample.jpeg" class="icon-poster"><div class="content-box"><h4>Steins;Gate</h4><p class="desc-text">Sci-Fi</p></div></a>
                 </div>
                 <a href="page2.html#scifi" class="show-more-btn">Show More</a>
             </section>
-            
+
             <section id="horror" class="content-section">
                 <h2 class="section-title">👻 HORROR</h2>
                 <div class="grid-container">
-                    <a href="YOUR_LINK_HERE" class="search-item"><span class="badge-hindi">HINDI</span><img src="assets/hor_sample.jpeg" class="icon-poster"><div class="content-box"><h4>Tokyo Ghoul</h4><p class="desc-text">Horror • 2024</p></div></a>
+                    <a href="#" class="search-item"><span class="badge-hindi">HINDI</span><img src="assets/hor_sample.jpeg" class="icon-poster"><div class="content-box"><h4>Tokyo Ghoul</h4><p class="desc-text">Horror</p></div></a>
+                    <a href="#" class="search-item"><span class="badge-hindi">HINDI</span><img src="assets/hor2_sample.jpeg" class="icon-poster"><div class="content-box"><h4>Another</h4><p class="desc-text">Horror</p></div></a>
                 </div>
                 <a href="page2.html#horror" class="show-more-btn">Show More</a>
             </section>
-            
+
             <section id="comedy" class="content-section">
                 <h2 class="section-title">😂 COMEDY</h2>
                 <div class="grid-container">
-                    <a href="YOUR_LINK_HERE" class="search-item"><span class="badge-hindi">HINDI</span><img src="assets/com_sample.jpeg" class="icon-poster"><div class="content-box"><h4>Spy x Family</h4><p class="desc-text">Comedy • 2024</p></div></a>
+                    <a href="#" class="search-item"><span class="badge-hindi">HINDI</span><img src="assets/com_sample.jpeg" class="icon-poster"><div class="content-box"><h4>Spy x Family</h4><p class="desc-text">Comedy</p></div></a>
+                    <a href="#" class="search-item"><span class="badge-hindi">HINDI</span><img src="assets/com2_sample.jpeg" class="icon-poster"><div class="content-box"><h4>One Punch Man</h4><p class="desc-text">Comedy Action</p></div></a>
                 </div>
                 <a href="page2.html#comedy" class="show-more-btn">Show More</a>
             </section>
-            
+
             <section id="drama" class="content-section">
-                <h2 class="section-title">🎭 DRAMA</h2>
+                <h2 class="section-title">🎭 DRAMA & PSYCHOLOGICAL</h2>
                 <div class="grid-container">
-                    <a href="anime/death-note.html" class="search-item" style="text-decoration: none;">
-                        <span class="badge-hindi">HINDI</span>
-                        <img src="assets/death_note.jpeg" class="icon-poster">
-                        <div class="content-box">
-                            <h4>Death Note</h4>
-                            <p class="desc-text">Drama • 2024</p>
-                        </div>
-                    </a>
-             
+                    <a href="anime/death-note.html" class="search-item"><span class="badge-hindi">HINDI</span><img src="assets/deathnote.jpeg" class="icon-poster"><div class="content-box"><h4>Death Note</h4><p class="desc-text">Psychological</p></div></a>
+                    <a href="#" class="search-item"><span class="badge-hindi">HINDI</span><img src="assets/dra_sample.jpeg" class="icon-poster"><div class="content-box"><h4>Oshi No Ko</h4><p class="desc-text">Drama</p></div></a>
+                </div>
+                <a href="page2.html#drama" class="show-more-btn">Show More</a>
+            </section>
+
+            <div class="footer-desc">
+                <p>Max World Hub is your ultimate destination for high-quality Anime and Movies.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="explorePopup" class="explore-popup">
+        <a href="#movies">🎬 Movies</a>
+        <a href="#trending">👺 Anime</a>
+        <a href="#series">📺 Series</a>
+    </div>
+
+    <nav class="bottom-nav">
+        <div class="nav-item" onclick="toggleExplore()"><span class="nav-icon">🧭</span><span>Explore</span></div>
+        <div class="nav-item active" onclick="window.scrollTo({top:0, behavior:'smooth'})"><span class="nav-icon">🏠</span><span>Home</span></div>
+        <div class="nav-item" onclick="location.href='about.html'"><span class="nav-icon">👤</span><span>Me</span></div>
+    </nav>
+
+    <footer>
+        <div class="footer-links">
+            <a href="#">About Us</a>
+            <a href="#">Disclaimer</a>
+            <a href="#">Support</a>
+            <a href="https://youtube.com/@meena" target="_blank">YouTube Channel</a>
+        </div>
+        <p>© 2026 Max World (MW Hub). All Rights Reserved.</p>
+    </f
