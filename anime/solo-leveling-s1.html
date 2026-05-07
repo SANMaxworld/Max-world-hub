@@ -24,7 +24,6 @@
         .seo-about-section p { font-size: 12px; color: #aaa; line-height: 1.6; text-align: justify; margin: 0; }
         .player-wrapper { position: relative; background: #000; overflow: hidden; width: 100%; }
         .iframe-container { width: 100%; height: 100%; display: none; aspect-ratio: 16/9; }
-        /* Popout Blocker Removed per Technical Note */
         .custom-select { position: relative; cursor: pointer; display: flex; align-items: center; justify-content: center; }
         .custom-select select { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
         .dropdown-icon { font-size: 9px; margin-left: 6px; color: #888; }
@@ -76,7 +75,7 @@
             </div>
             
             <div class="episode-slider" id="epSlider">
-                <div class="ep-box active" onclick="playEpisode('orh2fx68yjke', this)">1</div>
+                <div class="ep-box" onclick="playEpisode('orh2fx68yjke', this)">1</div>
                 <div class="ep-box" onclick="playEpisode('wcpv885tqjmw', this)">2</div>
                 <div class="ep-box" onclick="playEpisode('vaonxiurjssy', this)">3</div>
                 <div class="ep-box" onclick="playEpisode('qjmvbdy3bfwr', this)">4</div>
@@ -85,7 +84,8 @@
                 <div class="ep-box" onclick="playEpisode('3dwgtqvakhen', this)">7</div>
                 <div class="ep-box" onclick="playEpisode('mw9xpxlz7vhi', this)">8</div>
                 <div class="ep-box" onclick="playEpisode('u0jawgfr7lgm', this)">9</div>
-                <div class="ep-box" onclick="playEpisode('osjheazfabuq', function(){})">10</div> <div class="ep-box" onclick="playEpisode('zvqkaaryn3xf', this)">11</div>
+                <div class="ep-box" onclick="playEpisode('osjheazfabuq', this)">10</div> 
+                <div class="ep-box" onclick="playEpisode('zvqkaaryn3xf', this)">11</div>
                 <div class="ep-box" onclick="playEpisode('stsar6yeujuu', this)">12</div>
             </div>
 
@@ -118,15 +118,30 @@
     </div> 
     <a href="DOWNLOAD_LINK_HERE" target="_blank" class="floating-dl-btn">Download</a>
     
-    <script>
-        window.onload = function() {
-            const firstEpId = 'orh2fx68yjke';
-            setTimeout(function() {
-                playEpisode(firstEpId, document.querySelector('.ep-box.active'));
-            }, 500);
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAE_oP6wv4A1UxfEdcT82f4KZkhSBzfH3M",
+            authDomain: "mw-hub-59e96.firebaseapp.com",
+            projectId: "mw-hub-59e96",
+            storageBucket: "mw-hub-59e96.firebasestorage.app",
+            messagingSenderId: "1084767566489",
+            appId: "1:1084767566489:web:5913fcac03c2947c9b1608"
         };
 
-        function playEpisode(voeId, element) {
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // --- Data Config for this Anime ---
+        const ANIME_ID = "solo-leveling-s1";
+        const ANIME_TITLE = "Solo Leveling Season 1";
+        const ANIME_POSTER = "../assets/solo_leveling_poster.jpg";
+
+        window.playEpisode = async function(voeId, element) {
             const player = document.getElementById('mainPlayer');
             const container = document.getElementById('iframeContainer');
             const poster = document.getElementById('mainPoster');
@@ -135,17 +150,65 @@
             container.style.display = 'block';
             
             player.src = "about:blank"; 
-            setTimeout(function() {
-                player.src = "https://voe.sx/e/" + voeId;
-            }, 150);
+            setTimeout(() => { player.src = "https://voe.sx/e/" + voeId; }, 150);
 
             window.scrollTo({ top: 0, behavior: 'smooth' });
+            
             let boxes = document.getElementsByClassName('ep-box');
             for(let i=0; i<boxes.length; i++){ boxes[i].classList.remove('active'); }
             if(element) element.classList.add('active');
-        }
 
-        function sharePage() {
+            // --- Save Progress to Cloud ---
+            const user = auth.currentUser;
+            if (user && element) {
+                const epNum = parseInt(element.innerText);
+                const totalEp = boxes.length;
+                
+                await setDoc(doc(db, "users", user.uid), {
+                    watchHistory: {
+                        [ANIME_ID]: {
+                            id: ANIME_ID,
+                            title: ANIME_TITLE,
+                            lastEp: epNum,
+                            totalEp: totalEp,
+                            poster: ANIME_POSTER,
+                            progress: Math.round((epNum / totalEp) * 100),
+                            timestamp: Date.now()
+                        }
+                    }
+                }, { merge: true });
+            }
+        };
+
+        // --- Auto-Resume Function ---
+        onAuthStateChanged(auth, async (user) => {
+            const boxes = document.getElementsByClassName('ep-box');
+            let epToPlay = 1; // Default Ep 1
+            let voeToPlay = 'orh2fx68yjke'; // Default Voe ID
+
+            if (user) {
+                const docSnap = await getDoc(doc(db, "users", user.uid));
+                if (docSnap.exists()) {
+                    const history = docSnap.data().watchHistory || {};
+                    if (history[ANIME_ID]) {
+                        epToPlay = history[ANIME_ID].lastEp;
+                        // Find the matching box to get its onclick data
+                        const targetBox = Array.from(boxes).find(b => parseInt(b.innerText) === epToPlay);
+                        if (targetBox) {
+                            // Extract Voe ID from the onclick attribute
+                            const onclickStr = targetBox.getAttribute('onclick');
+                            voeToPlay = onclickStr.split("'")[1];
+                        }
+                    }
+                }
+            }
+
+            // Execute Play
+            const finalBox = Array.from(boxes).find(b => parseInt(b.innerText) === epToPlay) || boxes[0];
+            playEpisode(voeToPlay, finalBox);
+        });
+
+        window.sharePage = () => {
             if (navigator.share) { navigator.share({ title: document.querySelector('h1').innerText, url: window.location.href }); }
             else { navigator.clipboard.writeText(window.location.href); alert('URL Copied!'); }
         }
