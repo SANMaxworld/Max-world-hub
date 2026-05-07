@@ -2,184 +2,156 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Profile | MW Hub</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>MW Hub - My Dashboard</title>
+    
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
     <style>
+        /* --- GLOBAL RESET & THEME --- */
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
+        
         :root {
-            --neon-red: #ff0000;
-            --neon-green: #39ff14;
-            --glass: rgba(255, 255, 255, 0.08);
-            --glass-border: rgba(255, 255, 255, 0.15);
+            --bg-main: #0e0e11;
+            --bg-card: #1c1c22;
+            --text-main: #ffffff;
+            --text-sub: #8e8e93;
+            --accent-red: #ff416c; /* Changed from Green to Neon Red */
+            --red-gradient: linear-gradient(90deg, #ff416c 0%, #ff4b2b 100%);
+            --navy-bg: radial-gradient(circle at center, #11112b 0%, #0a0a14 70%, #050508 100%);
+            --divider: #2a2a30;
         }
 
-        body {
-            background: #000;
-            color: #fff;
-            font-family: 'Segoe UI', Roboto, sans-serif;
-            margin: 0;
-            padding-bottom: 100px; /* Space for bottom nav */
-        }
+        body { background-color: var(--bg-main); color: var(--text-main); padding-bottom: 90px; overflow-x: hidden; }
 
-        /* --- LOGIN INTERFACE --- */
-        #loginOverlay {
+        /* --- LOGIN SCREEN STYLE --- */
+        .navy-gradient-bg {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #000; z-index: 10000;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            background: var(--navy-bg); display: flex; align-items: center; justify-content: center; z-index: 3000;
+            transition: opacity 0.5s ease;
         }
-
-        .login-box {
-            background: var(--glass);
-            padding: 40px; border-radius: 30px;
-            border: 1px solid var(--glass-border);
-            text-align: center; backdrop-filter: blur(20px);
+        .login-card-wrapper { position: relative; width: 330px; height: 330px; display: flex; align-items: center; justify-content: center; }
+        .login-card {
+            width: 100%; height: 100%; background: rgba(255, 255, 255, 0.04); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 30px; display: flex; flex-direction: column; align-items: center;
+            justify-content: center; text-align: center; padding: 25px; z-index: 2; animation: floatAnim 3.5s ease-in-out infinite;
         }
+        @keyframes floatAnim { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+        .card-glow { position: absolute; bottom: -25px; width: 70%; height: 50px; background: var(--accent-red); filter: blur(45px); opacity: 0.4; z-index: 1; }
+        .top-logo-circle { background: rgba(255, 255, 255, 0.07); width: 64px; height: 64px; border-radius: 50%; margin-bottom: 15px; border: 1px solid rgba(255, 255, 255, 0.1); display: flex; align-items: center; justify-content: center; }
+        .login-title { font-size: 24px; font-weight: 800; color: #fff; margin-bottom: 4px; }
+        .tagline { font-size: 11px; color: var(--accent-red); font-weight: 600; text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 12px; }
+        .login-desc { font-size: 12px; color: #a0a0ab; line-height: 1.4; max-width: 240px; margin-bottom: 20px; }
+        .google-btn-red { background: var(--red-gradient); color: #fff; display: flex; align-items: center; gap: 12px; padding: 12px 20px; border-radius: 14px; font-weight: 700; cursor: pointer; }
+        .g-icon-bg { background: #fff; width: 22px; height: 22px; border-radius: 5px; display: flex; align-items: center; justify-content: center; }
+        .g-icon-bg img { width: 14px; }
 
-        .google-btn {
-            background: #fff; color: #000; border: none; padding: 12px 25px;
-            border-radius: 30px; font-weight: bold; cursor: pointer;
-            display: flex; align-items: center; gap: 10px; margin-top: 20px;
-        }
+        /* --- DASHBOARD STYLE --- */
+        #dashboard-content { opacity: 0; transition: opacity 0.8s ease; display: none; }
+        .header { display: flex; justify-content: space-between; align-items: flex-start; padding: 20px 16px 15px; }
+        .profile-pic { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent-red); box-shadow: 0 0 10px rgba(255, 65, 108, 0.3); }
+        .profile-name { font-size: 18px; font-weight: 600; }
+        .badge { background: rgba(255,255,255,0.1); padding: 3px 6px; border-radius: 4px; font-size: 11px; color: var(--text-sub); }
+        .badge-blue { color: #4facfe; } .badge-pink { color: #ff66b2; }
+        
+        .announcement { background: rgba(255, 65, 108, 0.1); color: var(--accent-red); padding: 10px 16px; font-size: 12px; margin-bottom: 16px; border-left: 3px solid var(--accent-red); }
+        .menu-group { background: var(--bg-card); border-radius: 12px; margin: 0 16px 16px; overflow: hidden; }
+        .menu-item { display: flex; align-items: center; justify-content: space-between; padding: 16px; border-bottom: 1px solid var(--divider); }
+        .icon { color: var(--accent-red); display: flex; align-items: center; }
+        .progress-fill { height: 100%; background: var(--accent-red); box-shadow: 0 0 8px var(--accent-red); }
+        
+        /* Bottom Nav Active State */
+        .nav-item.active { color: var(--accent-red) !important; }
+        .nav-item.active svg { fill: var(--accent-red) !important; stroke: none !important; }
 
-        /* --- PROFILE SECTION --- */
-        .profile-container {
-            margin: 30px 20px 10px 20px;
-            background: var(--glass);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            border-radius: 25px;
-            padding: 20px;
-            display: flex; align-items: center;
-        }
-
-        .avatar-wrapper {
-            width: 75px; height: 75px; border-radius: 50%;
-            border: 2px solid var(--neon-red); overflow: hidden;
-            box-shadow: 0 0 15px rgba(255, 0, 0, 0.3); cursor: pointer;
-        }
-
-        .avatar-wrapper img { width: 100%; height: 100%; object-fit: cover; }
-
-        .user-details { margin-left: 15px; }
-        #userName { margin: 0; font-size: 1.2rem; outline: none; border-bottom: 1px solid transparent; }
-        #userName:focus { border-bottom: 1px solid var(--neon-red); }
-
-        .status-light-box {
-            margin: 10px 20px; display: flex; align-items: center; gap: 8px;
-            background: rgba(57, 255, 20, 0.05); padding: 8px 15px;
-            border-radius: 15px; border: 1px solid rgba(57, 255, 20, 0.2);
-        }
-
-        .light-dot {
-            width: 8px; height: 8px; background: var(--neon-green);
-            border-radius: 50%; box-shadow: 0 0 10px var(--neon-green);
-            animation: blink 2s infinite;
-        }
-
-        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
-
-        .status-text { font-size: 0.75rem; color: var(--neon-green); }
-
-        /* --- HISTORY SECTION --- */
-        .history-card-box {
-            background: var(--glass);
-            margin: 20px; padding: 15px;
-            border-radius: 25px; border: 1px solid var(--glass-border);
-            backdrop-filter: blur(15px);
-        }
-
-        .history-title { color: var(--neon-red); font-size: 1rem; margin-bottom: 15px; font-weight: bold; }
-
-        .history-scroll {
-            display: flex; overflow-x: auto; gap: 15px; padding-bottom: 10px;
-        }
-        .history-scroll::-webkit-scrollbar { display: none; }
-
-        .vertical-card {
-            flex: 0 0 110px; background: rgba(255,255,255,0.05);
-            border-radius: 12px; overflow: hidden; position: relative;
-            transition: transform 0.3s;
-        }
-        .vertical-card:active { transform: scale(0.95); }
-
-        .vertical-card img { width: 100%; height: 150px; object-fit: cover; }
-
-        .progress-line-container { width: 100%; height: 4px; background: #333; }
-        .progress-line-fill { height: 100%; background: var(--neon-red); box-shadow: 0 0 8px var(--neon-red); }
-
-        .card-info { padding: 5px; text-align: center; font-size: 0.65rem; color: #ccc; }
-
-        /* --- SUPPORT & FOOTER --- */
-        .support-btn {
-            background: linear-gradient(45deg, #ff0000, #b30000);
-            border: none; color: #fff; padding: 15px;
-            width: calc(100% - 40px); margin: 20px;
-            border-radius: 15px; font-weight: bold; cursor: pointer;
-            box-shadow: 0 5px 15px rgba(255, 0, 0, 0.2);
-        }
-
-        footer {
-            text-align: center; padding: 20px; color: #555; font-size: 0.7rem;
-            margin-top: 20px;
-        }
-
-        #fileInput { display: none; }
+        /* --- MODAL --- */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 4000; justify-content: center; align-items: center; padding: 20px; }
+        .modal-content { background: var(--bg-card); width: 100%; max-width: 350px; border-radius: 20px; padding: 24px; border: 1px solid var(--accent-red); }
+        .save-btn { width: 100%; padding: 14px; border-radius: 8px; background: var(--red-gradient); color: #fff; font-weight: 700; border: none; margin-top: 10px; opacity: 0.5; pointer-events: none; }
+        .save-btn.ready { opacity: 1; pointer-events: auto; }
+        .input-box:focus { border-color: var(--accent-red); }
     </style>
 </head>
 <body>
 
-    <div id="loginOverlay">
-        <div class="login-box">
-            <h2 style="color: var(--neon-red); margin: 0; letter-spacing: 2px;">MW HUB</h2>
-            <p style="color: #888; font-size: 0.8rem; margin-top: 10px;">Login to save your progress</p>
-            <button class="google-btn" onclick="login()">
-                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/action/google.svg" width="18">
-                Google Login
-            </button>
+    <div id="login-container" class="navy-gradient-bg">
+        <div class="login-card-wrapper">
+            <div class="login-card">
+                <div class="top-logo-circle">
+                    <svg viewBox="0 0 48 48" width="36" height="36">
+                        <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+                        <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+                        <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+                        <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+                    </svg>
+                </div>
+                <div class="text-group">
+                    <h1 class="login-title">Welcome to MW Hub</h1>
+                    <p class="tagline">Your Premium Destination</p>
+                    <p class="login-desc">Sync your watch history and save anime movies across devices.</p>
+                </div>
+                <div class="google-btn-red" id="loginBtn">
+                    <div class="g-icon-bg"><img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"></div>
+                    <span>Continue with Google</span>
+                </div>
+            </div>
+            <div class="card-glow"></div>
         </div>
     </div>
 
-    <div id="mainUI" style="display: none;">
-        <div class="profile-container">
-            <label for="fileInput" class="avatar-wrapper">
-                <img id="userImg" src="https://via.placeholder.com/150" alt="Profile">
-            </label>
-            <input type="file" id="fileInput" accept="image/*">
-            <div class="user-details">
-                <h2 id="userName" contenteditable="true" onblur="saveProfile()">Guest User</h2>
-                <p style="font-size: 0.6rem; color: #555; margin: 0; margin-top: 5px;">Tap name to edit</p>
+    <div id="dashboard-content">
+        <div class="header">
+            <div class="profile-area">
+                <img src="" class="profile-pic" id="displayPic">
+                <div class="profile-info">
+                    <div class="profile-name-row">
+                        <span class="profile-name" id="displayName">Guest User</span>
+                    </div>
+                    <div class="badge-row">
+                        <div class="badge"><span id="displayGender">♂</span></div>
+                        <div class="badge">ID: <span id="displayId">000000000</span></div>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div class="status-light-box">
-            <div class="light-dot"></div>
-            <span class="status-text">Your Google account is connected</span>
-        </div>
+        <div class="announcement">Official MW Hub: History & Profile Synced!</div>
 
-        <div class="history-card-box">
-            <div class="history-title">WATCH HISTORY</div>
-            <div id="historyGrid" class="history-scroll">
-                <p id="emptyMsg" style="font-size: 0.8rem; color: #444; padding: 10px;">No history found...</p>
+        <div class="menu-group">
+            <div class="menu-item" style="border:none">
+                <div style="color:var(--accent-red); font-weight:600">Watch History</div>
             </div>
+            <div style="display:flex; gap:12px; padding:10px 16px; overflow-x:auto" id="historyList">
+                </div>
         </div>
 
-        <button class="support-btn" onclick="alert('Support system coming soon!')">SUPPORT MW HUB</button>
-
-        <footer>
-            <p>© 2026 Max World Hub (MW Hub)<br>All Rights Reserved.</p>
-        </footer>
+        <div class="menu-group">
+            <div class="menu-item">My Added <span>›</span></div>
+            <div class="menu-item" onclick="openModal()">Edit Profile <span>›</span></div>
+            <div class="menu-item" onclick="logout()">Logout <span>›</span></div>
+        </div>
     </div>
 
-    <div style="position: fixed; bottom: 0; width: 100%; background: #111; display: flex; justify-content: space-around; padding: 10px 0; border-top: 1px solid #222; z-index: 999;">
-        <div style="text-align: center; color: #666;" onclick="location.href='../index.html'">Explore</div>
-        <div style="text-align: center; color: #666;" onclick="location.href='../index.html'">Home</div>
-        <div style="text-align: center; color: var(--neon-red); font-weight: bold;">Me</div>
+    <div style="position:fixed; bottom:0; width:100%; height:65px; background:var(--bg-card); display:flex; justify-content:space-around; align-items:center; border-radius:20px 20px 0 0;">
+        <div class="nav-item"><span>Downloads</span></div>
+        <div class="nav-item"><span>Home</span></div>
+        <div class="nav-item active"><span style="color:var(--accent-red)">Me</span></div>
     </div>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-        import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    <div class="modal-overlay" id="editModal">
+        <div class="modal-content">
+            <h2 style="text-align:center; margin-bottom:15px">Edit Profile</h2>
+            <input type="text" id="inputName" placeholder="Display Name" style="width:100%; padding:10px; margin-bottom:10px; background:#000; border:1px solid #333; color:#fff; border-radius:8px;">
+            <input type="number" id="inputId" placeholder="9 Digit ID" style="width:100%; padding:10px; margin-bottom:10px; background:#000; border:1px solid #333; color:#fff; border-radius:8px;">
+            <button class="save-btn ready" onclick="saveProfileToCloud()">Save to Cloud</button>
+            <button onclick="closeModal()" style="width:100%; background:none; border:none; color:grey; margin-top:10px">Cancel</button>
+        </div>
+    </div>
 
+    <script>
+        // --- FIREBASE CONFIG ---
         const firebaseConfig = {
             apiKey: "AIzaSyAE_oP6wv4A1UxfEdcT82f4KZkhSBzfH3M",
             authDomain: "mw-hub-59e96.firebaseapp.com",
@@ -189,80 +161,65 @@
             appId: "1:1084767566489:web:5913fcac03c2947c9b1608"
         };
 
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-        const provider = new GoogleAuthProvider();
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
 
-        const loginOverlay = document.getElementById('loginOverlay');
-        const mainUI = document.getElementById('mainUI');
-
-        // Login Logic
-        window.login = () => {
-            signInWithPopup(auth, provider).catch(err => alert("Login Failed: " + err.message));
+        // --- AUTH LOGIC ---
+        document.getElementById('loginBtn').onclick = () => {
+            const provider = new firebase.auth.GoogleAuthProvider();
+            auth.signInWithPopup(provider);
         };
 
-        // Auth State Observer
-        onAuthStateChanged(auth, (user) => {
+        auth.onAuthStateChanged(user => {
             if (user) {
-                loginOverlay.style.display = 'none';
-                mainUI.style.display = 'block';
-                
-                // Prioritize LocalStorage for custom edits, else use Google data
-                document.getElementById('userName').innerText = localStorage.getItem('mw_name') || user.displayName;
-                document.getElementById('userImg').src = localStorage.getItem('mw_img') || user.photoURL;
-                
-                loadHistory(user.uid);
+                document.getElementById('login-container').style.opacity = '0';
+                setTimeout(() => {
+                    document.getElementById('login-container').style.display = 'none';
+                    document.getElementById('dashboard-content').style.display = 'block';
+                    setTimeout(() => document.getElementById('dashboard-content').style.opacity = '1', 50);
+                }, 500);
+                loadUserData(user.uid);
             } else {
-                loginOverlay.style.display = 'flex';
-                mainUI.style.display = 'none';
+                document.getElementById('login-container').style.display = 'flex';
+                document.getElementById('dashboard-content').style.display = 'none';
             }
         });
 
-        // Save Custom Profile locally
-        window.saveProfile = () => {
-            localStorage.setItem('mw_name', document.getElementById('userName').innerText);
-        };
-
-        // Profile Image Upload
-        document.getElementById('fileInput').onchange = (e) => {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = () => {
-                    document.getElementById('userImg').src = reader.result;
-                    localStorage.setItem('mw_img', reader.result);
-                };
-                reader.readAsDataURL(file);
-            }
-        };
-
-        // Load History from Firestore
-        async function loadHistory(uid) {
-            try {
-                const docSnap = await getDoc(doc(db, "users", uid));
-                if (docSnap.exists()) {
-                    const history = docSnap.data().watchHistory || {};
-                    const grid = document.getElementById('historyGrid');
-                    const entries = Object.values(history).sort((a, b) => b.timestamp - a.timestamp);
-                    
-                    if(entries.length > 0) {
-                        document.getElementById('emptyMsg').style.display = 'none';
-                        grid.innerHTML = entries.map(item => `
-                            <div class="vertical-card" onclick="location.href='anime/${item.id}.html?lastEp=${item.lastEp}'">
-                                <img src="${item.poster}" onerror="this.src='https://via.placeholder.com/110x150?text=No+Image'">
-                                <div class="progress-line-container">
-                                    <div class="progress-line-fill" style="width: ${item.progress}%"></div>
-                                </div>
-                                <div class="card-info">EPISODE ${item.lastEp}</div>
-                            </div>
-                        `).join('');
-                    }
+        // --- DATA SYNC ---
+        function loadUserData(uid) {
+            db.collection("users").doc(uid).onSnapshot(doc => {
+                if (doc.exists) {
+                    const data = doc.data();
+                    document.getElementById('displayName').innerText = data.name || auth.currentUser.displayName;
+                    document.getElementById('displayId').innerText = data.accountId || "Click Edit Profile";
+                    document.getElementById('displayPic').src = data.photo || auth.currentUser.photoURL;
+                } else {
+                    // New user: Save initial data
+                    db.collection("users").doc(uid).set({
+                        name: auth.currentUser.displayName,
+                        photo: auth.currentUser.photoURL,
+                        accountId: "000000000"
+                    });
                 }
-            } catch (error) {
-                console.error("Error loading history:", error);
-            }
+            });
         }
+
+        function saveProfileToCloud() {
+            const user = auth.currentUser;
+            const newName = document.getElementById('inputName').value;
+            const newId = document.getElementById('inputId').value;
+            if (newName && newId.length === 9) {
+                db.collection("users").doc(user.uid).update({
+                    name: newName,
+                    accountId: newId
+                }).then(() => closeModal());
+            } else { alert("Please enter a valid Name and 9-digit ID"); }
+        }
+
+        function logout() { auth.signOut(); }
+        function openModal() { document.getElementById('editModal').style.display = 'flex'; }
+        function closeModal() { document.getElementById('editModal').style.display = 'none'; }
     </script>
 </body>
 </html>
