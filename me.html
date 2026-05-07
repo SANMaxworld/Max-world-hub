@@ -2,125 +2,182 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Watch Solo Leveling Season 1 Hindi Dubbed Online - Max World Hub</title>
-    <meta name="description" content="Stream Solo Leveling Season 1 in Hindi Dubbed on Max World Hub. Watch every episode of Sung Jinwoo's evolution in 1080p high quality. Fast Voe.sx player with easy download options.">
-    
-    <link rel="manifest" href="../manifest.json">
-    <meta name="theme-color" content="#000000">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-
-    <link rel="stylesheet" href="../style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile | MW Hub</title>
     <style>
-        /* DESIGN IS LOCKED - DO NOT MODIFY CSS */
-        .rec-card { position: relative; width: 100%; aspect-ratio: 2/3; border-radius: 8px; overflow: hidden; cursor: pointer; background: #1a1a1a; transition: transform 0.2s; display: block; text-decoration: none; }
-        .rec-card:hover { transform: scale(1.03); }
-        .rec-poster { width: 100%; height: 100%; object-fit: cover; }
-        .lang-tag { position: absolute; top: 5px; right: 5px; background: #ff0000; color: white; font-size: 9px; padding: 2px 5px; border-radius: 3px; font-weight: bold; z-index: 2; }
-        .rec-title { position: absolute; bottom: 0; width: 100%; padding: 15px 5px 5px; background: linear-gradient(transparent, rgba(0,0,0,0.9)); color: white; font-size: 11px; text-align: center; }
-        .seo-about-section { margin-top: 30px; padding: 15px; background: rgba(255,255,255,0.03); border-radius: 10px; border: 1px solid rgba(255,255,255,0.05); }
-        .seo-about-section h2 { font-size: 16px; color: #fff; margin-bottom: 10px; border-left: 3px solid #ff0000; padding-left: 10px; }
-        .seo-about-section p { font-size: 12px; color: #aaa; line-height: 1.6; text-align: justify; margin: 0; }
-        .player-wrapper { position: relative; background: #000; overflow: hidden; width: 100%; }
-        .iframe-container { width: 100%; height: 100%; display: none; aspect-ratio: 16/9; }
-        .custom-select { position: relative; cursor: pointer; display: flex; align-items: center; justify-content: center; }
-        .custom-select select { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
-        .dropdown-icon { font-size: 9px; margin-left: 6px; color: #888; }
-        .support-link { display: block; text-align: center; font-size: 11px; color: #666; text-decoration: none; margin-top: 10px; transition: 0.3s; }
-        .support-link:hover { color: #ff0000; text-decoration: underline; }
+        :root {
+            --neon-red: #ff0000;
+            --neon-green: #39ff14;
+            --glass: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.15);
+        }
+
+        body {
+            background: #000;
+            color: #fff;
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding-bottom: 100px; /* Space for bottom nav */
+        }
+
+        /* --- LOGIN INTERFACE --- */
+        #loginOverlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #000; z-index: 10000;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+        }
+
+        .login-box {
+            background: var(--glass);
+            padding: 40px; border-radius: 30px;
+            border: 1px solid var(--glass-border);
+            text-align: center; backdrop-filter: blur(20px);
+        }
+
+        .google-btn {
+            background: #fff; color: #000; border: none; padding: 12px 25px;
+            border-radius: 30px; font-weight: bold; cursor: pointer;
+            display: flex; align-items: center; gap: 10px; margin-top: 20px;
+        }
+
+        /* --- PROFILE SECTION --- */
+        .profile-container {
+            margin: 30px 20px 10px 20px;
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 25px;
+            padding: 20px;
+            display: flex; align-items: center;
+        }
+
+        .avatar-wrapper {
+            width: 75px; height: 75px; border-radius: 50%;
+            border: 2px solid var(--neon-red); overflow: hidden;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.3); cursor: pointer;
+        }
+
+        .avatar-wrapper img { width: 100%; height: 100%; object-fit: cover; }
+
+        .user-details { margin-left: 15px; }
+        #userName { margin: 0; font-size: 1.2rem; outline: none; border-bottom: 1px solid transparent; }
+        #userName:focus { border-bottom: 1px solid var(--neon-red); }
+
+        .status-light-box {
+            margin: 10px 20px; display: flex; align-items: center; gap: 8px;
+            background: rgba(57, 255, 20, 0.05); padding: 8px 15px;
+            border-radius: 15px; border: 1px solid rgba(57, 255, 20, 0.2);
+        }
+
+        .light-dot {
+            width: 8px; height: 8px; background: var(--neon-green);
+            border-radius: 50%; box-shadow: 0 0 10px var(--neon-green);
+            animation: blink 2s infinite;
+        }
+
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+        .status-text { font-size: 0.75rem; color: var(--neon-green); }
+
+        /* --- HISTORY SECTION --- */
+        .history-card-box {
+            background: var(--glass);
+            margin: 20px; padding: 15px;
+            border-radius: 25px; border: 1px solid var(--glass-border);
+            backdrop-filter: blur(15px);
+        }
+
+        .history-title { color: var(--neon-red); font-size: 1rem; margin-bottom: 15px; font-weight: bold; }
+
+        .history-scroll {
+            display: flex; overflow-x: auto; gap: 15px; padding-bottom: 10px;
+        }
+        .history-scroll::-webkit-scrollbar { display: none; }
+
+        .vertical-card {
+            flex: 0 0 110px; background: rgba(255,255,255,0.05);
+            border-radius: 12px; overflow: hidden; position: relative;
+            transition: transform 0.3s;
+        }
+        .vertical-card:active { transform: scale(0.95); }
+
+        .vertical-card img { width: 100%; height: 150px; object-fit: cover; }
+
+        .progress-line-container { width: 100%; height: 4px; background: #333; }
+        .progress-line-fill { height: 100%; background: var(--neon-red); box-shadow: 0 0 8px var(--neon-red); }
+
+        .card-info { padding: 5px; text-align: center; font-size: 0.65rem; color: #ccc; }
+
+        /* --- SUPPORT & FOOTER --- */
+        .support-btn {
+            background: linear-gradient(45deg, #ff0000, #b30000);
+            border: none; color: #fff; padding: 15px;
+            width: calc(100% - 40px); margin: 20px;
+            border-radius: 15px; font-weight: bold; cursor: pointer;
+            box-shadow: 0 5px 15px rgba(255, 0, 0, 0.2);
+        }
+
+        footer {
+            text-align: center; padding: 20px; color: #555; font-size: 0.7rem;
+            margin-top: 20px;
+        }
+
+        #fileInput { display: none; }
     </style>
 </head>
 <body>
-    <div class="watch-container">
-        <div class="player-wrapper" id="videoArea">
-            <img src="../assets/solo_leveling_poster.jpg" class="poster-img" id="mainPoster" alt="Solo Leveling Poster" style="width: 100%; display: block;">
-            <div class="iframe-container" id="iframeContainer">
-                <iframe id="mainPlayer" src="" 
-                    allowfullscreen 
-                    allowtransparency 
-                    allow="autoplay; encrypted-media; picture-in-picture" 
-                    scrolling="no" 
-                    frameborder="0" 
-                    style="width:100%; height:100%; border:none;">
-                </iframe>
-            </div>
-        </div>
-        <div class="watch-content">
-            <div class="title-row">
-                <h1>Solo Leveling Season 1 [Hindi Dubbed]</h1>
-                <a href="#" class="info-link">Info</a>
-            </div>
-            <div class="meta-stats">
-                <span class="rating">⭐ 8.7</span> <span class="divider">|</span>
-                <span>2024</span> <span class="divider">|</span>
-                <span>Japan/Korea</span> <span class="divider">|</span>
-                <span>Action, Fantasy, Adventure</span>
-            </div>
-            <div class="action-scroll">
-                <button class="action-btn">📂 Added</button>
-                <button class="action-btn" onclick="sharePage()">🔗 Share</button>
-                <button class="action-btn" onclick="window.location.href='DOWNLOAD_LINK_HERE'">⬇️ Download</button>
-            </div>
-            <div class="resources-row">
-                <h2 class="resources-title">Resources</h2>
-                <span class="uploader-text">Uploaded by Max World Hub</span>
-            </div>
-            <div class="dropdown-row">
-                <div class="custom-select">Hindi Dubbed</div>
-                <div class="custom-select">Season 01 <span class="dropdown-icon">▼</span><select onchange="location = this.value;">
-                    <option value="#" selected>Season 01</option>
-                    <option value="LINK_TO_S2">Season 02 (Arise)</option>
-                </select></div>
-            </div>
-            
-            <div class="episode-slider" id="epSlider">
-                <div class="ep-box" onclick="playEpisode('orh2fx68yjke', this)">1</div>
-                <div class="ep-box" onclick="playEpisode('wcpv885tqjmw', this)">2</div>
-                <div class="ep-box" onclick="playEpisode('vaonxiurjssy', this)">3</div>
-                <div class="ep-box" onclick="playEpisode('qjmvbdy3bfwr', this)">4</div>
-                <div class="ep-box" onclick="playEpisode('gtzzkgiyfynk', this)">5</div>
-                <div class="ep-box" onclick="playEpisode('x8jep2acvrb3', this)">6</div>
-                <div class="ep-box" onclick="playEpisode('3dwgtqvakhen', this)">7</div>
-                <div class="ep-box" onclick="playEpisode('mw9xpxlz7vhi', this)">8</div>
-                <div class="ep-box" onclick="playEpisode('u0jawgfr7lgm', this)">9</div>
-                <div class="ep-box" onclick="playEpisode('osjheazfabuq', this)">10</div> 
-                <div class="ep-box" onclick="playEpisode('zvqkaaryn3xf', this)">11</div>
-                <div class="ep-box" onclick="playEpisode('stsar6yeujuu', this)">12</div>
-            </div>
 
-            <div class="tabs-container"><div class="tab active">Recommended</div><div class="tab">Similar Anime</div></div>
-            <div class="rec-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 15px;">
-                <a href="#" class="rec-card">
-                    <div class="lang-tag">Hindi</div>
-                    <img src="../assets/jujutsu_poster.jpeg" class="rec-poster">
-                    <div class="rec-title">Jujutsu Kaisen</div>
-                </a>
-                <a href="#" class="rec-card">
-                    <div class="lang-tag">Hindi</div>
-                    <img src="../assets/demon_slayer_poster.jpeg" class="rec-poster">
-                    <div class="rec-title">Demon Slayer</div>
-                </a>
-                <a href="#" class="rec-card">
-                    <div class="lang-tag">Hindi</div>
-                    <img src="../assets/chainsaw_man.jpeg" class="rec-poster">
-                    <div class="rec-title">Chainsaw Man</div>
-                </a>
-            </div>
-            <div class="seo-about-section">
-                <h2>About Solo Leveling Hindi Dubbed</h2>
-                <p>Welcome to <strong>Max World Hub</strong>, your #1 source to watch <strong>Solo Leveling Hindi Dubbed</strong>.</p>
-            </div>
-            <a href="../index.html" class="back-home-btn">← Back to Homepage</a>
-            <a href="https://t.me/+pnQEnRYbIDtiYzFl" class="support-link">Report Issue / Request Help?</a>
-            <div class="copyright-footer"><p>© 2026 Max World Hub | Powered by SAN Team</p></div>
+    <div id="loginOverlay">
+        <div class="login-box">
+            <h2 style="color: var(--neon-red); margin: 0; letter-spacing: 2px;">MW HUB</h2>
+            <p style="color: #888; font-size: 0.8rem; margin-top: 10px;">Login to save your progress</p>
+            <button class="google-btn" onclick="login()">
+                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/action/google.svg" width="18">
+                Google Login
+            </button>
         </div>
-    </div> 
-    <a href="DOWNLOAD_LINK_HERE" target="_blank" class="floating-dl-btn">Download</a>
-    
+    </div>
+
+    <div id="mainUI" style="display: none;">
+        <div class="profile-container">
+            <label for="fileInput" class="avatar-wrapper">
+                <img id="userImg" src="https://via.placeholder.com/150" alt="Profile">
+            </label>
+            <input type="file" id="fileInput" accept="image/*">
+            <div class="user-details">
+                <h2 id="userName" contenteditable="true" onblur="saveProfile()">Guest User</h2>
+                <p style="font-size: 0.6rem; color: #555; margin: 0; margin-top: 5px;">Tap name to edit</p>
+            </div>
+        </div>
+
+        <div class="status-light-box">
+            <div class="light-dot"></div>
+            <span class="status-text">Your Google account is connected</span>
+        </div>
+
+        <div class="history-card-box">
+            <div class="history-title">WATCH HISTORY</div>
+            <div id="historyGrid" class="history-scroll">
+                <p id="emptyMsg" style="font-size: 0.8rem; color: #444; padding: 10px;">No history found...</p>
+            </div>
+        </div>
+
+        <button class="support-btn" onclick="alert('Support system coming soon!')">SUPPORT MW HUB</button>
+
+        <footer>
+            <p>© 2026 Max World Hub (MW Hub)<br>All Rights Reserved.</p>
+        </footer>
+    </div>
+
+    <div style="position: fixed; bottom: 0; width: 100%; background: #111; display: flex; justify-content: space-around; padding: 10px 0; border-top: 1px solid #222; z-index: 999;">
+        <div style="text-align: center; color: #666;" onclick="location.href='../index.html'">Explore</div>
+        <div style="text-align: center; color: #666;" onclick="location.href='../index.html'">Home</div>
+        <div style="text-align: center; color: var(--neon-red); font-weight: bold;">Me</div>
+    </div>
+
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
         import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
         const firebaseConfig = {
@@ -135,84 +192,77 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
+        const provider = new GoogleAuthProvider();
 
-        // --- Data Config for this Anime ---
-        const ANIME_ID = "solo-leveling-s1";
-        const ANIME_TITLE = "Solo Leveling Season 1";
-        const ANIME_POSTER = "../assets/solo_leveling_poster.jpg";
+        const loginOverlay = document.getElementById('loginOverlay');
+        const mainUI = document.getElementById('mainUI');
 
-        window.playEpisode = async function(voeId, element) {
-            const player = document.getElementById('mainPlayer');
-            const container = document.getElementById('iframeContainer');
-            const poster = document.getElementById('mainPoster');
-            
-            poster.style.display = 'none';
-            container.style.display = 'block';
-            
-            player.src = "about:blank"; 
-            setTimeout(() => { player.src = "https://voe.sx/e/" + voeId; }, 150);
+        // Login Logic
+        window.login = () => {
+            signInWithPopup(auth, provider).catch(err => alert("Login Failed: " + err.message));
+        };
 
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            
-            let boxes = document.getElementsByClassName('ep-box');
-            for(let i=0; i<boxes.length; i++){ boxes[i].classList.remove('active'); }
-            if(element) element.classList.add('active');
-
-            // --- Save Progress to Cloud ---
-            const user = auth.currentUser;
-            if (user && element) {
-                const epNum = parseInt(element.innerText);
-                const totalEp = boxes.length;
+        // Auth State Observer
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                loginOverlay.style.display = 'none';
+                mainUI.style.display = 'block';
                 
-                await setDoc(doc(db, "users", user.uid), {
-                    watchHistory: {
-                        [ANIME_ID]: {
-                            id: ANIME_ID,
-                            title: ANIME_TITLE,
-                            lastEp: epNum,
-                            totalEp: totalEp,
-                            poster: ANIME_POSTER,
-                            progress: Math.round((epNum / totalEp) * 100),
-                            timestamp: Date.now()
-                        }
-                    }
-                }, { merge: true });
+                // Prioritize LocalStorage for custom edits, else use Google data
+                document.getElementById('userName').innerText = localStorage.getItem('mw_name') || user.displayName;
+                document.getElementById('userImg').src = localStorage.getItem('mw_img') || user.photoURL;
+                
+                loadHistory(user.uid);
+            } else {
+                loginOverlay.style.display = 'flex';
+                mainUI.style.display = 'none';
+            }
+        });
+
+        // Save Custom Profile locally
+        window.saveProfile = () => {
+            localStorage.setItem('mw_name', document.getElementById('userName').innerText);
+        };
+
+        // Profile Image Upload
+        document.getElementById('fileInput').onchange = (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = () => {
+                    document.getElementById('userImg').src = reader.result;
+                    localStorage.setItem('mw_img', reader.result);
+                };
+                reader.readAsDataURL(file);
             }
         };
 
-        // --- Auto-Resume Function ---
-        onAuthStateChanged(auth, async (user) => {
-            const boxes = document.getElementsByClassName('ep-box');
-            let epToPlay = 1; // Default Ep 1
-            let voeToPlay = 'orh2fx68yjke'; // Default Voe ID
-
-            if (user) {
-                const docSnap = await getDoc(doc(db, "users", user.uid));
+        // Load History from Firestore
+        async function loadHistory(uid) {
+            try {
+                const docSnap = await getDoc(doc(db, "users", uid));
                 if (docSnap.exists()) {
                     const history = docSnap.data().watchHistory || {};
-                    if (history[ANIME_ID]) {
-                        epToPlay = history[ANIME_ID].lastEp;
-                        // Find the matching box to get its onclick data
-                        const targetBox = Array.from(boxes).find(b => parseInt(b.innerText) === epToPlay);
-                        if (targetBox) {
-                            // Extract Voe ID from the onclick attribute
-                            const onclickStr = targetBox.getAttribute('onclick');
-                            voeToPlay = onclickStr.split("'")[1];
-                        }
+                    const grid = document.getElementById('historyGrid');
+                    const entries = Object.values(history).sort((a, b) => b.timestamp - a.timestamp);
+                    
+                    if(entries.length > 0) {
+                        document.getElementById('emptyMsg').style.display = 'none';
+                        grid.innerHTML = entries.map(item => `
+                            <div class="vertical-card" onclick="location.href='anime/${item.id}.html?lastEp=${item.lastEp}'">
+                                <img src="${item.poster}" onerror="this.src='https://via.placeholder.com/110x150?text=No+Image'">
+                                <div class="progress-line-container">
+                                    <div class="progress-line-fill" style="width: ${item.progress}%"></div>
+                                </div>
+                                <div class="card-info">EPISODE ${item.lastEp}</div>
+                            </div>
+                        `).join('');
                     }
                 }
+            } catch (error) {
+                console.error("Error loading history:", error);
             }
-
-            // Execute Play
-            const finalBox = Array.from(boxes).find(b => parseInt(b.innerText) === epToPlay) || boxes[0];
-            playEpisode(voeToPlay, finalBox);
-        });
-
-        window.sharePage = () => {
-            if (navigator.share) { navigator.share({ title: document.querySelector('h1').innerText, url: window.location.href }); }
-            else { navigator.clipboard.writeText(window.location.href); alert('URL Copied!'); }
         }
     </script>
 </body>
 </html>
-
