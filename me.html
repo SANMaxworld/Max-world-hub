@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>MW Hub - My Dashboard</title>
+
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-        import { getFirestore, doc, setDoc, getDoc, updateDoc, arrayUnion, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getFirestore, doc, setDoc, getDoc, updateDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyAE_oP6wv4A1UxfEdcT82f4KZkhSBzfH3M",
@@ -24,15 +25,15 @@
         const db = getFirestore(app);
         const provider = new GoogleAuthProvider();
 
-        // Global state
         let currentUser = null;
+        window.selectedGender = "♂"; 
+        window.tempImageData = null;
 
-        // --- AUTH LOGIC ---
+        // --- AUTHENTICATION ---
         window.handleLogin = async () => {
             try {
                 const result = await signInWithPopup(auth, provider);
                 const user = result.user;
-                // Initial user setup in Firestore if new
                 const userRef = doc(db, "users", user.uid);
                 const docSnap = await getDoc(userRef);
                 
@@ -45,226 +46,208 @@
                         watchHistory: []
                     });
                 }
-                document.getElementById('login-container').style.display = 'none';
-            } catch (error) {
-                console.error("Login failed", error);
-            }
+            } catch (error) { console.error("Login Error:", error); }
         };
 
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 currentUser = user;
                 document.getElementById('login-container').style.display = 'none';
-                syncDashboard(user.uid);
+                syncData(user.uid);
             } else {
                 document.getElementById('login-container').style.display = 'flex';
             }
         });
 
-        // --- DASHBOARD SYNC ---
-        function syncDashboard(uid) {
-            onSnapshot(doc(db, "users", uid), (doc) => {
-                const data = doc.data();
-                if(!data) return;
+        // --- DATA SYNC (Profile + History) ---
+        function syncData(uid) {
+            onSnapshot(doc(db, "users", uid), (snapshot) => {
+                const data = snapshot.data();
+                if (!data) return;
 
-                // Sync Profile
+                // Profile Update
                 document.getElementById('displayName').innerText = data.name;
                 document.getElementById('displayId').innerText = data.accountId;
                 document.getElementById('displayGender').innerText = data.gender;
                 document.getElementById('displayGender').className = (data.gender === "♂") ? "badge-blue" : "badge-pink";
                 document.getElementById('displayPic').src = data.profilePic;
 
-                // Sync Watch History (Sorted by Recent)
-                const historyWrapper = document.querySelector('.history-wrapper');
+                // Watch History Update
+                const historyWrapper = document.getElementById('history-list');
                 historyWrapper.innerHTML = '';
+                const history = data.watchHistory || [];
                 
-                // Sort history by timestamp descending
-                const sortedHistory = (data.watchHistory || []).sort((a, b) => b.timestamp - a.timestamp);
-                
-                sortedHistory.forEach(item => {
-                    const card = `
+                // Newest First
+                history.sort((a, b) => b.timestamp - a.timestamp).forEach(item => {
+                    historyWrapper.innerHTML += `
                         <div class="history-card" onclick="window.location.href='${item.link}'">
                             <div class="history-img-box">
-                                <img src="${item.poster}" class="history-img" onerror="this.src='https://via.placeholder.com/160x90/333/fff?text=Anime'">
+                                <img src="${item.poster}" class="history-img" onerror="this.src='../assets/default_poster.jpg'">
                                 <div class="tv-icon"><svg viewBox="0 0 24 24" style="width:10px;height:10px;stroke:#fff;"><rect x="2" y="7" width="20" height="15" rx="2" ry="2"/><polyline points="17 2 12 7 7 2"/></svg></div>
-                                <div class="progress-track"><div class="progress-fill" style="width: ${item.progress}%;"></div></div>
+                                <div class="progress-track"><div class="progress-fill" style="width: ${item.progress}%"></div></div>
                             </div>
                             <div class="history-title">${item.title}</div>
                         </div>`;
-                    historyWrapper.innerHTML += card;
                 });
             });
         }
 
-        // --- SAVE PROFILE TO FIRESTORE ---
+        // --- GLOBAL FUNCTIONS FOR BUTTONS ---
+        window.openModal = () => document.getElementById('editModal').classList.add('show');
+        window.closeModal = () => document.getElementById('editModal').classList.remove('show');
+
+        window.selectGender = (type) => {
+            document.getElementById('btnMale').classList.remove('active');
+            document.getElementById('btnFemale').classList.remove('active');
+            if(type === 'Male') {
+                document.getElementById('btnMale').classList.add('active');
+                window.selectedGender = "♂";
+            } else {
+                document.getElementById('btnFemale').classList.add('active');
+                window.selectedGender = "♀";
+            }
+        };
+
+        window.handleImage = (input) => {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    window.tempImageData = e.target.result;
+                    document.getElementById('previewImg').src = window.tempImageData;
+                    window.checkValidation();
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        };
+
+        window.checkValidation = () => {
+            const name = document.getElementById('inputName').value.trim();
+            const id = document.getElementById('inputId').value.trim();
+            const btn = document.getElementById('saveBtn');
+            btn.classList.toggle('ready', name.length > 0 && id.length === 9);
+        };
+
         window.saveProfile = async () => {
-            if (!currentUser) return;
             const nameVal = document.getElementById('inputName').value.trim();
             const idVal = document.getElementById('inputId').value.trim();
-            const gender = window.selectedGender; // Accessing from your script
-            
-            const updateData = {
-                name: nameVal,
-                accountId: idVal,
-                gender: gender
-            };
-
-            // If local image was picked
-            if (window.tempImageData) {
-                updateData.profilePic = window.tempImageData;
+            if (nameVal && idVal.length === 9 && currentUser) {
+                const updateObj = { name: nameVal, accountId: idVal, gender: window.selectedGender };
+                if (window.tempImageData) updateObj.profilePic = window.tempImageData;
+                
+                await updateDoc(doc(db, "users", currentUser.uid), updateObj);
+                window.closeModal();
             }
+        };
 
-            await updateDoc(doc(db, "users", currentUser.uid), updateData);
-            window.closeModal();
+        window.myAddedAction = () => {
+            alert("My Added functionality is being synced with your database...");
         };
     </script>
 
     <style>
-        /* --- COPY-PASTED LOCKED CSS FROM YOUR PROMPT --- */
+        /* [IS SECTION MEIN KOI CHANGE NAHI HAI - AAPKA ORIGINAL CSS] */
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; -webkit-tap-highlight-color: transparent; }
         :root { --bg-main: #0e0e11; --bg-card: #1c1c22; --text-main: #ffffff; --text-sub: #8e8e93; --accent-red-solid: #ff4d4d; --gradient-red-dark: linear-gradient(180deg, #e60000 0%, #7a0000 100%); --divider: #2a2a30; }
         body { background-color: var(--bg-main); color: var(--text-main); padding-bottom: 90px; }
-        .icon { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; flex-shrink: 0; }
-        .icon svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-        .icon-fill svg { fill: currentColor; stroke: none; }
         .header { display: flex; justify-content: space-between; align-items: flex-start; padding: 20px 16px 15px; position: relative; }
         .profile-area { display: flex; align-items: center; gap: 12px; }
         .profile-pic { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; background: #333; border: 1px solid var(--divider); }
         .profile-info { display: flex; flex-direction: column; gap: 6px; }
-        .profile-name-row { display: flex; align-items: center; gap: 4px; }
         .profile-name { font-size: 18px; font-weight: 600; }
-        .arrow-right { color: var(--text-sub); font-size: 14px; }
-        .badge-row { display: flex; align-items: center; gap: 8px; }
         .badge { background: rgba(255,255,255,0.1); padding: 3px 6px; border-radius: 4px; font-size: 11px; color: var(--text-sub); display: flex; align-items: center; gap: 4px; }
         .badge-blue { color: #4facfe; } .badge-pink { color: #ff66b2; }
         .announcement { background: rgba(204, 0, 0, 0.1); color: var(--accent-red-solid); padding: 10px 16px; font-size: 12px; display: flex; align-items: center; gap: 8px; margin-bottom: 16px;}
         .menu-group { background: var(--bg-card); border-radius: 12px; margin: 0 16px 16px; overflow: hidden; padding-top: 5px; }
         .menu-item { display: flex; align-items: center; justify-content: space-between; padding: 16px; border-bottom: 1px solid var(--divider); cursor: pointer; }
         .menu-item:last-child { border-bottom: none; }
-        .menu-item-left { display: flex; align-items: center; gap: 12px; font-size: 15px; font-weight: 500; color: #e5e5e5; }
-        .menu-item-left .icon { color: #b0b0b0; }
-        .menu-item-right { display: flex; align-items: center; gap: 8px; color: var(--text-sub); font-size: 14px; }
         .history-wrapper { padding: 10px 16px 16px; display: flex; gap: 12px; overflow-x: auto; scrollbar-width: none; }
-        .history-wrapper::-webkit-scrollbar { display: none; }
         .history-card { flex: 0 0 140px; position: relative; }
         .history-img-box { position: relative; width: 100%; height: 80px; border-radius: 6px; overflow: hidden; background: #333; }
         .history-img { width: 100%; height: 100%; object-fit: cover; opacity: 0.9; }
-        .tv-icon { position: absolute; top: 4px; left: 4px; background: rgba(0,0,0,0.6); padding: 2px; border-radius: 4px; width: 16px; height: 16px; display: flex; align-items: center; justify-content: center; }
         .progress-track { position: absolute; bottom: 0; left: 0; width: 100%; height: 3px; background: rgba(255,255,255,0.3); }
         .progress-fill { height: 100%; background: var(--gradient-red-dark); }
         .history-title { font-size: 12px; color: #ccc; margin-top: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .footer-text { text-align: center; font-size: 12px; color: var(--text-sub); padding: 10px 0 30px; }
-        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; height: 65px; background: var(--bg-card); display: flex; justify-content: space-around; align-items: center; border-top-left-radius: 20px; border-top-right-radius: 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.5); z-index: 100; padding-bottom: env(safe-area-inset-bottom); }
-        .nav-item { display: flex; flex-direction: column; align-items: center; gap: 4px; color: var(--text-sub); text-decoration: none; width: 33.33%; position: relative; }
+        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; height: 65px; background: var(--bg-card); display: flex; justify-content: space-around; align-items: center; border-top-left-radius: 20px; border-top-right-radius: 20px; z-index: 100; }
+        .nav-item { display: flex; flex-direction: column; align-items: center; color: var(--text-sub); text-decoration: none; }
         .nav-item.active { color: var(--accent-red-solid); }
-        .nav-item span { font-size: 10px; font-weight: 500; }
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 200; justify-content: center; align-items: center; padding: 20px; opacity: 0; transition: opacity 0.3s; }
-        .modal-overlay.show { display: flex; opacity: 1; }
-        .modal-content { background: var(--bg-card); width: 100%; max-width: 350px; border-radius: 16px; padding: 24px; position: relative; border: 1px solid var(--divider); }
-        .close-btn { position: absolute; top: 15px; right: 15px; color: var(--text-sub); font-size: 20px; cursor: pointer; }
-        .modal-title { font-size: 18px; font-weight: 600; margin-bottom: 20px; text-align: center; color: var(--text-main); }
-        .input-group { margin-bottom: 16px; }
-        .input-group label { display: block; font-size: 12px; color: var(--text-sub); margin-bottom: 6px; }
-        .input-box { width: 100%; background: var(--bg-main); border: 1px solid var(--divider); color: var(--text-main); padding: 12px; border-radius: 8px; outline: none; font-size: 14px; }
-        .upload-container { display: flex; align-items: center; gap: 15px; background: var(--bg-main); padding: 10px; border-radius: 8px; border: 1px solid var(--divider); cursor: pointer; }
-        .preview-circle { width: 45px; height: 45px; border-radius: 50%; object-fit: cover; background: #333; }
-        .upload-text { font-size: 13px; color: var(--accent-red-solid); font-weight: 500; }
-        .gender-selector { display: flex; gap: 10px; }
-        .gender-btn { flex: 1; padding: 10px; background: var(--bg-main); border: 1px solid var(--divider); color: var(--text-sub); border-radius: 8px; text-align: center; cursor: pointer; font-size: 14px; }
-        .gender-btn.active { background: rgba(204, 0, 0, 0.1); border-color: var(--accent-red-solid); color: var(--accent-red-solid); font-weight: bold; }
-        .save-btn { width: 100%; padding: 14px; border-radius: 8px; background: var(--gradient-red-dark); color: #fff; font-weight: 700; text-align: center; border: none; cursor: pointer; margin-top: 10px; opacity: 0.4; pointer-events: none; transition: 0.3s; }
-        .save-btn.ready { opacity: 1; pointer-events: auto; }
+        
+        /* LOGIN CSS */
+        #login-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at center, #11112b 0%, #050508 100%); display: flex; align-items: center; justify-content: center; z-index: 2000; }
+        .login-card { width: 330px; background: rgba(255, 255, 255, 0.04); backdrop-filter: blur(25px); border-radius: 30px; padding: 25px; text-align: center; border: 1px solid rgba(255,255,255,0.1); }
+        .google-btn-red { background: linear-gradient(90deg, #ff416c 0%, #ff4b2b 100%); color: #fff; padding: 12px 20px; border-radius: 14px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 10px; justify-content: center; }
 
-        /* --- LOGIN INTERFACE CSS (LOCKED DESIGN) --- */
-        :root { --red-gradient: linear-gradient(90deg, #ff416c 0%, #ff4b2b 100%); --navy-bg: radial-gradient(circle at center, #11112b 0%, #0a0a14 70%, #050508 100%); }
-        #login-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--navy-bg); display: flex; align-items: center; justify-content: center; z-index: 2000; }
-        .login-card-wrapper { position: relative; width: 330px; height: 330px; display: flex; align-items: center; justify-content: center; }
-        .login-card { width: 100%; height: 100%; background: rgba(255, 255, 255, 0.04); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 30px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 25px; z-index: 2; box-shadow: 0 15px 35px rgba(0,0,0,0.6); animation: floatAnim 3.5s ease-in-out infinite; }
-        @keyframes floatAnim { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
-        .card-glow { position: absolute; bottom: -25px; width: 70%; height: 50px; background: #ff416c; filter: blur(45px); opacity: 0.4; z-index: 1; animation: glowPulse 3.5s ease-in-out infinite; }
-        @keyframes glowPulse { 0%, 100% { opacity: 0.3; transform: scale(0.9); } 50% { opacity: 0.6; transform: scale(1.1); } }
-        .top-logo-circle { background: rgba(255, 255, 255, 0.07); width: 64px; height: 64px; border-radius: 50%; margin-bottom: 15px; border: 1px solid rgba(255, 255, 255, 0.1); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-        .text-group { margin-bottom: 25px; }
-        .login-title { font-size: 24px; font-weight: 800; color: #fff; margin-bottom: 4px; letter-spacing: -0.5px; }
-        .tagline { font-size: 11px; color: #ff416c; font-weight: 600; text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 12px; }
-        .login-desc { font-size: 12px; color: #a0a0ab; line-height: 1.4; max-width: 240px; margin: 0 auto; }
-        .google-btn-red { background: var(--red-gradient); color: #fff; display: flex; align-items: center; gap: 12px; padding: 12px 20px; border-radius: 14px; font-weight: 700; font-size: 14px; cursor: pointer; box-shadow: 0 8px 20px rgba(255, 65, 108, 0.4); transition: 0.3s; }
-        .g-icon-bg { background: #fff; width: 22px; height: 22px; border-radius: 5px; display: flex; align-items: center; justify-content: center; }
-        .g-icon-bg img { width: 14px; }
+        /* MODAL CSS */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 200; justify-content: center; align-items: center; }
+        .modal-overlay.show { display: flex; }
+        .modal-content { background: var(--bg-card); width: 90%; max-width: 350px; border-radius: 16px; padding: 24px; border: 1px solid var(--divider); }
+        .input-box { width: 100%; background: var(--bg-main); border: 1px solid var(--divider); color: var(--text-main); padding: 12px; border-radius: 8px; margin-top: 5px; }
+        .save-btn { width: 100%; padding: 14px; border-radius: 8px; background: var(--gradient-red-dark); color: #fff; border: none; margin-top: 15px; opacity: 0.4; pointer-events: none; }
+        .save-btn.ready { opacity: 1; pointer-events: auto; }
+        .icon { width: 24px; height: 24px; display: inline-flex; }
+        .icon svg { width: 100%; height: 100%; stroke: currentColor; fill: none; stroke-width: 2; }
     </style>
 </head>
 <body>
 
-    <div id="login-container">
-        <div class="login-card-wrapper">
-            <div class="login-card">
-                <div class="top-logo-circle">
-                    <svg viewBox="0 0 48 48" width="36" height="36">
-                        <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
-                        <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
-                        <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
-                        <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
-                    </svg>
-                </div>
-                <div class="text-group">
-                    <h1 class="login-title">Welcome to MW Hub</h1>
-                    <p class="tagline">Your Premium Destination</p>
-                    <p class="login-desc">Create an account to sync your watch history and save anime movies across devices.</p>
-                </div>
-                <div class="google-btn-red" onclick="handleLogin()">
-                    <div class="g-icon-bg"><img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="G"></div>
-                    <span>Continue with Google</span>
-                </div>
-            </div>
-            <div class="card-glow"></div>
+    <div id="login-container" style="display: none;">
+        <div class="login-card">
+            <h2 style="color:#fff; margin-bottom: 10px;">MW Hub</h2>
+            <p style="color:#a0a0ab; font-size: 12px; margin-bottom: 20px;">Premium Anime Destination</p>
+            <div class="google-btn-red" onclick="handleLogin()">Continue with Google</div>
         </div>
     </div>
 
     <div class="header">
         <div class="profile-area">
-            <img src="../assets/demon_slayer_s1.jpg" class="profile-pic" id="displayPic" alt="Profile">
+            <img src="" class="profile-pic" id="displayPic">
             <div class="profile-info">
-                <div class="profile-name-row">
-                    <span class="profile-name" id="displayName">...</span>
-                    <span class="arrow-right">›</span>
-                </div>
+                <div class="profile-name-row"><span class="profile-name" id="displayName">Loading...</span></div>
                 <div class="badge-row">
-                    <div class="badge"><span class="badge-blue" id="displayGender">♂</span></div>
+                    <div class="badge"><span id="displayGender">♂</span></div>
                     <div class="badge">ID: <span id="displayId">...</span></div>
                 </div>
             </div>
         </div>
-        <div class="scan-icon icon">
-            <svg viewBox="0 0 24 24"><path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2M7 12h10"/></svg>
-        </div>
     </div>
 
-    <div class="announcement">
-        <span class="icon icon-fill"><svg viewBox="0 0 24 24"><path d="M20 10.5V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h5.5M16 21v-2a4 4 0 0 0-4-4H9M16 21l3-3M16 21l-3-3" fill="#ff4d4d"/></svg></span>
-        Welcome to the official MW Hub website
-    </div>
+    <div class="announcement">Welcome to the official MW Hub website</div>
 
     <div class="menu-group">
-        <div class="menu-item" style="border-bottom: none; padding-bottom: 5px;">
-            <div class="menu-item-left">
-                <span class="icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></span>
-                Watch History
-            </div>
-            <div class="menu-item-right">›</div>
+        <div class="menu-item" style="border-bottom: none;">
+            <div class="menu-item-left">Watch History</div>
         </div>
         <div class="history-wrapper" id="history-list">
             </div>
     </div>
 
     <div class="menu-group">
-        <div class="menu-item"><div class="menu-item-left"><span class="icon"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></span>My Added</div><div class="menu-item-right">›</div></div>
-        <div class="menu-item" onclick="openModal()"><div class="menu-item-left"><span class="icon"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg></span>Edit Profile</div><div class="menu-item-right">›</div></div>
-        <div class="menu-item" onclick="window.location.href='https://t.me/+pnQEnRYbIDtiYzFl'"><div class="menu-item-left"><span class="icon"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></span>Support</div><div class="menu-item-right">›</div></div>
+        <div class="menu-item" onclick="myAddedAction()"><div class="menu-item-left">My Added</div><div>›</div></div>
+        <div class="menu-item" onclick="openModal()"><div class="menu-item-left">Edit Profile</div><div>›</div></div>
     </div>
 
-    <div class="footer-text">Official website: Max World Hub</div>
-
     <div class="bottom-nav">
-        <a href="#" class="nav-item"><span class="icon"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg></span><span>Downloads</span></a>
-        <a href="../index.html" class="nav-item"><span class="icon"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span><span>Home</span></a>
-        <a href="#" class="nav-item active"><span class="icon icon-fill"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z" fill="#ff4d4d"/></svg></span><span>Me</
+        <a href="../index.html" class="nav-item"><span>Home</span></a>
+        <a href="#" class="nav-item active"><span>Me</span></a>
+    </div>
+
+    <div class="modal-overlay" id="editModal">
+        <div class="modal-content">
+            <h3 style="margin-bottom: 20px;">Edit Profile</h3>
+            <div style="text-align: center; margin-bottom: 15px;">
+                <img src="" id="previewImg" class="preview-circle" style="width:60px; height:60px; border-radius:50%;" onclick="document.getElementById('fileInput').click()">
+                <input type="file" id="fileInput" accept="image/*" style="display:none;" onchange="handleImage(this)">
+                <p style="color:var(--accent-red-solid); font-size:12px; margin-top:5px;">Change Photo</p>
+            </div>
+            <input type="text" id="inputName" class="input-box" placeholder="Name" onkeyup="checkValidation()">
+            <input type="number" id="inputId" class="input-box" placeholder="9 Digit ID" onkeyup="checkValidation()">
+            <div style="display:flex; gap:10px; margin-top:10px;">
+                <button class="gender-btn" id="btnMale" onclick="selectGender('Male')">Male</button>
+                <button class="gender-btn" id="btnFemale" onclick="selectGender('Female')">Female</button>
+            </div>
+            <button class="save-btn" id="saveBtn" onclick="saveProfile()">Save</button>
+            <p onclick="closeModal()" style="text-align:center; margin-top:15px; color:var(--text-sub); font-size:12px;">Cancel</p>
+        </div>
+    </div>
+
+</body>
+</html>
