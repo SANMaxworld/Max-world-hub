@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Watch Demon Slayer Season 1 Hindi Dubbed Online - Max World Hub</title>
     <meta name="description" content="Stream Demon Slayer: Kimetsu no Yaiba Season 1 in Hindi Dubbed on Max World Hub. Watch Tanjiro's journey to save Nezuko in high quality 1080p. All 26 episodes available with fast streaming.">
     
@@ -23,7 +23,6 @@
         .seo-about-section h2 { font-size: 16px; color: #fff; margin-bottom: 10px; border-left: 3px solid #ff0000; padding-left: 10px; }
         .seo-about-section p { font-size: 12px; color: #aaa; line-height: 1.6; text-align: justify; margin: 0; }
         .player-wrapper { position: relative; }
-        /* Popout Blocker Removed per Technical Note */
         .custom-select { position: relative; cursor: pointer; display: flex; align-items: center; justify-content: center; }
         .custom-select select { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
         .dropdown-icon { font-size: 9px; margin-left: 6px; color: #888; }
@@ -35,8 +34,8 @@
     <div class="watch-container">
         <div class="player-wrapper" id="videoArea">
             <img src="../assets/demon_slayer_s1.jpg" class="poster-img" id="mainPoster" alt="Demon Slayer Season 1">
-            <div class="iframe-container" id="iframeContainer">
-                <iframe id="mainPlayer" src="" allowfullscreen allowtransparency allow="autoplay" scrolling="no" frameborder="0"></iframe>
+            <div class="iframe-container" id="iframeContainer" style="display: none;">
+                <iframe id="mainPlayer" src="" allowfullscreen allowtransparency allow="autoplay" scrolling="no" frameborder="0" style="width:100%; height:100%; aspect-ratio: 16/9;"></iframe>
             </div>
         </div>
         <div class="watch-content">
@@ -70,7 +69,7 @@
             </div>
             
             <div class="episode-slider" id="epSlider">
-                <div class="ep-box active" onclick="playEpisode('40utdw02wqim', this)">1</div>
+                <div class="ep-box" onclick="playEpisode('40utdw02wqim', this)">1</div>
                 <div class="ep-box" onclick="playEpisode('rghl9wsi1wda', this)">2</div>
                 <div class="ep-box" onclick="playEpisode('8b6sswozkrt2', this)">3</div>
                 <div class="ep-box" onclick="playEpisode('qqambriw06yo', this)">4</div>
@@ -118,37 +117,102 @@
             </div>
             <div class="seo-about-section">
                 <h2>About Demon Slayer Season 1 Hindi Dubbed</h2>
-                <p>Welcome to <strong>Max World Hub</strong>, your ultimate source to <strong>watch Demon Slayer Season 1 online</strong> in high definition. Kimetsu no Yaiba follows Tanjiro Kamado, a kindhearted boy whose life is shattered when his family is slaughtered by a demon, and his sister Nezuko is transformed into one. On <strong>Max World Hub</strong>, you can stream all 26 episodes of <strong>Demon Slayer Hindi Dubbed</strong> with premium Voe.sx links for a buffer-free experience. Whether you want to <strong>download Demon Slayer all episodes in Hindi</strong> or watch the epic Hinokami Kagura fight in 1080p, we provide the best streaming quality. Join the Demon Slayer Corps and witness the breathtaking animation by Ufotable. Stay tuned with <strong>Max World HUB</strong> for all seasons and the latest movie updates.</p>
+                <p>Welcome to <strong>Max World Hub</strong>, your ultimate source to watch Demon Slayer Season 1 online...</p>
             </div>
             <a href="../index.html" class="back-home-btn">← Back to Homepage</a>
             <a href="https://t.me/+pnQEnRYbIDtiYzFl" class="support-link">Report Issue / Request Help?</a>
             <div class="copyright-footer"><p>© 2026 Max World Hub | Powered by SAN Team</p></div>
         </div>
     </div> 
-    <a href="DOWNLOAD_LINK_HERE" target="_blank" class="floating-dl-btn">Download</a>
-    
-    <script>
-        window.onload = function() {
-            const firstEpId = '40utdw02wqim'; 
-            document.getElementById('mainPoster').style.display = 'none';
-            document.getElementById('iframeContainer').style.display = 'block';
-            document.getElementById('mainPlayer').src = "https://voe.sx/e/" + firstEpId;
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAE_oP6wv4A1UxfEdcT82f4KZkhSBzfH3M",
+            authDomain: "mw-hub-59e96.firebaseapp.com",
+            projectId: "mw-hub-59e96",
+            storageBucket: "mw-hub-59e96.firebasestorage.app",
+            messagingSenderId: "1084767566489",
+            appId: "1:1084767566489:web:5913fcac03c2947c9b1608"
         };
 
-        function playEpisode(voeId, element) {
-            document.getElementById('mainPoster').style.display = 'none';
-            document.getElementById('iframeContainer').style.display = 'block';
-            document.getElementById('mainPlayer').src = "https://voe.sx/e/" + voeId;
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        const ANIME_ID = "demon-slayer-s1";
+        const ANIME_TITLE = "Demon Slayer S1";
+        const ANIME_POSTER = "../assets/demon_slayer_s1.jpg";
+
+        window.playEpisode = async function(voeId, element) {
+            const player = document.getElementById('mainPlayer');
+            const container = document.getElementById('iframeContainer');
+            const poster = document.getElementById('mainPoster');
+            
+            poster.style.display = 'none';
+            container.style.display = 'block';
+            
+            player.src = "about:blank"; 
+            setTimeout(() => { player.src = "https://voe.sx/e/" + voeId; }, 150);
+
             window.scrollTo({ top: 0, behavior: 'smooth' });
+            
             let boxes = document.getElementsByClassName('ep-box');
             for(let i=0; i<boxes.length; i++){ boxes[i].classList.remove('active'); }
-            element.classList.add('active');
-        }
+            if(element) element.classList.add('active');
 
-        function sharePage() {
+            const user = auth.currentUser;
+            if (user && element) {
+                const epNum = parseInt(element.innerText);
+                const totalEp = boxes.length;
+                
+                await setDoc(doc(db, "users", user.uid), {
+                    watchHistory: {
+                        [ANIME_ID]: {
+                            id: ANIME_ID,
+                            title: ANIME_TITLE,
+                            lastEp: epNum,
+                            totalEp: totalEp,
+                            poster: ANIME_POSTER,
+                            progress: Math.round((epNum / totalEp) * 100),
+                            timestamp: Date.now()
+                        }
+                    }
+                }, { merge: true });
+            }
+        };
+
+        onAuthStateChanged(auth, async (user) => {
+            const boxes = document.getElementsByClassName('ep-box');
+            let epToPlay = 1; 
+            let voeToPlay = '40utdw02wqim'; 
+
+            if (user) {
+                const docSnap = await getDoc(doc(db, "users", user.uid));
+                if (docSnap.exists()) {
+                    const history = docSnap.data().watchHistory || {};
+                    if (history[ANIME_ID]) {
+                        epToPlay = history[ANIME_ID].lastEp;
+                        const targetBox = Array.from(boxes).find(b => parseInt(b.innerText) === epToPlay);
+                        if (targetBox) {
+                            const onclickStr = targetBox.getAttribute('onclick');
+                            voeToPlay = onclickStr.split("'")[1];
+                        }
+                    }
+                }
+            }
+            const finalBox = Array.from(boxes).find(b => parseInt(b.innerText) === epToPlay) || boxes[0];
+            playEpisode(voeToPlay, finalBox);
+        });
+
+        window.sharePage = () => {
             if (navigator.share) { navigator.share({ title: document.querySelector('h1').innerText, url: window.location.href }); }
             else { navigator.clipboard.writeText(window.location.href); alert('URL Copied!'); }
-        }
+        };
     </script>
 </body>
-</html>
+    </html>
+                    
