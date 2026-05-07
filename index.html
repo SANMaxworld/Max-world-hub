@@ -12,141 +12,12 @@
 
     <link rel="icon" type="image/png" href="assets/logo.png">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
-
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&family=Roboto:wght@400;500;700&display=swap');
-
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        html { scroll-behavior: smooth; }
-        body {
-            background: radial-gradient(circle at center, #1a0b36 0%, #05031a 100%);
-            background-attachment: fixed;
-            color: white;
-            min-height: 100vh;
-            overflow-x: hidden;
-            font-family: 'Poppins', sans-serif;
-        }
-
-        header {
-            background: #000; padding: 12px 20px; display: flex; justify-content: center; align-items: center;
-            border-bottom: 2px solid #ff0000; position: sticky; top: 0; z-index: 1000;
-        }
-        .logo-section { display: flex; align-items: center; gap: 12px; }
-        .main-logo { width: 45px; height: 45px; border-radius: 8px; border: 1px solid #ff0000; }
-        .brand-name { font-size: 1.3rem; font-weight: 800; text-transform: uppercase; }
-        .neon-red-text { color: #ff0000; text-shadow: 0 0 10px #ff0000; }
-
-        .glass-container { margin: 15px auto; padding: 15px; max-width: 850px; width: 94%; }
-        
-        .search-box {
-            width: 100%; padding: 15px; border-radius: 50px; border: 2px solid rgba(255,255,255,0.1);
-            background: rgba(0,0,0,0.8); color: #fff; margin-bottom: 8px; outline: none; transition: 0.3s;
-            position: relative; z-index: 999;
-        }
-        .search-box:focus { border-color: #ff0000; box-shadow: 0 0 20px rgba(255, 0, 0, 0.5); }
-
-        .foggy-tags-container {
-            display: flex; overflow-x: auto; gap: 15px;
-            padding: 5px 0 20px 0; scrollbar-width: none;
-        }
-        .foggy-tags-container::-webkit-scrollbar { display: none; }
-
-        .foggy-tag {
-            text-decoration: none; color: rgba(255, 255, 255, 0.6);
-            font-size: 0.85rem; font-weight: 500; white-space: nowrap;
-            transition: 0.4s ease; text-shadow: 0 0 5px rgba(0,0,0,0.5);
-            padding: 5px 10px; border-radius: 10px;
-        }
-        .foggy-tag:hover, .foggy-tag:active { 
-            color: #fff; text-shadow: 0 0 15px #fff, 0 0 25px #fff; transform: scale(1.1);
-        }
-
-        .swiper { width: 100%; height: 180px; border-radius: 15px; margin-bottom: 25px; border: 1px solid rgba(255,255,255,0.1); overflow: hidden; position: relative; }
-        .swiper-slide img { width: 100%; height: 100%; object-fit: cover; }
-        
-        .slider-trending-tag {
-            position: absolute; top: 10px; right: 10px; background: #ff0000;
-            color: #fff; font-size: 0.65rem; font-weight: 800; padding: 4px 8px;
-            border-radius: 4px; z-index: 10; box-shadow: 0 0 10px rgba(255,0,0,0.5);
-            text-transform: uppercase;
-        }
-
-        .content-section { scroll-margin-top: 85px; margin-bottom: 40px; }
-        .section-title { font-size: 1.1rem; font-weight: 800; margin-bottom: 15px; color: #fff; border-left: 4px solid #ff0000; padding-left: 10px; }
-        .grid-container { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
-
-        .show-more-btn {
-            display: block; width: fit-content; margin: 15px auto 0;
-            padding: 6px 18px; background: #ff0000; color: white;
-            text-decoration: none; font-size: 0.7rem; font-weight: 800;
-            border-radius: 50px; text-transform: uppercase;
-            box-shadow: 0 4px 10px rgba(255, 0, 0, 0.3); transition: 0.3s;
-        }
-        .show-more-btn:active { transform: scale(0.9); }
-
-        .search-item {
-            background: rgba(255,255,255,0.05); border-radius: 12px; overflow: hidden;
-            border: 1px solid rgba(255,255,255,0.1); display: flex; flex-direction: column;
-            position: relative; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); cursor: pointer;
-            text-decoration: none; contain: content; will-change: transform; 
-        }
-
-        .search-item:hover {
-            transform: translateY(-5px);
-            border-color: #ff0000;
-            box-shadow: 0 10px 20px rgba(255, 0, 0, 0.2);
-            background: rgba(255, 255, 255, 0.08);
-        }
-        .search-item:active { transform: scale(0.97); }
-        
-        .badge-hindi {
-            position: absolute; top: 8px; right: 8px; background: #ff0000; color: #fff;
-            font-size: 0.65rem; font-weight: 800; padding: 4px 8px; border-radius: 4px; z-index: 2;
-            box-shadow: 0 0 10px rgba(255,0,0,0.5);
-        }
-        .icon-poster { width: 100%; aspect-ratio: 2/3; object-fit: cover; border-bottom: 2px solid #ff0000; transition: 0.3s; }
-        .search-item:hover .icon-poster { border-bottom: 2px solid #fff; }
-
-        .content-box { padding: 10px; text-align: center; }
-        .content-box h4 { font-size: 0.85rem; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .desc-text { font-size: 0.7rem; color: #bbb; }
-
-        .bottom-nav {
-            position: fixed; bottom: 0; left: 0; width: 100%; height: 65px;
-            background: rgba(0, 0, 0, 0.95); backdrop-filter: blur(10px);
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            display: flex; justify-content: space-around; align-items: center; z-index: 1000;
-        }
-        .nav-item { display: flex; flex-direction: column; align-items: center; color: #888; font-size: 10px; cursor: pointer; }
-        .nav-item.active { color: #ff0000; }
-        .nav-icon { font-size: 20px; margin-bottom: 2px; }
-
-        .explore-popup {
-            display: none; position: fixed; bottom: 75px; left: 50%; transform: translateX(-50%);
-            background: rgba(0, 0, 0, 0.95); border: 1px solid #ff0000; padding: 15px;
-            border-radius: 15px; flex-direction: column; gap: 12px; z-index: 1001; min-width: 160px;
-            box-shadow: 0 0 30px rgba(255, 0, 0, 0.3); opacity: 0; transition: 0.3s;
-        }
-        .explore-popup.show { display: flex; opacity: 1; transform: translate(-50%, -5px); }
-        .explore-popup a { color: white; text-decoration: none; font-weight: 600; text-align: center; font-size: 14px; padding: 5px; }
-        .explore-popup a:hover { color: #ff0000; }
-
-        footer { padding: 30px 20px 100px; text-align: center; border-top: 1px solid rgba(255,255,255,0.05); }
-        .footer-links { display: flex; justify-content: center; gap: 15px; margin-bottom: 12px; }
-        .footer-links a { color: #ffffff !important; text-decoration: none; font-size: 0.8rem; opacity: 0.8; }
-        footer p { color: #555; font-size: 0.7rem; }
-
-        .search-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(8px);
-            z-index: 900; opacity: 0; visibility: hidden; transition: 0.3s;
-        }
-        .search-overlay.active { opacity: 1; visibility: visible; }
-    </style>
+    
+    <link rel="stylesheet" href="index-style.css">
 </head>
 <body>
 
-    <div id="searchOverlay" class="search-overlay"></div>
+    <div id="searchOverlay" class="search-overlay" onclick="toggleSearch(false)"></div>
 
     <header>
         <div class="logo-section">
@@ -156,7 +27,7 @@
     </header>
 
     <div class="glass-container">
-        <input type="text" id="searchInput" class="search-box" placeholder="Search Anime, Movies or Series..." onfocus="toggleSearch(true)" onblur="toggleSearch(false)">
+        <input type="text" id="searchInput" class="search-box" placeholder="Search Anime, Movies or Series..." onfocus="toggleSearch(true)">
 
         <div id="searchResultsArea" class="grid-container" style="display: none; position: relative; z-index: 999;"></div>
 
@@ -189,10 +60,10 @@
             <section id="trending" class="content-section">
                 <h2 class="section-title">🔥 TRENDING NOW</h2>
                 <div class="grid-container">
-                    <a href="anime/death-note.html" class="search-item"><span class="badge-hindi">HINDI</span><img src="assets/deathnote.jpeg" class="icon-poster"><div class="content-box"><h4>Death Note</h4><p class="desc-text">Trending #1</p></div></a>
-                    <a href="anime/aot.html" class="search-item"><span class="badge-hindi">HINDI</span><img src="assets/A.O.T.jpeg" class="icon-poster"><div class="content-box"><h4>Attack on Titan S1</h4><p class="desc-text">Trending #2</p></div></a>
-                    <a href="anime/demon-slayer.html" class="search-item"><span class="badge-hindi">HINDI</span><img src="assets/demonslayer.jpeg" class="icon-poster"><div class="content-box"><h4>Demon Slayer S1</h4><p class="desc-text">Trending #3</p></div></a>
-                    <a href="anime/solo-leveling.html" class="search-item"><span class="badge-hindi">HINDI</span><img src="assets/soloposter.jpeg" class="icon-poster"><div class="content-box"><h4>Solo Leveling S1</h4><p class="desc-text">Trending #4</p></div></a>
+                    <a href="anime/death-note.html" class="search-item"><span class="badge-hindi">HINDI</span><img src="assets/deathnote.jpeg" class="icon-poster"><div class="content-box"><h4>Death Note</h4><p class="desc-text">Psychological</p></div></a>
+                    <a href="anime/aot.html" class="search-item"><span class="badge-hindi">HINDI</span><img src="assets/A.O.T.jpeg" class="icon-poster"><div class="content-box"><h4>Attack on Titan S1</h4><p class="desc-text">Action</p></div></a>
+                    <a href="anime/demon-slayer.html" class="search-item"><span class="badge-hindi">HINDI</span><img src="assets/demonslayer.jpeg" class="icon-poster"><div class="content-box"><h4>Demon Slayer S1</h4><p class="desc-text">Action</p></div></a>
+                    <a href="anime/solo-leveling.html" class="search-item"><span class="badge-hindi">HINDI</span><img src="assets/soloposter.jpeg" class="icon-poster"><div class="content-box"><h4>Solo Leveling S1</h4><p class="desc-text">Fantasy</p></div></a>
                 </div>
                 <a href="page2.html#trending" class="show-more-btn">Show More</a>
             </section>
@@ -209,8 +80,8 @@
             <section id="fantasy" class="content-section">
                 <h2 class="section-title">🪄 FANTASY</h2>
                 <div class="grid-container">
-                    <a href="anime/solo-leveling.html" class="search-item"><span class="badge-hindi">HINDI</span><img src="assets/soloposter.jpeg" class="icon-poster"><div class="content-box"><h4>Solo Leveling S1</h4><p class="desc-text">Fantasy Action</p></div></a>
-                    <a href="anime/demon-slayer.html" class="search-item"><span class="badge-hindi">HINDI</span><img src="assets/demonslayer.jpeg" class="icon-poster"><div class="content-box"><h4>Demon Slayer S1</h4><p class="desc-text">Fantasy Adventure</p></div></a>
+                    <a href="anime/solo-leveling.html" class="search-item"><span class="badge-hindi">HINDI</span><img src="assets/soloposter.jpeg" class="icon-poster"><div class="content-box"><h4>Solo Leveling S1</h4><p class="desc-text">Fantasy</p></div></a>
+                    <a href="anime/demon-slayer.html" class="search-item"><span class="badge-hindi">HINDI</span><img src="assets/demonslayer.jpeg" class="icon-poster"><div class="content-box"><h4>Demon Slayer S1</h4><p class="desc-text">Fantasy</p></div></a>
                 </div>
                 <a href="page2.html#fantasy" class="show-more-btn">Show More</a>
             </section>
@@ -246,7 +117,6 @@
                 <h2 class="section-title">💖 ROMANCE</h2>
                 <div class="grid-container">
                     <a href="#" class="search-item"><span class="badge-hindi">HINDI</span><img src="assets/rom_sample.jpeg" class="icon-poster"><div class="content-box"><h4>Horimiya</h4><p class="desc-text">Romance</p></div></a>
-                    <a href="#" class="search-item"><span class="badge-hindi">HINDI</span><img src="assets/rom2_sample.jpeg" class="icon-poster"><div class="content-box"><h4>A Silent Voice</h4><p class="desc-text">Romance Drama</p></div></a>
                 </div>
                 <a href="page2.html#romance" class="show-more-btn">Show More</a>
             </section>
@@ -255,7 +125,6 @@
                 <h2 class="section-title">🚀 SCI-FI</h2>
                 <div class="grid-container">
                     <a href="#" class="search-item"><span class="badge-hindi">HINDI</span><img src="assets/sci_sample.jpeg" class="icon-poster"><div class="content-box"><h4>Dr. Stone</h4><p class="desc-text">Sci-Fi</p></div></a>
-                    <a href="#" class="search-item"><span class="badge-hindi">HINDI</span><img src="assets/sci2_sample.jpeg" class="icon-poster"><div class="content-box"><h4>Steins;Gate</h4><p class="desc-text">Sci-Fi</p></div></a>
                 </div>
                 <a href="page2.html#scifi" class="show-more-btn">Show More</a>
             </section>
@@ -264,7 +133,6 @@
                 <h2 class="section-title">👻 HORROR</h2>
                 <div class="grid-container">
                     <a href="#" class="search-item"><span class="badge-hindi">HINDI</span><img src="assets/hor_sample.jpeg" class="icon-poster"><div class="content-box"><h4>Tokyo Ghoul</h4><p class="desc-text">Horror</p></div></a>
-                    <a href="#" class="search-item"><span class="badge-hindi">HINDI</span><img src="assets/hor2_sample.jpeg" class="icon-poster"><div class="content-box"><h4>Another</h4><p class="desc-text">Horror</p></div></a>
                 </div>
                 <a href="page2.html#horror" class="show-more-btn">Show More</a>
             </section>
@@ -273,16 +141,14 @@
                 <h2 class="section-title">😂 COMEDY</h2>
                 <div class="grid-container">
                     <a href="#" class="search-item"><span class="badge-hindi">HINDI</span><img src="assets/com_sample.jpeg" class="icon-poster"><div class="content-box"><h4>Spy x Family</h4><p class="desc-text">Comedy</p></div></a>
-                    <a href="#" class="search-item"><span class="badge-hindi">HINDI</span><img src="assets/com2_sample.jpeg" class="icon-poster"><div class="content-box"><h4>One Punch Man</h4><p class="desc-text">Comedy Action</p></div></a>
                 </div>
                 <a href="page2.html#comedy" class="show-more-btn">Show More</a>
             </section>
 
             <section id="drama" class="content-section">
-                <h2 class="section-title">🎭 DRAMA & PSYCHOLOGICAL</h2>
+                <h2 class="section-title">🎭 DRAMA</h2>
                 <div class="grid-container">
                     <a href="anime/death-note.html" class="search-item"><span class="badge-hindi">HINDI</span><img src="assets/deathnote.jpeg" class="icon-poster"><div class="content-box"><h4>Death Note</h4><p class="desc-text">Psychological</p></div></a>
-                    <a href="#" class="search-item"><span class="badge-hindi">HINDI</span><img src="assets/dra_sample.jpeg" class="icon-poster"><div class="content-box"><h4>Oshi No Ko</h4><p class="desc-text">Drama</p></div></a>
                 </div>
                 <a href="page2.html#drama" class="show-more-btn">Show More</a>
             </section>
@@ -294,13 +160,14 @@
     </div>
 
     <div id="explorePopup" class="explore-popup">
-        <a href="#movies">🎬 Movies</a>
-        <a href="#trending">👺 Anime</a>
-        <a href="#series">📺 Series</a>
+        <a href="#movies" onclick="toggleExplore()">🎬 Movies</a>
+        <a href="#trending" onclick="toggleExplore()">👺 Anime</a>
+        <a href="#series" onclick="toggleExplore()">📺 Series</a>
+        <a href="#fantasy" onclick="toggleExplore()">🪄 Fantasy</a>
     </div>
 
     <nav class="bottom-nav">
-        <div class="nav-item" onclick="toggleExplore()"><span class="nav-icon">🧭</span><span>Explore</span></div>
+        <div class="nav-item" id="exploreBtn" onclick="toggleExplore()"><span class="nav-icon">🧭</span><span>Explore</span></div>
         <div class="nav-item active" onclick="window.scrollTo({top:0, behavior:'smooth'})"><span class="nav-icon">🏠</span><span>Home</span></div>
         <div class="nav-item" onclick="location.href='about.html'"><span class="nav-icon">👤</span><span>Me</span></div>
     </nav>
@@ -313,4 +180,9 @@
             <a href="https://youtube.com/@meena" target="_blank">YouTube Channel</a>
         </div>
         <p>© 2026 Max World (MW Hub). All Rights Reserved.</p>
-    </f
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="index-script.js"></script>
+</body>
+</html>
