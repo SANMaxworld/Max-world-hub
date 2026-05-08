@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>MW Hub - My Dashboard</title>
-    <link rel="manifest" href="./manifest.json">
+    <link rel="manifest" href="../manifest.json">
     <meta name="theme-color" content="#000000">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
@@ -44,7 +44,6 @@
         .badge-blue { color: #4facfe; } 
         .badge-pink { color: #ff66b2; }
 
-        /* --- ANNOUNCEMENT --- */
         .announcement { background: var(--red-gradient); backdrop-filter: blur(10px); color: #fff; padding: 10px 16px; font-size: 12px; display: flex; align-items: center; gap: 8px; margin-bottom: 16px; font-weight: 500; }
 
         /* --- MENU BLOCKS --- */
@@ -56,47 +55,40 @@
         .menu-item-right { display: flex; align-items: center; gap: 8px; color: var(--text-sub); font-size: 14px; }
 
         /* --- WATCH HISTORY --- */
-        .history-wrapper { padding: 10px 16px 16px; display: flex; gap: 12px; overflow-x: auto; scrollbar-width: none; }
+        .history-wrapper { padding: 10px 16px 16px; display: flex; gap: 12px; overflow-x: auto; scrollbar-width: none; min-height: 120px; }
         .history-wrapper::-webkit-scrollbar { display: none; }
-        .history-card { flex: 0 0 140px; position: relative; cursor: pointer; }
+        .history-card { flex: 0 0 140px; position: relative; }
         .history-img-box { position: relative; width: 100%; height: 80px; border-radius: 6px; overflow: hidden; background: #333; }
-        .history-img { width: 100%; height: 100%; object-fit: cover; opacity: 0.9; transition: 0.3s; }
-        .history-card:hover .history-img { transform: scale(1.05); }
+        .history-img { width: 100%; height: 100%; object-fit: cover; opacity: 0.9; }
         .tv-icon { position: absolute; top: 4px; left: 4px; background: rgba(0,0,0,0.6); padding: 2px; border-radius: 4px; width: 16px; height: 16px; display: flex; align-items: center; justify-content: center; }
         .progress-track { position: absolute; bottom: 0; left: 0; width: 100%; height: 3px; background: rgba(255,255,255,0.3); }
         .progress-fill { height: 100%; background: var(--accent-green); }
         .history-title { font-size: 12px; color: #ccc; margin-top: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-        /* --- MODAL --- */
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 200; justify-content: center; align-items: center; padding: 20px; opacity: 0; transition: opacity 0.3s; }
+        /* --- MODALS --- */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 200; justify-content: center; align-items: center; padding: 20px; opacity: 0; transition: 0.3s; }
         .modal-overlay.show { display: flex; opacity: 1; }
         .modal-content { background: var(--bg-card); width: 100%; max-width: 350px; border-radius: 16px; padding: 24px; position: relative; border: 1px solid var(--divider); max-height: 80vh; overflow-y: auto; }
         .close-btn { position: absolute; top: 15px; right: 15px; color: var(--text-sub); font-size: 20px; cursor: pointer; }
         .modal-title { font-size: 18px; font-weight: 600; margin-bottom: 20px; text-align: center; color: var(--text-main); }
-        
         .input-group { margin-bottom: 16px; }
         .input-group label { display: block; font-size: 12px; color: var(--text-sub); margin-bottom: 6px; }
         .input-box { width: 100%; background: var(--bg-main); border: 1px solid var(--divider); color: var(--text-main); padding: 12px; border-radius: 8px; outline: none; font-size: 14px; }
-        
         .upload-container { display: flex; align-items: center; gap: 15px; background: var(--bg-main); padding: 10px; border-radius: 8px; border: 1px solid var(--divider); cursor: pointer; }
         .preview-circle { width: 45px; height: 45px; border-radius: 50%; object-fit: cover; background: #333; }
         .upload-text { font-size: 13px; color: var(--accent-green); font-weight: 500; }
-
         .gender-selector { display: flex; gap: 10px; }
         .gender-btn { flex: 1; padding: 10px; background: var(--bg-main); border: 1px solid var(--divider); color: var(--text-sub); border-radius: 8px; text-align: center; cursor: pointer; font-size: 14px; }
         .gender-btn.active { background: rgba(0, 210, 106, 0.1); border-color: var(--accent-green); color: var(--accent-green); font-weight: bold; }
-        
         .save-btn { width: 100%; padding: 14px; border-radius: 8px; background: var(--accent-green); color: #000; font-weight: 700; text-align: center; border: none; cursor: pointer; margin-top: 10px; opacity: 0.4; pointer-events: none; transition: 0.3s; }
         .save-btn.ready { opacity: 1; pointer-events: auto; }
 
-        /* My Added Vertical Cards */
         .vertical-added-list { display: flex; flex-direction: column; gap: 12px; }
-        .added-card { display: flex; align-items: center; gap: 12px; background: var(--bg-main); padding: 8px; border-radius: 8px; border: 1px solid var(--divider); cursor: pointer; }
+        .added-card { display: flex; align-items: center; gap: 12px; background: var(--bg-main); padding: 8px; border-radius: 8px; border: 1px solid var(--divider); }
         .added-card img { width: 60px; height: 80px; object-fit: cover; border-radius: 4px; }
         .added-card-info { flex: 1; overflow: hidden; }
         .added-card-title { font-size: 14px; font-weight: 500; color: #fff; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-        /* --- FOOTER & NAV --- */
         .footer-text { text-align: center; font-size: 12px; color: var(--text-sub); padding: 10px 0 30px; }
         .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; height: 65px; background: var(--bg-card); display: flex; justify-content: space-around; align-items: center; border-top-left-radius: 20px; border-top-right-radius: 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.5); z-index: 100; padding-bottom: env(safe-area-inset-bottom); }
         .nav-item { display: flex; flex-direction: column; align-items: center; gap: 4px; color: var(--text-sub); text-decoration: none; width: 33.33%; position: relative; }
@@ -108,7 +100,7 @@
 
     <div class="header">
         <div class="profile-area">
-            <img src="./assets/demon_slayer_s1.jpg" class="profile-pic" id="displayPic" alt="Profile">
+            <img src="../assets/demon_slayer_s1.jpg" class="profile-pic" id="displayPic" alt="Profile">
             <div class="profile-info">
                 <div class="profile-name-row">
                     <span class="profile-name" id="displayName">Guest User</span>
@@ -120,7 +112,7 @@
                 </div>
             </div>
         </div>
-        <div class="scan-icon icon" onclick="window.googleLogin()" style="cursor: pointer;">
+        <div class="scan-icon icon" onclick="googleLogin()" style="cursor:pointer">
             <svg viewBox="0 0 24 24"><path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2M7 12h10"/></svg>
         </div>
     </div>
@@ -144,24 +136,17 @@
     </div>
 
     <div class="menu-group">
-        <div class="menu-item" onclick="window.openAddedModal()">
+        <div class="menu-item" onclick="openAddedModal()">
             <div class="menu-item-left">
                 <span class="icon"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></span>
                 My Added
             </div>
             <div class="menu-item-right">›</div>
         </div>
-        <div class="menu-item" onclick="window.openModal()">
+        <div class="menu-item" onclick="openModal()">
             <div class="menu-item-left">
                 <span class="icon"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg></span>
                 Edit Profile
-            </div>
-            <div class="menu-item-right">›</div>
-        </div>
-        <div class="menu-item" onclick="window.location.href='https://t.me/+pnQEnRYbIDtiYzFl'">
-            <div class="menu-item-left">
-                <span class="icon"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></span>
-                Support
             </div>
             <div class="menu-item-right">›</div>
         </div>
@@ -169,12 +154,49 @@
 
     <div class="footer-text">Official website: Max World Hub</div>
 
+    <div class="modal-overlay" id="editModal">
+        <div class="modal-content">
+            <div class="close-btn" onclick="closeModal()">✕</div>
+            <div class="modal-title">Edit Profile</div>
+            <div class="input-group">
+                <label>Profile Picture</label>
+                <input type="file" id="fileInput" accept="image/*" style="display: none;" onchange="handleImage(this)">
+                <div class="upload-container" onclick="document.getElementById('fileInput').click()">
+                    <img src="../assets/demon_slayer_s1.jpg" id="previewImg" class="preview-circle">
+                    <span class="upload-text">Change Photo</span>
+                </div>
+            </div>
+            <div class="input-group">
+                <label>Display Name</label>
+                <input type="text" id="inputName" class="input-box" placeholder="Enter your name" onkeyup="checkValidation()">
+            </div>
+            <div class="input-group">
+                <label>Gender</label>
+                <div class="gender-selector">
+                    <div class="gender-btn active" id="btnMale" onclick="selectGender('Male')">♂ Male</div>
+                    <div class="gender-btn" id="btnFemale" onclick="selectGender('Female')">♀ Female</div>
+                </div>
+            </div>
+            <div class="input-group">
+                <label>Account ID (9 Digits)</label>
+                <input type="number" id="inputId" class="input-box" placeholder="e.g. 123456789" onkeyup="checkValidation()">
+            </div>
+            <button class="save-btn" id="saveBtn" onclick="saveProfile()">Save Changes</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="addedModal">
+        <div class="modal-content">
+            <div class="close-btn" onclick="closeAddedModal()">✕</div>
+            <div class="modal-title">My Added</div>
+            <div class="vertical-added-list" id="addedContainer">
+                <div class="footer-text">No bookmarks yet.</div>
+            </div>
+        </div>
+    </div>
+
     <div class="bottom-nav">
-        <a href="#" class="nav-item">
-            <span class="icon"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg></span>
-            <span>Downloads</span>
-        </a>
-        <a href="./index.html" class="nav-item">
+        <a href="../index.html" class="nav-item">
             <span class="icon"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span>
             <span>Home</span>
         </a>
@@ -184,50 +206,9 @@
         </a>
     </div>
 
-    <div class="modal-overlay" id="editModal">
-        <div class="modal-content">
-            <div class="close-btn" onclick="window.closeModal()">✕</div>
-            <div class="modal-title">Edit Profile</div>
-            <div class="input-group">
-                <label>Profile Picture</label>
-                <input type="file" id="fileInput" accept="image/*" style="display: none;" onchange="window.handleImage(this)">
-                <div class="upload-container" onclick="document.getElementById('fileInput').click()">
-                    <img src="./assets/demon_slayer_s1.jpg" id="previewImg" class="preview-circle">
-                    <span class="upload-text">Change Photo from Gallery</span>
-                </div>
-            </div>
-            <div class="input-group">
-                <label>Display Name</label>
-                <input type="text" id="inputName" class="input-box" placeholder="Enter your name" onkeyup="window.checkValidation()">
-            </div>
-            <div class="input-group">
-                <label>Gender</label>
-                <div class="gender-selector">
-                    <div class="gender-btn active" id="btnMale" onclick="window.selectGender('Male')">♂ Male</div>
-                    <div class="gender-btn" id="btnFemale" onclick="window.selectGender('Female')">♀ Female</div>
-                </div>
-            </div>
-            <div class="input-group">
-                <label>Account ID (Strictly 9 Digits)</label>
-                <input type="number" id="inputId" class="input-box" placeholder="e.g. 123456789" onkeyup="window.checkValidation()">
-            </div>
-            <button class="save-btn" id="saveBtn" onclick="window.saveProfile()">Save Changes</button>
-        </div>
-    </div>
-
-    <div class="modal-overlay" id="addedModal">
-        <div class="modal-content">
-            <div class="close-btn" onclick="window.closeAddedModal()">✕</div>
-            <div class="modal-title">My Added</div>
-            <div class="vertical-added-list" id="addedContainer">
-                <div class="footer-text">No bookmarks yet.</div>
-            </div>
-        </div>
-    </div>
-
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getFirestore, doc, getDoc, setDoc, updateDoc, arrayUnion, arrayRemove } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getFirestore, doc, getDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
         import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
         const firebaseConfig = {
@@ -236,8 +217,7 @@
             projectId: "mw-hub-59e96",
             storageBucket: "mw-hub-59e96.firebasestorage.app",
             messagingSenderId: "1084767566489",
-            appId: "1:1084767566489:web:5913fcac03c2947c9b1608",
-            measurementId: "G-K44QJG0GTM"
+            appId: "1:1084767566489:web:5913fcac03c2947c9b1608"
         };
 
         const app = initializeApp(firebaseConfig);
@@ -246,96 +226,126 @@
         const provider = new GoogleAuthProvider();
 
         let currentUser = null;
-        let selectedGender = "♂";
+        let selectedGender = "♂"; 
         let genderColorClass = "badge-blue";
         let tempImageData = null;
 
-        // --- RENDER FUNCTIONS ---
-        const renderHistory = (history) => {
-            const container = document.getElementById("historyContainer");
-            if(!history || history.length === 0) {
-                container.innerHTML = '<div class="footer-text" style="width: 100%;">No history found.</div>';
-                return;
-            }
-            const list = [...history].reverse(); // LIFO Logic
-            container.innerHTML = list.map(item => `
-                <div class="history-card" onclick="window.location.href='${item.link}'">
-                    <div class="history-img-box">
-                        <img src="${item.img}" class="history-img">
-                        <div class="tv-icon"><svg viewBox="0 0 24 24" width="10" height="10" stroke="white" fill="none"><rect x="2" y="7" width="20" height="15" rx="2"/><path d="M17 2l-5 5-5-5"/></svg></div>
-                        <div class="progress-track"><div class="progress-fill" style="width: 100%"></div></div>
-                    </div>
-                    <div class="history-title">${item.title}</div>
-                </div>
-            `).join('');
+        // --- ATTACH TO WINDOW (Crucial for onclick to work) ---
+        window.googleLogin = async () => {
+            try { await signInWithPopup(auth, provider); } catch (e) { console.error(e); }
         };
 
-        const renderAdded = (added) => {
-            const container = document.getElementById("addedContainer");
-            if(!added || added.length === 0) {
-                container.innerHTML = '<div class="footer-text">No bookmarks yet.</div>';
-                return;
-            }
-            const list = [...added].reverse();
-            container.innerHTML = list.map(item => `
-                <div class="added-card" onclick="window.location.href='${item.link}'">
-                    <img src="${item.img}">
-                    <div class="added-card-info">
-                        <div class="added-card-title">${item.title}</div>
-                        <div style="font-size: 11px; color: var(--text-sub);">Bookmarked Anime</div>
-                    </div>
-                    <div class="icon" style="color: var(--accent-green);"><svg viewBox="0 0 24 24"><path d="M5 3l14 0l0 18l-7 -4l-7 4z" fill="currentColor"/></svg></div>
-                </div>
-            `).join('');
-        };
-
-        // --- GLOBAL WINDOW BINDINGS ---
         window.openModal = () => {
-            const modal = document.getElementById("editModal");
-            modal.style.display = "flex";
-            setTimeout(() => modal.classList.add("show"), 10);
+            const m = document.getElementById('editModal');
+            m.style.display = 'flex';
+            setTimeout(() => m.classList.add('show'), 10);
         };
         window.closeModal = () => {
-            const modal = document.getElementById("editModal");
-            modal.classList.remove("show");
-            setTimeout(() => modal.style.display = "none", 300);
+            const m = document.getElementById('editModal');
+            m.classList.remove('show');
+            setTimeout(() => m.style.display = 'none', 300);
         };
         window.openAddedModal = () => {
-            const modal = document.getElementById("addedModal");
-            modal.style.display = "flex";
-            setTimeout(() => modal.classList.add("show"), 10);
+            const m = document.getElementById('addedModal');
+            m.style.display = 'flex';
+            setTimeout(() => m.classList.add('show'), 10);
         };
         window.closeAddedModal = () => {
-            const modal = document.getElementById("addedModal");
-            modal.classList.remove("show");
-            setTimeout(() => modal.style.display = "none", 300);
+            const m = document.getElementById('addedModal');
+            m.classList.remove('show');
+            setTimeout(() => m.style.display = 'none', 300);
         };
 
         window.selectGender = (type) => {
-            document.getElementById("btnMale").classList.toggle("active", type === 'Male');
-            document.getElementById("btnFemale").classList.toggle("active", type === 'Female');
-            selectedGender = (type === "Male") ? "♂" : "♀";
-            genderColorClass = (type === "Male") ? "badge-blue" : "badge-pink";
+            document.getElementById('btnMale').classList.toggle('active', type === 'Male');
+            document.getElementById('btnFemale').classList.toggle('active', type === 'Female');
+            selectedGender = (type === 'Male') ? "♂" : "♀";
+            genderColorClass = (type === 'Male') ? "badge-blue" : "badge-pink";
         };
 
         window.handleImage = (input) => {
-            if(input.files && input.files[0]) {
+            if (input.files && input.files[0]) {
                 const reader = new FileReader();
                 reader.onload = (e) => {
                     tempImageData = e.target.result;
-                    document.getElementById("previewImg").src = tempImageData;
+                    document.getElementById('previewImg').src = tempImageData;
                 };
                 reader.readAsDataURL(input.files[0]);
             }
         };
 
         window.checkValidation = () => {
-            const name = document.getElementById("inputName").value.trim();
-            const id = document.getElementById("inputId").value.trim();
-            const saveBtn = document.getElementById("saveBtn");
-            saveBtn.classList.toggle("ready", name.length > 0 && /^[0-9]{9}$/.test(id));
+            const name = document.getElementById('inputName').value.trim();
+            const id = document.getElementById('inputId').value.trim();
+            document.getElementById('saveBtn').classList.toggle('ready', name.length > 0 && /^\d{9}$/.test(id));
         };
 
         window.saveProfile = async () => {
-            if(!currentUser) return;
-          
+            if (!currentUser) return;
+            const name = document.getElementById('inputName').value.trim();
+            const id = document.getElementById('inputId').value.trim();
+            const userRef = doc(db, "users", currentUser.uid);
+            
+            const upData = { name, accountId: id, gender: selectedGender, genderClass: genderColorClass };
+            if(tempImageData) upData.profilePic = tempImageData;
+
+            await updateDoc(userRef, upData);
+            location.reload();
+        };
+
+        // --- AUTH & DATA SYNC ---
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                currentUser = user;
+                const userRef = doc(db, "users", user.uid);
+                const snap = await getDoc(userRef);
+
+                if (snap.exists()) {
+                    const d = snap.data();
+                    document.getElementById('displayName').innerText = d.name || user.displayName;
+                    document.getElementById('displayId').innerText = d.accountId || "---------";
+                    document.getElementById('displayGender').innerText = d.gender || "♂";
+                    document.getElementById('displayGender').className = d.genderClass || "badge-blue";
+                    document.getElementById('displayPic').src = d.profilePic || user.photoURL;
+
+                    if(d.watchHistory) renderHistory(d.watchHistory);
+                    if(d.myAdded) renderAdded(d.myAdded);
+                } else {
+                    await setDoc(userRef, { name: user.displayName, accountId: "", gender: "♂", genderClass: "badge-blue", watchHistory: [], myAdded: [] });
+                }
+            }
+        });
+
+        function renderHistory(history) {
+            const cont = document.getElementById('historyContainer');
+            if(history.length === 0) return;
+            cont.innerHTML = "";
+            history.forEach(item => {
+                const perc = (item.currentEp / item.totalEp) * 100 || 0;
+                cont.innerHTML += `
+                    <div class="history-card">
+                        <div class="history-img-box">
+                            <img src="${item.poster}" class="history-img">
+                            <div class="tv-icon"><svg viewBox="0 0 24 24" style="width:10px;height:10px;stroke:#fff;"><rect x="2" y="7" width="20" height="15" rx="2" ry="2"/><polyline points="17 2 12 7 7 2"/></svg></div>
+                            <div class="progress-track"><div class="progress-fill" style="width:${perc}%"></div></div>
+                        </div>
+                        <div class="history-title">${item.title}</div>
+                    </div>`;
+            });
+        }
+
+        function renderAdded(added) {
+            const cont = document.getElementById('addedContainer');
+            if(added.length === 0) return;
+            cont.innerHTML = "";
+            added.forEach(item => {
+                cont.innerHTML += `
+                    <div class="added-card">
+                        <img src="${item.poster}">
+                        <div class="added-card-info"><div class="added-card-title">${item.title}</div></div>
+                    </div>`;
+            });
+        }
+    </script>
+</body>
+</html>
