@@ -33,6 +33,8 @@
         .badge-row { display: flex; align-items: center; gap: 8px; }
         .badge { background: rgba(255,255,255,0.1); padding: 3px 6px; border-radius: 4px; font-size: 11px; color: var(--text-sub); display: flex; align-items: center; gap: 4px; }
         .badge-blue { color: #4facfe; } .badge-pink { color: #ff66b2; }
+        
+        /* LOGIN BUTTON STYLE */
         .auth-btn { background: rgba(255,255,255,0.1); border: 1px solid var(--divider); color: var(--text-main); padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 500; cursor: pointer; white-space: nowrap; align-self: center; transition: 0.2s; }
         .auth-btn:active { opacity: 0.7; }
 
@@ -202,9 +204,7 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
         const auth = getAuth(app);
-        
         const provider = new GoogleAuthProvider();
-        // CHANGED HERE: Added this parameter so "Switch Account" actually prompts to choose an account
         provider.setCustomParameters({ prompt: 'select_account' });
 
         let currentUser = null;
@@ -212,11 +212,9 @@
         let currentGenderClass = "badge-blue";
         let profileImageBase64 = null;
 
-        // Shared Path Logic for all images
         const fixPath = (path) => {
             if (!path) return "assets/placeholder.jpg";
             if (path.startsWith("http") || path.startsWith("data:")) return path;
-            // Clean path logic: ensures any relative path works from root
             return path.replace(/^\.\.\//, ""); 
         };
 
@@ -226,12 +224,12 @@
             const authBtn = document.getElementById('authButton');
             if (user) { 
                 currentUser = user; 
-                if (authBtn) authBtn.innerText = "Switch Account"; // CHANGED HERE
+                if (authBtn) authBtn.innerText = "Switch Account"; 
                 await loadUserData(); 
             }
             else { 
                 currentUser = null;
-                if (authBtn) authBtn.innerText = "Login"; // CHANGED HERE
+                if (authBtn) authBtn.innerText = "Login"; 
                 document.getElementById('displayName').innerText = "Guest User"; 
             }
         });
@@ -334,4 +332,10 @@
             btn.innerText = "Saving...";
             
             const updateData = { name, accountId: aid, gender: selectedGender, genderClass: currentGenderClass };
-            if(profileImageBase64) updateData.profilePic = profi
+            if(profileImageBase64) updateData.profilePic = profileImageBase64;
+            
+            try {
+                await setDoc(doc(db, "users", currentUser.uid), updateData, { merge: true });
+                location.reload();
+            } catch(e) { 
+                ale
