@@ -245,20 +245,22 @@
             }
         }
 
-        // Bookmark Toggle Logic: Updates existing data and prevents duplicate cards
+        // Bookmark Toggle Logic (Shared with anime pages)
         window.toggleBookmark = async (animeData) => {
             if (!currentUser) return alert("Please login first");
             const userRef = doc(db, "users", currentUser.uid);
             const snap = await getDoc(userRef);
             
             if (snap.exists()) {
-                let addedList = snap.data().myAdded || [];
+                let currentData = snap.data();
+                let addedList = currentData.myAdded || [];
+                
                 const existsIndex = addedList.findIndex(item => item.id === animeData.id);
 
                 if (existsIndex > -1) {
-                    addedList.splice(existsIndex, 1); // Remove if exists
+                    addedList.splice(existsIndex, 1);
                 } else {
-                    addedList.push({ ...animeData, timestamp: Date.now() }); // Add new
+                    addedList.push({ ...animeData, timestamp: Date.now() });
                 }
 
                 await updateDoc(userRef, { myAdded: addedList });
@@ -292,8 +294,8 @@
                 container.innerHTML = '<div class="footer-text">No bookmarks yet.</div>';
                 return;
             }
-            // Sort by timestamp to keep the list updated
-            const sorted = [...added].sort((a,b) => b.timestamp - a.timestamp);
+            // Sort by timestamp to keep the list fresh
+            const sorted = [...added].sort((a,b) => (b.timestamp || 0) - (a.timestamp || 0));
             container.innerHTML = sorted.map(item => `
                 <a href="./anime/${item.id}.html" class="added-card-link">
                     <div class="added-card">
@@ -339,5 +341,4 @@
             const name = document.getElementById('inputName').value.trim();
             const aid = document.getElementById('inputId').value.toString();
             
-            const btn = document.getElementById('saveBtn');
-        
+            const btn = document.getEleme
