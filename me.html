@@ -263,7 +263,7 @@
         let genderColorClass = "badge-blue";
         let tempImageData = null;
 
-        // --- ATTACH TO WINDOW FOR onclick ---
+        // --- GLOBAL ATTACHMENTS (CRITICAL FIX) ---
         window.openModal = () => document.getElementById('editModal').classList.add('show');
         window.closeModal = () => document.getElementById('editModal').classList.remove('show');
         window.openAddedModal = () => document.getElementById('addedModal').classList.add('show');
@@ -361,4 +361,4 @@
                 if(data.profilePic) document.getElementById('displayPic').src = data.profilePic;
 
                 renderHistory(data.watchHistory || []);
-            
+       
