@@ -50,7 +50,7 @@
                 <span>Action, Fantasy, Dark Fantasy</span>
             </div>
             <div class="action-scroll">
-                <button class="action-btn">📂 Added</button>
+                <button class="action-btn" id="addBtn" onclick="toggleAddToMyList()">📂 Added</button>
                 <button class="action-btn" onclick="sharePage()">🔗 Share</button>
                 <button class="action-btn" onclick="window.location.href='DOWNLOAD_LINK_HERE'">⬇️ Download</button>
             </div>
@@ -128,7 +128,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-        import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getFirestore, doc, getDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyAE_oP6wv4A1UxfEdcT82f4KZkhSBzfH3M",
@@ -147,13 +147,35 @@
         const ANIME_TITLE = "Demon Slayer S1";
         const ANIME_POSTER = "../assets/demon_slayer_s1.jpg";
 
-        // --- BACK BUTTON CONTROL ---
-        window.history.pushState(null, null, window.location.href);
-        window.onpopstate = function() {
-            window.location.replace("../me.html");
+        // --- MY LIST (ADDED) LOGIC ---
+        window.toggleAddToMyList = async function() {
+            const user = auth.currentUser;
+            if (!user) { alert("Please login first!"); return; }
+
+            const userRef = doc(db, "users", user.uid);
+            const btn = document.getElementById('addBtn');
+
+            try {
+                const snap = await getDoc(userRef);
+                let addedList = snap.exists() ? (snap.data().myAdded || []) : [];
+                
+                // Check if already exists
+                const index = addedList.findIndex(item => item.id === ANIME_ID);
+                
+                if (index === -1) {
+                    // Add to list
+                    addedList.push({ id: ANIME_ID, title: ANIME_TITLE, poster: ANIME_POSTER });
+                    btn.innerText = "✅ Added";
+                } else {
+                    // Remove from list (Toggle)
+                    addedList.splice(index, 1);
+                    btn.innerText = "📂 Added";
+                }
+
+                await updateDoc(userRef, { myAdded: addedList });
+            } catch (e) { console.error("Error updating list:", e); }
         };
 
-        // --- PLAY & SYNC LOGIC ---
         window.playEpisode = async function(voeId, element) {
             const player = document.getElementById('mainPlayer');
             const container = document.getElementById('iframeContainer');
@@ -162,66 +184,27 @@
             poster.style.display = 'none';
             container.style.display = 'block';
             
-            player.src = "https://voe.sx/e/" + voeId;
+            player.src = "about:blank"; 
+            setTimeout(() => { player.src = "https://voe.sx/e/" + voeId; }, 150);
+
             window.scrollTo({ top: 0, behavior: 'smooth' });
             
             let boxes = document.getElementsByClassName('ep-box');
             for(let i=0; i<boxes.length; i++){ boxes[i].classList.remove('active'); }
             if(element) element.classList.add('active');
-
-            const user = auth.currentUser;
-            if (user && element) {
-                const epNum = parseInt(element.innerText);
-                const totalEp = boxes.length;
-                const userRef = doc(db, "users", user.uid);
-                
-                try {
-                    const snap = await getDoc(userRef);
-                    let history = [];
-                    if (snap.exists() && snap.data().watchHistory) {
-                        // Array format support: Purani history se ye anime hatao (No duplicates)
-                        history = snap.data().watchHistory.filter(item => item.id !== ANIME_ID);
-                    }
-
-                    // Naya data unshift (Sabse upar)
-                    history.unshift({
-                        id: ANIME_ID,
-                        title: ANIME_TITLE,
-                        currentEp: epNum, 
-                        totalEp: totalEp,
-                        poster: ANIME_POSTER,
-                        timestamp: Date.now()
-                    });
-
-                    // Save as Array to match me.html dashboard
-                    await setDoc(userRef, { watchHistory: history }, { merge: true });
-                } catch (e) { console.error("Sync Error:", e); }
-            }
         };
 
-        // --- LOAD DATA ON START ---
         onAuthStateChanged(auth, async (user) => {
-            const boxes = document.getElementsByClassName('ep-box');
-            let epToPlay = 1; 
-            let voeToPlay = '40utdw02wqim'; 
-
             if (user) {
                 const docSnap = await getDoc(doc(db, "users", user.uid));
                 if (docSnap.exists()) {
-                    const history = docSnap.data().watchHistory || [];
-                    const current = history.find(item => item.id === ANIME_ID);
-                    if (current) {
-                        epToPlay = current.currentEp;
-                        const targetBox = Array.from(boxes).find(b => parseInt(b.innerText) === epToPlay);
-                        if (targetBox) {
-                            const onclickStr = targetBox.getAttribute('onclick');
-                            voeToPlay = onclickStr.split("'")[1];
-                        }
+                    // Update Button State on Load
+                    const addedList = docSnap.data().myAdded || [];
+                    if (addedList.some(item => item.id === ANIME_ID)) {
+                        document.getElementById('addBtn').innerText = "✅ Added";
                     }
                 }
             }
-            const finalBox = Array.from(boxes).find(b => parseInt(b.innerText) === epToPlay) || boxes[0];
-            playEpisode(voeToPlay, finalBox);
         });
 
         window.sharePage = () => {
@@ -231,4 +214,3 @@
     </script>
 </body>
 </html>
-
