@@ -187,7 +187,7 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getFirestore, doc, getDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
         import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
         const firebaseConfig = {
@@ -209,11 +209,9 @@
         let currentGenderClass = "badge-blue";
         let profileImageBase64 = null;
 
-        // Shared Path Logic for all images
         const fixPath = (path) => {
             if (!path) return "assets/placeholder.jpg";
             if (path.startsWith("http") || path.startsWith("data:")) return path;
-            // Clean path logic: ensures any relative path works from root
             return path.replace(/^\.\.\//, ""); 
         };
 
@@ -247,6 +245,27 @@
             }
         }
 
+        // Bookmark Toggle Logic: Updates existing data and prevents duplicate cards
+        window.toggleBookmark = async (animeData) => {
+            if (!currentUser) return alert("Please login first");
+            const userRef = doc(db, "users", currentUser.uid);
+            const snap = await getDoc(userRef);
+            
+            if (snap.exists()) {
+                let addedList = snap.data().myAdded || [];
+                const existsIndex = addedList.findIndex(item => item.id === animeData.id);
+
+                if (existsIndex > -1) {
+                    addedList.splice(existsIndex, 1); // Remove if exists
+                } else {
+                    addedList.push({ ...animeData, timestamp: Date.now() }); // Add new
+                }
+
+                await updateDoc(userRef, { myAdded: addedList });
+                renderAdded(addedList);
+            }
+        };
+
         function renderHistory(history) {
             const container = document.getElementById('historyContainer');
             if(!history || history.length === 0) {
@@ -273,7 +292,9 @@
                 container.innerHTML = '<div class="footer-text">No bookmarks yet.</div>';
                 return;
             }
-            container.innerHTML = added.map(item => `
+            // Sort by timestamp to keep the list updated
+            const sorted = [...added].sort((a,b) => b.timestamp - a.timestamp);
+            container.innerHTML = sorted.map(item => `
                 <a href="./anime/${item.id}.html" class="added-card-link">
                     <div class="added-card">
                         <img src="${fixPath(item.poster)}" onerror="this.src='assets/placeholder.jpg'">
@@ -319,20 +340,4 @@
             const aid = document.getElementById('inputId').value.toString();
             
             const btn = document.getElementById('saveBtn');
-            btn.innerText = "Saving...";
-            
-            const updateData = { name, accountId: aid, gender: selectedGender, genderClass: currentGenderClass };
-            if(profileImageBase64) updateData.profilePic = profileImageBase64;
-            
-            try {
-                await setDoc(doc(db, "users", currentUser.uid), updateData, { merge: true });
-                location.reload();
-            } catch(e) { 
-                alert("Error saving profile"); 
-                btn.innerText = "Save Changes";
-            }
-        };
-    </script>
-</body>
-</html>
-
+        
