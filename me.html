@@ -209,6 +209,14 @@
         let currentGenderClass = "badge-blue";
         let profileImageBase64 = null;
 
+        // Path fixer logic to prevent blinking and load images correctly from subfolders
+        const fixPath = (path) => {
+            if (!path) return "assets/placeholder.jpg";
+            if (path.startsWith("http") || path.startsWith("data:")) return path;
+            // Dashboard is in root, so it needs "assets/..." NOT "../assets/..."
+            return path.replace("../", "");
+        };
+
         window.googleLogin = () => signInWithPopup(auth, provider);
 
         onAuthStateChanged(auth, async (user) => {
@@ -224,13 +232,17 @@
                 document.getElementById('displayId').innerText = data.accountId || "---------";
                 document.getElementById('displayGender').innerText = data.gender || "♂";
                 document.getElementById('displayGender').parentElement.className = `badge ${data.genderClass || 'badge-blue'}`;
+                
                 if(data.profilePic) {
                     document.getElementById('displayPic').src = data.profilePic;
                     document.getElementById('previewImg').src = data.profilePic;
                 }
-                renderHistory(Object.values(data.watchHistory || {}).sort((a,b) => b.timestamp - a.timestamp));
+
+                // Enhanced rendering with fixed paths
+                const historyArr = Object.values(data.watchHistory || {}).sort((a,b) => b.timestamp - a.timestamp);
+                renderHistory(historyArr);
                 renderAdded(data.myAdded || []);
-                // Store state
+                
                 selectedGender = data.gender || "♂";
                 currentGenderClass = data.genderClass || "badge-blue";
             }
@@ -238,32 +250,40 @@
 
         function renderHistory(history) {
             const container = document.getElementById('historyContainer');
-            if(!history || history.length === 0) return;
-            container.innerHTML = history.map(item => `
-                <a href="./anime/${item.id}.html" class="history-card">
-                    <div class="history-img-box">
-                        <img src="${item.poster}" class="history-img" onerror="this.src='../assets/placeholder.jpg'">
-                        <div class="progress-track"><div class="progress-fill" style="width:${(item.currentEp/item.totalEp)*100}%"></div></div>
-                    </div>
-                    <div class="history-title">${item.title}</div>
-                </a>
-            `).join('');
+            if(!history || history.length === 0) {
+                container.innerHTML = '<div class="footer-text" style="width:100%;">No history found.</div>';
+                return;
+            }
+            container.innerHTML = history.map(item => {
+                const progress = (item.currentEp / item.totalEp) * 100 || 0;
+                return `
+                    <a href="./anime/${item.id}.html" class="history-card">
+                        <div class="history-img-box">
+                            <img src="${fixPath(item.poster)}" class="history-img" onerror="this.src='assets/placeholder.jpg'">
+                            <div class="progress-track"><div class="progress-fill" style="width:${progress}%"></div></div>
+                        </div>
+                        <div class="history-title">${item.title}</div>
+                    </a>
+                `;
+            }).join('');
         }
 
         function renderAdded(added) {
             const container = document.getElementById('addedContainer');
-            if(!added || added.length === 0) return;
+            if(!added || added.length === 0) {
+                container.innerHTML = '<div class="footer-text">No bookmarks yet.</div>';
+                return;
+            }
             container.innerHTML = added.map(item => `
                 <a href="./anime/${item.id}.html" class="added-card-link">
                     <div class="added-card">
-                        <img src="${item.poster}" onerror="this.src='../assets/placeholder.jpg'">
+                        <img src="${fixPath(item.poster)}" onerror="this.src='assets/placeholder.jpg'">
                         <div class="added-card-title">${item.title}</div>
                     </div>
                 </a>
             `).join('');
         }
 
-        // Modal & Control Functions (Attached to window for HTML access)
         window.openModal = () => document.getElementById('editModal').classList.add('show');
         window.closeModal = () => document.getElementById('editModal').classList.remove('show');
         window.openAddedModal = () => document.getElementById('addedModal').classList.add('show');
@@ -316,4 +336,3 @@
     </script>
 </body>
 </html>
-
