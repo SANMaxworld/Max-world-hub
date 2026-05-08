@@ -10,7 +10,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     
     <style>
-        /* --- GLOBAL RESET & THEME (STRICTLY LOCKED) --- */
+        /* --- GLOBAL RESET & THEME --- */
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; -webkit-tap-highlight-color: transparent; }
         
         :root {
@@ -34,36 +34,25 @@
         .header { display: flex; justify-content: space-between; align-items: flex-start; padding: 20px 16px 15px; position: relative; }
         .profile-area { display: flex; align-items: center; gap: 12px; }
         .profile-pic { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; background: #333; border: 1px solid var(--divider); }
-        .profile-info { display: flex; flex-direction: column; gap: 6px; }
+        .profile-info { display: flex; flex-direction: column; gap: 4px; }
         .profile-name-row { display: flex; align-items: center; gap: 4px; }
         .profile-name { font-size: 18px; font-weight: 600; }
-        .arrow-right { color: var(--text-sub); font-size: 14px; }
         
-        .badge-row { display: flex; align-items: center; gap: 8px; }
-        .badge { background: rgba(255,255,255,0.1); padding: 3px 6px; border-radius: 4px; font-size: 11px; color: var(--text-sub); display: flex; align-items: center; gap: 4px; }
+        .badge-row { display: flex; align-items: center; gap: 8px; margin-top: 2px; }
+        .badge { background: rgba(255,255,255,0.08); padding: 2px 8px; border-radius: 4px; font-size: 11px; color: var(--text-sub); display: flex; align-items: center; gap: 4px; }
         .badge-blue { color: #4facfe; } 
         .badge-pink { color: #ff66b2; }
 
         .announcement { background: var(--red-gradient); backdrop-filter: blur(10px); color: #fff; padding: 10px 16px; font-size: 12px; display: flex; align-items: center; gap: 8px; margin-bottom: 16px; font-weight: 500; }
 
         /* --- MENU BLOCKS --- */
-        .menu-group { background: var(--bg-card); border-radius: 12px; margin: 0 16px 16px; overflow: hidden; padding-top: 5px; }
-        .menu-item { display: flex; align-items: center; justify-content: space-between; padding: 16px; border-bottom: 1px solid var(--divider); cursor: pointer; }
+        .menu-group { background: var(--bg-card); border-radius: 12px; margin: 0 16px 16px; overflow: hidden; }
+        .menu-item { display: flex; align-items: center; justify-content: space-between; padding: 16px; border-bottom: 1px solid var(--divider); cursor: pointer; transition: 0.2s; }
+        .menu-item:active { background: rgba(255,255,255,0.05); }
         .menu-item:last-child { border-bottom: none; }
         .menu-item-left { display: flex; align-items: center; gap: 12px; font-size: 15px; font-weight: 500; color: #e5e5e5; }
         .menu-item-left .icon { color: #b0b0b0; }
         .menu-item-right { display: flex; align-items: center; gap: 8px; color: var(--text-sub); font-size: 14px; }
-
-        /* --- WATCH HISTORY --- */
-        .history-wrapper { padding: 10px 16px 16px; display: flex; gap: 12px; overflow-x: auto; scrollbar-width: none; min-height: 120px; }
-        .history-wrapper::-webkit-scrollbar { display: none; }
-        .history-card { flex: 0 0 140px; position: relative; }
-        .history-img-box { position: relative; width: 100%; height: 80px; border-radius: 6px; overflow: hidden; background: #333; }
-        .history-img { width: 100%; height: 100%; object-fit: cover; opacity: 0.9; }
-        .tv-icon { position: absolute; top: 4px; left: 4px; background: rgba(0,0,0,0.6); padding: 2px; border-radius: 4px; width: 16px; height: 16px; display: flex; align-items: center; justify-content: center; }
-        .progress-track { position: absolute; bottom: 0; left: 0; width: 100%; height: 3px; background: rgba(255,255,255,0.3); }
-        .progress-fill { height: 100%; background: var(--accent-green); }
-        .history-title { font-size: 12px; color: #ccc; margin-top: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
         /* --- MODALS --- */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 200; justify-content: center; align-items: center; padding: 20px; opacity: 0; transition: 0.3s; }
@@ -71,15 +60,19 @@
         .modal-content { background: var(--bg-card); width: 100%; max-width: 350px; border-radius: 16px; padding: 24px; position: relative; border: 1px solid var(--divider); max-height: 80vh; overflow-y: auto; }
         .close-btn { position: absolute; top: 15px; right: 15px; color: var(--text-sub); font-size: 20px; cursor: pointer; }
         .modal-title { font-size: 18px; font-weight: 600; margin-bottom: 20px; text-align: center; color: var(--text-main); }
+        
         .input-group { margin-bottom: 16px; }
         .input-group label { display: block; font-size: 12px; color: var(--text-sub); margin-bottom: 6px; }
         .input-box { width: 100%; background: var(--bg-main); border: 1px solid var(--divider); color: var(--text-main); padding: 12px; border-radius: 8px; outline: none; font-size: 14px; }
+        
         .upload-container { display: flex; align-items: center; gap: 15px; background: var(--bg-main); padding: 10px; border-radius: 8px; border: 1px solid var(--divider); cursor: pointer; }
         .preview-circle { width: 45px; height: 45px; border-radius: 50%; object-fit: cover; background: #333; }
         .upload-text { font-size: 13px; color: var(--accent-green); font-weight: 500; }
+        
         .gender-selector { display: flex; gap: 10px; }
         .gender-btn { flex: 1; padding: 10px; background: var(--bg-main); border: 1px solid var(--divider); color: var(--text-sub); border-radius: 8px; text-align: center; cursor: pointer; font-size: 14px; }
         .gender-btn.active { background: rgba(0, 210, 106, 0.1); border-color: var(--accent-green); color: var(--accent-green); font-weight: bold; }
+        
         .save-btn { width: 100%; padding: 14px; border-radius: 8px; background: var(--accent-green); color: #000; font-weight: 700; text-align: center; border: none; cursor: pointer; margin-top: 10px; opacity: 0.4; pointer-events: none; transition: 0.3s; }
         .save-btn.ready { opacity: 1; pointer-events: auto; }
 
@@ -89,9 +82,9 @@
         .added-card-info { flex: 1; overflow: hidden; }
         .added-card-title { font-size: 14px; font-weight: 500; color: #fff; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-        .footer-text { text-align: center; font-size: 12px; color: var(--text-sub); padding: 10px 0 30px; }
+        .footer-text { text-align: center; font-size: 12px; color: var(--text-sub); padding: 20px 0; }
         .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; height: 65px; background: var(--bg-card); display: flex; justify-content: space-around; align-items: center; border-top-left-radius: 20px; border-top-right-radius: 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.5); z-index: 100; padding-bottom: env(safe-area-inset-bottom); }
-        .nav-item { display: flex; flex-direction: column; align-items: center; gap: 4px; color: var(--text-sub); text-decoration: none; width: 33.33%; position: relative; }
+        .nav-item { display: flex; flex-direction: column; align-items: center; gap: 4px; color: var(--text-sub); text-decoration: none; width: 33.33%; }
         .nav-item.active { color: var(--accent-green); }
         .nav-item span { font-size: 10px; font-weight: 500; }
     </style>
@@ -104,7 +97,6 @@
             <div class="profile-info">
                 <div class="profile-name-row">
                     <span class="profile-name" id="displayName">Guest User</span>
-                    <span class="arrow-right">›</span>
                 </div>
                 <div class="badge-row">
                     <div class="badge"><span class="badge-blue" id="displayGender">♂</span></div>
@@ -123,30 +115,17 @@
     </div>
 
     <div class="menu-group">
-        <div class="menu-item" style="border-bottom: none; padding-bottom: 5px;">
-            <div class="menu-item-left">
-                <span class="icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></span>
-                Watch History
-            </div>
-            <div class="menu-item-right">›</div>
-        </div>
-        <div class="history-wrapper" id="historyContainer">
-            <div class="footer-text" style="width: 100%;">No history found.</div>
-        </div>
-    </div>
-
-    <div class="menu-group">
         <div class="menu-item" onclick="openAddedModal()">
             <div class="menu-item-left">
                 <span class="icon"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></span>
-                My Added
+                My Added (Bookmarks)
             </div>
             <div class="menu-item-right">›</div>
         </div>
         <div class="menu-item" onclick="openModal()">
             <div class="menu-item-left">
                 <span class="icon"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg></span>
-                Edit Profile
+                Edit Profile Settings
             </div>
             <div class="menu-item-right">›</div>
         </div>
@@ -190,7 +169,7 @@
             <div class="close-btn" onclick="closeAddedModal()">✕</div>
             <div class="modal-title">My Added</div>
             <div class="vertical-added-list" id="addedContainer">
-                <div class="footer-text">No bookmarks yet.</div>
+                <div class="footer-text">No bookmarks found.</div>
             </div>
         </div>
     </div>
@@ -230,7 +209,6 @@
         let genderColorClass = "badge-blue";
         let tempImageData = null;
 
-        // --- ATTACH TO WINDOW (Crucial for onclick to work) ---
         window.googleLogin = async () => {
             try { await signInWithPopup(auth, provider); } catch (e) { console.error(e); }
         };
@@ -293,7 +271,6 @@
             location.reload();
         };
 
-        // --- AUTH & DATA SYNC ---
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 currentUser = user;
@@ -308,44 +285,27 @@
                     document.getElementById('displayGender').className = d.genderClass || "badge-blue";
                     document.getElementById('displayPic').src = d.profilePic || user.photoURL;
 
-                    if(d.watchHistory) renderHistory(d.watchHistory);
                     if(d.myAdded) renderAdded(d.myAdded);
                 } else {
-                    await setDoc(userRef, { name: user.displayName, accountId: "", gender: "♂", genderClass: "badge-blue", watchHistory: [], myAdded: [] });
+                    await setDoc(userRef, { name: user.displayName, accountId: "", gender: "♂", genderClass: "badge-blue", myAdded: [] });
                 }
             }
         });
 
-        function renderHistory(history) {
-            const cont = document.getElementById('historyContainer');
-            if(history.length === 0) return;
-            cont.innerHTML = "";
-            history.forEach(item => {
-                const perc = (item.currentEp / item.totalEp) * 100 || 0;
-                cont.innerHTML += `
-                    <div class="history-card">
-                        <div class="history-img-box">
-                            <img src="${item.poster}" class="history-img">
-                            <div class="tv-icon"><svg viewBox="0 0 24 24" style="width:10px;height:10px;stroke:#fff;"><rect x="2" y="7" width="20" height="15" rx="2" ry="2"/><polyline points="17 2 12 7 7 2"/></svg></div>
-                            <div class="progress-track"><div class="progress-fill" style="width:${perc}%"></div></div>
-                        </div>
-                        <div class="history-title">${item.title}</div>
-                    </div>`;
-            });
-        }
-
         function renderAdded(added) {
             const cont = document.getElementById('addedContainer');
-            if(added.length === 0) return;
+            if(!added || added.length === 0) return;
             cont.innerHTML = "";
             added.forEach(item => {
                 cont.innerHTML += `
                     <div class="added-card">
                         <img src="${item.poster}">
-                        <div class="added-card-info"><div class="added-card-title">${item.title}</div></div>
+                        <div class="added-card-info">
+                            <div class="added-card-title">${item.title}</div>
+                        </div>
                     </div>`;
             });
         }
     </script>
 </body>
-</html>
+                    </html>
