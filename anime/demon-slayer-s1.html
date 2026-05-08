@@ -30,7 +30,7 @@
 <body>
     <div class="watch-container">
         <div class="player-wrapper" id="videoArea">
-            <img src="../assets/demon_slayer_s1.jpg" class="poster-img" id="mainPoster" alt="Demon Slayer Season 1">
+            <img src="../assets/D.S poster.jpeg" class="poster-img" id="mainPoster" alt="Demon Slayer Season 1">
             <div class="iframe-container" id="iframeContainer" style="display: none;">
                 <iframe id="mainPlayer" src="" allowfullscreen allowtransparency allow="autoplay" scrolling="no" frameborder="0" style="width:100%; height:100%; aspect-ratio: 16/9;"></iframe>
             </div>
@@ -140,8 +140,8 @@
         // CONFIGURATION
         const ANIME_ID = "demon-slayer-s1";
         const ANIME_TITLE = "Demon Slayer S1";
-        // Root relative path for consistent Dashboard rendering
-        const ANIME_POSTER = "assets/demon_slayer_s1.jpg"; 
+        // Root relative path for consistent Dashboard (mi.html) rendering
+        const ANIME_POSTER = "assets/D.S poster.jpeg"; 
         
         let isBookmarked = false;
 
@@ -167,7 +167,6 @@
                 const epNum = parseInt(element.innerText);
                 const totalEp = boxes.length;
                 
-                // Optimized path storage for mi.html compatibility
                 await setDoc(doc(db, "users", user.uid), {
                     watchHistory: {
                         [ANIME_ID]: {
@@ -214,7 +213,6 @@
                 if (docSnap.exists()) {
                     const data = docSnap.data();
                     
-                    // Resume History logic
                     const history = data.watchHistory || {};
                     if (history[ANIME_ID]) {
                         epToPlay = history[ANIME_ID].currentEp || 1;
@@ -225,7 +223,6 @@
                         }
                     }
 
-                    // Sync Bookmark status
                     const bookmarks = data.myAdded || [];
                     isBookmarked = bookmarks.some(item => item.id === ANIME_ID);
                     document.getElementById('bookmarkBtn').innerText = isBookmarked ? "📂 Added" : "📂 Add to List";
@@ -242,3 +239,4 @@
     </script>
 </body>
 </html>
+
