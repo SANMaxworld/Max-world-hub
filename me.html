@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>MW Hub - My Dashboard</title>
-    <link rel="manifest" href="../manifest.json">
+    <link rel="manifest" href="./manifest.json">
     <meta name="theme-color" content="#000000">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
@@ -107,7 +107,7 @@
 
     <div class="header">
         <div class="profile-area">
-            <img src="../assets/demon_slayer_s1.jpg" class="profile-pic" id="displayPic" alt="Profile">
+            <img src="./assets/demon_slayer_s1.jpg" class="profile-pic" id="displayPic" alt="Profile">
             <div class="profile-info">
                 <div class="profile-name-row">
                     <span class="profile-name" id="displayName">Guest User</span>
@@ -119,7 +119,7 @@
                 </div>
             </div>
         </div>
-        <div class="scan-icon icon" onclick="googleLogin()">
+        <div class="scan-icon icon" onclick="window.googleLogin()">
             <svg viewBox="0 0 24 24"><path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2M7 12h10"/></svg>
         </div>
     </div>
@@ -143,14 +143,14 @@
     </div>
 
     <div class="menu-group">
-        <div class="menu-item" onclick="openAddedModal()">
+        <div class="menu-item" onclick="window.openAddedModal()">
             <div class="menu-item-left">
                 <span class="icon"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></span>
                 My Added
             </div>
             <div class="menu-item-right">›</div>
         </div>
-        <div class="menu-item" onclick="openModal()">
+        <div class="menu-item" onclick="window.openModal()">
             <div class="menu-item-left">
                 <span class="icon"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg></span>
                 Edit Profile
@@ -173,7 +173,7 @@
             <span class="icon"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg></span>
             <span>Downloads</span>
         </a>
-        <a href="../index.html" class="nav-item">
+        <a href="./index.html" class="nav-item">
             <span class="icon"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span>
             <span>Home</span>
         </a>
@@ -185,38 +185,38 @@
 
     <div class="modal-overlay" id="editModal">
         <div class="modal-content">
-            <div class="close-btn" onclick="closeModal()">✕</div>
+            <div class="close-btn" onclick="window.closeModal()">✕</div>
             <div class="modal-title">Edit Profile</div>
             <div class="input-group">
                 <label>Profile Picture</label>
-                <input type="file" id="fileInput" accept="image/*" style="display: none;" onchange="handleImage(this)">
+                <input type="file" id="fileInput" accept="image/*" style="display: none;" onchange="window.handleImage(this)">
                 <div class="upload-container" onclick="document.getElementById('fileInput').click()">
-                    <img src="../assets/demon_slayer_s1.jpg" id="previewImg" class="preview-circle">
+                    <img src="./assets/demon_slayer_s1.jpg" id="previewImg" class="preview-circle">
                     <span class="upload-text">Change Photo from Gallery</span>
                 </div>
             </div>
             <div class="input-group">
                 <label>Display Name</label>
-                <input type="text" id="inputName" class="input-box" placeholder="Enter your name" onkeyup="checkValidation()">
+                <input type="text" id="inputName" class="input-box" placeholder="Enter your name" onkeyup="window.checkValidation()">
             </div>
             <div class="input-group">
                 <label>Gender</label>
                 <div class="gender-selector">
-                    <div class="gender-btn active" id="btnMale" onclick="selectGender('Male')">♂ Male</div>
-                    <div class="gender-btn" id="btnFemale" onclick="selectGender('Female')">♀ Female</div>
+                    <div class="gender-btn active" id="btnMale" onclick="window.selectGender('Male')">♂ Male</div>
+                    <div class="gender-btn" id="btnFemale" onclick="window.selectGender('Female')">♀ Female</div>
                 </div>
             </div>
             <div class="input-group">
                 <label>Account ID (Strictly 9 Digits)</label>
-                <input type="number" id="inputId" class="input-box" placeholder="e.g. 123456789" onkeyup="checkValidation()">
+                <input type="number" id="inputId" class="input-box" placeholder="e.g. 123456789" onkeyup="window.checkValidation()">
             </div>
-            <button class="save-btn" id="saveBtn" onclick="saveProfile()">Save Changes</button>
+            <button class="save-btn" id="saveBtn" onclick="window.saveProfile()">Save Changes</button>
         </div>
     </div>
 
     <div class="modal-overlay" id="addedModal">
         <div class="modal-content">
-            <div class="close-btn" onclick="closeAddedModal()">✕</div>
+            <div class="close-btn" onclick="window.closeAddedModal()">✕</div>
             <div class="modal-title">My Added</div>
             <div class="vertical-added-list" id="addedContainer">
                 <div class="footer-text">No bookmarks yet.</div>
@@ -229,7 +229,6 @@
         import { getFirestore, doc, getDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
         import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
-        // --- FIREBASE CONFIG ---
         const firebaseConfig = {
             apiKey: "AIzaSyAE_oP6wv4A1UxfEdcT82f4KZkhSBzfH3M",
             authDomain: "mw-hub-59e96.firebaseapp.com",
@@ -250,7 +249,7 @@
         let genderColorClass = "badge-blue";
         let tempImageData = null;
 
-        // --- GLOBAL MODAL FUNCTIONS ---
+        // --- GLOBAL WINDOW BINDING (Essential for GH Pages) ---
         window.openModal = () => {
             const modal = document.getElementById("editModal");
             modal.style.display = "flex";
@@ -272,93 +271,81 @@
             setTimeout(() => modal.style.display = "none", 300);
         };
 
-        // --- GENDER SELECT ---
         window.selectGender = (type) => {
-            document.getElementById("btnMale").classList.remove("active");
-            document.getElementById("btnFemale").classList.remove("active");
-            if(type === "Male") {
-                document.getElementById("btnMale").classList.add("active");
-                selectedGender = "♂";
-                genderColorClass = "badge-blue";
-            } else {
-                document.getElementById("btnFemale").classList.add("active");
-                selectedGender = "♀";
-                genderColorClass = "badge-pink";
-            }
+            document.getElementById("btnMale").classList.toggle("active", type === 'Male');
+            document.getElementById("btnFemale").classList.toggle("active", type === 'Female');
+            selectedGender = (type === "Male") ? "♂" : "♀";
+            genderColorClass = (type === "Male") ? "badge-blue" : "badge-pink";
         };
 
-        // --- IMAGE HANDLE ---
         window.handleImage = (input) => {
             if(input.files && input.files[0]) {
-                const file = input.files[0];
-                if(file.size > 2 * 1024 * 1024) {
-                    alert("Image size must be under 2MB");
-                    return;
-                }
                 const reader = new FileReader();
                 reader.onload = (e) => {
                     tempImageData = e.target.result;
                     document.getElementById("previewImg").src = tempImageData;
                 };
-                reader.readAsDataURL(file);
+                reader.readAsDataURL(input.files[0]);
             }
         };
 
-        // --- VALIDATION ---
         window.checkValidation = () => {
             const name = document.getElementById("inputName").value.trim();
             const id = document.getElementById("inputId").value.trim();
             const saveBtn = document.getElementById("saveBtn");
-            const validId = /^[0-9]{9}$/.test(id);
-            if(name.length > 0 && validId) {
-                saveBtn.classList.add("ready");
-            } else {
-                saveBtn.classList.remove("ready");
-            }
+            saveBtn.classList.toggle("ready", name.length > 0 && /^[0-9]{9}$/.test(id));
         };
 
-        // --- SAVE PROFILE ---
         window.saveProfile = async () => {
+            if(!currentUser) return;
             try {
                 const name = document.getElementById("inputName").value.trim();
                 const id = document.getElementById("inputId").value.trim();
-                if(!name || !/^[0-9]{9}$/.test(id)) return;
+                const userRef = doc(db, "users", currentUser.uid);
+                
+                const updateData = {
+                    name: name,
+                    accountId: id,
+                    gender: selectedGender,
+                    genderClass: genderColorClass
+                };
+                if(tempImageData) updateData.profilePic = tempImageData;
 
+                await updateDoc(userRef, updateData);
+                
+                // Live UI update
                 document.getElementById("displayName").innerText = name;
                 document.getElementById("displayId").innerText = id;
                 document.getElementById("displayGender").innerText = selectedGender;
                 document.getElementById("displayGender").className = genderColorClass;
                 if(tempImageData) document.getElementById("displayPic").src = tempImageData;
-
-                if(currentUser) {
-                    const userRef = doc(db, "users", currentUser.uid);
-                    await updateDoc(userRef, {
-                        name: name,
-                        accountId: id,
-                        gender: selectedGender,
-                        genderClass: genderColorClass,
-                        profilePic: tempImageData || document.getElementById("displayPic").src
-                    });
-                }
-                closeModal();
-            } catch(error) {
-                console.error("Save error:", error);
-            }
+                
+                window.closeModal();
+            } catch(e) { console.error("Update failed", e); }
         };
 
-        // --- GOOGLE LOGIN ---
         window.googleLogin = async () => {
-            try {
-                await signInWithPopup(auth, provider);
-            } catch (error) {
-                console.error("Login failed:", error);
-            }
+            try { await signInWithPopup(auth, provider); } 
+            catch (e) { console.error("Login failed", e); }
         };
 
-        // --- AUTH & LOAD DATA ---
         onAuthStateChanged(auth, async (user) => {
             if(user) {
                 currentUser = user;
-                await loadUserData();
-            } else {
-          
+                const userRef = doc(db, "users", user.uid);
+                const snap = await getDoc(userRef);
+                if(snap.exists()) {
+                    const data = snap.data();
+                    document.getElementById("displayName").innerText = data.name || user.displayName;
+                    document.getElementById("displayId").innerText = data.accountId || "---------";
+                    document.getElementById("displayGender").innerText = data.gender || "♂";
+                    document.getElementById("displayGender").className = data.genderClass || "badge-blue";
+                    document.getElementById("displayPic").src = data.profilePic || user.photoURL;
+                } else {
+                    await setDoc(userRef, { name: user.displayName, accountId: "", gender: "♂", profilePic: user.photoURL });
+                }
+            }
+        });
+    </script>
+</body>
+</html>
