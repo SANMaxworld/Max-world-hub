@@ -55,7 +55,6 @@
         .history-card { flex: 0 0 140px; position: relative; text-decoration: none; display: block; }
         .history-img-box { position: relative; width: 100%; height: 80px; border-radius: 6px; overflow: hidden; background: #333; }
         .history-img { width: 100%; height: 100%; object-fit: cover; opacity: 0.9; }
-        .tv-icon { position: absolute; top: 4px; left: 4px; background: rgba(0,0,0,0.6); padding: 2px; border-radius: 4px; width: 16px; height: 16px; display: flex; align-items: center; justify-content: center; }
         .progress-track { position: absolute; bottom: 0; left: 0; width: 100%; height: 3px; background: rgba(255,255,255,0.3); }
         .progress-fill { height: 100%; background: var(--accent-green); }
         .history-title { font-size: 12px; color: #ccc; margin-top: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -108,7 +107,7 @@
                 </div>
             </div>
         </div>
-        <button id="authButton" class="auth-btn" onclick="window.googleLogin()">Login</button>
+        <button id="authButton" class="auth-btn">Login</button>
     </div>
 
     <div class="announcement">Welcome to the official MW Hub website</div>
@@ -124,11 +123,11 @@
     </div>
 
     <div class="menu-group">
-        <div class="menu-item" onclick="window.openAddedModal()">
+        <div class="menu-item" id="btnOpenAdded">
             <div class="menu-item-left">❤️ My Added</div>
             <div class="menu-item-right">›</div>
         </div>
-        <div class="menu-item" onclick="window.openModal()">
+        <div class="menu-item" id="btnOpenEdit">
             <div class="menu-item-left">👤 Edit Profile</div>
             <div class="menu-item-right">›</div>
         </div>
@@ -148,38 +147,38 @@
 
     <div class="modal-overlay" id="editModal">
         <div class="modal-content">
-            <div class="close-btn" onclick="window.closeModal()">✕</div>
+            <div class="close-btn" id="btnCloseEdit">✕</div>
             <div class="modal-title">Edit Profile</div>
             <div class="input-group">
                 <label>Profile Picture</label>
-                <input type="file" id="fileInput" accept="image/*" style="display:none;" onchange="window.handleImage(this)">
-                <div class="upload-container" onclick="document.getElementById('fileInput').click()">
+                <input type="file" id="fileInput" accept="image/*" style="display:none;">
+                <div class="upload-container" id="btnUploadTrigger">
                     <img src="../assets/demon_slayer_s1.jpg" id="previewImg" class="preview-circle">
                     <span class="upload-text">Change Photo</span>
                 </div>
             </div>
             <div class="input-group">
                 <label>Display Name</label>
-                <input type="text" id="inputName" class="input-box" placeholder="Your Name" oninput="window.checkValidation()">
+                <input type="text" id="inputName" class="input-box" placeholder="Your Name">
             </div>
             <div class="input-group">
                 <label>Gender</label>
                 <div class="gender-selector">
-                    <div class="gender-btn active" id="btnMale" onclick="window.selectGender('♂', 'badge-blue')">♂ Male</div>
-                    <div class="gender-btn" id="btnFemale" onclick="window.selectGender('♀', 'badge-pink')">♀ Female</div>
+                    <div class="gender-btn active" id="btnMale">♂ Male</div>
+                    <div class="gender-btn" id="btnFemale">♀ Female</div>
                 </div>
             </div>
             <div class="input-group">
                 <label>Account ID (9 Digits)</label>
-                <input type="number" id="inputId" class="input-box" placeholder="123456789" oninput="window.checkValidation()">
+                <input type="number" id="inputId" class="input-box" placeholder="123456789">
             </div>
-            <button class="save-btn" id="saveBtn" onclick="window.saveProfile()">Save Changes</button>
+            <button class="save-btn" id="saveBtn">Save Changes</button>
         </div>
     </div>
 
     <div class="modal-overlay" id="addedModal">
         <div class="modal-content">
-            <div class="close-btn" onclick="window.closeAddedModal()">✕</div>
+            <div class="close-btn" id="btnCloseAdded">✕</div>
             <div class="modal-title">My Added</div>
             <div class="vertical-added-list" id="addedContainer">
                 <div class="footer-text">No bookmarks yet.</div>
@@ -212,24 +211,38 @@
         let currentGenderClass = "badge-blue";
         let profileImageBase64 = null;
 
+        // GitHub Compatibility: Global Path Fix
         const fixPath = (path) => {
             if (!path) return "assets/placeholder.jpg";
             if (path.startsWith("http") || path.startsWith("data:")) return path;
             return path.replace(/^\.\.\//, ""); 
         };
 
-        window.googleLogin = () => signInWithPopup(auth, provider);
+        // --- GitHub Button Fix: Event Listeners ---
+        document.getElementById('authButton').addEventListener('click', () => signInWithPopup(auth, provider));
+        document.getElementById('btnOpenEdit').addEventListener('click', () => document.getElementById('editModal').classList.add('show'));
+        document.getElementById('btnCloseEdit').addEventListener('click', () => document.getElementById('editModal').classList.remove('show'));
+        document.getElementById('btnOpenAdded').addEventListener('click', () => document.getElementById('addedModal').classList.add('show'));
+        document.getElementById('btnCloseAdded').addEventListener('click', () => document.getElementById('addedModal').classList.remove('show'));
+        document.getElementById('btnUploadTrigger').addEventListener('click', () => document.getElementById('fileInput').click());
+
+        document.getElementById('btnMale').addEventListener('click', () => selectGender('♂', 'badge-blue'));
+        document.getElementById('btnFemale').addEventListener('click', () => selectGender('♀', 'badge-pink'));
+        
+        document.getElementById('fileInput').addEventListener('change', (e) => handleImage(e.target));
+        document.getElementById('inputName').addEventListener('input', checkValidation);
+        document.getElementById('inputId').addEventListener('input', checkValidation);
+        document.getElementById('saveBtn').addEventListener('click', saveProfile);
 
         onAuthStateChanged(auth, async (user) => {
             const authBtn = document.getElementById('authButton');
             if (user) { 
                 currentUser = user; 
-                if (authBtn) authBtn.innerText = "Switch Account"; 
+                authBtn.innerText = "Switch Account"; 
                 await loadUserData(); 
-            }
-            else { 
+            } else { 
                 currentUser = null;
-                if (authBtn) authBtn.innerText = "Login"; 
+                authBtn.innerText = "Login"; 
                 document.getElementById('displayName').innerText = "Guest User"; 
             }
         });
@@ -247,64 +260,43 @@
                     document.getElementById('displayPic').src = data.profilePic;
                     document.getElementById('previewImg').src = data.profilePic;
                 }
-
-                const historyArr = Object.values(data.watchHistory || {}).sort((a,b) => b.timestamp - a.timestamp);
-                renderHistory(historyArr);
+                renderHistory(Object.values(data.watchHistory || {}).sort((a,b) => b.timestamp - a.timestamp));
                 renderAdded(data.myAdded || []);
-                
-                selectedGender = data.gender || "♂";
-                currentGenderClass = data.genderClass || "badge-blue";
             }
         }
 
         function renderHistory(history) {
             const container = document.getElementById('historyContainer');
-            if(!history || history.length === 0) {
-                container.innerHTML = '<div class="footer-text" style="width:100%;">No history found.</div>';
-                return;
-            }
-            container.innerHTML = history.map(item => {
-                const progress = (item.currentEp / item.totalEp) * 100 || 0;
-                return `
-                    <a href="./anime/${item.id}.html" class="history-card">
-                        <div class="history-img-box">
-                            <img src="${fixPath(item.poster)}" class="history-img" onerror="this.src='assets/placeholder.jpg'">
-                            <div class="progress-track"><div class="progress-fill" style="width:${progress}%"></div></div>
-                        </div>
-                        <div class="history-title">${item.title}</div>
-                    </a>
-                `;
-            }).join('');
+            if(!history.length) return;
+            container.innerHTML = history.map(item => `
+                <a href="./anime/${item.id}.html" class="history-card">
+                    <div class="history-img-box">
+                        <img src="${fixPath(item.poster)}" class="history-img" onerror="this.src='assets/placeholder.jpg'">
+                        <div class="progress-track"><div class="progress-fill" style="width:${(item.currentEp / item.totalEp) * 100}%"></div></div>
+                    </div>
+                    <div class="history-title">${item.title}</div>
+                </a>`).join('');
         }
 
         function renderAdded(added) {
             const container = document.getElementById('addedContainer');
-            if(!added || added.length === 0) {
-                container.innerHTML = '<div class="footer-text">No bookmarks yet.</div>';
-                return;
-            }
+            if(!added.length) return;
             container.innerHTML = added.map(item => `
                 <a href="./anime/${item.id}.html" class="added-card-link">
                     <div class="added-card">
                         <img src="${fixPath(item.poster)}" onerror="this.src='assets/placeholder.jpg'">
                         <div class="added-card-title">${item.title}</div>
                     </div>
-                </a>
-            `).join('');
+                </a>`).join('');
         }
 
-        window.openModal = () => document.getElementById('editModal').classList.add('show');
-        window.closeModal = () => document.getElementById('editModal').classList.remove('show');
-        window.openAddedModal = () => document.getElementById('addedModal').classList.add('show');
-        window.closeAddedModal = () => document.getElementById('addedModal').classList.remove('show');
-
-        window.selectGender = (g, c) => {
+        function selectGender(g, c) {
             selectedGender = g; currentGenderClass = c;
             document.getElementById('btnMale').classList.toggle('active', g === '♂');
             document.getElementById('btnFemale').classList.toggle('active', g === '♀');
-        };
+        }
 
-        window.handleImage = (input) => {
+        function handleImage(input) {
             if (input.files && input.files[0]) {
                 const reader = new FileReader();
                 reader.onload = (e) => {
@@ -313,29 +305,35 @@
                 };
                 reader.readAsDataURL(input.files[0]);
             }
-        };
+        }
 
-        window.checkValidation = () => {
+        function checkValidation() {
             const name = document.getElementById('inputName').value.trim();
             const idVal = document.getElementById('inputId').value.toString();
             const btn = document.getElementById('saveBtn');
             if(name.length > 2 && idVal.length === 9) btn.classList.add('ready');
             else btn.classList.remove('ready');
-        };
+        }
 
-        window.saveProfile = async () => {
-            if(!currentUser) { alert("Please login first"); return; }
-            const name = document.getElementById('inputName').value.trim();
-            const aid = document.getElementById('inputId').value.toString();
-            
+        async function saveProfile() {
             const btn = document.getElementById('saveBtn');
             btn.innerText = "Saving...";
-            
-            const updateData = { name, accountId: aid, gender: selectedGender, genderClass: currentGenderClass };
+            const updateData = { 
+                name: document.getElementById('inputName').value.trim(), 
+                accountId: document.getElementById('inputId').value.toString(), 
+                gender: selectedGender, 
+                genderClass: currentGenderClass 
+            };
             if(profileImageBase64) updateData.profilePic = profileImageBase64;
-            
             try {
                 await setDoc(doc(db, "users", currentUser.uid), updateData, { merge: true });
                 location.reload();
             } catch(e) { 
-                ale
+                alert("Error saving profile"); 
+                btn.innerText = "Save Changes";
+            }
+        }
+    </script>
+</body>
+</html>
+
