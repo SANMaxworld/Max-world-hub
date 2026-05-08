@@ -263,11 +263,28 @@
         let genderColorClass = "badge-blue";
         let tempImageData = null;
 
-        // --- GLOBAL ATTACHMENTS (CRITICAL FIX) ---
-        window.openModal = () => document.getElementById('editModal').classList.add('show');
-        window.closeModal = () => document.getElementById('editModal').classList.remove('show');
-        window.openAddedModal = () => document.getElementById('addedModal').classList.add('show');
-        window.closeAddedModal = () => document.getElementById('addedModal').classList.remove('show');
+        // --- GLOBAL BINDING FIX ---
+        // Modules ke andar functions ko window se bind karna padta hai
+        window.openModal = () => {
+            const modal = document.getElementById('editModal');
+            modal.style.display = 'flex';
+            setTimeout(() => modal.classList.add('show'), 10);
+        };
+        window.closeModal = () => {
+            const modal = document.getElementById('editModal');
+            modal.classList.remove('show');
+            setTimeout(() => modal.style.display = 'none', 300);
+        };
+        window.openAddedModal = () => {
+            const modal = document.getElementById('addedModal');
+            modal.style.display = 'flex';
+            setTimeout(() => modal.classList.add('show'), 10);
+        };
+        window.closeAddedModal = () => {
+            const modal = document.getElementById('addedModal');
+            modal.classList.remove('show');
+            setTimeout(() => modal.style.display = 'none', 300);
+        };
 
         window.selectGender = (type) => {
             document.getElementById('btnMale').classList.remove('active');
@@ -309,14 +326,12 @@
             const name = document.getElementById('inputName').value;
             const id = document.getElementById('inputId').value;
             
-            // Local Update
             document.getElementById('displayName').innerText = name;
             document.getElementById('displayId').innerText = id;
             document.getElementById('displayGender').innerText = selectedGender;
             document.getElementById('displayGender').className = genderColorClass;
             if(tempImageData) document.getElementById('displayPic').src = tempImageData;
 
-            // Cloud Update
             if (currentUser) {
                 const userRef = doc(db, "users", currentUser.uid);
                 await updateDoc(userRef, {
@@ -338,7 +353,6 @@
             }
         };
 
-        // --- AUTH & LOAD ---
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 currentUser = user;
@@ -354,11 +368,4 @@
 
             if (userSnap.exists()) {
                 const data = userSnap.data();
-                document.getElementById('displayName').innerText = data.name || currentUser.displayName;
-                document.getElementById('displayId').innerText = data.accountId || "---------";
-                document.getElementById('displayGender').innerText = data.gender || "♂";
-                document.getElementById('displayGender').className = data.genderClass || "badge-blue";
-                if(data.profilePic) document.getElementById('displayPic').src = data.profilePic;
-
-                renderHistory(data.watchHistory || []);
-       
+                document.getElementById('displayName').innerText = data.name || currentUser.di
