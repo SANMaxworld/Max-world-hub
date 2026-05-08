@@ -22,9 +22,6 @@
             --accent-red: #ff3b30;
             --divider: #2a2a30;
             --red-gradient: linear-gradient(90deg, #4b0000 0%, #8b0000 100%);
-            /* Login Theme Vars */
-            --login-red-gradient: linear-gradient(90deg, #ff416c 0%, #ff4b2b 100%);
-            --navy-bg: radial-gradient(circle at center, #11112b 0%, #0a0a14 70%, #050508 100%);
         }
 
         body { background-color: var(--bg-main); color: var(--text-main); padding-bottom: 90px; }
@@ -47,7 +44,7 @@
         .badge-blue { color: #4facfe; } 
         .badge-pink { color: #ff66b2; }
 
-        /* --- ANNOUNCEMENT --- */
+        /* --- ANNOUNCEMENT (RED GRADIENT UPDATE) --- */
         .announcement { 
             background: var(--red-gradient); 
             backdrop-filter: blur(10px);
@@ -89,7 +86,7 @@
         .nav-item.active { color: var(--accent-green); }
         .nav-item span { font-size: 10px; font-weight: 500; }
 
-        /* --- MODAL --- */
+        /* --- MODAL (EDIT & ADDED) --- */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 200; justify-content: center; align-items: center; padding: 20px; opacity: 0; transition: opacity 0.3s; }
         .modal-overlay.show { display: flex; opacity: 1; }
         .modal-content { background: var(--bg-card); width: 100%; max-width: 350px; border-radius: 16px; padding: 24px; position: relative; border: 1px solid var(--divider); max-height: 80vh; overflow-y: auto; }
@@ -118,53 +115,9 @@
         .added-card-info { flex: 1; overflow: hidden; }
         .added-card-title { font-size: 14px; font-weight: 500; color: #fff; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-        /* --- LOGIN INTERFACE STYLES --- */
-        .navy-gradient-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--navy-bg); display: none; align-items: center; justify-content: center; z-index: 2000; }
-        .login-card-wrapper { position: relative; width: 330px; height: 330px; display: flex; align-items: center; justify-content: center; }
-        .login-card { width: 100%; height: 100%; background: rgba(255, 255, 255, 0.04); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 30px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 25px; z-index: 2; box-shadow: 0 15px 35px rgba(0,0,0,0.6); animation: floatAnim 3.5s ease-in-out infinite; }
-        @keyframes floatAnim { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
-        .card-glow { position: absolute; bottom: -25px; width: 70%; height: 50px; background: #ff416c; filter: blur(45px); opacity: 0.4; z-index: 1; animation: glowPulse 3.5s ease-in-out infinite; }
-        @keyframes glowPulse { 0%, 100% { opacity: 0.3; transform: scale(0.9); } 50% { opacity: 0.6; transform: scale(1.1); } }
-        .top-logo-circle { background: rgba(255, 255, 255, 0.07); width: 64px; height: 64px; border-radius: 50%; margin-bottom: 15px; border: 1px solid rgba(255, 255, 255, 0.1); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-        .text-group-login { margin-bottom: 25px; }
-        .login-title { font-size: 24px; font-weight: 800; color: #fff; margin-bottom: 4px; letter-spacing: -0.5px; }
-        .tagline { font-size: 11px; color: #ff416c; font-weight: 600; text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 12px; }
-        .login-desc { font-size: 12px; color: #a0a0ab; line-height: 1.4; max-width: 240px; margin: 0 auto; }
-        .google-btn-red { background: var(--login-red-gradient); color: #fff; display: flex; align-items: center; gap: 12px; padding: 12px 20px; border-radius: 14px; font-weight: 700; font-size: 14px; cursor: pointer; box-shadow: 0 8px 20px rgba(255, 65, 108, 0.4); transition: 0.3s; }
-        .google-btn-red:hover { transform: scale(1.03); }
-        .google-btn-red:active { transform: scale(0.97); }
-        .g-icon-bg { background: #fff; width: 22px; height: 22px; border-radius: 5px; display: flex; align-items: center; justify-content: center; }
-        .g-icon-bg img { width: 14px; }
     </style>
 </head>
 <body>
-
-    <div id="login-container" class="navy-gradient-bg">
-        <div class="login-card-wrapper">
-            <div class="login-card">
-                <div class="top-logo-circle">
-                    <svg viewBox="0 0 48 48" width="36" height="36">
-                        <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
-                        <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
-                        <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
-                        <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
-                    </svg>
-                </div>
-                <div class="text-group-login">
-                    <h1 class="login-title">Welcome to MW Hub</h1>
-                    <p class="tagline">Your Premium Destination for Anime & Movies</p>
-                    <p class="login-desc">Create an account to sync your watch history and save anime movies across devices.</p>
-                </div>
-                <div class="google-btn-red" onclick="handleLogin()">
-                    <div class="g-icon-bg">
-                        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="G">
-                    </div>
-                    <span>Continue with Google</span>
-                </div>
-            </div>
-            <div class="card-glow"></div>
-        </div>
-    </div>
 
     <div class="header">
         <div class="profile-area">
@@ -180,7 +133,7 @@
                 </div>
             </div>
         </div>
-        <div class="scan-icon icon" onclick="handleLogin()">
+        <div class="scan-icon icon" onclick="googleLogin()">
             <svg viewBox="0 0 24 24"><path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2M7 12h10"/></svg>
         </div>
     </div>
@@ -285,17 +238,38 @@
         </div>
     </div>
 
-    <script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getFirestore, doc, getDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAE_oP6wv4A1UxfEdcT82f4KZkhSBzfH3M",
+            authDomain: "mw-hub-59e96.firebaseapp.com",
+            projectId: "mw-hub-59e96",
+            storageBucket: "mw-hub-59e96.firebasestorage.app",
+            messagingSenderId: "1084767566489",
+            appId: "1:1084767566489:web:5913fcac03c2947c9b1608",
+            measurementId: "G-K44QJG0GTM"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+        const provider = new GoogleAuthProvider();
+
+        let currentUser = null;
         let selectedGender = "♂"; 
         let genderColorClass = "badge-blue";
         let tempImageData = null;
 
-        function openModal() { document.getElementById('editModal').classList.add('show'); }
-        function closeModal() { document.getElementById('editModal').classList.remove('show'); }
-        function openAddedModal() { document.getElementById('addedModal').classList.add('show'); }
-        function closeAddedModal() { document.getElementById('addedModal').classList.remove('show'); }
+        // --- ATTACH TO WINDOW FOR onclick ---
+        window.openModal = () => document.getElementById('editModal').classList.add('show');
+        window.closeModal = () => document.getElementById('editModal').classList.remove('show');
+        window.openAddedModal = () => document.getElementById('addedModal').classList.add('show');
+        window.closeAddedModal = () => document.getElementById('addedModal').classList.remove('show');
 
-        function selectGender(type) {
+        window.selectGender = (type) => {
             document.getElementById('btnMale').classList.remove('active');
             document.getElementById('btnFemale').classList.remove('active');
             if(type === 'Male') {
@@ -303,4 +277,88 @@
                 selectedGender = "♂";
                 genderColorClass = "badge-blue";
             } else {
-                document.getElementById('btnFemale').classList.add('
+                document.getElementById('btnFemale').classList.add('active');
+                selectedGender = "♀";
+                genderColorClass = "badge-pink";
+            }
+        };
+
+        window.handleImage = (input) => {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    tempImageData = e.target.result;
+                    document.getElementById('previewImg').src = tempImageData;
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        };
+
+        window.checkValidation = () => {
+            const name = document.getElementById('inputName').value.trim();
+            const id = document.getElementById('inputId').value.trim();
+            const saveBtn = document.getElementById('saveBtn');
+            if(name.length > 0 && id.length === 9) {
+                saveBtn.classList.add('ready');
+            } else {
+                saveBtn.classList.remove('ready');
+            }
+        };
+
+        window.saveProfile = async () => {
+            const name = document.getElementById('inputName').value;
+            const id = document.getElementById('inputId').value;
+            
+            // Local Update
+            document.getElementById('displayName').innerText = name;
+            document.getElementById('displayId').innerText = id;
+            document.getElementById('displayGender').innerText = selectedGender;
+            document.getElementById('displayGender').className = genderColorClass;
+            if(tempImageData) document.getElementById('displayPic').src = tempImageData;
+
+            // Cloud Update
+            if (currentUser) {
+                const userRef = doc(db, "users", currentUser.uid);
+                await updateDoc(userRef, {
+                    name: name,
+                    accountId: id,
+                    gender: selectedGender,
+                    genderClass: genderColorClass,
+                    profilePic: tempImageData || document.getElementById('displayPic').src
+                });
+            }
+            window.closeModal();
+        };
+
+        window.googleLogin = async () => {
+            try {
+                await signInWithPopup(auth, provider);
+            } catch (error) {
+                console.error("Login failed", error);
+            }
+        };
+
+        // --- AUTH & LOAD ---
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                currentUser = user;
+                await loadUserData();
+            } else {
+                document.getElementById('displayName').innerText = "Guest User";
+            }
+        });
+
+        async function loadUserData() {
+            const userRef = doc(db, "users", currentUser.uid);
+            const userSnap = await getDoc(userRef);
+
+            if (userSnap.exists()) {
+                const data = userSnap.data();
+                document.getElementById('displayName').innerText = data.name || currentUser.displayName;
+                document.getElementById('displayId').innerText = data.accountId || "---------";
+                document.getElementById('displayGender').innerText = data.gender || "♂";
+                document.getElementById('displayGender').className = data.genderClass || "badge-blue";
+                if(data.profilePic) document.getElementById('displayPic').src = data.profilePic;
+
+                renderHistory(data.watchHistory || []);
+            
