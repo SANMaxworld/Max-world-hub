@@ -44,19 +44,8 @@
         .badge-blue { color: #4facfe; } 
         .badge-pink { color: #ff66b2; }
 
-        /* --- ANNOUNCEMENT (RED GRADIENT UPDATE) --- */
-        .announcement { 
-            background: var(--red-gradient); 
-            backdrop-filter: blur(10px);
-            color: #fff; 
-            padding: 10px 16px; 
-            font-size: 12px; 
-            display: flex; 
-            align-items: center; 
-            gap: 8px; 
-            margin-bottom: 16px;
-            font-weight: 500;
-        }
+        /* --- ANNOUNCEMENT --- */
+        .announcement { background: var(--red-gradient); backdrop-filter: blur(10px); color: #fff; padding: 10px 16px; font-size: 12px; display: flex; align-items: center; gap: 8px; margin-bottom: 16px; font-weight: 500; }
 
         /* --- MENU BLOCKS --- */
         .menu-group { background: var(--bg-card); border-radius: 12px; margin: 0 16px 16px; overflow: hidden; padding-top: 5px; }
@@ -77,16 +66,7 @@
         .progress-fill { height: 100%; background: var(--accent-green); }
         .history-title { font-size: 12px; color: #ccc; margin-top: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-        /* --- FOOTER --- */
-        .footer-text { text-align: center; font-size: 12px; color: var(--text-sub); padding: 10px 0 30px; }
-
-        /* --- BOTTOM NAV --- */
-        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; height: 65px; background: var(--bg-card); display: flex; justify-content: space-around; align-items: center; border-top-left-radius: 20px; border-top-right-radius: 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.5); z-index: 100; padding-bottom: env(safe-area-inset-bottom); }
-        .nav-item { display: flex; flex-direction: column; align-items: center; gap: 4px; color: var(--text-sub); text-decoration: none; width: 33.33%; position: relative; }
-        .nav-item.active { color: var(--accent-green); }
-        .nav-item span { font-size: 10px; font-weight: 500; }
-
-        /* --- MODAL (EDIT & ADDED) --- */
+        /* --- MODAL --- */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 200; justify-content: center; align-items: center; padding: 20px; opacity: 0; transition: opacity 0.3s; }
         .modal-overlay.show { display: flex; opacity: 1; }
         .modal-content { background: var(--bg-card); width: 100%; max-width: 350px; border-radius: 16px; padding: 24px; position: relative; border: 1px solid var(--divider); max-height: 80vh; overflow-y: auto; }
@@ -115,6 +95,12 @@
         .added-card-info { flex: 1; overflow: hidden; }
         .added-card-title { font-size: 14px; font-weight: 500; color: #fff; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
+        /* --- FOOTER & NAV --- */
+        .footer-text { text-align: center; font-size: 12px; color: var(--text-sub); padding: 10px 0 30px; }
+        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; height: 65px; background: var(--bg-card); display: flex; justify-content: space-around; align-items: center; border-top-left-radius: 20px; border-top-right-radius: 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.5); z-index: 100; padding-bottom: env(safe-area-inset-bottom); }
+        .nav-item { display: flex; flex-direction: column; align-items: center; gap: 4px; color: var(--text-sub); text-decoration: none; width: 33.33%; position: relative; }
+        .nav-item.active { color: var(--accent-green); }
+        .nav-item span { font-size: 10px; font-weight: 500; }
     </style>
 </head>
 <body>
@@ -124,7 +110,7 @@
             <img src="../assets/demon_slayer_s1.jpg" class="profile-pic" id="displayPic" alt="Profile">
             <div class="profile-info">
                 <div class="profile-name-row">
-                    <span class="profile-name" id="displayName">Loading...</span>
+                    <span class="profile-name" id="displayName">Guest User</span>
                     <span class="arrow-right">›</span>
                 </div>
                 <div class="badge-row">
@@ -243,6 +229,7 @@
         import { getFirestore, doc, getDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
         import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
+        // --- FIREBASE CONFIG ---
         const firebaseConfig = {
             apiKey: "AIzaSyAE_oP6wv4A1UxfEdcT82f4KZkhSBzfH3M",
             authDomain: "mw-hub-59e96.firebaseapp.com",
@@ -259,113 +246,119 @@
         const provider = new GoogleAuthProvider();
 
         let currentUser = null;
-        let selectedGender = "♂"; 
+        let selectedGender = "♂";
         let genderColorClass = "badge-blue";
         let tempImageData = null;
 
-        // --- GLOBAL BINDING FIX ---
-        // Modules ke andar functions ko window se bind karna padta hai
+        // --- GLOBAL MODAL FUNCTIONS ---
         window.openModal = () => {
-            const modal = document.getElementById('editModal');
-            modal.style.display = 'flex';
-            setTimeout(() => modal.classList.add('show'), 10);
+            const modal = document.getElementById("editModal");
+            modal.style.display = "flex";
+            setTimeout(() => modal.classList.add("show"), 10);
         };
         window.closeModal = () => {
-            const modal = document.getElementById('editModal');
-            modal.classList.remove('show');
-            setTimeout(() => modal.style.display = 'none', 300);
+            const modal = document.getElementById("editModal");
+            modal.classList.remove("show");
+            setTimeout(() => modal.style.display = "none", 300);
         };
         window.openAddedModal = () => {
-            const modal = document.getElementById('addedModal');
-            modal.style.display = 'flex';
-            setTimeout(() => modal.classList.add('show'), 10);
+            const modal = document.getElementById("addedModal");
+            modal.style.display = "flex";
+            setTimeout(() => modal.classList.add("show"), 10);
         };
         window.closeAddedModal = () => {
-            const modal = document.getElementById('addedModal');
-            modal.classList.remove('show');
-            setTimeout(() => modal.style.display = 'none', 300);
+            const modal = document.getElementById("addedModal");
+            modal.classList.remove("show");
+            setTimeout(() => modal.style.display = "none", 300);
         };
 
+        // --- GENDER SELECT ---
         window.selectGender = (type) => {
-            document.getElementById('btnMale').classList.remove('active');
-            document.getElementById('btnFemale').classList.remove('active');
-            if(type === 'Male') {
-                document.getElementById('btnMale').classList.add('active');
+            document.getElementById("btnMale").classList.remove("active");
+            document.getElementById("btnFemale").classList.remove("active");
+            if(type === "Male") {
+                document.getElementById("btnMale").classList.add("active");
                 selectedGender = "♂";
                 genderColorClass = "badge-blue";
             } else {
-                document.getElementById('btnFemale').classList.add('active');
+                document.getElementById("btnFemale").classList.add("active");
                 selectedGender = "♀";
                 genderColorClass = "badge-pink";
             }
         };
 
+        // --- IMAGE HANDLE ---
         window.handleImage = (input) => {
-            if (input.files && input.files[0]) {
+            if(input.files && input.files[0]) {
+                const file = input.files[0];
+                if(file.size > 2 * 1024 * 1024) {
+                    alert("Image size must be under 2MB");
+                    return;
+                }
                 const reader = new FileReader();
                 reader.onload = (e) => {
                     tempImageData = e.target.result;
-                    document.getElementById('previewImg').src = tempImageData;
+                    document.getElementById("previewImg").src = tempImageData;
                 };
-                reader.readAsDataURL(input.files[0]);
+                reader.readAsDataURL(file);
             }
         };
 
+        // --- VALIDATION ---
         window.checkValidation = () => {
-            const name = document.getElementById('inputName').value.trim();
-            const id = document.getElementById('inputId').value.trim();
-            const saveBtn = document.getElementById('saveBtn');
-            if(name.length > 0 && id.length === 9) {
-                saveBtn.classList.add('ready');
+            const name = document.getElementById("inputName").value.trim();
+            const id = document.getElementById("inputId").value.trim();
+            const saveBtn = document.getElementById("saveBtn");
+            const validId = /^[0-9]{9}$/.test(id);
+            if(name.length > 0 && validId) {
+                saveBtn.classList.add("ready");
             } else {
-                saveBtn.classList.remove('ready');
+                saveBtn.classList.remove("ready");
             }
         };
 
+        // --- SAVE PROFILE ---
         window.saveProfile = async () => {
-            const name = document.getElementById('inputName').value;
-            const id = document.getElementById('inputId').value;
-            
-            document.getElementById('displayName').innerText = name;
-            document.getElementById('displayId').innerText = id;
-            document.getElementById('displayGender').innerText = selectedGender;
-            document.getElementById('displayGender').className = genderColorClass;
-            if(tempImageData) document.getElementById('displayPic').src = tempImageData;
+            try {
+                const name = document.getElementById("inputName").value.trim();
+                const id = document.getElementById("inputId").value.trim();
+                if(!name || !/^[0-9]{9}$/.test(id)) return;
 
-            if (currentUser) {
-                const userRef = doc(db, "users", currentUser.uid);
-                await updateDoc(userRef, {
-                    name: name,
-                    accountId: id,
-                    gender: selectedGender,
-                    genderClass: genderColorClass,
-                    profilePic: tempImageData || document.getElementById('displayPic').src
-                });
+                document.getElementById("displayName").innerText = name;
+                document.getElementById("displayId").innerText = id;
+                document.getElementById("displayGender").innerText = selectedGender;
+                document.getElementById("displayGender").className = genderColorClass;
+                if(tempImageData) document.getElementById("displayPic").src = tempImageData;
+
+                if(currentUser) {
+                    const userRef = doc(db, "users", currentUser.uid);
+                    await updateDoc(userRef, {
+                        name: name,
+                        accountId: id,
+                        gender: selectedGender,
+                        genderClass: genderColorClass,
+                        profilePic: tempImageData || document.getElementById("displayPic").src
+                    });
+                }
+                closeModal();
+            } catch(error) {
+                console.error("Save error:", error);
             }
-            window.closeModal();
         };
 
+        // --- GOOGLE LOGIN ---
         window.googleLogin = async () => {
             try {
                 await signInWithPopup(auth, provider);
             } catch (error) {
-                console.error("Login failed", error);
+                console.error("Login failed:", error);
             }
         };
 
+        // --- AUTH & LOAD DATA ---
         onAuthStateChanged(auth, async (user) => {
-            if (user) {
+            if(user) {
                 currentUser = user;
                 await loadUserData();
             } else {
-                document.getElementById('displayName').innerText = "Guest User";
-            }
-        });
-
-        async function loadUserData() {
-            const userRef = doc(db, "users", currentUser.uid);
-            const userSnap = await getDoc(userRef);
-
-            if (userSnap.exists()) {
-                const data = userSnap.data();
-                document.getElementById('displayName').innerText = data.name || currentUser.di
+          
