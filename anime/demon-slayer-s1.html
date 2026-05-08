@@ -4,9 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Watch Demon Slayer Season 1 Hindi Dubbed Online - Max World Hub</title>
+    <link rel="manifest" href="../manifest.json">
+    <meta name="theme-color" content="#000000">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <link rel="stylesheet" href="../style.css">
     <style>
-        /* CSS stays locked */
+        /* DESIGN IS LOCKED - NO CHANGES MADE HERE */
         .rec-card { position: relative; width: 100%; aspect-ratio: 2/3; border-radius: 8px; overflow: hidden; cursor: pointer; background: #1a1a1a; transition: transform 0.2s; display: block; text-decoration: none; }
         .rec-card:hover { transform: scale(1.03); }
         .rec-poster { width: 100%; height: 100%; object-fit: cover; }
@@ -44,50 +48,48 @@
             </div>
             <div class="action-scroll">
                 <button class="action-btn" id="bookmarkBtn" onclick="window.toggleBookmark()">📂 Add to List</button>
-                <button class="action-btn" onclick="window.sharePage()">🔗 Share</button>
+                <button class="action-btn" onclick="sharePage()">🔗 Share</button>
                 <button class="action-btn" onclick="window.location.href='#'">⬇️ Download</button>
             </div>
-            
             <div class="resources-row">
                 <h2 class="resources-title">Resources</h2>
                 <span class="uploader-text">Uploaded by Max World Hub</span>
             </div>
-
             <div class="dropdown-row">
                 <div class="custom-select">Hindi Dubbed</div>
                 <div class="custom-select">Season 01 <span class="dropdown-icon">▼</span><select onchange="location = this.value;">
                     <option value="#" selected>Season 01 (Unwavering Resolve)</option>
-                    <option value="#">Season 02 (Entertainment District)</option>
+                    <option value="LINK_S2">Season 02 (Entertainment District)</option>
                 </select></div>
             </div>
             
             <div class="episode-slider" id="epSlider">
-                <div class="ep-box" onclick="window.playEpisode('40utdw02wqim', this)">1</div>
-                <div class="ep-box" onclick="window.playEpisode('rghl9wsi1wda', this)">2</div>
-                <div class="ep-box" onclick="window.playEpisode('8b6sswozkrt2', this)">3</div>
-                <div class="ep-box" onclick="window.playEpisode('qqambriw06yo', this)">4</div>
-                <div class="ep-box" onclick="window.playEpisode('7g5getz2uk3b', this)">5</div>
-                <div class="ep-box" onclick="window.playEpisode('3qh2yp1oogtt', this)">6</div>
-                <div class="ep-box" onclick="window.playEpisode('72os8cdblexe', this)">7</div>
-                <div class="ep-box" onclick="window.playEpisode('lckkpkom1b2n', this)">8</div>
-                <div class="ep-box" onclick="window.playEpisode('yjvi8eo8bltr', this)">9</div>
-                <div class="ep-box" onclick="window.playEpisode('brirgkrvkgnv', this)">10</div>
-                <div class="ep-box" onclick="window.playEpisode('3lprfhbylp5w', this)">11</div>
-                <div class="ep-box" onclick="window.playEpisode('mapkkqopwrqe', this)">12</div>
-                <div class="ep-box" onclick="window.playEpisode('croyoej9ym48', this)">13</div>
-                <div class="ep-box" onclick="window.playEpisode('syawmey9eqs9', this)">14</div>
-                <div class="ep-box" onclick="window.playEpisode('7mszswrjm3bh', this)">15</div>
-                <div class="ep-box" onclick="window.playEpisode('7qv4npttunii', this)">16</div>
-                <div class="ep-box" onclick="window.playEpisode('iqqqovhqfqyl', this)">17</div>
-                <div class="ep-box" onclick="window.playEpisode('auybrmbheilo', this)">18</div>
-                <div class="ep-box" onclick="window.playEpisode('gvpmk5peq55g', this)">19</div>
-                <div class="ep-box" onclick="window.playEpisode('voatl1jrlnhl', this)">20</div>
-                <div class="ep-box" onclick="window.playEpisode('8s9hxdcqhgvx', this)">21</div>
-                <div class="ep-box" onclick="window.playEpisode('wz1bvsx3vr5x', this)">22</div>
-                <div class="ep-box" onclick="window.playEpisode('qmzkg4wwswuo', this)">23</div>
-                <div class="ep-box" onclick="window.playEpisode('l1qja8enklie', this)">24</div>
-                <div class="ep-box" onclick="window.playEpisode('gxdkcbj2tjhy', this)">25</div>
-                <div class="ep-box" onclick="window.playEpisode('fwf0ngpfh6oq', this)">26</div>
+                <div class="ep-box" onclick="playEpisode('40utdw02wqim', this)">1</div>
+                <div class="ep-box" onclick="playEpisode('rghl9wsi1wda', this)">2</div>
+                <div class="ep-box" onclick="playEpisode('8b6sswozkrt2', this)">3</div>
+                <div class="ep-box" onclick="playEpisode('qqambriw06yo', this)">4</div>
+                <div class="ep-box" onclick="playEpisode('7g5getz2uk3b', this)">5</div>
+                <div class="ep-box" onclick="playEpisode('3qh2yp1oogtt', this)">6</div>
+                <div class="ep-box" onclick="playEpisode('72os8cdblexe', this)">7</div>
+                <div class="ep-box" onclick="playEpisode('lckkpkom1b2n', this)">8</div>
+                <div class="ep-box" onclick="playEpisode('yjvi8eo8bltr', this)">9</div>
+                <div class="ep-box" onclick="playEpisode('brirgkrvkgnv', this)">10</div>
+                <div class="ep-box" onclick="playEpisode('3lprfhbylp5w', this)">11</div>
+                <div class="ep-box" onclick="playEpisode('mapkkqopwrqe', this)">12</div>
+                <div class="ep-box" onclick="playEpisode('croyoej9ym48', this)">13</div>
+                <div class="ep-box" onclick="playEpisode('syawmey9eqs9', this)">14</div>
+                <div class="ep-box" onclick="playEpisode('7mszswrjm3bh', this)">15</div>
+                <div class="ep-box" onclick="playEpisode('7qv4npttunii', this)">16</div>
+                <div class="ep-box" onclick="playEpisode('iqqqovhqfqyl', this)">17</div>
+                <div class="ep-box" onclick="playEpisode('auybrmbheilo', this)">18</div>
+                <div class="ep-box" onclick="playEpisode('gvpmk5peq55g', this)">19</div>
+                <div class="ep-box" onclick="playEpisode('voatl1jrlnhl', this)">20</div>
+                <div class="ep-box" onclick="playEpisode('8s9hxdcqhgvx', this)">21</div>
+                <div class="ep-box" onclick="playEpisode('wz1bvsx3vr5x', this)">22</div>
+                <div class="ep-box" onclick="playEpisode('qmzkg4wwswuo', this)">23</div>
+                <div class="ep-box" onclick="playEpisode('l1qja8enklie', this)">24</div>
+                <div class="ep-box" onclick="playEpisode('gxdkcbj2tjhy', this)">25</div>
+                <div class="ep-box" onclick="playEpisode('fwf0ngpfh6oq', this)">26</div>
             </div>
 
             <div class="tabs-container"><div class="tab active">Recommended</div><div class="tab">Similar Anime</div></div>
@@ -135,10 +137,10 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        // Current Anime Constants
+        // CONFIGURATION
         const ANIME_ID = "demon-slayer-s1";
         const ANIME_TITLE = "Demon Slayer S1";
-        const ANIME_POSTER = "../assets/demon_slayer_s1.jpg";
+        const ANIME_POSTER = "assets/demon_slayer_s1.jpg"; // Path fixed for mi.html
         
         let isBookmarked = false;
 
@@ -164,13 +166,12 @@
                 const epNum = parseInt(element.innerText);
                 const totalEp = boxes.length;
                 
-                // Dashboard progress bar works using 'currentEp' and 'totalEp'
                 await setDoc(doc(db, "users", user.uid), {
                     watchHistory: {
                         [ANIME_ID]: {
                             id: ANIME_ID,
                             title: ANIME_TITLE,
-                            currentEp: epNum, // Renamed for mi.html compatibility
+                            currentEp: epNum, // for dashboard progress
                             totalEp: totalEp,
                             poster: ANIME_POSTER,
                             timestamp: Date.now()
@@ -180,26 +181,25 @@
             }
         };
 
-        // Bookmark (My Added) Functionality
         window.toggleBookmark = async function() {
             const user = auth.currentUser;
-            if (!user) { alert("Please login first!"); return; }
-
-            const userRef = doc(db, "users", user.uid);
-            const animeData = { id: ANIME_ID, title: ANIME_TITLE, poster: ANIME_POSTER };
+            if (!user) { alert("Please login to add to list"); return; }
+            
             const btn = document.getElementById('bookmarkBtn');
+            const userRef = doc(db, "users", user.uid);
+            const animeObj = { id: ANIME_ID, title: ANIME_TITLE, poster: ANIME_POSTER };
 
             try {
                 if (isBookmarked) {
-                    await updateDoc(userRef, { myAdded: arrayRemove(animeData) });
+                    await updateDoc(userRef, { myAdded: arrayRemove(animeObj) });
                     btn.innerText = "📂 Add to List";
                     isBookmarked = false;
                 } else {
-                    await updateDoc(userRef, { myAdded: arrayUnion(animeData) });
+                    await updateDoc(userRef, { myAdded: arrayUnion(animeObj) });
                     btn.innerText = "📂 Added";
                     isBookmarked = true;
                 }
-            } catch (e) { console.error("Bookmark Error", e); }
+            } catch (e) { console.error("Error updating list", e); }
         };
 
         onAuthStateChanged(auth, async (user) => {
@@ -212,7 +212,7 @@
                 if (docSnap.exists()) {
                     const data = docSnap.data();
                     
-                    // 1. Check History to Resume
+                    // Resume History
                     const history = data.watchHistory || {};
                     if (history[ANIME_ID]) {
                         epToPlay = history[ANIME_ID].currentEp || 1;
@@ -223,9 +223,9 @@
                         }
                     }
 
-                    // 2. Check Bookmark Status
-                    const addedList = data.myAdded || [];
-                    isBookmarked = addedList.some(item => item.id === ANIME_ID);
+                    // Check Bookmark status
+                    const bookmarks = data.myAdded || [];
+                    isBookmarked = bookmarks.some(item => item.id === ANIME_ID);
                     document.getElementById('bookmarkBtn').innerText = isBookmarked ? "📂 Added" : "📂 Add to List";
                 }
             }
@@ -239,5 +239,5 @@
         };
     </script>
 </body>
-</html>
-
+    </html>
+    
