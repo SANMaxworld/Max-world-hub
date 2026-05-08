@@ -209,19 +209,12 @@
         let currentGenderClass = "badge-blue";
         let profileImageBase64 = null;
 
-        /**
-         * UNIVERSAL PATH FIXER (Shared Logic)
-         */
+        // Shared Path Logic for all images
         const fixPath = (path) => {
             if (!path) return "assets/placeholder.jpg";
             if (path.startsWith("http") || path.startsWith("data:")) return path;
-            
-            // Clean path by removing prefixes and ensuring it points to assets/
-            let cleanPath = path.replace(/^(\.\.\/|\.\/)/, ""); 
-            if (!cleanPath.startsWith("assets/")) {
-                cleanPath = "assets/" + cleanPath;
-            }
-            return encodeURI(cleanPath);
+            // Clean path logic: ensures any relative path works from root
+            return path.replace(/^\.\.\//, ""); 
         };
 
         window.googleLogin = () => signInWithPopup(auth, provider);
@@ -245,7 +238,6 @@
                     document.getElementById('previewImg').src = data.profilePic;
                 }
 
-                // Enhanced rendering using same image logic
                 const historyArr = Object.values(data.watchHistory || {}).sort((a,b) => b.timestamp - a.timestamp);
                 renderHistory(historyArr);
                 renderAdded(data.myAdded || []);
@@ -263,11 +255,10 @@
             }
             container.innerHTML = history.map(item => {
                 const progress = (item.currentEp / item.totalEp) * 100 || 0;
-                const imgPath = fixPath(item.poster);
                 return `
                     <a href="./anime/${item.id}.html" class="history-card">
                         <div class="history-img-box">
-                            <img src="${imgPath}" class="history-img" onerror="this.src='assets/placeholder.jpg'">
+                            <img src="${fixPath(item.poster)}" class="history-img" onerror="this.src='assets/placeholder.jpg'">
                             <div class="progress-track"><div class="progress-fill" style="width:${progress}%"></div></div>
                         </div>
                         <div class="history-title">${item.title}</div>
@@ -282,17 +273,14 @@
                 container.innerHTML = '<div class="footer-text">No bookmarks yet.</div>';
                 return;
             }
-            container.innerHTML = added.map(item => {
-                const imgPath = fixPath(item.poster);
-                return `
-                    <a href="./anime/${item.id}.html" class="added-card-link">
-                        <div class="added-card">
-                            <img src="${imgPath}" onerror="this.src='assets/placeholder.jpg'">
-                            <div class="added-card-title">${item.title}</div>
-                        </div>
-                    </a>
-                `;
-            }).join('');
+            container.innerHTML = added.map(item => `
+                <a href="./anime/${item.id}.html" class="added-card-link">
+                    <div class="added-card">
+                        <img src="${fixPath(item.poster)}" onerror="this.src='assets/placeholder.jpg'">
+                        <div class="added-card-title">${item.title}</div>
+                    </div>
+                </a>
+            `).join('');
         }
 
         window.openModal = () => document.getElementById('editModal').classList.add('show');
@@ -341,4 +329,10 @@
                 location.reload();
             } catch(e) { 
                 alert("Error saving profile"); 
-           
+                btn.innerText = "Save Changes";
+            }
+        };
+    </script>
+</body>
+</html>
+
