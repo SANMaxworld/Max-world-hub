@@ -209,13 +209,23 @@
         let currentGenderClass = "badge-blue";
         let profileImageBase64 = null;
 
-        // FIXED PATH LOGIC: Encode spaces and handle relative paths correctly
+        /**
+         * UPGRADED PATH LOGIC
+         * Handles: relative paths, missing assets prefix, and URL encoding for spaces.
+         */
         const fixPath = (path) => {
             if (!path) return "assets/placeholder.jpg";
             if (path.startsWith("http") || path.startsWith("data:")) return path;
             
-            // Dashboard root mein hai, isliye '../' hatana hai aur spaces handle karne hain
-            let cleanPath = path.replace(/^\.\.\//, ""); 
+            // Step 1: Remove leading relative bits like ../ or ./
+            let cleanPath = path.replace(/^(\.\.\/|\.\/)/, ""); 
+            
+            // Step 2: Ensure it starts with assets/ if it's a local file
+            if (!cleanPath.startsWith("assets/")) {
+                cleanPath = "assets/" + cleanPath;
+            }
+            
+            // Step 3: Encode URI to handle spaces in filenames correctly
             return encodeURI(cleanPath);
         };
 
@@ -269,6 +279,9 @@
             }).join('');
         }
 
+        /**
+         * RENDER ADDED LIST WITH LOGIC FIX
+         */
         function renderAdded(added) {
             const container = document.getElementById('addedContainer');
             if(!added || added.length === 0) {
@@ -278,7 +291,8 @@
             container.innerHTML = added.map(item => `
                 <a href="./anime/${item.id}.html" class="added-card-link">
                     <div class="added-card">
-                        <img src="${fixPath(item.poster)}" onerror="this.src='assets/placeholder.jpg'">
+                        <img src="${fixPath(item.poster)}" 
+                             onerror="this.src='assets/placeholder.jpg'; console.error('Failed to load:', '${item.poster}')">
                         <div class="added-card-title">${item.title}</div>
                     </div>
                 </a>
@@ -327,14 +341,4 @@
             if(profileImageBase64) updateData.profilePic = profileImageBase64;
             
             try {
-                await setDoc(doc(db, "users", currentUser.uid), updateData, { merge: true });
-                location.reload();
-            } catch(e) { 
-                alert("Error saving profile"); 
-                btn.innerText = "Save Changes";
-            }
-        };
-    </script>
-</body>
-                    </html>
-                    
+                await setDoc(doc(db, "users
