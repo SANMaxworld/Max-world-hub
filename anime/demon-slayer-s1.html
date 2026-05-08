@@ -50,7 +50,7 @@
                 <span>Action, Fantasy, Dark Fantasy</span>
             </div>
             <div class="action-scroll">
-                <button class="action-btn">📂 Added</button>
+                <button class="action-btn" id="addBtn">📂 Add to List</button>
                 <button class="action-btn" onclick="sharePage()">🔗 Share</button>
                 <button class="action-btn" onclick="window.location.href='DOWNLOAD_LINK_HERE'">⬇️ Download</button>
             </div>
@@ -128,7 +128,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-        import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getFirestore, doc, getDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyAE_oP6wv4A1UxfEdcT82f4KZkhSBzfH3M",
@@ -143,10 +143,20 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
+        // CONFIG (Har anime page par sirf ye 3 change karein)
         const ANIME_ID = "demon-slayer-s1";
         const ANIME_TITLE = "Demon Slayer S1";
         const ANIME_POSTER = "../assets/demon_slayer_s1.jpg";
 
+        // --- 1. BACK BUTTON REDIRECT LOGIC ---
+        // Browser history mein fake state dalo
+        window.history.pushState(null, null, window.location.href);
+        window.onpopstate = function() {
+            // Agar user phone ka back button dabaye, toh seedha Dashboard page (me.html) par bhej do
+            window.location.replace("../me.html");
+        };
+
+        // --- 2. PLAY & AUTO-SAVE LOGIC ---
         window.playEpisode = async function(voeId, element) {
             const player = document.getElementById('mainPlayer');
             const container = document.getElementById('iframeContainer');
@@ -155,8 +165,7 @@
             poster.style.display = 'none';
             container.style.display = 'block';
             
-            player.src = "about:blank"; 
-            setTimeout(() => { player.src = "https://voe.sx/e/" + voeId; }, 150);
+            player.src = "https://voe.sx/e/" + voeId;
 
             window.scrollTo({ top: 0, behavior: 'smooth' });
             
@@ -164,38 +173,68 @@
             for(let i=0; i<boxes.length; i++){ boxes[i].classList.remove('active'); }
             if(element) element.classList.add('active');
 
+            // Background Save to Firebase (Matches me.html structure)
             const user = auth.currentUser;
             if (user && element) {
                 const epNum = parseInt(element.innerText);
                 const totalEp = boxes.length;
+                const userRef = doc(db, "users", user.uid);
                 
-                await setDoc(doc(db, "users", user.uid), {
-                    watchHistory: {
-                        [ANIME_ID]: {
-                            id: ANIME_ID,
-                            title: ANIME_TITLE,
-                            lastEp: epNum,
-                            totalEp: totalEp,
-                            poster: ANIME_POSTER,
-                            progress: Math.round((epNum / totalEp) * 100),
-                            timestamp: Date.now()
-                        }
+                try {
+                    const snap = await getDoc(userRef);
+                    let history = [];
+                    if(snap.exists()){
+                        // Purana data array se filter karo (Remove duplicate of current anime)
+                        history = (snap.data().watchHistory || []).filter(item => item.id !== ANIME_ID);
                     }
-                }, { merge: true });
+                    
+                    // Naya entry sabse upar (Newest First)
+                    const newData = {
+                        id: ANIME_ID,
+                        title: ANIME_TITLE,
+                        currentEp: epNum,
+                        totalEp: totalEp,
+                        poster: ANIME_POSTER,
+                        timestamp: Date.now()
+                    };
+                    
+                    history.unshift(newData); // Dashboard ke liye top par dalo
+
+                    await updateDoc(userRef, { watchHistory: history });
+                } catch(e) { console.log("Save error", e); }
             }
         };
 
+        // --- 3. ADD TO LIST (MY ADDED) LOGIC ---
+        document.getElementById('addBtn').onclick = async () => {
+            const user = auth.currentUser;
+            if(!user) return alert("Please login first!");
+            
+            const userRef = doc(db, "users", user.uid);
+            const snap = await getDoc(userRef);
+            let added = [];
+            if(snap.exists()) added = snap.data().myAdded || [];
+            
+            if(added.some(item => item.id === ANIME_ID)) return alert("Already in list!");
+            
+            added.unshift({ id: ANIME_ID, title: ANIME_TITLE, poster: ANIME_POSTER });
+            await updateDoc(userRef, { myAdded: added });
+            alert("Added to My List!");
+        };
+
+        // --- 4. LOAD LAST WATCHED EPISODE ---
         onAuthStateChanged(auth, async (user) => {
             const boxes = document.getElementsByClassName('ep-box');
             let epToPlay = 1; 
-            let voeToPlay = '40utdw02wqim'; 
+            let voeToPlay = '40utdw02wqim'; // Default Ep 1
 
             if (user) {
                 const docSnap = await getDoc(doc(db, "users", user.uid));
                 if (docSnap.exists()) {
-                    const history = docSnap.data().watchHistory || {};
-                    if (history[ANIME_ID]) {
-                        epToPlay = history[ANIME_ID].lastEp;
+                    const history = docSnap.data().watchHistory || [];
+                    const current = history.find(item => item.id === ANIME_ID);
+                    if (current) {
+                        epToPlay = current.currentEp;
                         const targetBox = Array.from(boxes).find(b => parseInt(b.innerText) === epToPlay);
                         if (targetBox) {
                             const onclickStr = targetBox.getAttribute('onclick');
@@ -214,5 +253,4 @@
         };
     </script>
 </body>
-    </html>
-                    
+</html>
