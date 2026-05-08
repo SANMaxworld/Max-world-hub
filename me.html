@@ -10,7 +10,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     
     <style>
-        /* --- GLOBAL RESET & THEME (DESIGN IS STRICTLY LOCKED) --- */
+        /* --- GLOBAL RESET & THEME (STRICTLY LOCKED) --- */
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; -webkit-tap-highlight-color: transparent; }
         
         :root {
@@ -58,9 +58,10 @@
         /* --- WATCH HISTORY --- */
         .history-wrapper { padding: 10px 16px 16px; display: flex; gap: 12px; overflow-x: auto; scrollbar-width: none; }
         .history-wrapper::-webkit-scrollbar { display: none; }
-        .history-card { flex: 0 0 140px; position: relative; }
+        .history-card { flex: 0 0 140px; position: relative; cursor: pointer; }
         .history-img-box { position: relative; width: 100%; height: 80px; border-radius: 6px; overflow: hidden; background: #333; }
-        .history-img { width: 100%; height: 100%; object-fit: cover; opacity: 0.9; }
+        .history-img { width: 100%; height: 100%; object-fit: cover; opacity: 0.9; transition: 0.3s; }
+        .history-card:hover .history-img { transform: scale(1.05); }
         .tv-icon { position: absolute; top: 4px; left: 4px; background: rgba(0,0,0,0.6); padding: 2px; border-radius: 4px; width: 16px; height: 16px; display: flex; align-items: center; justify-content: center; }
         .progress-track { position: absolute; bottom: 0; left: 0; width: 100%; height: 3px; background: rgba(255,255,255,0.3); }
         .progress-fill { height: 100%; background: var(--accent-green); }
@@ -90,7 +91,7 @@
 
         /* My Added Vertical Cards */
         .vertical-added-list { display: flex; flex-direction: column; gap: 12px; }
-        .added-card { display: flex; align-items: center; gap: 12px; background: var(--bg-main); padding: 8px; border-radius: 8px; border: 1px solid var(--divider); }
+        .added-card { display: flex; align-items: center; gap: 12px; background: var(--bg-main); padding: 8px; border-radius: 8px; border: 1px solid var(--divider); cursor: pointer; }
         .added-card img { width: 60px; height: 80px; object-fit: cover; border-radius: 4px; }
         .added-card-info { flex: 1; overflow: hidden; }
         .added-card-title { font-size: 14px; font-weight: 500; color: #fff; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -119,7 +120,7 @@
                 </div>
             </div>
         </div>
-        <div class="scan-icon icon" onclick="window.googleLogin()">
+        <div class="scan-icon icon" onclick="window.googleLogin()" style="cursor: pointer;">
             <svg viewBox="0 0 24 24"><path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2M7 12h10"/></svg>
         </div>
     </div>
@@ -226,7 +227,7 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getFirestore, doc, getDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getFirestore, doc, getDoc, setDoc, updateDoc, arrayUnion, arrayRemove } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
         import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
         const firebaseConfig = {
@@ -249,7 +250,46 @@
         let genderColorClass = "badge-blue";
         let tempImageData = null;
 
-        // --- GLOBAL WINDOW BINDING (Essential for GH Pages) ---
+        // --- RENDER FUNCTIONS ---
+        const renderHistory = (history) => {
+            const container = document.getElementById("historyContainer");
+            if(!history || history.length === 0) {
+                container.innerHTML = '<div class="footer-text" style="width: 100%;">No history found.</div>';
+                return;
+            }
+            const list = [...history].reverse(); // LIFO Logic
+            container.innerHTML = list.map(item => `
+                <div class="history-card" onclick="window.location.href='${item.link}'">
+                    <div class="history-img-box">
+                        <img src="${item.img}" class="history-img">
+                        <div class="tv-icon"><svg viewBox="0 0 24 24" width="10" height="10" stroke="white" fill="none"><rect x="2" y="7" width="20" height="15" rx="2"/><path d="M17 2l-5 5-5-5"/></svg></div>
+                        <div class="progress-track"><div class="progress-fill" style="width: 100%"></div></div>
+                    </div>
+                    <div class="history-title">${item.title}</div>
+                </div>
+            `).join('');
+        };
+
+        const renderAdded = (added) => {
+            const container = document.getElementById("addedContainer");
+            if(!added || added.length === 0) {
+                container.innerHTML = '<div class="footer-text">No bookmarks yet.</div>';
+                return;
+            }
+            const list = [...added].reverse();
+            container.innerHTML = list.map(item => `
+                <div class="added-card" onclick="window.location.href='${item.link}'">
+                    <img src="${item.img}">
+                    <div class="added-card-info">
+                        <div class="added-card-title">${item.title}</div>
+                        <div style="font-size: 11px; color: var(--text-sub);">Bookmarked Anime</div>
+                    </div>
+                    <div class="icon" style="color: var(--accent-green);"><svg viewBox="0 0 24 24"><path d="M5 3l14 0l0 18l-7 -4l-7 4z" fill="currentColor"/></svg></div>
+                </div>
+            `).join('');
+        };
+
+        // --- GLOBAL WINDOW BINDINGS ---
         window.openModal = () => {
             const modal = document.getElementById("editModal");
             modal.style.display = "flex";
@@ -298,54 +338,4 @@
 
         window.saveProfile = async () => {
             if(!currentUser) return;
-            try {
-                const name = document.getElementById("inputName").value.trim();
-                const id = document.getElementById("inputId").value.trim();
-                const userRef = doc(db, "users", currentUser.uid);
-                
-                const updateData = {
-                    name: name,
-                    accountId: id,
-                    gender: selectedGender,
-                    genderClass: genderColorClass
-                };
-                if(tempImageData) updateData.profilePic = tempImageData;
-
-                await updateDoc(userRef, updateData);
-                
-                // Live UI update
-                document.getElementById("displayName").innerText = name;
-                document.getElementById("displayId").innerText = id;
-                document.getElementById("displayGender").innerText = selectedGender;
-                document.getElementById("displayGender").className = genderColorClass;
-                if(tempImageData) document.getElementById("displayPic").src = tempImageData;
-                
-                window.closeModal();
-            } catch(e) { console.error("Update failed", e); }
-        };
-
-        window.googleLogin = async () => {
-            try { await signInWithPopup(auth, provider); } 
-            catch (e) { console.error("Login failed", e); }
-        };
-
-        onAuthStateChanged(auth, async (user) => {
-            if(user) {
-                currentUser = user;
-                const userRef = doc(db, "users", user.uid);
-                const snap = await getDoc(userRef);
-                if(snap.exists()) {
-                    const data = snap.data();
-                    document.getElementById("displayName").innerText = data.name || user.displayName;
-                    document.getElementById("displayId").innerText = data.accountId || "---------";
-                    document.getElementById("displayGender").innerText = data.gender || "♂";
-                    document.getElementById("displayGender").className = data.genderClass || "badge-blue";
-                    document.getElementById("displayPic").src = data.profilePic || user.photoURL;
-                } else {
-                    await setDoc(userRef, { name: user.displayName, accountId: "", gender: "♂", profilePic: user.photoURL });
-                }
-            }
-        });
-    </script>
-</body>
-</html>
+          
