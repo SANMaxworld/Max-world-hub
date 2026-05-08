@@ -10,136 +10,147 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     
     <style>
-        /* --- GLOBAL RESET & THEME --- */
+        /* --- GLOBAL RESET & THEME (STRICTLY LOCKED) --- */
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; -webkit-tap-highlight-color: transparent; }
-        
         :root {
-            --bg-main: #0e0e11;
-            --bg-card: #1c1c22;
-            --text-main: #ffffff;
-            --text-sub: #8e8e93;
-            --accent-green: #00d26a;
-            --accent-red: #ff3b30;
-            --divider: #2a2a30;
+            --bg-main: #0e0e11; --bg-card: #1c1c22; --text-main: #ffffff; --text-sub: #8e8e93;
+            --accent-green: #00d26a; --accent-red: #ff3b30; --divider: #2a2a30;
             --red-gradient: linear-gradient(90deg, #4b0000 0%, #8b0000 100%);
         }
-
         body { background-color: var(--bg-main); color: var(--text-main); padding-bottom: 90px; }
-
         .icon { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; flex-shrink: 0; }
         .icon svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
         .icon-fill svg { fill: currentColor; stroke: none; }
 
-        /* --- HEADER --- */
+        /* HEADER */
         .header { display: flex; justify-content: space-between; align-items: flex-start; padding: 20px 16px 15px; position: relative; }
         .profile-area { display: flex; align-items: center; gap: 12px; }
         .profile-pic { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; background: #333; border: 1px solid var(--divider); }
-        .profile-info { display: flex; flex-direction: column; gap: 4px; }
+        .profile-info { display: flex; flex-direction: column; gap: 6px; }
         .profile-name-row { display: flex; align-items: center; gap: 4px; }
         .profile-name { font-size: 18px; font-weight: 600; }
-        
-        .badge-row { display: flex; align-items: center; gap: 8px; margin-top: 2px; }
-        .badge { background: rgba(255,255,255,0.08); padding: 2px 8px; border-radius: 4px; font-size: 11px; color: var(--text-sub); display: flex; align-items: center; gap: 4px; }
-        .badge-blue { color: #4facfe; } 
-        .badge-pink { color: #ff66b2; }
+        .arrow-right { color: var(--text-sub); font-size: 14px; }
+        .badge-row { display: flex; align-items: center; gap: 8px; }
+        .badge { background: rgba(255,255,255,0.1); padding: 3px 6px; border-radius: 4px; font-size: 11px; color: var(--text-sub); display: flex; align-items: center; gap: 4px; }
+        .badge-blue { color: #4facfe; } .badge-pink { color: #ff66b2; }
 
+        /* ANNOUNCEMENT */
         .announcement { background: var(--red-gradient); backdrop-filter: blur(10px); color: #fff; padding: 10px 16px; font-size: 12px; display: flex; align-items: center; gap: 8px; margin-bottom: 16px; font-weight: 500; }
 
-        /* --- MENU BLOCKS --- */
-        .menu-group { background: var(--bg-card); border-radius: 12px; margin: 0 16px 16px; overflow: hidden; }
-        .menu-item { display: flex; align-items: center; justify-content: space-between; padding: 16px; border-bottom: 1px solid var(--divider); cursor: pointer; transition: 0.2s; }
-        .menu-item:active { background: rgba(255,255,255,0.05); }
+        /* MENU BLOCKS */
+        .menu-group { background: var(--bg-card); border-radius: 12px; margin: 0 16px 16px; overflow: hidden; padding-top: 5px; }
+        .menu-item { display: flex; align-items: center; justify-content: space-between; padding: 16px; border-bottom: 1px solid var(--divider); cursor: pointer; text-decoration: none; color: inherit; }
         .menu-item:last-child { border-bottom: none; }
         .menu-item-left { display: flex; align-items: center; gap: 12px; font-size: 15px; font-weight: 500; color: #e5e5e5; }
         .menu-item-left .icon { color: #b0b0b0; }
         .menu-item-right { display: flex; align-items: center; gap: 8px; color: var(--text-sub); font-size: 14px; }
 
-        /* --- MODALS --- */
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 200; justify-content: center; align-items: center; padding: 20px; opacity: 0; transition: 0.3s; }
+        /* WATCH HISTORY */
+        .history-wrapper { padding: 10px 16px 16px; display: flex; gap: 12px; overflow-x: auto; scrollbar-width: none; }
+        .history-wrapper::-webkit-scrollbar { display: none; }
+        .history-card { flex: 0 0 140px; position: relative; text-decoration: none; display: block; }
+        .history-img-box { position: relative; width: 100%; height: 80px; border-radius: 6px; overflow: hidden; background: #333; }
+        .history-img { width: 100%; height: 100%; object-fit: cover; opacity: 0.9; }
+        .tv-icon { position: absolute; top: 4px; left: 4px; background: rgba(0,0,0,0.6); padding: 2px; border-radius: 4px; width: 16px; height: 16px; display: flex; align-items: center; justify-content: center; }
+        .progress-track { position: absolute; bottom: 0; left: 0; width: 100%; height: 3px; background: rgba(255,255,255,0.3); }
+        .progress-fill { height: 100%; background: var(--accent-green); }
+        .history-title { font-size: 12px; color: #ccc; margin-top: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+        /* FOOTER */
+        .footer-text { text-align: center; font-size: 12px; color: var(--text-sub); padding: 10px 0 30px; }
+
+        /* BOTTOM NAV */
+        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; height: 65px; background: var(--bg-card); display: flex; justify-content: space-around; align-items: center; border-top-left-radius: 20px; border-top-right-radius: 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.5); z-index: 100; padding-bottom: env(safe-area-inset-bottom); }
+        .nav-item { display: flex; flex-direction: column; align-items: center; gap: 4px; color: var(--text-sub); text-decoration: none; width: 33.33%; position: relative; }
+        .nav-item.active { color: var(--accent-green); }
+        .nav-item span { font-size: 10px; font-weight: 500; }
+
+        /* MODALS */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 200; justify-content: center; align-items: center; padding: 20px; opacity: 0; transition: opacity 0.3s; }
         .modal-overlay.show { display: flex; opacity: 1; }
         .modal-content { background: var(--bg-card); width: 100%; max-width: 350px; border-radius: 16px; padding: 24px; position: relative; border: 1px solid var(--divider); max-height: 80vh; overflow-y: auto; }
         .close-btn { position: absolute; top: 15px; right: 15px; color: var(--text-sub); font-size: 20px; cursor: pointer; }
         .modal-title { font-size: 18px; font-weight: 600; margin-bottom: 20px; text-align: center; color: var(--text-main); }
-        
         .input-group { margin-bottom: 16px; }
         .input-group label { display: block; font-size: 12px; color: var(--text-sub); margin-bottom: 6px; }
         .input-box { width: 100%; background: var(--bg-main); border: 1px solid var(--divider); color: var(--text-main); padding: 12px; border-radius: 8px; outline: none; font-size: 14px; }
-        
         .upload-container { display: flex; align-items: center; gap: 15px; background: var(--bg-main); padding: 10px; border-radius: 8px; border: 1px solid var(--divider); cursor: pointer; }
         .preview-circle { width: 45px; height: 45px; border-radius: 50%; object-fit: cover; background: #333; }
         .upload-text { font-size: 13px; color: var(--accent-green); font-weight: 500; }
-        
         .gender-selector { display: flex; gap: 10px; }
         .gender-btn { flex: 1; padding: 10px; background: var(--bg-main); border: 1px solid var(--divider); color: var(--text-sub); border-radius: 8px; text-align: center; cursor: pointer; font-size: 14px; }
         .gender-btn.active { background: rgba(0, 210, 106, 0.1); border-color: var(--accent-green); color: var(--accent-green); font-weight: bold; }
-        
-        .save-btn { width: 100%; padding: 14px; border-radius: 8px; background: var(--accent-green); color: #000; font-weight: 700; text-align: center; border: none; cursor: pointer; margin-top: 10px; opacity: 0.4; pointer-events: none; transition: 0.3s; }
+        .save-btn { width: 100%; padding: 14px; border-radius: 8px; background: var(--accent-green); color: #000; font-weight: 700; text-align: center; border: none; cursor: pointer; margin-top: 10px; transition: 0.3s; opacity: 0.5; pointer-events: none; }
         .save-btn.ready { opacity: 1; pointer-events: auto; }
 
+        /* ADDED LIST */
+        .added-card-link { text-decoration: none; display: block; }
         .vertical-added-list { display: flex; flex-direction: column; gap: 12px; }
         .added-card { display: flex; align-items: center; gap: 12px; background: var(--bg-main); padding: 8px; border-radius: 8px; border: 1px solid var(--divider); }
         .added-card img { width: 60px; height: 80px; object-fit: cover; border-radius: 4px; }
-        .added-card-info { flex: 1; overflow: hidden; }
         .added-card-title { font-size: 14px; font-weight: 500; color: #fff; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-
-        .footer-text { text-align: center; font-size: 12px; color: var(--text-sub); padding: 20px 0; }
-        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; height: 65px; background: var(--bg-card); display: flex; justify-content: space-around; align-items: center; border-top-left-radius: 20px; border-top-right-radius: 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.5); z-index: 100; padding-bottom: env(safe-area-inset-bottom); }
-        .nav-item { display: flex; flex-direction: column; align-items: center; gap: 4px; color: var(--text-sub); text-decoration: none; width: 33.33%; }
-        .nav-item.active { color: var(--accent-green); }
-        .nav-item span { font-size: 10px; font-weight: 500; }
     </style>
 </head>
 <body>
 
     <div class="header">
         <div class="profile-area">
-            <img src="../assets/demon_slayer_s1.jpg" class="profile-pic" id="displayPic" alt="Profile">
+            <img src="../assets/demon_slayer_s1.jpg" class="profile-pic" id="displayPic">
             <div class="profile-info">
-                <div class="profile-name-row">
-                    <span class="profile-name" id="displayName">Guest User</span>
-                </div>
+                <div class="profile-name-row"><span class="profile-name" id="displayName">Loading...</span><span class="arrow-right">›</span></div>
                 <div class="badge-row">
-                    <div class="badge"><span class="badge-blue" id="displayGender">♂</span></div>
+                    <div class="badge"><span id="displayGender">♂</span></div>
                     <div class="badge">ID: <span id="displayId">---------</span></div>
                 </div>
             </div>
         </div>
-        <div class="scan-icon icon" onclick="googleLogin()" style="cursor:pointer">
+        <div class="icon" onclick="window.googleLogin()">
             <svg viewBox="0 0 24 24"><path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2M7 12h10"/></svg>
         </div>
     </div>
 
-    <div class="announcement">
-        <span class="icon icon-fill"><svg viewBox="0 0 24 24"><path d="M20 10.5V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h5.5M16 21v-2a4 4 0 0 0-4-4H9M16 21l3-3M16 21l-3-3" fill="#ffffff"/></svg></span>
-        Welcome to the official MW Hub website
+    <div class="announcement">Welcome to the official MW Hub website</div>
+
+    <div class="menu-group">
+        <div class="menu-item" style="border-bottom:none; padding-bottom:5px;">
+            <div class="menu-item-left">🕒 Watch History</div>
+            <div class="menu-item-right">›</div>
+        </div>
+        <div class="history-wrapper" id="historyContainer">
+            <div class="footer-text" style="width:100%;">No history found.</div>
+        </div>
     </div>
 
     <div class="menu-group">
-        <div class="menu-item" onclick="openAddedModal()">
-            <div class="menu-item-left">
-                <span class="icon"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></span>
-                My Added (Bookmarks)
-            </div>
+        <div class="menu-item" onclick="window.openAddedModal()">
+            <div class="menu-item-left">❤️ My Added</div>
             <div class="menu-item-right">›</div>
         </div>
-        <div class="menu-item" onclick="openModal()">
-            <div class="menu-item-left">
-                <span class="icon"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg></span>
-                Edit Profile Settings
-            </div>
+        <div class="menu-item" onclick="window.openModal()">
+            <div class="menu-item-left">👤 Edit Profile</div>
             <div class="menu-item-right">›</div>
         </div>
+        <a href="https://t.me/+pnQEnRYbIDtiYzFl" class="menu-item">
+            <div class="menu-item-left">🎧 Support</div>
+            <div class="menu-item-right">›</div>
+        </a>
     </div>
 
     <div class="footer-text">Official website: Max World Hub</div>
 
+    <div class="bottom-nav">
+        <a href="#" class="nav-item">📥<span>Downloads</span></a>
+        <a href="../index.html" class="nav-item">🏠<span>Home</span></a>
+        <a href="#" class="nav-item active">👤<span>Me</span></a>
+    </div>
+
     <div class="modal-overlay" id="editModal">
         <div class="modal-content">
-            <div class="close-btn" onclick="closeModal()">✕</div>
+            <div class="close-btn" onclick="window.closeModal()">✕</div>
             <div class="modal-title">Edit Profile</div>
             <div class="input-group">
                 <label>Profile Picture</label>
-                <input type="file" id="fileInput" accept="image/*" style="display: none;" onchange="handleImage(this)">
+                <input type="file" id="fileInput" accept="image/*" style="display:none;" onchange="window.handleImage(this)">
                 <div class="upload-container" onclick="document.getElementById('fileInput').click()">
                     <img src="../assets/demon_slayer_s1.jpg" id="previewImg" class="preview-circle">
                     <span class="upload-text">Change Photo</span>
@@ -147,47 +158,36 @@
             </div>
             <div class="input-group">
                 <label>Display Name</label>
-                <input type="text" id="inputName" class="input-box" placeholder="Enter your name" onkeyup="checkValidation()">
+                <input type="text" id="inputName" class="input-box" placeholder="Your Name" oninput="window.checkValidation()">
             </div>
             <div class="input-group">
                 <label>Gender</label>
                 <div class="gender-selector">
-                    <div class="gender-btn active" id="btnMale" onclick="selectGender('Male')">♂ Male</div>
-                    <div class="gender-btn" id="btnFemale" onclick="selectGender('Female')">♀ Female</div>
+                    <div class="gender-btn active" id="btnMale" onclick="window.selectGender('♂', 'badge-blue')">♂ Male</div>
+                    <div class="gender-btn" id="btnFemale" onclick="window.selectGender('♀', 'badge-pink')">♀ Female</div>
                 </div>
             </div>
             <div class="input-group">
                 <label>Account ID (9 Digits)</label>
-                <input type="number" id="inputId" class="input-box" placeholder="e.g. 123456789" onkeyup="checkValidation()">
+                <input type="number" id="inputId" class="input-box" placeholder="123456789" oninput="window.checkValidation()">
             </div>
-            <button class="save-btn" id="saveBtn" onclick="saveProfile()">Save Changes</button>
+            <button class="save-btn" id="saveBtn" onclick="window.saveProfile()">Save Changes</button>
         </div>
     </div>
 
     <div class="modal-overlay" id="addedModal">
         <div class="modal-content">
-            <div class="close-btn" onclick="closeAddedModal()">✕</div>
+            <div class="close-btn" onclick="window.closeAddedModal()">✕</div>
             <div class="modal-title">My Added</div>
             <div class="vertical-added-list" id="addedContainer">
-                <div class="footer-text">No bookmarks found.</div>
+                <div class="footer-text">No bookmarks yet.</div>
             </div>
         </div>
     </div>
 
-    <div class="bottom-nav">
-        <a href="../index.html" class="nav-item">
-            <span class="icon"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span>
-            <span>Home</span>
-        </a>
-        <a href="#" class="nav-item active">
-            <span class="icon icon-fill"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z" fill="#00d26a"/></svg></span>
-            <span>Me</span>
-        </a>
-    </div>
-
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getFirestore, doc, getDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
         import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
         const firebaseConfig = {
@@ -205,48 +205,82 @@
         const provider = new GoogleAuthProvider();
 
         let currentUser = null;
-        let selectedGender = "♂"; 
-        let genderColorClass = "badge-blue";
-        let tempImageData = null;
+        let selectedGender = "♂";
+        let currentGenderClass = "badge-blue";
+        let profileImageBase64 = null;
 
-        window.googleLogin = async () => {
-            try { await signInWithPopup(auth, provider); } catch (e) { console.error(e); }
-        };
+        window.googleLogin = () => signInWithPopup(auth, provider);
 
-        window.openModal = () => {
-            const m = document.getElementById('editModal');
-            m.style.display = 'flex';
-            setTimeout(() => m.classList.add('show'), 10);
-        };
-        window.closeModal = () => {
-            const m = document.getElementById('editModal');
-            m.classList.remove('show');
-            setTimeout(() => m.style.display = 'none', 300);
-        };
-        window.openAddedModal = () => {
-            const m = document.getElementById('addedModal');
-            m.style.display = 'flex';
-            setTimeout(() => m.classList.add('show'), 10);
-        };
-        window.closeAddedModal = () => {
-            const m = document.getElementById('addedModal');
-            m.classList.remove('show');
-            setTimeout(() => m.style.display = 'none', 300);
-        };
+        onAuthStateChanged(auth, async (user) => {
+            if (user) { currentUser = user; await loadUserData(); }
+            else { document.getElementById('displayName').innerText = "Guest User"; }
+        });
 
-        window.selectGender = (type) => {
-            document.getElementById('btnMale').classList.toggle('active', type === 'Male');
-            document.getElementById('btnFemale').classList.toggle('active', type === 'Female');
-            selectedGender = (type === 'Male') ? "♂" : "♀";
-            genderColorClass = (type === 'Male') ? "badge-blue" : "badge-pink";
+        async function loadUserData() {
+            const snap = await getDoc(doc(db, "users", currentUser.uid));
+            if (snap.exists()) {
+                const data = snap.data();
+                document.getElementById('displayName').innerText = data.name || currentUser.displayName;
+                document.getElementById('displayId').innerText = data.accountId || "---------";
+                document.getElementById('displayGender').innerText = data.gender || "♂";
+                document.getElementById('displayGender').parentElement.className = `badge ${data.genderClass || 'badge-blue'}`;
+                if(data.profilePic) {
+                    document.getElementById('displayPic').src = data.profilePic;
+                    document.getElementById('previewImg').src = data.profilePic;
+                }
+                renderHistory(Object.values(data.watchHistory || {}).sort((a,b) => b.timestamp - a.timestamp));
+                renderAdded(data.myAdded || []);
+                // Store state
+                selectedGender = data.gender || "♂";
+                currentGenderClass = data.genderClass || "badge-blue";
+            }
+        }
+
+        function renderHistory(history) {
+            const container = document.getElementById('historyContainer');
+            if(!history || history.length === 0) return;
+            container.innerHTML = history.map(item => `
+                <a href="./anime/${item.id}.html" class="history-card">
+                    <div class="history-img-box">
+                        <img src="${item.poster}" class="history-img" onerror="this.src='../assets/placeholder.jpg'">
+                        <div class="progress-track"><div class="progress-fill" style="width:${(item.currentEp/item.totalEp)*100}%"></div></div>
+                    </div>
+                    <div class="history-title">${item.title}</div>
+                </a>
+            `).join('');
+        }
+
+        function renderAdded(added) {
+            const container = document.getElementById('addedContainer');
+            if(!added || added.length === 0) return;
+            container.innerHTML = added.map(item => `
+                <a href="./anime/${item.id}.html" class="added-card-link">
+                    <div class="added-card">
+                        <img src="${item.poster}" onerror="this.src='../assets/placeholder.jpg'">
+                        <div class="added-card-title">${item.title}</div>
+                    </div>
+                </a>
+            `).join('');
+        }
+
+        // Modal & Control Functions (Attached to window for HTML access)
+        window.openModal = () => document.getElementById('editModal').classList.add('show');
+        window.closeModal = () => document.getElementById('editModal').classList.remove('show');
+        window.openAddedModal = () => document.getElementById('addedModal').classList.add('show');
+        window.closeAddedModal = () => document.getElementById('addedModal').classList.remove('show');
+
+        window.selectGender = (g, c) => {
+            selectedGender = g; currentGenderClass = c;
+            document.getElementById('btnMale').classList.toggle('active', g === '♂');
+            document.getElementById('btnFemale').classList.toggle('active', g === '♀');
         };
 
         window.handleImage = (input) => {
             if (input.files && input.files[0]) {
                 const reader = new FileReader();
                 reader.onload = (e) => {
-                    tempImageData = e.target.result;
-                    document.getElementById('previewImg').src = tempImageData;
+                    profileImageBase64 = e.target.result;
+                    document.getElementById('previewImg').src = profileImageBase64;
                 };
                 reader.readAsDataURL(input.files[0]);
             }
@@ -254,58 +288,32 @@
 
         window.checkValidation = () => {
             const name = document.getElementById('inputName').value.trim();
-            const id = document.getElementById('inputId').value.trim();
-            document.getElementById('saveBtn').classList.toggle('ready', name.length > 0 && /^\d{9}$/.test(id));
+            const idVal = document.getElementById('inputId').value.toString();
+            const btn = document.getElementById('saveBtn');
+            if(name.length > 2 && idVal.length === 9) btn.classList.add('ready');
+            else btn.classList.remove('ready');
         };
 
         window.saveProfile = async () => {
-            if (!currentUser) return;
+            if(!currentUser) { alert("Please login first"); return; }
             const name = document.getElementById('inputName').value.trim();
-            const id = document.getElementById('inputId').value.trim();
-            const userRef = doc(db, "users", currentUser.uid);
+            const aid = document.getElementById('inputId').value.toString();
             
-            const upData = { name, accountId: id, gender: selectedGender, genderClass: genderColorClass };
-            if(tempImageData) upData.profilePic = tempImageData;
-
-            await updateDoc(userRef, upData);
-            location.reload();
-        };
-
-        onAuthStateChanged(auth, async (user) => {
-            if (user) {
-                currentUser = user;
-                const userRef = doc(db, "users", user.uid);
-                const snap = await getDoc(userRef);
-
-                if (snap.exists()) {
-                    const d = snap.data();
-                    document.getElementById('displayName').innerText = d.name || user.displayName;
-                    document.getElementById('displayId').innerText = d.accountId || "---------";
-                    document.getElementById('displayGender').innerText = d.gender || "♂";
-                    document.getElementById('displayGender').className = d.genderClass || "badge-blue";
-                    document.getElementById('displayPic').src = d.profilePic || user.photoURL;
-
-                    if(d.myAdded) renderAdded(d.myAdded);
-                } else {
-                    await setDoc(userRef, { name: user.displayName, accountId: "", gender: "♂", genderClass: "badge-blue", myAdded: [] });
-                }
+            const btn = document.getElementById('saveBtn');
+            btn.innerText = "Saving...";
+            
+            const updateData = { name, accountId: aid, gender: selectedGender, genderClass: currentGenderClass };
+            if(profileImageBase64) updateData.profilePic = profileImageBase64;
+            
+            try {
+                await setDoc(doc(db, "users", currentUser.uid), updateData, { merge: true });
+                location.reload();
+            } catch(e) { 
+                alert("Error saving profile"); 
+                btn.innerText = "Save Changes";
             }
-        });
-
-        function renderAdded(added) {
-            const cont = document.getElementById('addedContainer');
-            if(!added || added.length === 0) return;
-            cont.innerHTML = "";
-            added.forEach(item => {
-                cont.innerHTML += `
-                    <div class="added-card">
-                        <img src="${item.poster}">
-                        <div class="added-card-info">
-                            <div class="added-card-title">${item.title}</div>
-                        </div>
-                    </div>`;
-            });
-        }
+        };
     </script>
 </body>
-                    </html>
+</html>
+
