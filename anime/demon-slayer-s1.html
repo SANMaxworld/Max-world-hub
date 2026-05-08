@@ -48,7 +48,7 @@
             </div>
             <div class="action-scroll">
                 <button class="action-btn" id="bookmarkBtn" onclick="window.toggleBookmark()">📂 Add to List</button>
-                <button class="action-btn" onclick="sharePage()">🔗 Share</button>
+                <button class="action-btn" onclick="window.sharePage()">🔗 Share</button>
                 <button class="action-btn" onclick="window.location.href='#'">⬇️ Download</button>
             </div>
             <div class="resources-row">
@@ -140,7 +140,8 @@
         // CONFIGURATION
         const ANIME_ID = "demon-slayer-s1";
         const ANIME_TITLE = "Demon Slayer S1";
-        const ANIME_POSTER = "assets/demon_slayer_s1.jpg"; // Path fixed for mi.html
+        // Root relative path for consistent Dashboard rendering
+        const ANIME_POSTER = "assets/demon_slayer_s1.jpg"; 
         
         let isBookmarked = false;
 
@@ -166,12 +167,13 @@
                 const epNum = parseInt(element.innerText);
                 const totalEp = boxes.length;
                 
+                // Optimized path storage for mi.html compatibility
                 await setDoc(doc(db, "users", user.uid), {
                     watchHistory: {
                         [ANIME_ID]: {
                             id: ANIME_ID,
                             title: ANIME_TITLE,
-                            currentEp: epNum, // for dashboard progress
+                            currentEp: epNum,
                             totalEp: totalEp,
                             poster: ANIME_POSTER,
                             timestamp: Date.now()
@@ -212,7 +214,7 @@
                 if (docSnap.exists()) {
                     const data = docSnap.data();
                     
-                    // Resume History
+                    // Resume History logic
                     const history = data.watchHistory || {};
                     if (history[ANIME_ID]) {
                         epToPlay = history[ANIME_ID].currentEp || 1;
@@ -223,7 +225,7 @@
                         }
                     }
 
-                    // Check Bookmark status
+                    // Sync Bookmark status
                     const bookmarks = data.myAdded || [];
                     isBookmarked = bookmarks.some(item => item.id === ANIME_ID);
                     document.getElementById('bookmarkBtn').innerText = isBookmarked ? "📂 Added" : "📂 Add to List";
@@ -239,5 +241,4 @@
         };
     </script>
 </body>
-    </html>
-    
+</html>
