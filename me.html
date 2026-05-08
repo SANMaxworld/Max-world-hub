@@ -210,22 +210,17 @@
         let profileImageBase64 = null;
 
         /**
-         * UPGRADED PATH LOGIC
-         * Handles: relative paths, missing assets prefix, and URL encoding for spaces.
+         * UNIVERSAL PATH FIXER (Shared Logic)
          */
         const fixPath = (path) => {
             if (!path) return "assets/placeholder.jpg";
             if (path.startsWith("http") || path.startsWith("data:")) return path;
             
-            // Step 1: Remove leading relative bits like ../ or ./
+            // Clean path by removing prefixes and ensuring it points to assets/
             let cleanPath = path.replace(/^(\.\.\/|\.\/)/, ""); 
-            
-            // Step 2: Ensure it starts with assets/ if it's a local file
             if (!cleanPath.startsWith("assets/")) {
                 cleanPath = "assets/" + cleanPath;
             }
-            
-            // Step 3: Encode URI to handle spaces in filenames correctly
             return encodeURI(cleanPath);
         };
 
@@ -250,6 +245,7 @@
                     document.getElementById('previewImg').src = data.profilePic;
                 }
 
+                // Enhanced rendering using same image logic
                 const historyArr = Object.values(data.watchHistory || {}).sort((a,b) => b.timestamp - a.timestamp);
                 renderHistory(historyArr);
                 renderAdded(data.myAdded || []);
@@ -267,10 +263,11 @@
             }
             container.innerHTML = history.map(item => {
                 const progress = (item.currentEp / item.totalEp) * 100 || 0;
+                const imgPath = fixPath(item.poster);
                 return `
                     <a href="./anime/${item.id}.html" class="history-card">
                         <div class="history-img-box">
-                            <img src="${fixPath(item.poster)}" class="history-img" onerror="this.src='assets/placeholder.jpg'">
+                            <img src="${imgPath}" class="history-img" onerror="this.src='assets/placeholder.jpg'">
                             <div class="progress-track"><div class="progress-fill" style="width:${progress}%"></div></div>
                         </div>
                         <div class="history-title">${item.title}</div>
@@ -279,24 +276,23 @@
             }).join('');
         }
 
-        /**
-         * RENDER ADDED LIST WITH LOGIC FIX
-         */
         function renderAdded(added) {
             const container = document.getElementById('addedContainer');
             if(!added || added.length === 0) {
                 container.innerHTML = '<div class="footer-text">No bookmarks yet.</div>';
                 return;
             }
-            container.innerHTML = added.map(item => `
-                <a href="./anime/${item.id}.html" class="added-card-link">
-                    <div class="added-card">
-                        <img src="${fixPath(item.poster)}" 
-                             onerror="this.src='assets/placeholder.jpg'; console.error('Failed to load:', '${item.poster}')">
-                        <div class="added-card-title">${item.title}</div>
-                    </div>
-                </a>
-            `).join('');
+            container.innerHTML = added.map(item => {
+                const imgPath = fixPath(item.poster);
+                return `
+                    <a href="./anime/${item.id}.html" class="added-card-link">
+                        <div class="added-card">
+                            <img src="${imgPath}" onerror="this.src='assets/placeholder.jpg'">
+                            <div class="added-card-title">${item.title}</div>
+                        </div>
+                    </a>
+                `;
+            }).join('');
         }
 
         window.openModal = () => document.getElementById('editModal').classList.add('show');
@@ -341,4 +337,8 @@
             if(profileImageBase64) updateData.profilePic = profileImageBase64;
             
             try {
-                await setDoc(doc(db, "users
+                await setDoc(doc(db, "users", currentUser.uid), updateData, { merge: true });
+                location.reload();
+            } catch(e) { 
+                alert("Error saving profile"); 
+           
