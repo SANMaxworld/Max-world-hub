@@ -209,12 +209,14 @@
         let currentGenderClass = "badge-blue";
         let profileImageBase64 = null;
 
-        // Path fixer logic to prevent blinking and load images correctly from subfolders
+        // FIXED PATH LOGIC: Encode spaces and handle relative paths correctly
         const fixPath = (path) => {
             if (!path) return "assets/placeholder.jpg";
             if (path.startsWith("http") || path.startsWith("data:")) return path;
-            // Dashboard is in root, so it needs "assets/..." NOT "../assets/..."
-            return path.replace("../", "");
+            
+            // Dashboard root mein hai, isliye '../' hatana hai aur spaces handle karne hain
+            let cleanPath = path.replace(/^\.\.\//, ""); 
+            return encodeURI(cleanPath);
         };
 
         window.googleLogin = () => signInWithPopup(auth, provider);
@@ -238,7 +240,6 @@
                     document.getElementById('previewImg').src = data.profilePic;
                 }
 
-                // Enhanced rendering with fixed paths
                 const historyArr = Object.values(data.watchHistory || {}).sort((a,b) => b.timestamp - a.timestamp);
                 renderHistory(historyArr);
                 renderAdded(data.myAdded || []);
@@ -335,4 +336,5 @@
         };
     </script>
 </body>
-</html>
+                </html>
+        
