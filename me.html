@@ -211,14 +211,12 @@
         let currentGenderClass = "badge-blue";
         let profileImageBase64 = null;
 
-        // GitHub Compatibility: Global Path Fix
         const fixPath = (path) => {
             if (!path) return "assets/placeholder.jpg";
             if (path.startsWith("http") || path.startsWith("data:")) return path;
             return path.replace(/^\.\.\//, ""); 
         };
 
-        // --- NEW: AUTOMATIC IMAGE COMPRESSOR FUNCTION ---
         async function compressImage(file) {
             return new Promise((resolve) => {
                 const reader = new FileReader();
@@ -228,20 +226,18 @@
                     img.src = event.target.result;
                     img.onload = () => {
                         const canvas = document.createElement('canvas');
-                        const MAX_WIDTH = 400; // Small size for profile
+                        const MAX_WIDTH = 400;
                         const scaleSize = MAX_WIDTH / img.width;
                         canvas.width = MAX_WIDTH;
                         canvas.height = img.height * scaleSize;
                         const ctx = canvas.getContext('2d');
                         ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-                        // Convert to Base64 (JPEG with 0.7 quality)
                         resolve(canvas.toDataURL('image/jpeg', 0.7));
                     };
                 };
             });
         }
 
-        // --- GitHub Button Fix: Event Listeners ---
         document.getElementById('authButton').addEventListener('click', () => signInWithPopup(auth, provider));
         document.getElementById('btnOpenEdit').addEventListener('click', () => document.getElementById('editModal').classList.add('show'));
         document.getElementById('btnCloseEdit').addEventListener('click', () => document.getElementById('editModal').classList.remove('show'));
@@ -332,4 +328,10 @@
         function checkValidation() {
             const name = document.getElementById('inputName').value.trim();
             const idVal = document.getElementById('inputId').value.toString();
-            const btn = documen
+            const btn = document.getElementById('saveBtn');
+            if(name.length > 2 && idVal.length === 9) btn.classList.add('ready');
+            else btn.classList.remove('ready');
+        }
+
+        async function saveProfile() {
+            const btn = document.getElementById('
