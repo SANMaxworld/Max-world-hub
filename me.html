@@ -149,18 +149,21 @@
         <div class="modal-content">
             <div class="close-btn" id="btnCloseEdit">✕</div>
             <div class="modal-title">Edit Profile</div>
+            
             <div class="input-group">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                    <label style="margin-bottom: 0;">Profile Picture</label>
-                    <a href="https://squoosh.app/" target="_blank" style="background: rgba(255,255,255,0.05); color: var(--accent-green); padding: 4px 12px; border-radius: 50px; font-size: 10px; text-decoration: none; border: 1px solid var(--divider); font-weight: 600; display: inline-flex; align-items: center;">Compress Image</a>
+                <label>Profile Picture</label>
+                <div style="margin-bottom: 10px;">
+                    <a href="https://squoosh.app/" target="_blank" style="background: rgba(255,255,255,0.1); color: var(--accent-green); padding: 5px 15px; border-radius: 50px; font-size: 11px; text-decoration: none; border: 1px solid var(--divider); font-weight: 600; display: inline-block;">Compress Image</a>
+                    <div style="font-size: 10px; color: var(--accent-red); margin-top: 4px; opacity: 0.8;">⚠️ Image size: Under 200 KB</div>
                 </div>
+
                 <input type="file" id="fileInput" accept="image/*" style="display:none;">
                 <div class="upload-container" id="btnUploadTrigger">
                     <img src="../assets/demon_slayer_s1.jpg" id="previewImg" class="preview-circle">
                     <span class="upload-text">Change Photo</span>
                 </div>
-                <div style="font-size: 10px; color: var(--accent-red); margin-top: 6px; text-align: right; opacity: 0.8;">⚠️ Image size: Under 200 KB</div>
             </div>
+
             <div class="input-group">
                 <label>Display Name</label>
                 <input type="text" id="inputName" class="input-box" placeholder="Your Name">
@@ -215,14 +218,12 @@
         let currentGenderClass = "badge-blue";
         let profileImageBase64 = null;
 
-        // GitHub Compatibility: Global Path Fix
         const fixPath = (path) => {
             if (!path) return "assets/placeholder.jpg";
             if (path.startsWith("http") || path.startsWith("data:")) return path;
             return path.replace(/^\.\.\//, ""); 
         };
 
-        // --- GitHub Button Fix: Event Listeners ---
         document.getElementById('authButton').addEventListener('click', () => signInWithPopup(auth, provider));
         document.getElementById('btnOpenEdit').addEventListener('click', () => document.getElementById('editModal').classList.add('show'));
         document.getElementById('btnCloseEdit').addEventListener('click', () => document.getElementById('editModal').classList.remove('show'));
@@ -324,4 +325,9 @@
             btn.innerText = "Saving...";
             const updateData = { 
                 name: document.getElementById('inputName').value.trim(), 
-                accountId: document.getElemen
+                accountId: document.getElementById('inputId').value.toString(), 
+                gender: selectedGender, 
+                genderClass: currentGenderClass 
+            };
+            if(profileImageBase64) updateData.profilePic = profileImageBase64;
+ 
