@@ -2,11 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Watch Attack on Titan Hindi Dubbed - Max World Hub</title>
-    <meta name="description" content="Stream Attack on Titan in Hindi Dubbed on Max World Hub. High-quality Google Drive streaming with fast download options.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Watch Attack on Titan Season 1 Hindi Dubbed Online - Max World Hub</title>
+    <link rel="manifest" href="../manifest.json">
+    <meta name="theme-color" content="#000000">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <link rel="stylesheet" href="../style.css">
     <style>
+        /* DESIGN IS LOCKED - NO CHANGES MADE HERE */
         .rec-card { position: relative; width: 100%; aspect-ratio: 2/3; border-radius: 8px; overflow: hidden; cursor: pointer; background: #1a1a1a; transition: transform 0.2s; display: block; text-decoration: none; }
         .rec-card:hover { transform: scale(1.03); }
         .rec-poster { width: 100%; height: 100%; object-fit: cover; }
@@ -16,37 +20,33 @@
         .seo-about-section h2 { font-size: 16px; color: #fff; margin-bottom: 10px; border-left: 3px solid #ff0000; padding-left: 10px; }
         .seo-about-section p { font-size: 12px; color: #aaa; line-height: 1.6; text-align: justify; margin: 0; }
         .player-wrapper { position: relative; }
-        #popoutBlocker { position: absolute; top: 0; right: 0; width: 65px; height: 60px; z-index: 999; cursor: default; background: transparent; }
         .custom-select { position: relative; cursor: pointer; display: flex; align-items: center; justify-content: center; }
         .custom-select select { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
         .dropdown-icon { font-size: 9px; margin-left: 6px; color: #888; }
-        .support-link { display: block; text-align: center; font-size: 11px; color: #666; text-decoration: none; margin-top: 10px; transition: 0.3s; }
-        .support-link:hover { color: #ff0000; text-decoration: underline; }
     </style>
 </head>
 <body>
     <div class="watch-container">
         <div class="player-wrapper" id="videoArea">
-            <div id="popoutBlocker"></div>
-            <img src="../assets/POSTER.jpg" class="poster-img" id="mainPoster" alt="Attack on Titan Poster">
-            <div class="iframe-container" id="iframeContainer">
-                <iframe id="mainPlayer" src="" allowfullscreen allow="autoplay"></iframe>
+            <img src="../assets/aot_poster.jpeg" class="poster-img" id="mainPoster" alt="Attack on Titan Season 1">
+            <div class="iframe-container" id="iframeContainer" style="display: none;">
+                <iframe id="mainPlayer" src="" allowfullscreen allowtransparency allow="autoplay" scrolling="no" frameborder="0" style="width:100%; height:100%; aspect-ratio: 16/9;"></iframe>
             </div>
         </div>
         <div class="watch-content">
             <div class="title-row">
-                <h1>Attack on Titan [Hindi Dubbed]</h1>
+                <h1>Attack on Titan Season 1 [Hindi Dubbed]</h1>
                 <a href="#" class="info-link">Info</a>
             </div>
             <div class="meta-stats">
-                <span class="rating">⭐ 8.8</span> <span class="divider">|</span>
+                <span class="rating">⭐ 9.1</span> <span class="divider">|</span>
                 <span>2013</span> <span class="divider">|</span>
                 <span>Japan</span> <span class="divider">|</span>
-                <span>Action, Dark Fantasy</span>
+                <span>Action, Dark Fantasy, Post-apocalyptic</span>
             </div>
             <div class="action-scroll">
-                <button class="action-btn">📂 Added</button>
-                <button class="action-btn" onclick="sharePage()">🔗 Share</button>
+                <button class="action-btn" id="bookmarkBtn" onclick="window.toggleBookmark()">📂 Add to List</button>
+                <button class="action-btn" onclick="window.sharePage()">🔗 Share</button>
                 <button class="action-btn" onclick="window.location.href='#'">⬇️ Download</button>
             </div>
             <div class="resources-row">
@@ -55,88 +55,178 @@
             </div>
             <div class="dropdown-row">
                 <div class="custom-select">Hindi Dubbed</div>
-                <div class="custom-select">Season 01 <span class="dropdown-icon">▼</span><select onchange="location = this.value;">
+                <div class="custom-select">Season 01 <span class="dropdown-icon">▼</span>
+                <select onchange="location = this.value;">
                     <option value="#" selected>Season 01</option>
-                    <option value="#">Season 02</option>
-                    <option value="#">Season 03</option>
-                    <option value="#">Season 04</option>
+                    <option value="#">Season 02 (Coming Soon)</option>
+                    <option value="#">Season 03 (Coming Soon)</option>
+                    <option value="#">Season 04 (Coming Soon)</option>
                 </select></div>
             </div>
+            
             <div class="episode-slider" id="epSlider">
-                <div class="ep-box active" onclick="playEpisode('1EURnWFkKiG8sCfMUUtdVzrWxMJtIznRA', this)">1</div>
-                <div class="ep-box" onclick="playEpisode('1jfHz5hXVHw2go96O-Yf-y6G4c8OaAp_W', this)">2</div>
-                <div class="ep-box" onclick="playEpisode('1Xk2Y81mvd3irP43Cg2l5rvoI5Z-rVqw1', this)">3</div>
-                <div class="ep-box" onclick="playEpisode('1xg04TPRmoPIWLqZxeYjRIdV4uPJessF5', this)">4</div>
-                <div class="ep-box" onclick="playEpisode('1ydYhiGX6yxNsH4NWDa8e4DXkN9X3Fu_H', this)">5</div>
-                <div class="ep-box" onclick="playEpisode('1gE9kLXAaEh_s0-ymoi32Wrk56uxJcf13', this)">6</div>
-                <div class="ep-box" onclick="playEpisode('1X0X5nNqe15t9d1CknpVL5WCWiyJzN0by', this)">7</div>
-                <div class="ep-box" onclick="playEpisode('1eqqfcy1VSeAdtPxMT2LZdGIDSOt2KEc-', this)">8</div>
-                <div class="ep-box" onclick="playEpisode('1thH2NpdAfkrZvX-f2LwBT-b8SlWgYJ9b', this)">9</div>
-                <div class="ep-box" onclick="playEpisode('1EOjJjGETYXua2OYWnj-vFVscRO8RYOEw', this)">10</div>
-                <div class="ep-box" onclick="playEpisode('169fw1FWJfQFLbCd7rYEq4H-qJKJWJ5SS', this)">11</div>
-                <div class="ep-box" onclick="playEpisode('1QZjwqrIYdnAZfzT2NgJGQOVUaN2WEmzh', this)">12</div>
-                <div class="ep-box" onclick="playEpisode('19YcR_SqT9HFC7vfIOXPQp_Av8PL0rcyH', this)">13</div>
-                <div class="ep-box" onclick="playEpisode('1_tJ4FlFbDqmR6TrtunEG-C3Cy1Tve1VD', this)">14</div>
-                <div class="ep-box" onclick="playEpisode('19fL_-ILaTFrYfNpIj97ot6mWrK_gvduv', this)">15</div>
-                <div class="ep-box" onclick="playEpisode('1FkObbKa6hxaBl_L4RaEdaFiiD2sgh3gF', this)">16</div>
-                <div class="ep-box" onclick="playEpisode('1vOe9H2CL3zBI3EOyPG7sLYMYVNJCCmH5', this)">17</div>
-                <div class="ep-box" onclick="playEpisode('1v80MoYJPs19X4iX5mdrXOThM99qwreVV', this)">18</div>
-                <div class="ep-box" onclick="playEpisode('1WHRzkBcZmI5jhevBhET_A4n5apGdi4Pr', this)">19</div>
-                <div class="ep-box" onclick="playEpisode('1n_7Qji9Yh4ZbyJqC1q2JOrNOJoQ21Zzm', this)">20</div>
-                <div class="ep-box" onclick="playEpisode('1tCi_vxhcEr8zmAIEmw9i9nHNbDcryOTv', this)">21</div>
-                <div class="ep-box" onclick="playEpisode('19DAp80Ul7ElLxzHsIb-_yBPA2Xs6Nc4D', this)">22</div>
-                <div class="ep-box" onclick="playEpisode('1zbi68ZaLpqGn2qG_9BpVI7Vt1Dbc2QrI', this)">23</div>
-                <div class="ep-box" onclick="playEpisode('1DSQjh1dFoSR1osW7Rm7VG7P9D42Uy5xm', this)">24</div>
-                <div class="ep-box" onclick="playEpisode('10ZsCbiyB8u8CPE8YCjTSuty-wV0bL1DD', this)">25</div>
+                <div class="ep-box" onclick="playEpisode('cryfjxnhcppa', this)">1</div>
+                <div class="ep-box" onclick="playEpisode('zff2drqgg8df', this)">2</div>
+                <div class="ep-box" onclick="playEpisode('cybygdehynf9', this)">3</div>
+                <div class="ep-box" onclick="playEpisode('lcujcm4grhcp', this)">4</div>
+                <div class="ep-box" onclick="playEpisode('ccqvafzti3x0', this)">5</div>
+                <div class="ep-box" onclick="playEpisode('1unn3otkoyjm', this)">6</div>
+                <div class="ep-box" onclick="playEpisode('4h7qmjsnxltc', this)">7</div>
+                <div class="ep-box" onclick="playEpisode('i8gvk4f7chok', this)">8</div>
+                <div class="ep-box" onclick="playEpisode('f4dcx01jphir', this)">9</div>
+                <div class="ep-box" onclick="playEpisode('b1rxjn4wdbyl', this)">10</div>
+                <div class="ep-box" onclick="playEpisode('lo2dzgw9raq9', this)">11</div>
+                <div class="ep-box" onclick="playEpisode('nnhxheibg7jh', this)">12</div>
+                <div class="ep-box" onclick="playEpisode('wljyi3ekb76s', this)">13</div>
+                <div class="ep-box" onclick="playEpisode('nqhqci3njhqa', this)">14</div>
+                <div class="ep-box" onclick="playEpisode('tjdpyrdscrd0', this)">15</div>
+                <div class="ep-box" onclick="playEpisode('nvfudhbs1cnr', this)">16</div>
+                <div class="ep-box" onclick="playEpisode('l1uiexu8sfkt', this)">17</div>
+                <div class="ep-box" onclick="playEpisode('lldtdhxlhggq', this)">18</div>
+                <div class="ep-box" onclick="playEpisode('k2zeo0sgqub4', this)">19</div>
+                <div class="ep-box" onclick="playEpisode('0tumnxbr9llv', this)">20</div>
+                <div class="ep-box" onclick="playEpisode('jhqwjzvvwk8w', this)">21</div>
+                <div class="ep-box" onclick="playEpisode('07qhb1r8amb3', this)">22</div>
+                <div class="ep-box" onclick="playEpisode('ekxiwnfqhobd', this)">23</div>
+                <div class="ep-box" onclick="playEpisode('edeiqrxnwx0o', this)">24</div>
+                <div class="ep-box" onclick="playEpisode('iywxvpujgfcl', this)">25</div>
             </div>
+
             <div class="tabs-container"><div class="tab active">Recommended</div><div class="tab">Similar Anime</div></div>
             <div class="rec-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 15px;">
-                <a href="https://sanmaxworld.github.io/Max-world-hub/anime/demon-slayer-s1.html" class="rec-card">
+                <a href="death-note-s1.html" class="rec-card">
                     <div class="lang-tag">Hindi</div>
-                    <img src="../assets/D.S poster.jpeg" class="rec-poster">
-                    <div class="rec-title">Demon Slayer S1</div>
+                    <img src="../assets/death_note.jpg" class="rec-poster">
+                    <div class="rec-title">Death Note</div>
                 </a>
-                <a href="LINK_HERE" class="rec-card">
+                <a href="solo-leveling-s1.html" class="rec-card">
                     <div class="lang-tag">Hindi</div>
                     <img src="../assets/soloposter.jpeg" class="rec-poster">
                     <div class="rec-title">Solo Leveling S1</div>
                 </a>
-                <a href="LINK_HERE" class="rec-card">
+                <a href="demon-slayer-s1.html" class="rec-card">
                     <div class="lang-tag">Hindi</div>
-                    <img src="../assets/NOTE.jpeg" class="rec-poster">
-                    <div class="rec-title">Death Note</div>
+                    <img src="../assets/D.S poster.jpeg" class="rec-poster">
+                    <div class="rec-title">Demon Slayer</div>
                 </a>
             </div>
             <div class="seo-about-section">
-                <h2>About Attack on Titan Hindi Dubbed</h2>
-                <p>Welcome to <strong>Max World Hub</strong>, watch <strong>Attack on Titan Max World Hub</strong> online. High-quality <strong>Attack on Titan Hindi Dubbed Max World Hub</strong> episodes with fast Google Drive links. Stay tuned with <strong>Max World HUB</strong>.</p>
+                <h2>About Attack on Titan Season 1 Hindi Dubbed</h2>
+                <p>Watch <strong>Attack on Titan Season 1 in Hindi Dubbed</strong> exclusively on <strong>Max World Hub</strong>. In a world where humanity lives within enormous walls to protect themselves from Titans, giant humanoid creatures, Eren Yeager vows to retake the world after a Titan destroys his home and kills his mother. Experience the intense action and mystery of Shingeki no Kyojin.</p>
             </div>
             <a href="../index.html" class="back-home-btn">← Back to Homepage</a>
-            <a href="https://t.me/+pnQEnRYbIDtiYzFl" class="support-link">Report Issue / Request Help?</a>
             <div class="copyright-footer"><p>© 2026 Max World Hub | Powered by SAN Team</p></div>
         </div>
     </div> 
-    <a href="#" target="_blank" class="floating-dl-btn">Download</a>
-    <script>
-        window.onload = function() {
-            const firstEpId = '1EURnWFkKiG8sCfMUUtdVzrWxMJtIznRA';
-            document.getElementById('mainPoster').style.display = 'none';
-            document.getElementById('iframeContainer').style.display = 'block';
-            document.getElementById('mainPlayer').src = "https://drive.google.com/file/d/" + firstEpId + "/preview?rm=minimal";
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getFirestore, doc, getDoc, setDoc, updateDoc, arrayUnion, arrayRemove } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAE_oP6wv4A1UxfEdcT82f4KZkhSBzfH3M",
+            authDomain: "mw-hub-59e96.firebaseapp.com",
+            projectId: "mw-hub-59e96",
+            storageBucket: "mw-hub-59e96.firebasestorage.app",
+            messagingSenderId: "1084767566489",
+            appId: "1:1084767566489:web:5913fcac03c2947c9b1608"
         };
-        function playEpisode(driveId, element) {
-            document.getElementById('mainPoster').style.display = 'none';
-            document.getElementById('iframeContainer').style.display = 'block';
-            document.getElementById('mainPlayer').src = "https://drive.google.com/file/d/" + driveId + "/preview?rm=minimal";
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // CONFIGURATION (THE ID CARD)
+        const ANIME_ID = "aot-s1";
+        const ANIME_TITLE = "Attack on Titan S1";
+        const ANIME_POSTER = "assets/aot_poster.jpeg"; 
+        
+        let isBookmarked = false;
+
+        window.playEpisode = async function(voeId, element) {
+            const player = document.getElementById('mainPlayer');
+            const container = document.getElementById('iframeContainer');
+            const poster = document.getElementById('mainPoster');
+            
+            poster.style.display = 'none';
+            container.style.display = 'block';
+            
+            player.src = "about:blank"; 
+            setTimeout(() => { player.src = "https://voe.sx/e/" + voeId; }, 150);
+
             window.scrollTo({ top: 0, behavior: 'smooth' });
+            
             let boxes = document.getElementsByClassName('ep-box');
             for(let i=0; i<boxes.length; i++){ boxes[i].classList.remove('active'); }
-            element.classList.add('active');
-        }
-        function sharePage() {
-            if (navigator.share) { navigator.share({ title: document.querySelector('h1').innerText, url: window.location.href }); }
+            if(element) element.classList.add('active');
+
+            const user = auth.currentUser;
+            if (user && element) {
+                const epNum = parseInt(element.innerText);
+                await setDoc(doc(db, "users", user.uid), {
+                    watchHistory: {
+                        [ANIME_ID]: {
+                            id: ANIME_ID,
+                            title: ANIME_TITLE,
+                            currentEp: epNum,
+                            totalEp: boxes.length,
+                            poster: ANIME_POSTER,
+                            timestamp: Date.now()
+                        }
+                    }
+                }, { merge: true });
+            }
+        };
+
+        window.toggleBookmark = async function() {
+            const user = auth.currentUser;
+            if (!user) { alert("Please login to add to list"); return; }
+            const btn = document.getElementById('bookmarkBtn');
+            const userRef = doc(db, "users", user.uid);
+            const animeObj = { id: ANIME_ID, title: ANIME_TITLE, poster: ANIME_POSTER };
+            try {
+                if (isBookmarked) {
+                    await updateDoc(userRef, { myAdded: arrayRemove(animeObj) });
+                    btn.innerText = "📂 Add to List";
+                    isBookmarked = false;
+                } else {
+                    await updateDoc(userRef, { myAdded: arrayUnion(animeObj) });
+                    btn.innerText = "📂 Added";
+                    isBookmarked = true;
+                }
+            } catch (e) { console.error(e); }
+        };
+
+        onAuthStateChanged(auth, async (user) => {
+            const boxes = document.getElementsByClassName('ep-box');
+            let epToPlay = 1; 
+            let voeToPlay = 'cryfjxnhcppa'; 
+
+            if (user) {
+                const docSnap = await getDoc(doc(db, "users", user.uid));
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
+                    if (data.watchHistory && data.watchHistory[ANIME_ID]) {
+                        epToPlay = data.watchHistory[ANIME_ID].currentEp;
+                        const targetBox = Array.from(boxes).find(b => parseInt(b.innerText) === epToPlay);
+                        if (targetBox) {
+                            voeToPlay = targetBox.getAttribute('onclick').split("'")[1];
+                        }
+                    }
+                    const bookmarks = data.myAdded || [];
+                    isBookmarked = bookmarks.some(item => item.id === ANIME_ID);
+                    document.getElementById('bookmarkBtn').innerText = isBookmarked ? "📂 Added" : "📂 Add to List";
+                }
+            }
+            playEpisode(voeToPlay, Array.from(boxes).find(b => parseInt(b.innerText) === epToPlay) || boxes[0]);
+        });
+
+        window.sharePage = () => {
+            if (navigator.share) { navigator.share({ title: ANIME_TITLE, url: window.location.href }); }
             else { navigator.clipboard.writeText(window.location.href); alert('URL Copied!'); }
-        }
+        };
     </script>
 </body>
-</html>
+                    </html>
+    
