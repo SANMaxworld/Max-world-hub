@@ -150,12 +150,16 @@
             <div class="close-btn" id="btnCloseEdit">✕</div>
             <div class="modal-title">Edit Profile</div>
             <div class="input-group">
-                <label>Profile Picture</label>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                    <label style="margin-bottom: 0;">Profile Picture</label>
+                    <a href="https://squoosh.app/" target="_blank" style="background: rgba(255,255,255,0.05); color: var(--accent-green); padding: 4px 12px; border-radius: 50px; font-size: 10px; text-decoration: none; border: 1px solid var(--divider); font-weight: 600; display: inline-flex; align-items: center;">Compress Image</a>
+                </div>
                 <input type="file" id="fileInput" accept="image/*" style="display:none;">
                 <div class="upload-container" id="btnUploadTrigger">
                     <img src="../assets/demon_slayer_s1.jpg" id="previewImg" class="preview-circle">
-                    <span class="upload-text" id="uploadText">Change Photo</span>
+                    <span class="upload-text">Change Photo</span>
                 </div>
+                <div style="font-size: 10px; color: var(--accent-red); margin-top: 6px; text-align: right; opacity: 0.8;">⚠️ Image size: Under 200 KB</div>
             </div>
             <div class="input-group">
                 <label>Display Name</label>
@@ -211,33 +215,14 @@
         let currentGenderClass = "badge-blue";
         let profileImageBase64 = null;
 
+        // GitHub Compatibility: Global Path Fix
         const fixPath = (path) => {
             if (!path) return "assets/placeholder.jpg";
             if (path.startsWith("http") || path.startsWith("data:")) return path;
             return path.replace(/^\.\.\//, ""); 
         };
 
-        async function compressImage(file) {
-            return new Promise((resolve) => {
-                const reader = new FileReader();
-                reader.readAsDataURL(file);
-                reader.onload = (event) => {
-                    const img = new Image();
-                    img.src = event.target.result;
-                    img.onload = () => {
-                        const canvas = document.createElement('canvas');
-                        const MAX_WIDTH = 400;
-                        const scaleSize = MAX_WIDTH / img.width;
-                        canvas.width = MAX_WIDTH;
-                        canvas.height = img.height * scaleSize;
-                        const ctx = canvas.getContext('2d');
-                        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-                        resolve(canvas.toDataURL('image/jpeg', 0.7));
-                    };
-                };
-            });
-        }
-
+        // --- GitHub Button Fix: Event Listeners ---
         document.getElementById('authButton').addEventListener('click', () => signInWithPopup(auth, provider));
         document.getElementById('btnOpenEdit').addEventListener('click', () => document.getElementById('editModal').classList.add('show'));
         document.getElementById('btnCloseEdit').addEventListener('click', () => document.getElementById('editModal').classList.remove('show'));
@@ -248,17 +233,7 @@
         document.getElementById('btnMale').addEventListener('click', () => selectGender('♂', 'badge-blue'));
         document.getElementById('btnFemale').addEventListener('click', () => selectGender('♀', 'badge-pink'));
         
-        document.getElementById('fileInput').addEventListener('change', async (e) => {
-            const file = e.target.files[0];
-            if (file) {
-                document.getElementById('uploadText').innerText = "Processing...";
-                profileImageBase64 = await compressImage(file);
-                document.getElementById('previewImg').src = profileImageBase64;
-                document.getElementById('uploadText').innerText = "Photo Selected";
-                checkValidation();
-            }
-        });
-
+        document.getElementById('fileInput').addEventListener('change', (e) => handleImage(e.target));
         document.getElementById('inputName').addEventListener('input', checkValidation);
         document.getElementById('inputId').addEventListener('input', checkValidation);
         document.getElementById('saveBtn').addEventListener('click', saveProfile);
@@ -325,6 +300,17 @@
             document.getElementById('btnFemale').classList.toggle('active', g === '♀');
         }
 
+        function handleImage(input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    profileImageBase64 = e.target.result;
+                    document.getElementById('previewImg').src = profileImageBase64;
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
         function checkValidation() {
             const name = document.getElementById('inputName').value.trim();
             const idVal = document.getElementById('inputId').value.toString();
@@ -334,4 +320,8 @@
         }
 
         async function saveProfile() {
-            const btn = document.getElementById('
+            const btn = document.getElementById('saveBtn');
+            btn.innerText = "Saving...";
+            const updateData = { 
+                name: document.getElementById('inputName').value.trim(), 
+                accountId: document.getElemen
