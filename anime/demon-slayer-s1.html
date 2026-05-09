@@ -58,8 +58,10 @@
             <div class="dropdown-row">
                 <div class="custom-select">Hindi Dubbed</div>
                 <div class="custom-select">Season 01 <span class="dropdown-icon">▼</span><select onchange="location = this.value;">
-                    <option value="#" selected>Season 01 (Unwavering Resolve)</option>
-                    <option value="LINK_S2">Season 02 (Entertainment District)</option>
+                    <option value="#" selected>Season 1: Unwavering Resolve</option>
+                    <option value="#">Season 2: Mugen Train</option>
+                    <option value="#">Season 3: Swordsmith Village</option>
+                    <option value="#">Season 4: Hashira Training</option>
                 </select></div>
             </div>
             
@@ -112,7 +114,7 @@
             </div>
             <div class="seo-about-section">
                 <h2>About Demon Slayer Season 1 Hindi Dubbed</h2>
-                <p>Welcome to <strong>Max World Hub</strong>, your ultimate source to watch Demon Slayer Season 1 online...</p>
+                <p>Welcome to <strong>Max World Hub</strong>, your ultimate source to watch Demon Slayer Season 1 online in high quality with professional Hindi dubbing. Follow the journey of Tanjiro Kamado as he joins the Demon Slayer Corps to find a cure for his sister Nezuko and avenge his family. Experience the breathtaking animation and the emotional depth of the Unwavering Resolve arc on our optimized streaming platform.</p>
             </div>
             <a href="../index.html" class="back-home-btn">← Back to Homepage</a>
             <div class="copyright-footer"><p>© 2026 Max World Hub | Powered by SAN Team</p></div>
@@ -137,10 +139,8 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        // CONFIGURATION
         const ANIME_ID = "demon-slayer-s1";
         const ANIME_TITLE = "Demon Slayer S1";
-        // Root relative path for consistent Dashboard (mi.html) rendering
         const ANIME_POSTER = "assets/D.S poster.jpeg"; 
         
         let isBookmarked = false;
@@ -212,7 +212,6 @@
                 const docSnap = await getDoc(doc(db, "users", user.uid));
                 if (docSnap.exists()) {
                     const data = docSnap.data();
-                    
                     const history = data.watchHistory || {};
                     if (history[ANIME_ID]) {
                         epToPlay = history[ANIME_ID].currentEp || 1;
@@ -222,7 +221,6 @@
                             voeToPlay = onclickStr.split("'")[1];
                         }
                     }
-
                     const bookmarks = data.myAdded || [];
                     isBookmarked = bookmarks.some(item => item.id === ANIME_ID);
                     document.getElementById('bookmarkBtn').innerText = isBookmarked ? "📂 Added" : "📂 Add to List";
