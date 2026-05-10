@@ -1,5 +1,4 @@
-// --- 1. UTILITY FUNCTIONS (Purane functions jo HTML mein use ho rahe hain) ---
-
+// --- 1. UTILITY FUNCTIONS ---
 function toggleSearch(show) {
     const overlay = document.getElementById('searchOverlay');
     const results = document.getElementById('searchResultsArea');
@@ -8,65 +7,51 @@ function toggleSearch(show) {
 
     if (show) {
         overlay.classList.add('active');
-        results.style.display = 'grid';
+        results.style.display = 'grid'; // Grid display for search
         content.style.opacity = '0.3';
     } else {
         overlay.classList.remove('active');
         results.style.display = 'none';
         content.style.opacity = '1';
-        input.value = ''; // Search clear karne ke liye
+        input.value = ''; // Input clear
+        results.innerHTML = ''; // Result cards clear
     }
 }
 
 function toggleExplore() {
-    const popup = document.getElementById('explorePopup');
-    popup.classList.toggle('active');
+    // In future, you can add explore popup logic here
+    alert("Exploring categories...");
 }
 
-// --- 2. THE ENGINE (JSON se Data Load karne wala part) ---
+// --- 2. ENGINE (No Fetch - Super Fast) ---
+function mwHubEngine() {
+    // A. Swiper Setup
+    new Swiper(".mySwiper", {
+        pagination: { el: ".swiper-pagination", clickable: true },
+        autoplay: { delay: 3500, disableOnInteraction: false },
+        loop: true
+    });
 
-let fullLibrary = []; // Ismein hum saara data save rakhenge search ke liye
-
-async function mwHubEngine() {
-    try {
-        // A. Slider Setup
-        const sRes = await fetch('slider.json');
-        const sData = await sRes.json();
-        const hero = document.getElementById('heroWrapper');
-        hero.innerHTML = ''; // Purana static data saaf karne ke liye
-        sData.forEach(s => {
-            hero.innerHTML += `<div class="swiper-slide"><a href="${s.link}"><img src="${s.img}" alt="${s.alt}"></a></div>`;
+    // B. Load Trending Data (From trending-data.js)
+    const trendingGrid = document.getElementById('trending-grid');
+    if (trendingGrid && typeof trendingData !== 'undefined') {
+        trendingData.forEach(item => {
+            trendingGrid.innerHTML += createCard(item);
         });
-        
-        // Swiper Initialise
-        new Swiper(".mySwiper", {
-            pagination: { el: ".swiper-pagination", clickable: true },
-            autoplay: { delay: 3500, disableOnInteraction: false },
-            loop: true
-        });
+    }
 
-        // B. Trending Section
-        const tRes = await fetch('trending.json');
-        const tData = await tRes.json();
-        const trendingGrid = document.getElementById('trending-grid');
-        trendingGrid.innerHTML = ''; 
-        tData.forEach(item => trendingGrid.innerHTML += createCard(item));
-
-        // C. Main Library (Categories & Global Search)
-        const lRes = await fetch('library.json');
-        fullLibrary = await lRes.json(); // Data store kiya search ke liye
-        
-        fullLibrary.forEach(item => {
+    // C. Load Library Data (From library-data.js)
+    if (typeof fullLibraryData !== 'undefined') {
+        fullLibraryData.forEach(item => {
             const grid = document.getElementById(`${item.category}-grid`);
-            if(grid) grid.innerHTML += createCard(item);
+            if (grid) {
+                grid.innerHTML += createCard(item);
+            }
         });
-
-    } catch (e) {
-        console.error("Setup error bhai:", e);
     }
 }
 
-// Card ka standard design (Wahi jo pehle tha)
+// Standard Card Design
 function createCard(item) {
     return `
         <a href="${item.link}" class="search-item">
@@ -79,28 +64,28 @@ function createCard(item) {
         </a>`;
 }
 
-// --- 3. LIVE SEARCH LOGIC (JSON Library se connect) ---
-
+// --- 3. LIVE SEARCH LOGIC ---
 document.getElementById('searchInput').addEventListener('input', (e) => {
     const term = e.target.value.toLowerCase();
     const resultsArea = document.getElementById('searchResultsArea');
     
     if (term.length > 0) {
-        // Library mein se filter karo
-        const filtered = fullLibrary.filter(item => 
+        // Search filter logic
+        const filtered = fullLibraryData.filter(item => 
             item.title.toLowerCase().includes(term) || 
             item.category.toLowerCase().includes(term)
         );
 
-        resultsArea.innerHTML = ''; // Purane results saaf
+        resultsArea.innerHTML = ''; // Clear previous results
         if (filtered.length > 0) {
             filtered.forEach(item => resultsArea.innerHTML += createCard(item));
         } else {
-            resultsArea.innerHTML = '<p style="color:white; padding:20px;">No results found... 🛑</p>';
+            resultsArea.innerHTML = '<div class="no-result-text">No results found... 🛑</div>';
         }
+    } else {
+        resultsArea.innerHTML = ''; // Clear if input empty
     }
 });
 
-// Website start karo
-mwHubEngine();
-    
+// Run Engine on Load
+window.onload = mwHubEngine;
