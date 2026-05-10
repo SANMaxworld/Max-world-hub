@@ -1,0 +1,10 @@
+const fullLibraryData = [
+  { "title": "Your Name", "img": "assets/movie_sample.jpeg", "desc": "Romance", "category": "movies", "link": "#", "lang": "HINDI" },
+  { "title": "Suzume", "img": "assets/movie2_sample.jpeg", "desc": "Fantasy", "category": "fantasy", "link": "#", "lang": "HINDI" },
+  { "title": "Money Heist", "img": "assets/series_sample.jpeg", "desc": "Thriller", "category": "series", "link": "#", "lang": "HINDI" },
+  { "title": "Horimiya", "img": "assets/romance-grid", "desc": "Romance", "category": "romance", "link": "#", "lang": "HINDI" },
+  { "title": "Dr. Stone", "img": "assets/sci_sample.jpeg", "desc": "Sci-Fi", "category": "scifi", "link": "#", "lang": "HINDI" },
+  { "title": "Tokyo Ghoul", "img": "assets/hor_sample.jpeg", "desc": "Horror", "category": "horror", "link": "#", "lang": "HINDI" },
+  { "title": "Spy x Family", "img": "assets/com_sample.jpeg", "desc": "Comedy", "category": "comedy", "link": "#", "lang": "HINDI" },
+  { "title": "One Piece", "img": "assets/adv_sample.jpeg", "desc": "Adventure", "category": "adventure", "link": "#", "lang": "HINDI" }
+];
