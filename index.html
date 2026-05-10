@@ -7,9 +7,6 @@
     
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#000000">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-
     <link rel="icon" type="image/png" href="assets/logo.png">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
     
@@ -21,7 +18,7 @@
 
     <header>
         <div class="logo-section">
-            <img src="assets/logo.png" alt="MW Hub Logo" class="main-logo" loading="lazy">
+            <img src="assets/logo.png" alt="MW Hub Logo" class="main-logo">
             <h1 class="brand-name">MAX WORLD <span class="neon-red-text">HUB</span></h1>
         </div>
     </header>
@@ -29,12 +26,12 @@
     <div class="glass-container">
         <input type="text" id="searchInput" class="search-box" placeholder="Search Anime, Movies or Series..." onfocus="toggleSearch(true)">
 
-        <div id="searchResultsArea" class="grid-container" style="display: none; position: relative; z-index: 999;"></div>
+        <div id="searchResultsArea" class="search-results-grid" style="display: none;"></div>
 
         <div id="mainContentBody">
             <div class="foggy-tags-container">
                 <a href="#movies" class="foggy-tag">🎬 Movies</a>
-                <a href="#series" class="foggy-tag">📺 Web Series</a>
+                <a href="#series" class="foggy-tag">📺 Series</a>
                 <a href="#fantasy" class="foggy-tag">🪄 Fantasy</a>
                 <a href="#action" class="foggy-tag">⚔️ Action</a>
                 <a href="#adventure" class="foggy-tag">🗺️ Adventure</a>
@@ -47,73 +44,67 @@
 
             <div class="swiper mySwiper" id="heroSlider">
                 <div class="slider-trending-tag">Trending</div>
-                <div class="swiper-wrapper" id="heroWrapper">
-                    <div class="swiper-slide">
-                        <a href="#"><img src="assets/A.O.T bannar.jpeg" alt="Attack On Titan"></a>
-                    </div>
-                    <div class="swiper-slide">
-                        <a href="#"><img src="assets/S.L Bannar.jpeg" alt="Solo Leveling"></a>
-                    </div>
-                    <div class="swiper-slide">
-                        <a href="#"><img src="assets/D.S movie.jpeg" alt="Demon Slayer"></a>
-                    </div>
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide"><a href="#"><img src="assets/A.O.T bannar.jpeg" alt="AOT"></a></div>
+                    <div class="swiper-slide"><a href="#"><img src="assets/S.L Bannar.jpeg" alt="Solo Leveling"></a></div>
+                    <div class="swiper-slide"><a href="#"><img src="assets/D.S movie.jpeg" alt="Demon Slayer"></a></div>
                 </div>
                 <div class="swiper-pagination"></div>
             </div>
 
             <section id="trending" class="content-section">
                 <h2 class="section-title">🔥 TRENDING NOW</h2>
-                <div class="grid-container" id="trending-grid"></div>
+                <div class="horizontal-grid" id="trending-grid"></div>
             </section>
 
             <section id="movies" class="content-section">
                 <h2 class="section-title">🎬 LATEST MOVIES</h2>
-                <div class="grid-container" id="movies-grid"></div>
-            </section>
-
-            <section id="fantasy" class="content-section">
-                <h2 class="section-title">🪄 FANTASY</h2>
-                <div class="grid-container" id="fantasy-grid"></div>
+                <div class="horizontal-grid" id="movies-grid"></div>
             </section>
 
             <section id="series" class="content-section">
                 <h2 class="section-title">📺 TOP WEB SERIES</h2>
-                <div class="grid-container" id="series-grid"></div>
+                <div class="horizontal-grid" id="series-grid"></div>
+            </section>
+
+            <section id="fantasy" class="content-section">
+                <h2 class="section-title">🪄 FANTASY</h2>
+                <div class="horizontal-grid" id="fantasy-grid"></div>
             </section>
 
             <section id="action" class="content-section">
                 <h2 class="section-title">⚔️ ACTION ANIME</h2>
-                <div class="grid-container" id="action-grid"></div>
+                <div class="horizontal-grid" id="action-grid"></div>
             </section>
-            
+
             <section id="adventure" class="content-section">
                 <h2 class="section-title">🗺️ ADVENTURE</h2>
-                <div class="grid-container" id="adventure-grid"></div>
+                <div class="horizontal-grid" id="adventure-grid"></div>
             </section>
 
             <section id="romance" class="content-section">
                 <h2 class="section-title">💖 ROMANCE</h2>
-                <div class="grid-container" id="romance-grid"></div>
+                <div class="horizontal-grid" id="romance-grid"></div>
             </section>
 
             <section id="scifi" class="content-section">
                 <h2 class="section-title">🚀 SCI-FI</h2>
-                <div class="grid-container" id="scifi-grid"></div>
+                <div class="horizontal-grid" id="scifi-grid"></div>
             </section>
 
             <section id="horror" class="content-section">
                 <h2 class="section-title">👻 HORROR</h2>
-                <div class="grid-container" id="horror-grid"></div>
+                <div class="horizontal-grid" id="horror-grid"></div>
             </section>
 
             <section id="comedy" class="content-section">
                 <h2 class="section-title">😂 COMEDY</h2>
-                <div class="grid-container" id="comedy-grid"></div>
+                <div class="horizontal-grid" id="comedy-grid"></div>
             </section>
 
             <section id="drama" class="content-section">
                 <h2 class="section-title">🎭 DRAMA</h2>
-                <div class="grid-container" id="drama-grid"></div>
+                <div class="horizontal-grid" id="drama-grid"></div>
             </section>
 
             <div class="footer-desc">
@@ -123,13 +114,15 @@
     </div>
 
     <nav class="bottom-nav">
-        <div class="nav-item" id="exploreBtn" onclick="toggleExplore()"><span class="nav-icon">🧭</span><span>Explore</span></div>
+        <div class="nav-item" onclick="toggleExplore()"><span class="nav-icon">🧭</span><span>Explore</span></div>
         <div class="nav-item active" onclick="window.scrollTo({top:0, behavior:'smooth'})"><span class="nav-icon">🏠</span><span>Home</span></div>
         <div class="nav-item" onclick="location.href='me.html'"><span class="nav-icon">👤</span><span>Me</span></div>
     </nav>
 
+    <script src="trending-data.js"></script>
+    <script src="library-data.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="index-script.js"></script>
 </body>
-                    </html>
-
+    </html>
+                
