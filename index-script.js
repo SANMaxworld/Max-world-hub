@@ -1,4 +1,3 @@
-// --- 1. UTILITY FUNCTIONS ---
 function toggleSearch(show) {
     const overlay = document.getElementById('searchOverlay');
     const results = document.getElementById('searchResultsArea');
@@ -6,52 +5,41 @@ function toggleSearch(show) {
     const input = document.getElementById('searchInput');
 
     if (show) {
-        overlay.classList.add('active');
-        results.style.display = 'grid'; // Grid display for search
-        content.style.opacity = '0.3';
+        overlay.style.display = 'block';
+        results.style.display = 'grid';
+        content.style.display = 'none'; 
+        window.scrollTo(0, 0);
     } else {
-        overlay.classList.remove('active');
+        overlay.style.display = 'none';
         results.style.display = 'none';
-        content.style.opacity = '1';
-        input.value = ''; // Input clear
-        results.innerHTML = ''; // Result cards clear
+        content.style.display = 'block'; 
+        input.value = '';
+        results.innerHTML = '';
     }
 }
 
-function toggleExplore() {
-    // In future, you can add explore popup logic here
-    alert("Exploring categories...");
-}
-
-// --- 2. ENGINE (No Fetch - Super Fast) ---
 function mwHubEngine() {
-    // A. Swiper Setup
     new Swiper(".mySwiper", {
         pagination: { el: ".swiper-pagination", clickable: true },
         autoplay: { delay: 3500, disableOnInteraction: false },
         loop: true
     });
 
-    // B. Load Trending Data (From trending-data.js)
-    const trendingGrid = document.getElementById('trending-grid');
-    if (trendingGrid && typeof trendingData !== 'undefined') {
-        trendingData.forEach(item => {
-            trendingGrid.innerHTML += createCard(item);
-        });
+    // Load Trending
+    const tGrid = document.getElementById('trending-grid');
+    if(typeof trendingData !== 'undefined') {
+        trendingData.forEach(item => tGrid.innerHTML += createCard(item));
     }
 
-    // C. Load Library Data (From library-data.js)
-    if (typeof fullLibraryData !== 'undefined') {
+    // Load Categories
+    if(typeof fullLibraryData !== 'undefined') {
         fullLibraryData.forEach(item => {
             const grid = document.getElementById(`${item.category}-grid`);
-            if (grid) {
-                grid.innerHTML += createCard(item);
-            }
+            if(grid) grid.innerHTML += createCard(item);
         });
     }
 }
 
-// Standard Card Design
 function createCard(item) {
     return `
         <a href="${item.link}" class="search-item">
@@ -64,28 +52,29 @@ function createCard(item) {
         </a>`;
 }
 
-// --- 3. LIVE SEARCH LOGIC ---
 document.getElementById('searchInput').addEventListener('input', (e) => {
     const term = e.target.value.toLowerCase();
     const resultsArea = document.getElementById('searchResultsArea');
     
     if (term.length > 0) {
-        // Search filter logic
         const filtered = fullLibraryData.filter(item => 
             item.title.toLowerCase().includes(term) || 
             item.category.toLowerCase().includes(term)
         );
-
-        resultsArea.innerHTML = ''; // Clear previous results
+        resultsArea.innerHTML = ''; 
         if (filtered.length > 0) {
             filtered.forEach(item => resultsArea.innerHTML += createCard(item));
         } else {
-            resultsArea.innerHTML = '<div class="no-result-text">No results found... 🛑</div>';
+            resultsArea.innerHTML = '<div style="grid-column: span 3; text-align:center; color:rgba(255,255,255,0.4); margin-top:50px;">No results found... 🛑</div>';
         }
     } else {
-        resultsArea.innerHTML = ''; // Clear if input empty
+        resultsArea.innerHTML = '';
     }
 });
 
-// Run Engine on Load
+function toggleExplore() {
+    window.scrollTo({top: 400, behavior: 'smooth'});
+}
+
 window.onload = mwHubEngine;
+
