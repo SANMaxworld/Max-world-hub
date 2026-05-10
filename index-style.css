@@ -67,8 +67,43 @@ header {
 /* CONTENT SECTIONS */
 .content-section { scroll-margin-top: 85px; margin-bottom: 40px; }
 .section-title { font-size: 1.1rem; font-weight: 800; margin-bottom: 15px; color: #fff; border-left: 4px solid #ff0000; padding-left: 10px; }
-.grid-container { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
 
+/* 3 CARDS PER ROW GRID */
+.grid-container { 
+    display: grid; 
+    grid-template-columns: repeat(3, 1fr); /* 3 cards fit honge */
+    gap: 8px; 
+}
+
+.search-item {
+    background: rgba(255,255,255,0.05); border-radius: 8px; overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.1); display: flex; flex-direction: column;
+    position: relative; transition: 0.3s; text-decoration: none;
+}
+.search-item:hover { transform: translateY(-5px); border-color: #ff0000; }
+
+.badge-hindi {
+    position: absolute; top: 5px; right: 5px; background: #ff0000; color: #fff;
+    font-size: 0.55rem; font-weight: 800; padding: 2px 6px; border-radius: 3px; z-index: 2;
+}
+
+.icon-poster { width: 100%; aspect-ratio: 2/3; object-fit: cover; border-bottom: 1px solid #ff0000; }
+
+.content-box { padding: 6px 4px; text-align: center; }
+
+/* TITLE - Chota font taaki 3 grid mein space bane */
+.content-box h4 { 
+    font-size: 0.7rem; 
+    color: #fff; 
+    white-space: nowrap; 
+    overflow: hidden; 
+    text-overflow: ellipsis; 
+}
+
+/* DESC TEXT - Thoda sa aur chota taaki clean dikhe */
+.desc-text { font-size: 0.6rem; color: #bbb; margin-top: 2px; }
+
+/* SHOW MORE BUTTON */
 .show-more-btn {
     display: block; width: fit-content; margin: 15px auto 0;
     padding: 6px 18px; background: #ff0000; color: white;
@@ -77,26 +112,10 @@ header {
     box-shadow: 0 4px 10px rgba(255, 0, 0, 0.3); transition: 0.3s;
 }
 
-.search-item {
-    background: rgba(255,255,255,0.05); border-radius: 12px; overflow: hidden;
-    border: 1px solid rgba(255,255,255,0.1); display: flex; flex-direction: column;
-    position: relative; transition: 0.3s; text-decoration: none;
-}
-.search-item:hover { transform: translateY(-5px); border-color: #ff0000; }
-.badge-hindi {
-    position: absolute; top: 8px; right: 8px; background: #ff0000; color: #fff;
-    font-size: 0.65rem; font-weight: 800; padding: 4px 8px; border-radius: 4px; z-index: 2;
-}
-.icon-poster { width: 100%; aspect-ratio: 2/3; object-fit: cover; border-bottom: 2px solid #ff0000; }
-.content-box { padding: 10px; text-align: center; }
-.content-box h4 { font-size: 0.85rem; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.desc-text { font-size: 0.7rem; color: #bbb; }
-
-/* BOTTOM NAV WITH NEON BORDER */
+/* BOTTOM NAV */
 .bottom-nav {
     position: fixed; bottom: 0; left: 0; width: 100%; height: 65px;
     background: rgba(0, 0, 0, 0.95); backdrop-filter: blur(10px);
-    /* Neon Border on Top */
     border-top: 2px solid #ff0000; 
     box-shadow: 0 -5px 15px rgba(255, 0, 0, 0.3);
     display: flex; justify-content: space-around; align-items: center; z-index: 2000;
@@ -105,7 +124,7 @@ header {
 .nav-item.active { color: #ff0000; text-shadow: 0 0 8px #ff0000; }
 .nav-icon { font-size: 20px; margin-bottom: 2px; }
 
-/* EXPLORE POPUP */
+/* POPUP */
 .explore-popup {
     display: none; position: fixed; bottom: 75px; left: 50%; transform: translateX(-50%);
     background: rgba(0, 0, 0, 0.98); border: 1px solid #ff0000; padding: 15px;
@@ -129,3 +148,4 @@ footer p { color: #555; font-size: 0.7rem; }
     z-index: 900; opacity: 0; visibility: hidden; transition: 0.3s;
 }
 .search-overlay.active { opacity: 1; visibility: visible; }
+        
