@@ -4,10 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Max World Hub | MW Hub - Watch Anime & Movies Online</title>
+    
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#000000">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
     <link rel="icon" type="image/png" href="assets/logo.png">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+    
     <link rel="stylesheet" href="index-style.css">
 </head>
 <body>
@@ -16,7 +21,7 @@
 
     <header>
         <div class="logo-section">
-            <img src="assets/logo.png" alt="MW Hub Logo" class="main-logo">
+            <img src="assets/logo.png" alt="MW Hub Logo" class="main-logo" loading="lazy">
             <h1 class="brand-name">MAX WORLD <span class="neon-red-text">HUB</span></h1>
         </div>
     </header>
@@ -24,12 +29,12 @@
     <div class="glass-container">
         <input type="text" id="searchInput" class="search-box" placeholder="Search Anime, Movies or Series..." onfocus="toggleSearch(true)">
 
-        <div id="searchResultsArea" class="search-results-grid"></div>
+        <div id="searchResultsArea" class="search-grid-container" style="display: none; position: relative; z-index: 999;"></div>
 
         <div id="mainContentBody">
             <div class="foggy-tags-container">
                 <a href="#movies" class="foggy-tag">🎬 Movies</a>
-                <a href="#series" class="foggy-tag">📺 Series</a>
+                <a href="#series" class="foggy-tag">📺 Web Series</a>
                 <a href="#fantasy" class="foggy-tag">🪄 Fantasy</a>
                 <a href="#action" class="foggy-tag">⚔️ Action</a>
                 <a href="#adventure" class="foggy-tag">🗺️ Adventure</a>
@@ -43,87 +48,113 @@
             <div class="swiper mySwiper" id="heroSlider">
                 <div class="slider-trending-tag">Trending</div>
                 <div class="swiper-wrapper">
-                    <div class="swiper-slide"><a href="#"><img src="assets/A.O.T bannar.jpeg" alt="Slide 1"></a></div>
-                    <div class="swiper-slide"><a href="#"><img src="assets/S.L Bannar.jpeg" alt="Slide 2"></a></div>
-                    <div class="swiper-slide"><a href="#"><img src="assets/D.S movie.jpeg" alt="Slide 3"></a></div>
-                    <div class="swiper-slide"><a href="#"><img src="assets/banner4.jpg" alt="Slide 4"></a></div>
-                    <div class="swiper-slide"><a href="#"><img src="assets/banner5.jpg" alt="Slide 5"></a></div>
+                    <div class="swiper-slide"><img src="assets/A.O.T bannar.jpeg" alt="attack on Titan"></div>
+                    <div class="swiper-slide"><img src="assets/S.L Bannar.jpeg" alt="solo leveling"></div>
+                    <div class="swiper-slide"><img src="assets/D.S movie.jpeg" alt="demons layer infinity castle"></div>
+                    <div class="swiper-slide"><img src="assets/D.N bannar.jpeg" alt="death Note"></div>
+                    <div class="swiper-slide"><img src="assets/T.R bannar.jpeg" alt="Tokyo revengerr"></div>
                 </div>
                 <div class="swiper-pagination"></div>
             </div>
 
             <section id="trending" class="content-section">
                 <h2 class="section-title">🔥 TRENDING NOW</h2>
-                <div class="horizontal-grid" id="trending-grid"></div>
+                <div class="grid-container" id="trending-grid"></div>
+                <a href="page2.html#trending" class="show-more-btn">Show More</a>
             </section>
 
             <section id="movies" class="content-section">
                 <h2 class="section-title">🎬 LATEST MOVIES</h2>
-                <div class="horizontal-grid" id="movies-grid"></div>
-            </section>
-
-            <section id="series" class="content-section">
-                <h2 class="section-title">📺 TOP WEB SERIES</h2>
-                <div class="horizontal-grid" id="series-grid"></div>
+                <div class="grid-container" id="movies-grid"></div>
+                <a href="page2.html#movies" class="show-more-btn">Show More</a>
             </section>
 
             <section id="fantasy" class="content-section">
                 <h2 class="section-title">🪄 FANTASY</h2>
-                <div class="horizontal-grid" id="fantasy-grid"></div>
+                <div class="grid-container" id="fantasy-grid"></div>
+                <a href="page2.html#fantasy" class="show-more-btn">Show More</a>
+            </section>
+
+            <section id="series" class="content-section">
+                <h2 class="section-title">📺 TOP WEB SERIES</h2>
+                <div class="grid-container" id="series-grid"></div>
+                <a href="page2.html#series" class="show-more-btn">Show More</a>
             </section>
 
             <section id="action" class="content-section">
                 <h2 class="section-title">⚔️ ACTION ANIME</h2>
-                <div class="horizontal-grid" id="action-grid"></div>
+                <div class="grid-container" id="action-grid"></div>
+                <a href="page2.html#action" class="show-more-btn">Show More</a>
             </section>
-
+            
             <section id="adventure" class="content-section">
                 <h2 class="section-title">🗺️ ADVENTURE</h2>
-                <div class="horizontal-grid" id="adventure-grid"></div>
+                <div class="grid-container" id="adventure-grid"></div>
+                <a href="page2.html#adventure" class="show-more-btn">Show More</a>
             </section>
 
             <section id="romance" class="content-section">
                 <h2 class="section-title">💖 ROMANCE</h2>
-                <div class="horizontal-grid" id="romance-grid"></div>
+                <div class="grid-container" id="romance-grid"></div>
+                <a href="page2.html#romance" class="show-more-btn">Show More</a>
             </section>
 
             <section id="scifi" class="content-section">
                 <h2 class="section-title">🚀 SCI-FI</h2>
-                <div class="horizontal-grid" id="scifi-grid"></div>
+                <div class="grid-container" id="scifi-grid"></div>
+                <a href="page2.html#scifi" class="show-more-btn">Show More</a>
             </section>
 
             <section id="horror" class="content-section">
                 <h2 class="section-title">👻 HORROR</h2>
-                <div class="horizontal-grid" id="horror-grid"></div>
+                <div class="grid-container" id="horror-grid"></div>
+                <a href="page2.html#horror" class="show-more-btn">Show More</a>
             </section>
 
             <section id="comedy" class="content-section">
                 <h2 class="section-title">😂 COMEDY</h2>
-                <div class="horizontal-grid" id="comedy-grid"></div>
+                <div class="grid-container" id="comedy-grid"></div>
+                <a href="page2.html#comedy" class="show-more-btn">Show More</a>
             </section>
 
             <section id="drama" class="content-section">
                 <h2 class="section-title">🎭 DRAMA</h2>
-                <div class="horizontal-grid" id="drama-grid"></div>
+                <div class="grid-container" id="drama-grid"></div>
+                <a href="page2.html#drama" class="show-more-btn">Show More</a>
             </section>
 
             <div class="footer-desc">
                 <p>Max World Hub is your ultimate destination for high-quality Anime and Movies.</p>
-                <p style="color:#555; font-size:10px; margin-top:10px;">&copy; 2026 Max World Hub</p>
             </div>
         </div>
     </div>
 
+    <div id="explorePopup" class="explore-popup">
+        <a href="#movies" onclick="toggleExplore()">🎬 Movies</a>
+        <a href="#trending" onclick="toggleExplore()">⛩️ Anime</a>
+        <a href="#series" onclick="toggleExplore()">📺 Series</a>
+        <a href="#fantasy" onclick="toggleExplore()">🪄 Fantasy</a>
+    </div>
+
     <nav class="bottom-nav">
-        <div class="nav-item" onclick="toggleExplore()"><span class="nav-icon">🧭</span><span>Explore</span></div>
+        <div class="nav-item" id="exploreBtn" onclick="toggleExplore()"><span class="nav-icon">🧭</span><span>Explore</span></div>
         <div class="nav-item active" onclick="window.scrollTo({top:0, behavior:'smooth'})"><span class="nav-icon">🏠</span><span>Home</span></div>
         <div class="nav-item" onclick="location.href='me.html'"><span class="nav-icon">👤</span><span>Me</span></div>
     </nav>
 
-    <script src="trending-data.js"></script>
-    <script src="library-data.js"></script>
+    <footer>
+        <div class="footer-links">
+            <a href="#">About Us</a>
+            <a href="#">Disclaimer</a>
+            <a href="#">Support</a>
+            <a href="https://youtube.com/@tntnas5534?si=dRnSqlYMuksezBOI" target="_blank">YouTube Channel</a>
+        </div>
+        <p>© 2026 Max World (MW Hub). All Rights Reserved.</p>
+    </footer>
+
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="anime-data.js"></script> 
     <script src="index-script.js"></script>
 </body>
-                                                                  </html>
-        
+                </html>
+                                                                                                           
