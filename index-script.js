@@ -94,3 +94,4 @@ searchInput.addEventListener('input', function() {
         searchResultsArea.style.display = "none";
     }
 });
+    
