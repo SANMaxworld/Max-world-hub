@@ -1,15 +1,14 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&family=Roboto:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap');
 
 /* GLOBAL SETTINGS */
 * { 
     margin: 0; padding: 0; box-sizing: border-box; 
     -webkit-tap-highlight-color: transparent; 
     user-select: none; 
-    -webkit-user-select: none; 
 }
 
-/* Allow typing in search only */
-input { user-select: text !important; -webkit-user-select: text !important; }
+/* Allow typing in search */
+input { user-select: text !important; }
 
 html { scroll-behavior: smooth; }
 body {
@@ -54,27 +53,42 @@ header {
 }
 .foggy-tag:hover { color: #fff; text-shadow: 0 0 15px #fff; transform: scale(1.1); }
 
-/* SWIPER SLIDER */
-.swiper { width: 100%; height: 180px; border-radius: 15px; margin-bottom: 25px; border: 1px solid rgba(255,255,255,0.1); overflow: hidden; position: relative; }
-.swiper-slide img { width: 100%; height: 100%; object-fit: cover; }
-.slider-trending-tag {
-    position: absolute; top: 10px; right: 10px; background: #ff0000;
-    color: #fff; font-size: 0.65rem; font-weight: 800; padding: 4px 8px;
-    border-radius: 4px; z-index: 10; box-shadow: 0 0 10px rgba(255,0,0,0.5);
-    text-transform: uppercase;
+/* HORIZONTAL SCROLL FOR SECTIONS */
+.horizontal-grid {
+    display: flex;
+    overflow-x: auto;
+    gap: 10px;
+    padding: 10px 0;
+    scrollbar-width: none;
+}
+.horizontal-grid::-webkit-scrollbar { display: none; }
+
+/* Card behavior inside horizontal scroll */
+.horizontal-grid .search-item {
+    min-width: 110px; 
+    max-width: 110px;
+    flex-shrink: 0;
 }
 
-/* CONTENT SECTIONS */
-.content-section { scroll-margin-top: 85px; margin-bottom: 40px; }
-.section-title { font-size: 1.1rem; font-weight: 800; margin-bottom: 15px; color: #fff; border-left: 4px solid #ff0000; padding-left: 10px; }
-
-/* 3 CARDS PER ROW GRID */
-.grid-container { 
-    display: grid; 
-    grid-template-columns: repeat(3, 1fr); /* 3 cards fit honge */
-    gap: 8px; 
+/* SEARCH RESULTS (ALWAYS 3-COLUMN GRID) */
+.search-results-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    padding: 15px 0;
+    z-index: 999;
+    position: relative;
 }
 
+.no-result-text {
+    color: rgba(255,255,255,0.4);
+    text-align: center;
+    padding: 20px;
+    grid-column: span 3;
+    font-size: 0.8rem;
+}
+
+/* CARDS DESIGN */
 .search-item {
     background: rgba(255,255,255,0.05); border-radius: 8px; overflow: hidden;
     border: 1px solid rgba(255,255,255,0.1); display: flex; flex-direction: column;
@@ -88,59 +102,28 @@ header {
 }
 
 .icon-poster { width: 100%; aspect-ratio: 2/3; object-fit: cover; border-bottom: 1px solid #ff0000; }
-
 .content-box { padding: 6px 4px; text-align: center; }
-
-/* TITLE - Chota font taaki 3 grid mein space bane */
-.content-box h4 { 
-    font-size: 0.7rem; 
-    color: #fff; 
-    white-space: nowrap; 
-    overflow: hidden; 
-    text-overflow: ellipsis; 
-}
-
-/* DESC TEXT - Thoda sa aur chota taaki clean dikhe */
+.content-box h4 { font-size: 0.7rem; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .desc-text { font-size: 0.6rem; color: #bbb; margin-top: 2px; }
 
-/* SHOW MORE BUTTON */
-.show-more-btn {
-    display: block; width: fit-content; margin: 15px auto 0;
-    padding: 6px 18px; background: #ff0000; color: white;
-    text-decoration: none; font-size: 0.7rem; font-weight: 800;
-    border-radius: 50px; text-transform: uppercase;
-    box-shadow: 0 4px 10px rgba(255, 0, 0, 0.3); transition: 0.3s;
-}
+/* SWIPER */
+.swiper { width: 100%; height: 180px; border-radius: 15px; margin-bottom: 25px; border: 1px solid rgba(255,255,255,0.1); overflow: hidden; position: relative; }
+.swiper-slide img { width: 100%; height: 100%; object-fit: cover; }
+.slider-trending-tag { position: absolute; top: 10px; right: 10px; background: #ff0000; color: #fff; font-size: 0.65rem; font-weight: 800; padding: 4px 8px; border-radius: 4px; z-index: 10; text-transform: uppercase; }
+
+/* CONTENT TITLES */
+.content-section { scroll-margin-top: 85px; margin-bottom: 40px; }
+.section-title { font-size: 1.1rem; font-weight: 800; margin-bottom: 15px; color: #fff; border-left: 4px solid #ff0000; padding-left: 10px; }
 
 /* BOTTOM NAV */
 .bottom-nav {
     position: fixed; bottom: 0; left: 0; width: 100%; height: 65px;
     background: rgba(0, 0, 0, 0.95); backdrop-filter: blur(10px);
-    border-top: 2px solid #ff0000; 
-    box-shadow: 0 -5px 15px rgba(255, 0, 0, 0.3);
-    display: flex; justify-content: space-around; align-items: center; z-index: 2000;
+    border-top: 2px solid #ff0000; display: flex; justify-content: space-around; align-items: center; z-index: 2000;
 }
-.nav-item { display: flex; flex-direction: column; align-items: center; color: #888; font-size: 10px; cursor: pointer; }
-.nav-item.active { color: #ff0000; text-shadow: 0 0 8px #ff0000; }
-.nav-icon { font-size: 20px; margin-bottom: 2px; }
-
-/* POPUP */
-.explore-popup {
-    display: none; position: fixed; bottom: 75px; left: 50%; transform: translateX(-50%);
-    background: rgba(0, 0, 0, 0.98); border: 1px solid #ff0000; padding: 15px;
-    border-radius: 15px; flex-direction: column; gap: 12px; z-index: 2001; min-width: 180px;
-    box-shadow: 0 0 30px rgba(255, 0, 0, 0.4);
-}
-.explore-popup.show { display: flex; animation: slideUp 0.3s ease; }
-@keyframes slideUp { from { opacity: 0; transform: translate(-50%, 10px); } to { opacity: 1; transform: translate(-50%, 0); } }
-.explore-popup a { color: white; text-decoration: none; font-weight: 600; text-align: center; font-size: 14px; padding: 8px; border-bottom: 1px solid rgba(255,255,255,0.1); }
-.explore-popup a:last-child { border-bottom: none; }
-
-/* FOOTER */
-footer { padding: 30px 20px 100px; text-align: center; border-top: 1px solid rgba(255,255,255,0.05); }
-.footer-links { display: flex; justify-content: center; gap: 15px; margin-bottom: 12px; }
-.footer-links a { color: #ffffff !important; text-decoration: none; font-size: 0.8rem; }
-footer p { color: #555; font-size: 0.7rem; }
+.nav-item { display: flex; flex-direction: column; align-items: center; color: #888; font-size: 10px; }
+.nav-item.active { color: #ff0000; }
+.nav-icon { font-size: 20px; }
 
 .search-overlay {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -148,4 +131,4 @@ footer p { color: #555; font-size: 0.7rem; }
     z-index: 900; opacity: 0; visibility: hidden; transition: 0.3s;
 }
 .search-overlay.active { opacity: 1; visibility: visible; }
-        
+
