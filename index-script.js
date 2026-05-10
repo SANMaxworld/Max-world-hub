@@ -1,54 +1,28 @@
-// Initialize Swiper Slider
-var swiper = new Swiper(".mySwiper", { 
-    pagination: { el: ".swiper-pagination", clickable: true }, 
-    autoplay: { delay: 3000, disableOnInteraction: false }, 
-    loop: true, 
-    grabCursor: true 
-});
-
-// SIMPLE EXPLORE POPUP LOGIC
-function toggleExplore() { 
-    const pop = document.getElementById('explorePopup'); 
-    if (pop.style.display === "flex") {
-        pop.style.display = "none";
-        pop.classList.remove('show');
-    } else {
-        pop.style.display = "flex";
-        pop.classList.add('show');
-    }
-}
-
-// SEARCH UI LOGIC
-function toggleSearch(isFocus) { 
-    const overlay = document.getElementById('searchOverlay'); 
-    if(isFocus) {
-        overlay.classList.add('active');
-    } else {
-        overlay.classList.remove('active');
-        document.getElementById('searchInput').blur();
-    }
-}
-
-// --- UPDATED CARD GENERATOR (Matches Image Layout) ---
+// --- CARD RENDER ENGINE ---
 function createCardHTML(anime) {
+    // Title clean up (Remove [Hindi] from text if badge is there)
+    let displayTitle = anime.title.replace('[Hindi]', '').replace('[English]', '').trim();
+    
     return `
     <a href="${anime.link}" class="search-item">
         <span class="badge-hindi">${anime.lang}</span>
         <img src="${anime.img}" class="icon-poster" loading="lazy">
         <div class="content-box">
-            <h4>${anime.title}</h4>
+            <h4>${displayTitle}</h4>
         </div>
     </a>`;
 }
 
 function renderAnimeHub() {
+    // List of categories based on your HTML IDs
     const categories = ['trending', 'movies', 'fantasy', 'series', 'action', 'adventure', 'romance', 'scifi', 'horror', 'comedy', 'drama'];
 
     categories.forEach(cat => {
         const grid = document.getElementById(`${cat}-grid`);
         if (grid) {
-            grid.innerHTML = '';
+            grid.innerHTML = ''; // Clear old content
             const items = animeLibrary.filter(anime => anime.category === cat);
+            
             items.forEach(anime => {
                 grid.innerHTML += createCardHTML(anime);
             });
@@ -56,42 +30,32 @@ function renderAnimeHub() {
     });
 }
 
-// Auto Load on Start
-document.addEventListener('DOMContentLoaded', renderAnimeHub);
-
-// DATA-DRIVEN SEARCH LOGIC
+// SEARCH LOGIC
 const searchInput = document.getElementById('searchInput');
 const searchResultsArea = document.getElementById('searchResultsArea');
 const mainContentBody = document.getElementById('mainContentBody');
 
 searchInput.addEventListener('input', function() {
-    const query = searchInput.value.toLowerCase();
+    const query = searchInput.value.toLowerCase().trim();
     if (query.length > 0) {
         mainContentBody.style.display = "none";
         searchResultsArea.style.display = "grid"; 
+        searchResultsArea.style.gridTemplateColumns = "repeat(auto-fill, minmax(110px, 1fr))";
         searchResultsArea.innerHTML = "";
         
-        const uniqueTitles = new Set();
-        const filtered = animeLibrary.filter(anime => {
-            if(anime.title.toLowerCase().includes(query)) {
-                if(!uniqueTitles.has(anime.title)) {
-                    uniqueTitles.add(anime.title);
-                    return true;
-                }
-            }
-            return false;
-        });
+        const filtered = animeLibrary.filter(anime => 
+            anime.title.toLowerCase().includes(query)
+        );
 
-        if (filtered.length > 0) {
-            filtered.forEach(anime => {
-                searchResultsArea.innerHTML += createCardHTML(anime);
-            });
-        } else {
-            searchResultsArea.innerHTML = "<p style='text-align:center; grid-column: 1/-1; padding: 20px; color:rgba(255,255,255,0.5);'>No results found.</p>";
-        }
+        filtered.forEach(anime => {
+            searchResultsArea.innerHTML += createCardHTML(anime);
+        });
     } else {
         mainContentBody.style.display = "block";
         searchResultsArea.style.display = "none";
     }
 });
-    
+
+// Initial Load
+document.addEventListener('DOMContentLoaded', renderAnimeHub);
+
