@@ -29,7 +29,7 @@
     <div class="glass-container">
         <input type="text" id="searchInput" class="search-box" placeholder="Search Anime, Movies or Series..." onfocus="toggleSearch(true)">
 
-        <div id="searchResultsArea" class="search-grid-container" style="display: none;"></div>
+        <div id="searchResultsArea" class="search-results-grid" style="display: none;"></div>
 
         <div id="mainContentBody">
             <div class="foggy-tags-container">
@@ -39,11 +39,6 @@
                 <a href="#fantasy" class="foggy-tag">🪄 Fantasy</a>
                 <a href="#action" class="foggy-tag">⚔️ Action</a>
                 <a href="#adventure" class="foggy-tag">🗺️ Adventure</a>
-                <a href="#romance" class="foggy-tag">💖 Romance</a>
-                <a href="#scifi" class="foggy-tag">🚀 Sci-Fi</a>
-                <a href="#horror" class="foggy-tag">👻 Horror</a>
-                <a href="#comedy" class="foggy-tag">😂 Comedy</a>
-                <a href="#drama" class="foggy-tag">🎭 Drama</a>
             </div>
 
             <div class="swiper mySwiper" id="heroSlider">
@@ -59,7 +54,7 @@
             <section id="trending" class="content-section">
                 <div class="section-header">
                     <h2 class="section-title">🔥 TRENDING NOW</h2>
-                    <a href="page2.html#trending" class="view-all">All <i class="fa-solid fa-chevron-right"></i></a>
+                    <a href="#" class="view-all">See All</a>
                 </div>
                 <div class="grid-container" id="trending-grid"></div>
             </section>
@@ -67,7 +62,7 @@
             <section id="movies" class="content-section">
                 <div class="section-header">
                     <h2 class="section-title">🎬 LATEST MOVIES</h2>
-                    <a href="page2.html#movies" class="view-all">All <i class="fa-solid fa-chevron-right"></i></a>
+                    <a href="#" class="view-all">See All</a>
                 </div>
                 <div class="grid-container" id="movies-grid"></div>
             </section>
@@ -75,33 +70,25 @@
             <section id="fantasy" class="content-section">
                 <div class="section-header">
                     <h2 class="section-title">🪄 FANTASY</h2>
-                    <a href="page2.html#fantasy" class="view-all">All <i class="fa-solid fa-chevron-right"></i></a>
+                    <a href="#" class="view-all">See All</a>
                 </div>
                 <div class="grid-container" id="fantasy-grid"></div>
             </section>
 
+            <section id="series" class="content-section">
+                <div class="section-header">
+                    <h2 class="section-title">📺 TOP WEB SERIES</h2>
+                    <a href="#" class="view-all">See All</a>
+                </div>
+                <div class="grid-container" id="series-grid"></div>
+            </section>
+
             <section id="action" class="content-section">
                 <div class="section-header">
-                    <h2 class="section-title">⚔️ ACTION</h2>
-                    <a href="page2.html#action" class="view-all">All <i class="fa-solid fa-chevron-right"></i></a>
+                    <h2 class="section-title">⚔️ ACTION ANIME</h2>
+                    <a href="#" class="view-all">See All</a>
                 </div>
                 <div class="grid-container" id="action-grid"></div>
-            </section>
-
-            <section id="adventure" class="content-section">
-                <div class="section-header">
-                    <h2 class="section-title">🗺️ ADVENTURE</h2>
-                    <a href="page2.html#adventure" class="view-all">All <i class="fa-solid fa-chevron-right"></i></a>
-                </div>
-                <div class="grid-container" id="adventure-grid"></div>
-            </section>
-
-            <section id="romance" class="content-section">
-                <div class="section-header">
-                    <h2 class="section-title">💖 ROMANCE</h2>
-                    <a href="page2.html#romance" class="view-all">All <i class="fa-solid fa-chevron-right"></i></a>
-                </div>
-                <div class="grid-container" id="romance-grid"></div>
             </section>
 
             <div class="footer-desc">
@@ -118,21 +105,14 @@
     </div>
 
     <nav class="bottom-nav">
-        <div class="nav-item" onclick="toggleExplore()"><i class="fa-solid fa-compass nav-icon"></i><span>Explore</span></div>
-        <div class="nav-item active" onclick="window.scrollTo({top:0, behavior:'smooth'})"><i class="fa-solid fa-house nav-icon"></i><span>Home</span></div>
-        <div class="nav-item" onclick="location.href='me.html'"><i class="fa-solid fa-user nav-icon"></i><span>Me</span></div>
+        <div class="nav-item" onclick="toggleExplore()"><span class="nav-icon">🧭</span><span>Explore</span></div>
+        <div class="nav-item active" onclick="window.scrollTo({top:0, behavior:'smooth'})"><span class="nav-icon">🏠</span><span>Home</span></div>
+        <div class="nav-item" onclick="location.href='me.html'"><span class="nav-icon">👤</span><span>Me</span></div>
     </nav>
-
-    <footer>
-        <div class="footer-links">
-            <a href="#">About</a> | <a href="#">Disclaimer</a> | <a href="#">Support</a>
-        </div>
-        <p>© 2026 Max World Hub. Crafted for Fans.</p>
-    </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="anime-data.js"></script>
     <script src="index-script.js"></script>
 </body>
-</html>
+                                                                                    </html>
 
