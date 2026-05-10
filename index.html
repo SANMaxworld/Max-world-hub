@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Max World Hub | MW Hub - Watch Anime & Movies Online</title>
     
     <link rel="manifest" href="manifest.json">
@@ -11,8 +11,8 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
 
     <link rel="icon" type="image/png" href="assets/logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
-    
     <link rel="stylesheet" href="index-style.css">
 </head>
 <body>
@@ -29,10 +29,11 @@
     <div class="glass-container">
         <input type="text" id="searchInput" class="search-box" placeholder="Search Anime, Movies or Series..." onfocus="toggleSearch(true)">
 
-        <div id="searchResultsArea" class="search-grid-container" style="display: none; position: relative; z-index: 999;"></div>
+        <div id="searchResultsArea" class="search-grid-container" style="display: none;"></div>
 
         <div id="mainContentBody">
             <div class="foggy-tags-container">
+                <a href="#trending" class="foggy-tag">🔥 Trending</a>
                 <a href="#movies" class="foggy-tag">🎬 Movies</a>
                 <a href="#series" class="foggy-tag">📺 Web Series</a>
                 <a href="#fantasy" class="foggy-tag">🪄 Fantasy</a>
@@ -48,79 +49,59 @@
             <div class="swiper mySwiper" id="heroSlider">
                 <div class="slider-trending-tag">Trending</div>
                 <div class="swiper-wrapper">
-                    <div class="swiper-slide"><img src="assets/A.O.T bannar.jpeg" alt="attack on Titan"></div>
-                    <div class="swiper-slide"><img src="assets/S.L Bannar.jpeg" alt="solo leveling"></div>
-                    <div class="swiper-slide"><img src="assets/D.S movie.jpeg" alt="demons layer infinity castle"></div>
-                    <div class="swiper-slide"><img src="assets/D.N bannar.jpeg" alt="death Note"></div>
-                    <div class="swiper-slide"><img src="assets/T.R bannar.jpeg" alt="Tokyo revengerr"></div>
+                    <div class="swiper-slide"><img src="assets/A.O.T bannar.jpeg" alt="AOT"></div>
+                    <div class="swiper-slide"><img src="assets/S.L Bannar.jpeg" alt="Solo Leveling"></div>
+                    <div class="swiper-slide"><img src="assets/D.S movie.jpeg" alt="Demon Slayer"></div>
                 </div>
                 <div class="swiper-pagination"></div>
             </div>
 
             <section id="trending" class="content-section">
-                <h2 class="section-title">🔥 TRENDING NOW</h2>
+                <div class="section-header">
+                    <h2 class="section-title">🔥 TRENDING NOW</h2>
+                    <a href="page2.html#trending" class="view-all">All <i class="fa-solid fa-chevron-right"></i></a>
+                </div>
                 <div class="grid-container" id="trending-grid"></div>
-                <a href="page2.html#trending" class="show-more-btn">Show More</a>
             </section>
 
             <section id="movies" class="content-section">
-                <h2 class="section-title">🎬 LATEST MOVIES</h2>
+                <div class="section-header">
+                    <h2 class="section-title">🎬 LATEST MOVIES</h2>
+                    <a href="page2.html#movies" class="view-all">All <i class="fa-solid fa-chevron-right"></i></a>
+                </div>
                 <div class="grid-container" id="movies-grid"></div>
-                <a href="page2.html#movies" class="show-more-btn">Show More</a>
             </section>
 
             <section id="fantasy" class="content-section">
-                <h2 class="section-title">🪄 FANTASY</h2>
+                <div class="section-header">
+                    <h2 class="section-title">🪄 FANTASY</h2>
+                    <a href="page2.html#fantasy" class="view-all">All <i class="fa-solid fa-chevron-right"></i></a>
+                </div>
                 <div class="grid-container" id="fantasy-grid"></div>
-                <a href="page2.html#fantasy" class="show-more-btn">Show More</a>
-            </section>
-
-            <section id="series" class="content-section">
-                <h2 class="section-title">📺 TOP WEB SERIES</h2>
-                <div class="grid-container" id="series-grid"></div>
-                <a href="page2.html#series" class="show-more-btn">Show More</a>
             </section>
 
             <section id="action" class="content-section">
-                <h2 class="section-title">⚔️ ACTION ANIME</h2>
+                <div class="section-header">
+                    <h2 class="section-title">⚔️ ACTION</h2>
+                    <a href="page2.html#action" class="view-all">All <i class="fa-solid fa-chevron-right"></i></a>
+                </div>
                 <div class="grid-container" id="action-grid"></div>
-                <a href="page2.html#action" class="show-more-btn">Show More</a>
             </section>
-            
+
             <section id="adventure" class="content-section">
-                <h2 class="section-title">🗺️ ADVENTURE</h2>
+                <div class="section-header">
+                    <h2 class="section-title">🗺️ ADVENTURE</h2>
+                    <a href="page2.html#adventure" class="view-all">All <i class="fa-solid fa-chevron-right"></i></a>
+                </div>
                 <div class="grid-container" id="adventure-grid"></div>
-                <a href="page2.html#adventure" class="show-more-btn">Show More</a>
             </section>
 
             <section id="romance" class="content-section">
-                <h2 class="section-title">💖 ROMANCE</h2>
+                <div class="section-header">
+                    <h2 class="section-title">💖 ROMANCE</h2>
+                    <a href="page2.html#romance" class="view-all">All <i class="fa-solid fa-chevron-right"></i></a>
+                </div>
                 <div class="grid-container" id="romance-grid"></div>
-                <a href="page2.html#romance" class="show-more-btn">Show More</a>
-            </section>
-
-            <section id="scifi" class="content-section">
-                <h2 class="section-title">🚀 SCI-FI</h2>
-                <div class="grid-container" id="scifi-grid"></div>
-                <a href="page2.html#scifi" class="show-more-btn">Show More</a>
-            </section>
-
-            <section id="horror" class="content-section">
-                <h2 class="section-title">👻 HORROR</h2>
-                <div class="grid-container" id="horror-grid"></div>
-                <a href="page2.html#horror" class="show-more-btn">Show More</a>
-            </section>
-
-            <section id="comedy" class="content-section">
-                <h2 class="section-title">😂 COMEDY</h2>
-                <div class="grid-container" id="comedy-grid"></div>
-                <a href="page2.html#comedy" class="show-more-btn">Show More</a>
-            </section>
-
-            <section id="drama" class="content-section">
-                <h2 class="section-title">🎭 DRAMA</h2>
-                <div class="grid-container" id="drama-grid"></div>
-                <a href="page2.html#drama" class="show-more-btn">Show More</a>
             </section>
 
             <div class="footer-desc">
@@ -137,24 +118,21 @@
     </div>
 
     <nav class="bottom-nav">
-        <div class="nav-item" id="exploreBtn" onclick="toggleExplore()"><span class="nav-icon">🧭</span><span>Explore</span></div>
-        <div class="nav-item active" onclick="window.scrollTo({top:0, behavior:'smooth'})"><span class="nav-icon">🏠</span><span>Home</span></div>
-        <div class="nav-item" onclick="location.href='me.html'"><span class="nav-icon">👤</span><span>Me</span></div>
+        <div class="nav-item" onclick="toggleExplore()"><i class="fa-solid fa-compass nav-icon"></i><span>Explore</span></div>
+        <div class="nav-item active" onclick="window.scrollTo({top:0, behavior:'smooth'})"><i class="fa-solid fa-house nav-icon"></i><span>Home</span></div>
+        <div class="nav-item" onclick="location.href='me.html'"><i class="fa-solid fa-user nav-icon"></i><span>Me</span></div>
     </nav>
 
     <footer>
         <div class="footer-links">
-            <a href="#">About Us</a>
-            <a href="#">Disclaimer</a>
-            <a href="#">Support</a>
-            <a href="https://youtube.com/@tntnas5534?si=dRnSqlYMuksezBOI" target="_blank">YouTube Channel</a>
+            <a href="#">About</a> | <a href="#">Disclaimer</a> | <a href="#">Support</a>
         </div>
-        <p>© 2026 Max World (MW Hub). All Rights Reserved.</p>
+        <p>© 2026 Max World Hub. Crafted for Fans.</p>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-    <script src="anime-data.js"></script> 
+    <script src="anime-data.js"></script>
     <script src="index-script.js"></script>
 </body>
-                </html>
-                                                                                                           
+</html>
+
