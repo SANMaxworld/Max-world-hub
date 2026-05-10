@@ -1,80 +1,99 @@
-function toggleSearch(show) {
-    const overlay = document.getElementById('searchOverlay');
-    const results = document.getElementById('searchResultsArea');
-    const content = document.getElementById('mainContentBody');
-    const input = document.getElementById('searchInput');
-
-    if (show) {
-        overlay.style.display = 'block';
-        results.style.display = 'grid';
-        content.style.display = 'none'; 
-        window.scrollTo(0, 0);
-    } else {
-        overlay.style.display = 'none';
-        results.style.display = 'none';
-        content.style.display = 'block'; 
-        input.value = '';
-        results.innerHTML = '';
-    }
-}
-
-function mwHubEngine() {
-    new Swiper(".mySwiper", {
-        pagination: { el: ".swiper-pagination", clickable: true },
-        autoplay: { delay: 3500, disableOnInteraction: false },
-        loop: true
-    });
-
-    // Load Trending
-    const tGrid = document.getElementById('trending-grid');
-    if(typeof trendingData !== 'undefined') {
-        trendingData.forEach(item => tGrid.innerHTML += createCard(item));
-    }
-
-    // Load Categories
-    if(typeof fullLibraryData !== 'undefined') {
-        fullLibraryData.forEach(item => {
-            const grid = document.getElementById(`${item.category}-grid`);
-            if(grid) grid.innerHTML += createCard(item);
-        });
-    }
-}
-
-function createCard(item) {
-    return `
-        <a href="${item.link}" class="search-item">
-            <span class="badge-hindi">${item.lang}</span>
-            <img src="${item.img}" class="icon-poster" loading="lazy">
-            <div class="content-box">
-                <h4>${item.title}</h4>
-                <p class="desc-text">${item.desc}</p>
-            </div>
-        </a>`;
-}
-
-document.getElementById('searchInput').addEventListener('input', (e) => {
-    const term = e.target.value.toLowerCase();
-    const resultsArea = document.getElementById('searchResultsArea');
-    
-    if (term.length > 0) {
-        const filtered = fullLibraryData.filter(item => 
-            item.title.toLowerCase().includes(term) || 
-            item.category.toLowerCase().includes(term)
-        );
-        resultsArea.innerHTML = ''; 
-        if (filtered.length > 0) {
-            filtered.forEach(item => resultsArea.innerHTML += createCard(item));
-        } else {
-            resultsArea.innerHTML = '<div style="grid-column: span 3; text-align:center; color:rgba(255,255,255,0.4); margin-top:50px;">No results found... 🛑</div>';
-        }
-    } else {
-        resultsArea.innerHTML = '';
-    }
+// Initialize Swiper Slider
+var swiper = new Swiper(".mySwiper", { 
+    pagination: { el: ".swiper-pagination", clickable: true }, 
+    autoplay: { delay: 3000, disableOnInteraction: false }, 
+    loop: true, 
+    grabCursor: true 
 });
 
-function toggleExplore() {
-    window.scrollTo({top: 400, behavior: 'smooth'});
+// SIMPLE EXPLORE POPUP LOGIC
+function toggleExplore() { 
+    const pop = document.getElementById('explorePopup'); 
+    if (pop.style.display === "flex") {
+        pop.style.display = "none";
+        pop.classList.remove('show');
+    } else {
+        pop.style.display = "flex";
+        pop.classList.add('show');
+    }
 }
 
-window.onload = mwHubEngine;
+// SEARCH UI LOGIC
+function toggleSearch(isFocus) { 
+    const overlay = document.getElementById('searchOverlay'); 
+    if(isFocus) {
+        overlay.classList.add('active');
+    } else {
+        overlay.classList.remove('active');
+        document.getElementById('searchInput').blur();
+    }
+}
+
+// --- NEW UPGRADED AUTO-RENDER SYSTEM ---
+function createCardHTML(anime) {
+    return `
+    <a href="${anime.link}" class="search-item">
+        <span class="badge-hindi">${anime.lang}</span>
+        <img src="${anime.img}" class="icon-poster" loading="lazy">
+        <div class="content-box">
+            <h4>${anime.title}</h4>
+            <p class="desc-text">${anime.desc}</p>
+        </div>
+    </a>`;
+}
+
+function renderAnimeHub() {
+    const categories = ['trending', 'movies', 'fantasy', 'series', 'action', 'adventure', 'romance', 'scifi', 'horror', 'comedy', 'drama'];
+
+    categories.forEach(cat => {
+        const grid = document.getElementById(`${cat}-grid`);
+        if (grid) {
+            grid.innerHTML = '';
+            const items = animeLibrary.filter(anime => anime.category === cat);
+            items.forEach(anime => {
+                grid.innerHTML += createCardHTML(anime);
+            });
+        }
+    });
+}
+
+// Auto Load on Start
+document.addEventListener('DOMContentLoaded', renderAnimeHub);
+
+// --- NEW DATA-DRIVEN SEARCH LOGIC ---
+const searchInput = document.getElementById('searchInput');
+const searchResultsArea = document.getElementById('searchResultsArea');
+const mainContentBody = document.getElementById('mainContentBody');
+
+searchInput.addEventListener('input', function() {
+    const query = searchInput.value.toLowerCase();
+    if (query.length > 0) {
+        mainContentBody.style.display = "none";
+        searchResultsArea.style.display = "grid"; 
+        searchResultsArea.innerHTML = "";
+        
+        // Remove duplicate results (same anime in different categories)
+        const uniqueTitles = new Set();
+        const filtered = animeLibrary.filter(anime => {
+            if(anime.title.toLowerCase().includes(query)) {
+                if(!uniqueTitles.has(anime.title)) {
+                    uniqueTitles.add(anime.title);
+                    return true;
+                }
+            }
+            return false;
+        });
+
+        if (filtered.length > 0) {
+            filtered.forEach(anime => {
+                searchResultsArea.innerHTML += createCardHTML(anime);
+            });
+        } else {
+            searchResultsArea.innerHTML = "<p style='text-align:center; grid-column: 1/-1; padding: 20px; color:rgba(255,255,255,0.5);'>No results found.</p>";
+        }
+    } else {
+        mainContentBody.style.display = "block";
+        searchResultsArea.style.display = "none";
+    }
+});
 
