@@ -126,18 +126,6 @@
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
         import { getFirestore, doc, getDoc, setDoc, updateDoc, arrayUnion, arrayRemove } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-        // --- NEW LOGIC ADDED HERE (BACK-BUTTON & CACHE FIX) ---
-        history.pushState(null, document.title, location.href);
-        window.addEventListener('popstate', function () {
-            window.location.replace("../index.html"); 
-        });
-        window.addEventListener('pageshow', function(event) {
-            if (event.persisted) {
-                window.location.reload();
-            }
-        });
-        // ------------------------------------------------------
-
         const firebaseConfig = {
             apiKey: "AIzaSyAE_oP6wv4A1UxfEdcT82f4KZkhSBzfH3M",
             authDomain: "mw-hub-59e96.firebaseapp.com",
@@ -248,5 +236,4 @@
         };
     </script>
 </body>
-    </html>
-
+</html>
