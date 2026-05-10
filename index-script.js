@@ -29,7 +29,7 @@ function toggleSearch(isFocus) {
     }
 }
 
-// --- NEW UPGRADED AUTO-RENDER SYSTEM ---
+// --- UPDATED CARD GENERATOR (Matches Image Layout) ---
 function createCardHTML(anime) {
     return `
     <a href="${anime.link}" class="search-item">
@@ -37,7 +37,6 @@ function createCardHTML(anime) {
         <img src="${anime.img}" class="icon-poster" loading="lazy">
         <div class="content-box">
             <h4>${anime.title}</h4>
-            <p class="desc-text">${anime.desc}</p>
         </div>
     </a>`;
 }
@@ -60,7 +59,7 @@ function renderAnimeHub() {
 // Auto Load on Start
 document.addEventListener('DOMContentLoaded', renderAnimeHub);
 
-// --- NEW DATA-DRIVEN SEARCH LOGIC ---
+// DATA-DRIVEN SEARCH LOGIC
 const searchInput = document.getElementById('searchInput');
 const searchResultsArea = document.getElementById('searchResultsArea');
 const mainContentBody = document.getElementById('mainContentBody');
@@ -72,7 +71,6 @@ searchInput.addEventListener('input', function() {
         searchResultsArea.style.display = "grid"; 
         searchResultsArea.innerHTML = "";
         
-        // Remove duplicate results (same anime in different categories)
         const uniqueTitles = new Set();
         const filtered = animeLibrary.filter(anime => {
             if(anime.title.toLowerCase().includes(query)) {
@@ -96,4 +94,3 @@ searchInput.addEventListener('input', function() {
         searchResultsArea.style.display = "none";
     }
 });
-
