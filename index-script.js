@@ -1,66 +1,96 @@
-// --- SWIPER INIT ---
-const swiper = new Swiper('.mySwiper', {
-    loop: true,
-    autoplay: { delay: 3000 },
-    pagination: { el: '.swiper-pagination', clickable: true },
+// Initialize Swiper Slider
+var swiper = new Swiper(".mySwiper", { 
+    pagination: { el: ".swiper-pagination", clickable: true }, 
+    autoplay: { delay: 3000, disableOnInteraction: false }, 
+    loop: true, 
+    grabCursor: true 
 });
 
-// --- RENDER ENGINE ---
-function createCardHTML(anime) {
+// SIMPLE EXPLORE POPUP LOGIC
+function toggleExplore() { 
+    const pop = document.getElementById('explorePopup'); 
+
+    if (pop.style.display === "flex") {
+        pop.style.display = "none";
+        pop.classList.remove('show');
+    } else {
+        pop.style.display = "flex";
+        pop.classList.add('show');
+    }
+}
+
+// SEARCH OVERLAY UI
+function toggleSearch(isFocus) { 
+    const overlay = document.getElementById('searchOverlay'); 
+    if(isFocus) {
+        overlay.classList.add('active');
+    } else {
+        overlay.classList.remove('active');
+        document.getElementById('searchInput').blur();
+    }
+}
+
+// --- CARD GENERATOR FUNCTION ---
+function generateCardHTML(item) {
     return `
-    <a href="${anime.link}" class="search-item">
-        <span class="badge-hindi">${anime.lang || 'HINDI'}</span>
-        <img src="${anime.img}" class="icon-poster" loading="lazy">
+    <a href="${item.link}" class="search-item">
+        <span class="badge-hindi">${item.lang}</span>
+        <img src="${item.img}" class="icon-poster" loading="lazy">
         <div class="content-box">
-            <h4>${anime.title}</h4>
+            <h4>${item.title}</h4>
+            <p class="desc-text">${item.desc}</p>
         </div>
     </a>`;
 }
 
-function renderAnimeHub() {
-    // Categories matching your HTML IDs (-grid suffix)
+// --- INJECT DATA INTO SECTIONS ---
+function loadSections() {
     const categories = ['trending', 'movies', 'fantasy', 'series', 'action', 'adventure', 'romance', 'scifi', 'horror', 'comedy', 'drama'];
-
+    
     categories.forEach(cat => {
-        const grid = document.getElementById(`${cat}-grid`);
+        const grid = document.getElementById(cat + '-grid');
         if (grid) {
-            grid.innerHTML = ''; 
-            // Data filter from animeLibrary (Global)
-            const items = animeLibrary.filter(anime => anime.category === cat);
-            items.forEach(anime => {
-                grid.innerHTML += createCardHTML(anime);
+            // Find items belonging to this category
+            const categoryItems = animeData.filter(item => item.categories.includes(cat));
+            
+            // Generate and inject HTML
+            let htmlContent = '';
+            categoryItems.forEach(item => {
+                htmlContent += generateCardHTML(item);
             });
+            grid.innerHTML = htmlContent;
+            
+            // Hide section if empty
+            if(categoryItems.length === 0) {
+                grid.parentElement.style.display = "none";
+            }
         }
     });
 }
 
-// --- SEARCH SYSTEM ---
+// --- SMART SEARCH FILTERING LOGIC ---
 const searchInput = document.getElementById('searchInput');
 const searchResultsArea = document.getElementById('searchResultsArea');
 const mainContentBody = document.getElementById('mainContentBody');
-const overlay = document.getElementById('searchOverlay');
-
-function toggleSearch(show) {
-    overlay.style.display = show ? 'block' : 'none';
-}
 
 searchInput.addEventListener('input', function() {
     const query = searchInput.value.toLowerCase().trim();
     if (query.length > 0) {
         mainContentBody.style.display = "none";
-        searchResultsArea.style.display = "grid"; 
+        searchResultsArea.style.display = "grid"; // Grid mode for search wrapper
         searchResultsArea.innerHTML = "";
         
-        const filtered = animeLibrary.filter(anime => 
-            anime.title.toLowerCase().includes(query)
-        );
-
-        if(filtered.length > 0) {
-            filtered.forEach(anime => {
-                searchResultsArea.innerHTML += createCardHTML(anime);
+        // Filter directly from JS Storage (animeData)
+        const filtered = animeData.filter(item => item.title.toLowerCase().includes(query));
+        
+        if (filtered.length > 0) {
+            let resultHTML = '';
+            filtered.forEach(item => {
+                resultHTML += generateCardHTML(item);
             });
+            searchResultsArea.innerHTML = resultHTML;
         } else {
-            searchResultsArea.innerHTML = "<p style='grid-column: 1/-1; text-align:center; padding:20px;'>No results found</p>";
+            searchResultsArea.innerHTML = "<p style='text-align:center; grid-column: 1/-1; padding: 20px;'>No results found.</p>";
         }
     } else {
         mainContentBody.style.display = "block";
@@ -68,11 +98,5 @@ searchInput.addEventListener('input', function() {
     }
 });
 
-// --- POPUPS ---
-function toggleExplore() {
-    const pop = document.getElementById('explorePopup');
-    pop.style.display = (pop.style.display === 'flex') ? 'none' : 'flex';
-}
-
-// --- INITIAL LOAD ---
-document.addEventListener('DOMContentLoaded', renderAnimeHub);
+// Run load on start
+document.addEventListener('DOMContentLoaded', loadSections);
