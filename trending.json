@@ -1,0 +1,6 @@
+[
+  { "title": "Death Note", "img": "assets/NOTE.jpeg", "desc": "Psychological", "link": "anime/death-note.html", "lang": "HINDI" },
+  { "title": "Attack on Titan S1", "img": "assets/A.O.T.jpeg", "desc": "Action", "link": "anime/Attack-on-Titan.html", "lang": "HINDI" },
+  { "title": "Demon Slayer S1", "img": "assets/D.S poster.jpeg", "desc": "Action", "link": "anime/demon-slayer-s1.html", "lang": "HINDI" },
+  { "title": "Solo Leveling S1", "img": "assets/soloposter.jpeg", "desc": "Fantasy", "link": "anime/solo-leveling-s1.html", "lang": "HINDI" }
+]
