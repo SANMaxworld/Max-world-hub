@@ -6,72 +6,31 @@ var swiper = new Swiper(".mySwiper", {
     grabCursor: true 
 });
 
-// SEARCH & OVERLAY ELEMENTS
-const searchInput = document.getElementById('searchInput');
-const searchOverlayUI = document.getElementById('searchOverlayUI'); // Naya overlay container
-const searchResultsArea = document.getElementById('searchResultsArea');
-const mainContentBody = document.getElementById('mainContentBody');
+// SIMPLE EXPLORE POPUP LOGIC
+function toggleExplore() { 
+    const pop = document.getElementById('explorePopup'); 
 
-// --- 1. SEARCH FOCUS LOGIC (POPUP INTERFACE) ---
-searchInput.addEventListener('focus', function() {
-    // Jab user search bar click kare
-    if (this.value.trim() === "") {
-        searchOverlayUI.classList.add('active'); // Pop-up dikhao
-        mainContentBody.style.display = "none";
-        searchResultsArea.style.display = "none";
-    }
-});
-
-// --- 2. SMART SEARCH & FILTERING ---
-searchInput.addEventListener('input', function() {
-    const query = this.value.toLowerCase().trim();
-    
-    if (query.length > 0) {
-        // Agar kuch likhna shuru kiya toh overlay (recent/popups) gayab
-        searchOverlayUI.classList.remove('active');
-        mainContentBody.style.display = "none";
-        searchResultsArea.style.display = "grid"; 
-        searchResultsArea.innerHTML = "";
-        
-        const filtered = animeData.filter(item => item.title.toLowerCase().includes(query));
-        
-        if (filtered.length > 0) {
-            let resultHTML = '';
-            filtered.forEach(item => { resultHTML += generateCardHTML(item); });
-            searchResultsArea.innerHTML = resultHTML;
-        } else {
-            searchResultsArea.innerHTML = "<p style='text-align:center; grid-column: 1/-1; padding: 20px; color:#888;'>No results found.</p>";
-        }
+    if (pop.style.display === "flex") {
+        pop.style.display = "none";
+        pop.classList.remove('show');
     } else {
-        // Agar text mita diya toh wapas overlay (recent/everyone searching) dikhao
-        searchOverlayUI.classList.add('active');
-        searchResultsArea.style.display = "none";
-    }
-});
-
-// --- 3. AUTO-FILL SEARCH TAGS ---
-function fillSearch(term) {
-    searchInput.value = term;
-    // Trigger input event manually taaki filtering start ho jaye
-    searchInput.dispatchEvent(new Event('input'));
-}
-
-// --- 4. MOVIE/SERIES TAB SWITCHER (HORIZONTAL SCROLL EFFECT) ---
-function switchSearchTab(tabName, element) {
-    // Tab text highlight switch
-    document.querySelectorAll('.tab-link').forEach(el => el.classList.remove('active'));
-    element.classList.add('active');
-
-    // Scroll content (Movie ya Series popup ko center mein laane ke liye)
-    const container = document.querySelector('.tabs-content-container');
-    if(tabName === 'movies') {
-        container.scrollTo({ left: 0, behavior: 'smooth' });
-    } else {
-        container.scrollTo({ left: container.offsetWidth, behavior: 'smooth' });
+        pop.style.display = "flex";
+        pop.classList.add('show');
     }
 }
 
-// --- 5. CARD GENERATOR (PREMIUM REPLICA) ---
+// SEARCH OVERLAY UI
+function toggleSearch(isFocus) { 
+    const overlay = document.getElementById('searchOverlay'); 
+    if(isFocus) {
+        overlay.classList.add('active');
+    } else {
+        overlay.classList.remove('active');
+        document.getElementById('searchInput').blur();
+    }
+}
+
+// --- CARD GENERATOR FUNCTION ---
 function generateCardHTML(item) {
     return `
     <a href="${item.link}" class="search-item">
@@ -84,20 +43,24 @@ function generateCardHTML(item) {
     </a>`;
 }
 
-// --- 6. DATA INJECTION ---
+// --- INJECT DATA INTO SECTIONS ---
 function loadSections() {
     const categories = ['trending', 'movies', 'fantasy', 'series', 'action', 'adventure', 'romance', 'scifi', 'horror', 'comedy', 'drama'];
     
     categories.forEach(cat => {
         const grid = document.getElementById(cat + '-grid');
         if (grid) {
+            // Find items belonging to this category
             const categoryItems = animeData.filter(item => item.categories.includes(cat));
+            
+            // Generate and inject HTML
             let htmlContent = '';
             categoryItems.forEach(item => {
                 htmlContent += generateCardHTML(item);
             });
             grid.innerHTML = htmlContent;
             
+            // Hide section if empty
             if(categoryItems.length === 0) {
                 grid.parentElement.style.display = "none";
             }
@@ -105,22 +68,35 @@ function loadSections() {
     });
 }
 
-// --- EXPLORE POPUP ---
-function toggleExplore() { 
-    const pop = document.getElementById('explorePopup'); 
-    pop.classList.toggle('show');
-    pop.style.display = pop.classList.contains('show') ? "flex" : "none";
-}
+// --- SMART SEARCH FILTERING LOGIC ---
+const searchInput = document.getElementById('searchInput');
+const searchResultsArea = document.getElementById('searchResultsArea');
+const mainContentBody = document.getElementById('mainContentBody');
 
-// Close search if clicked outside (Optional but good for UX)
-document.addEventListener('click', function(e) {
-    if (!searchInput.contains(e.target) && !searchOverlayUI.contains(e.target)) {
-        if (searchInput.value.trim() === "") {
-            searchOverlayUI.classList.remove('active');
-            mainContentBody.style.display = "block";
+searchInput.addEventListener('input', function() {
+    const query = searchInput.value.toLowerCase().trim();
+    if (query.length > 0) {
+        mainContentBody.style.display = "none";
+        searchResultsArea.style.display = "grid"; // Grid mode for search wrapper
+        searchResultsArea.innerHTML = "";
+        
+        // Filter directly from JS Storage (animeData)
+        const filtered = animeData.filter(item => item.title.toLowerCase().includes(query));
+        
+        if (filtered.length > 0) {
+            let resultHTML = '';
+            filtered.forEach(item => {
+                resultHTML += generateCardHTML(item);
+            });
+            searchResultsArea.innerHTML = resultHTML;
+        } else {
+            searchResultsArea.innerHTML = "<p style='text-align:center; grid-column: 1/-1; padding: 20px;'>No results found.</p>";
         }
+    } else {
+        mainContentBody.style.display = "block";
+        searchResultsArea.style.display = "none";
     }
 });
 
+// Run load on start
 document.addEventListener('DOMContentLoaded', loadSections);
-
