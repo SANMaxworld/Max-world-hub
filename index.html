@@ -20,16 +20,10 @@
         html { scroll-behavior: smooth; }
         body { background-color: #121317; color: white; min-height: 100vh; font-family: 'Poppins', sans-serif; padding-bottom: 80px; overflow-x: hidden; }
 
-        /* TOP FADE EFFECT */
-        .top-fade-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 80px;
-            background: linear-gradient(to bottom, rgba(18,19,23,1) 30%, rgba(18,19,23,0) 100%);
-            z-index: 998; pointer-events: none;
-        }
-
-        /* HEADER */
+        /* HEADER (MADE UN-STICKY) */
         header {
-            display: flex; align-items: center; padding: 15px 15px 10px; position: sticky; top: 0; z-index: 1000;
+            display: flex; align-items: center; padding: 15px 15px 10px; 
+            position: relative; z-index: 1000; /* Removed sticky */
         }
         .main-logo { width: 38px; height: 38px; border-radius: 8px; margin-right: 12px; }
         
@@ -50,23 +44,43 @@
         .category-nav-scroll::-webkit-scrollbar { display: none; }
         .category-nav-scroll a { 
             color: rgba(255,255,255,0.7); text-decoration: none; white-space: nowrap; 
-            font-size: 0.95rem; font-weight: 500; transition: 0.3s;
+            font-size: 0.9rem; font-weight: 500; transition: 0.3s;
         }
-        .category-nav-scroll a.active { color: #fff; font-weight: 700; text-shadow: 0 0 10px rgba(255,255,255,0.5); }
+        /* Glow Effect for Active */
+        .category-nav-scroll a.active { 
+            color: #fff; font-weight: 700; 
+            text-shadow: 0 0 10px rgba(255,255,255,0.8);
+        }
 
-        /* HERO SLIDER */
-        .hero-section { position: relative; width: 100%; height: 240px; margin-top: 5px; }
+        /* HERO SLIDER (Updated for Image 1000132960_3.jpg) */
+        .hero-section { position: relative; width: 100%; height: 260px; margin-top: 5px; }
         .swiper { width: 100%; height: 100%; }
-        .swiper-slide img { width: 100%; height: 100%; object-fit: cover; }
-        /* Bottom Fade for Slider */
-        .hero-fade-bottom {
-            position: absolute; bottom: 0; left: 0; width: 100%; height: 60px;
-            background: linear-gradient(to top, #121317, transparent); z-index: 10; pointer-events: none;
+        .swiper-slide { position: relative; }
+        .swiper-slide img.main-banner { width: 100%; height: 100%; object-fit: cover; }
+
+        /* Glassmorphism Slider Info Card */
+        .slider-info-card {
+            position: absolute; bottom: 20px; left: 15px; right: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+            border-radius: 12px; padding: 10px; display: flex; align-items: center;
+            border: 1px solid rgba(255,255,255,0.1); z-index: 10;
+        }
+        .mini-poster { width: 40px; height: 55px; border-radius: 4px; object-fit: cover; margin-right: 12px; }
+        .card-details { flex: 1; }
+        .card-details h3 { font-size: 0.85rem; font-weight: 600; color: #fff; margin-bottom: 2px; }
+        .card-details p { font-size: 0.65rem; color: rgba(255,255,255,0.7); }
+        
+        .play-button-green {
+            width: 35px; height: 35px; background: #00d084; border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;
+            color: #000; text-decoration: none; font-size: 14px;
+            box-shadow: 0 0 15px rgba(0, 208, 132, 0.4);
         }
 
         .main-container { padding: 0 15px; position: relative; z-index: 20;}
 
-        /* EXTRA FILTER OPTIONS (Image style) */
+        /* EXTRA FILTER OPTIONS */
         .filter-opt-container {
             display: flex; overflow-x: auto; gap: 12px; padding: 15px 0 5px; scrollbar-width: none;
         }
@@ -74,23 +88,21 @@
         .filter-tag {
             background: #1c1e24; color: rgba(255,255,255,0.9); padding: 10px 20px; border-radius: 8px;
             font-size: 0.85rem; text-decoration: none; white-space: nowrap; font-weight: 500;
-            display: flex; align-items: center; gap: 5px;
         }
         .filter-tag.active { background: rgba(0, 208, 132, 0.15); border: 1px solid rgba(0, 208, 132, 0.5); color: #00d084; }
 
         /* CONTENT SECTIONS */
-        .content-section { margin-top: 25px; }
+        .content-section { margin-top: 25px; scroll-margin-top: 20px; }
         .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
         .section-title { font-size: 1.05rem; font-weight: 700; display: flex; align-items: center; gap: 6px; }
         .section-all { font-size: 0.75rem; color: #888; font-weight: 500; text-decoration: none; }
-
         .grid-container { display: flex; gap: 12px; overflow-x: auto; scrollbar-width: none; padding-bottom: 5px; }
         .grid-container::-webkit-scrollbar { display: none; }
 
         /* SEARCH RESULTS GRID */
         .search-results-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; padding: 15px; }
 
-        /* CARDS (Exact match to image) */
+        /* CARDS (AS PER OLD SYSTEM) */
         .search-item { flex: 0 0 115px; position: relative; text-decoration: none; display: flex; flex-direction: column; }
         .icon-poster { width: 100%; aspect-ratio: 2/3; object-fit: cover; border-radius: 8px; }
         .badge-hindi {
@@ -99,9 +111,17 @@
         }
         .content-box { padding: 6px 2px 0; }
         .content-box h4 { font-size: 0.8rem; color: rgba(255,255,255,0.9); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 500; }
-        .desc-text { font-size: 0.65rem; color: #777; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .desc-text { font-size: 0.65rem; color: #777; margin-top: 2px; }
 
-        /* BOTTOM NAV (Only 3 Options) */
+        /* FOOTER SECTION */
+        .main-footer {
+            margin-top: 50px; padding: 30px 15px 100px; border-top: 1px solid #222; text-align: center;
+        }
+        .footer-links { display: flex; justify-content: center; flex-wrap: wrap; gap: 15px; margin-bottom: 20px; }
+        .footer-links a { color: #888; text-decoration: none; font-size: 0.85rem; font-weight: 500; }
+        .copyright-text { color: #555; font-size: 0.75rem; border-top: 1px solid #1c1e24; padding-top: 15px; }
+
+        /* BOTTOM NAV */
         .bottom-nav {
             position: fixed; bottom: 0; left: 0; width: 100%; height: 65px;
             background: #17191e; border-top: 1px solid #222;
@@ -111,17 +131,15 @@
         .nav-item.active { color: #00d084; }
         .nav-icon { font-size: 22px; margin-bottom: 2px; }
 
-        /* Fight Zone Center Button */
         .center-nav-item { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; width: 33%; cursor: pointer; }
         .center-nav-icon {
             width: 55px; height: 55px; border-radius: 50%;
             display: flex; justify-content: center; align-items: center;
-            margin-top: -30px; /* Pops out of the bar */
-            box-shadow: 0 0 20px rgba(255, 150, 0, 0.4);
+            margin-top: -30px; box-shadow: 0 0 20px rgba(255, 150, 0, 0.4);
             border: 2px solid #ffcc00; background: #000; overflow: hidden;
         }
         .center-nav-icon img { width: 100%; height: 100%; object-fit: cover; }
-        .center-nav-text { color: #ffcc00; font-size: 11px; font-weight: 700; margin-top: 4px; text-shadow: 0 0 5px rgba(255, 204, 0, 0.5); }
+        .center-nav-text { color: #ffcc00; font-size: 11px; font-weight: 700; margin-top: 4px; }
 
         /* SEARCH OVERLAY */
         .search-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(18,19,23,0.9); z-index: 900; opacity: 0; visibility: hidden; transition: 0.3s; backdrop-filter: blur(5px); }
@@ -130,11 +148,8 @@
 </head>
 <body>
 
-    <!-- Overlay & Top Fade -->
     <div id="searchOverlay" class="search-overlay" onclick="toggleSearch(false)"></div>
-    <div class="top-fade-overlay"></div>
 
-    <!-- Header -->
     <header>
         <img src="assets/logo.png" class="main-logo" alt="Logo">
         <div class="search-container">
@@ -144,8 +159,7 @@
         </div>
     </header>
 
-    <!-- Top Category Scroll Nav -->
-    <div class="category-nav-scroll">
+    <div class="category-nav-scroll" id="catNav">
         <a href="#trending" class="active">Trending</a>
         <a href="#movies">Movies</a>
         <a href="#series">TV Series</a>
@@ -159,38 +173,89 @@
         <a href="#drama">Drama</a>
     </div>
 
-    <!-- Dynamic Search Results Container -->
     <div id="searchResultsArea" class="search-results-grid" style="display: none; position: relative; z-index: 999;"></div>
 
-    <!-- Main Content -->
     <div id="mainContentBody">
         
-        <!-- Hero Slider -->
+        <!-- Updated Hero Slider -->
         <div class="hero-section">
             <div class="swiper mySwiper">
                 <div class="swiper-wrapper">
-                    <div class="swiper-slide"><img src="assets/A.O.T bannar.jpeg" alt="AOT"></div>
-                    <div class="swiper-slide"><img src="assets/S.L Bannar.jpeg" alt="Solo Leveling"></div>
-                    <div class="swiper-slide"><img src="assets/D.S movie.jpeg" alt="Demon Slayer"></div>
-                    <div class="swiper-slide"><img src="assets/D.N bannar.jpeg" alt="Death Note"></div>
-                    <div class="swiper-slide"><img src="assets/T.R bannar.jpeg" alt="Tokyo Revengers"></div>
+                    <!-- Slide 1 -->
+                    <div class="swiper-slide">
+                        <img src="assets/A.O.T bannar.jpeg" class="main-banner">
+                        <div class="slider-info-card">
+                            <img src="assets/logo.png" class="mini-poster">
+                            <div class="card-details">
+                                <h3>Attack on Titan</h3>
+                                <p>Action | 2024 | Horror</p>
+                            </div>
+                            <a href="#" class="play-button-green">▶</a>
+                        </div>
+                    </div>
+                    <!-- Slide 2 -->
+                    <div class="swiper-slide">
+                        <img src="assets/S.L Bannar.jpeg" class="main-banner">
+                        <div class="slider-info-card">
+                            <img src="assets/logo.png" class="mini-poster">
+                            <div class="card-details">
+                                <h3>Solo Leveling [Hindi]</h3>
+                                <p>Fantasy | 2024 | Adventure</p>
+                            </div>
+                            <a href="#" class="play-button-green">▶</a>
+                        </div>
+                    </div>
+                    <!-- Slide 3 -->
+                    <div class="swiper-slide">
+                        <img src="assets/D.S movie.jpeg" class="main-banner">
+                        <div class="slider-info-card">
+                            <img src="assets/logo.png" class="mini-poster">
+                            <div class="card-details">
+                                <h3>Demon Slayer Movie</h3>
+                                <p>Action | 2024 | Supernatural</p>
+                            </div>
+                            <a href="#" class="play-button-green">▶</a>
+                        </div>
+                    </div>
+                    <!-- Slide 4 -->
+                    <div class="swiper-slide">
+                        <img src="assets/D.N bannar.jpeg" class="main-banner">
+                        <div class="slider-info-card">
+                            <img src="assets/logo.png" class="mini-poster">
+                            <div class="card-details">
+                                <h3>Death Note</h3>
+                                <p>Thriller | Mystery | Drama</p>
+                            </div>
+                            <a href="#" class="play-button-green">▶</a>
+                        </div>
+                    </div>
+                    <!-- Slide 5 -->
+                    <div class="swiper-slide">
+                        <img src="assets/T.R bannar.jpeg" class="main-banner">
+                        <div class="slider-info-card">
+                            <img src="assets/logo.png" class="mini-poster">
+                            <div class="card-details">
+                                <h3>Tokyo Revengers</h3>
+                                <p>Action | Drama | Shonen</p>
+                            </div>
+                            <a href="#" class="play-button-green">▶</a>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="hero-fade-bottom"></div>
         </div>
 
         <div class="main-container">
             
-            <!-- Extra Filter Options -->
             <div class="filter-opt-container">
-                <a href="#all" class="filter-tag active"><span>⚙️</span> All</a>
+                <a href="#all" class="filter-tag active">⚙️ All</a>
                 <a href="#movies" class="filter-tag">Bollywood</a>
                 <a href="#movies" class="filter-tag">Hollywood</a>
                 <a href="#series" class="filter-tag">Web Series</a>
                 <a href="#trending" class="filter-tag">K-Drama</a>
             </div>
 
-            <!-- ALL 11 SECTIONS WITH DYNAMIC GRIDS -->
+            <!-- Content Sections -->
             <section id="trending" class="content-section">
                 <div class="section-header"><h2 class="section-title">🔥 Trending Now</h2><a href="#" class="section-all">All ></a></div>
                 <div class="grid-container" id="trending-grid"></div>
@@ -246,20 +311,29 @@
                 <div class="grid-container" id="drama-grid"></div>
             </section>
 
-            <!-- Bottom spacing for nav bar -->
-            <div style="height: 40px;"></div>
         </div>
+
+        <!-- NEW FOOTER SECTION -->
+        <footer class="main-footer">
+            <div class="footer-links">
+                <a href="#">About Us</a>
+                <a href="#">Disclaimer</a>
+                <a href="#">Support</a>
+                <a href="#">YouTube</a>
+            </div>
+            <div class="copyright-text">
+                © 2026 Max world Hub | Powered by SAN team
+            </div>
+        </footer>
     </div>
 
-    <!-- BOTTOM NAV (3 Items Only) -->
+    <!-- BOTTOM NAV -->
     <nav class="bottom-nav">
-        <!-- 1. Home -->
         <div class="nav-item active" onclick="window.scrollTo({top:0, behavior:'smooth'})">
             <span class="nav-icon">🏠</span>
             <span>Home</span>
         </div>
         
-        <!-- 2. Fight Zone (Center Highlighted) -->
         <div class="center-nav-item">
             <div class="center-nav-icon">
                 <img src="assets/logo.png" alt="Fight Zone">
@@ -267,7 +341,6 @@
             <span class="center-nav-text">Fight Zone</span>
         </div>
 
-        <!-- 3. Me -->
         <a href="me.html" class="nav-item">
             <span class="nav-icon">👤</span>
             <span>Me</span>
@@ -279,25 +352,31 @@
     <script src="data.js"></script>
     
     <script>
-        // Initialize Swiper Slider
+        // Swiper Initializing
         var swiper = new Swiper(".mySwiper", { 
-            autoplay: { delay: 3000, disableOnInteraction: false }, 
+            autoplay: { delay: 4000, disableOnInteraction: false }, 
             loop: true, 
-            grabCursor: true 
+            effect: "fade",
+            fadeEffect: { crossFade: true }
         });
 
-        // Search Overlay Focus Logic
+        // Search Overlay
         function toggleSearch(isFocus) { 
             const overlay = document.getElementById('searchOverlay'); 
-            if(isFocus) {
-                overlay.classList.add('active');
-            } else {
-                overlay.classList.remove('active');
-                document.getElementById('searchInput').blur();
-            }
+            if(isFocus) { overlay.classList.add('active'); } 
+            else { overlay.classList.remove('active'); document.getElementById('searchInput').blur(); }
         }
 
-        // --- OLD SYSTEM: CARD GENERATOR FUNCTION ---
+        // --- Category Glow & Scroll Logic ---
+        const catLinks = document.querySelectorAll('#catNav a');
+        catLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                catLinks.forEach(l => l.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // --- OLD SYSTEM: CARD GENERATOR (STRICTLY KEPT) ---
         function generateCardHTML(item) {
             return `
             <a href="${item.link}" class="search-item">
@@ -310,32 +389,22 @@
             </a>`;
         }
 
-        // --- OLD SYSTEM: INJECT DATA INTO SECTIONS ---
+        // --- OLD SYSTEM: INJECT DATA ---
         function loadSections() {
             const categories = ['trending', 'movies', 'fantasy', 'series', 'action', 'adventure', 'romance', 'scifi', 'horror', 'comedy', 'drama'];
-            
             categories.forEach(cat => {
                 const grid = document.getElementById(cat + '-grid');
                 if (grid && typeof animeData !== 'undefined') {
-                    // Find items belonging to this category
                     const categoryItems = animeData.filter(item => item.categories && item.categories.includes(cat));
-                    
-                    // Generate and inject HTML
                     let htmlContent = '';
-                    categoryItems.forEach(item => {
-                        htmlContent += generateCardHTML(item);
-                    });
+                    categoryItems.forEach(item => { htmlContent += generateCardHTML(item); });
                     grid.innerHTML = htmlContent;
-                    
-                    // Hide section if empty
-                    if(categoryItems.length === 0) {
-                        grid.parentElement.style.display = "none";
-                    }
+                    if(categoryItems.length === 0) { grid.parentElement.style.display = "none"; }
                 }
             });
         }
 
-        // --- OLD SYSTEM: SMART SEARCH FILTERING LOGIC ---
+        // --- OLD SYSTEM: SEARCH LOGIC ---
         const searchInput = document.getElementById('searchInput');
         const searchResultsArea = document.getElementById('searchResultsArea');
         const mainContentBody = document.getElementById('mainContentBody');
@@ -346,15 +415,11 @@
                 mainContentBody.style.display = "none";
                 searchResultsArea.style.display = "grid"; 
                 searchResultsArea.innerHTML = "";
-                
                 if(typeof animeData !== 'undefined') {
                     const filtered = animeData.filter(item => item.title.toLowerCase().includes(query));
-                    
                     if (filtered.length > 0) {
                         let resultHTML = '';
-                        filtered.forEach(item => {
-                            resultHTML += generateCardHTML(item);
-                        });
+                        filtered.forEach(item => { resultHTML += generateCardHTML(item); });
                         searchResultsArea.innerHTML = resultHTML;
                     } else {
                         searchResultsArea.innerHTML = "<p style='text-align:center; grid-column: 1/-1; padding: 20px; color:#aaa;'>No results found.</p>";
@@ -366,9 +431,7 @@
             }
         });
 
-        // Run load on start
         document.addEventListener('DOMContentLoaded', loadSections);
     </script>
 </body>
-    </html>
-
+</html>
