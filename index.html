@@ -8,9 +8,7 @@
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#121317">
     
-    <!-- Swiper CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
     <style>
@@ -18,23 +16,35 @@
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; user-select: none; }
         input { user-select: text !important; }
         html { scroll-behavior: smooth; }
-        body { background-color: #121317; color: white; min-height: 100vh; font-family: 'Poppins', sans-serif; padding-bottom: 80px; overflow-x: hidden; }
+        
+        /* NEW BACKGROUND: Purple + Navy Gradient (Dark in center, lighter towards edges) */
+        body { 
+            background: radial-gradient(circle at center, #0b0c16 0%, #151030 50%, #2a1f5c 100%);
+            background-attachment: fixed; /* Keeps gradient fixed on scroll */
+            color: white; 
+            min-height: 100vh; 
+            font-family: 'Poppins', sans-serif; 
+            padding-bottom: 80px; 
+            overflow-x: hidden; 
+        }
 
-        /* HEADER (MADE UN-STICKY) */
+        /* HEADER */
         header {
             display: flex; align-items: center; padding: 15px 15px 10px; 
-            position: relative; z-index: 1000; /* Removed sticky */
+            position: relative; z-index: 1000;
         }
-        .main-logo { width: 38px; height: 38px; border-radius: 8px; margin-right: 12px; }
+        .main-logo { width: 38px; height: 38px; border-radius: 0px; margin-right: 12px; } /* Sharp edges */
         
         .search-container {
-            flex: 1; background: #262833; border-radius: 10px;
+            flex: 1; background: rgba(38, 40, 51, 0.7); border-radius: 10px;
             display: flex; align-items: center; padding: 0 15px; height: 42px;
+            backdrop-filter: blur(5px);
         }
         .search-icon { opacity: 0.6; font-size: 14px; margin-right: 8px; }
         .search-box { width: 100%; height: 100%; border: none; background: transparent; color: #fff; outline: none; font-size: 0.85rem; font-family: 'Poppins', sans-serif;}
         .search-box::placeholder { color: #888; }
-        .search-btn-text { color: #00d084; font-weight: 600; font-size: 0.9rem; margin-left: 10px; cursor: pointer; }
+        /* Blood Red Color */
+        .search-btn-text { color: #ff2a2a; font-weight: 600; font-size: 0.9rem; margin-left: 10px; cursor: pointer; }
 
         /* TOP CATEGORY NAVIGATION */
         .category-nav-scroll {
@@ -52,30 +62,34 @@
             text-shadow: 0 0 10px rgba(255,255,255,0.8);
         }
 
-        /* HERO SLIDER (Updated for Image 1000132960_3.jpg) */
+        /* HERO SLIDER */
         .hero-section { position: relative; width: 100%; height: 260px; margin-top: 5px; }
         .swiper { width: 100%; height: 100%; }
         .swiper-slide { position: relative; }
         .swiper-slide img.main-banner { width: 100%; height: 100%; object-fit: cover; }
 
-        /* Glassmorphism Slider Info Card */
+        /* MODIFIED Glassmorphism Slider Info Card (Smaller, Left-aligned, Cut on right) */
         .slider-info-card {
-            position: absolute; bottom: 20px; left: 15px; right: 15px;
+            position: absolute; bottom: 15px; left: 15px; width: 65%; /* Chopped from right side */
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
-            border-radius: 12px; padding: 10px; display: flex; align-items: center;
+            border-radius: 8px; padding: 8px; display: flex; align-items: center;
             border: 1px solid rgba(255,255,255,0.1); z-index: 10;
         }
-        .mini-poster { width: 40px; height: 55px; border-radius: 4px; object-fit: cover; margin-right: 12px; }
+        .mini-poster { width: 35px; height: 48px; border-radius: 2px; object-fit: cover; margin-right: 10px; }
         .card-details { flex: 1; }
-        .card-details h3 { font-size: 0.85rem; font-weight: 600; color: #fff; margin-bottom: 2px; }
-        .card-details p { font-size: 0.65rem; color: rgba(255,255,255,0.7); }
+        .card-details h3 { font-size: 0.8rem; font-weight: 600; color: #fff; margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .card-details p { font-size: 0.6rem; color: rgba(255,255,255,0.7); }
         
-        .play-button-green {
-            width: 35px; height: 35px; background: #00d084; border-radius: 50%;
+        /* Blood Red Gradient Button */
+        .play-button-red {
+            width: 30px; height: 30px; 
+            background: linear-gradient(135deg, #990000, #ff1a1a); 
+            border-radius: 50%;
             display: flex; justify-content: center; align-items: center;
-            color: #000; text-decoration: none; font-size: 14px;
-            box-shadow: 0 0 15px rgba(0, 208, 132, 0.4);
+            color: #fff; text-decoration: none; font-size: 12px;
+            box-shadow: 0 0 15px rgba(255, 26, 26, 0.5);
+            margin-left: 5px;
         }
 
         .main-container { padding: 0 15px; position: relative; z-index: 20;}
@@ -86,49 +100,51 @@
         }
         .filter-opt-container::-webkit-scrollbar { display: none; }
         .filter-tag {
-            background: #1c1e24; color: rgba(255,255,255,0.9); padding: 10px 20px; border-radius: 8px;
+            background: rgba(28, 30, 36, 0.6); color: rgba(255,255,255,0.9); padding: 10px 20px; border-radius: 0px; /* Sharp edges */
             font-size: 0.85rem; text-decoration: none; white-space: nowrap; font-weight: 500;
         }
-        .filter-tag.active { background: rgba(0, 208, 132, 0.15); border: 1px solid rgba(0, 208, 132, 0.5); color: #00d084; }
+        /* Blood Red Active Filter */
+        .filter-tag.active { background: rgba(255, 42, 42, 0.15); border: 1px solid rgba(255, 42, 42, 0.5); color: #ff2a2a; }
 
         /* CONTENT SECTIONS */
         .content-section { margin-top: 25px; scroll-margin-top: 20px; }
         .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
         .section-title { font-size: 1.05rem; font-weight: 700; display: flex; align-items: center; gap: 6px; }
-        .section-all { font-size: 0.75rem; color: #888; font-weight: 500; text-decoration: none; }
+        .section-all { font-size: 0.75rem; color: #aaa; font-weight: 500; text-decoration: none; }
         .grid-container { display: flex; gap: 12px; overflow-x: auto; scrollbar-width: none; padding-bottom: 5px; }
         .grid-container::-webkit-scrollbar { display: none; }
 
         /* SEARCH RESULTS GRID */
         .search-results-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; padding: 15px; }
 
-        /* CARDS (AS PER OLD SYSTEM) */
+        /* CARDS (SHARP EDGES UPDATE) */
         .search-item { flex: 0 0 115px; position: relative; text-decoration: none; display: flex; flex-direction: column; }
-        .icon-poster { width: 100%; aspect-ratio: 2/3; object-fit: cover; border-radius: 8px; }
+        .icon-poster { width: 100%; aspect-ratio: 2/3; object-fit: cover; border-radius: 0px; } /* Completely sharp edges */
         .badge-hindi {
             position: absolute; top: 6px; right: 6px; background: rgba(0,0,0,0.75);
-            color: #fff; font-size: 0.6rem; padding: 3px 6px; border-radius: 4px; font-weight: 600;
+            color: #fff; font-size: 0.6rem; padding: 3px 6px; border-radius: 0px; font-weight: 600; /* Sharp badge */
         }
         .content-box { padding: 6px 2px 0; }
         .content-box h4 { font-size: 0.8rem; color: rgba(255,255,255,0.9); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 500; }
-        .desc-text { font-size: 0.65rem; color: #777; margin-top: 2px; }
+        .desc-text { font-size: 0.65rem; color: #999; margin-top: 2px; }
 
         /* FOOTER SECTION */
         .main-footer {
-            margin-top: 50px; padding: 30px 15px 100px; border-top: 1px solid #222; text-align: center;
+            margin-top: 50px; padding: 30px 15px 100px; border-top: 1px solid rgba(255,255,255,0.1); text-align: center;
         }
         .footer-links { display: flex; justify-content: center; flex-wrap: wrap; gap: 15px; margin-bottom: 20px; }
-        .footer-links a { color: #888; text-decoration: none; font-size: 0.85rem; font-weight: 500; }
-        .copyright-text { color: #555; font-size: 0.75rem; border-top: 1px solid #1c1e24; padding-top: 15px; }
+        .footer-links a { color: #aaa; text-decoration: none; font-size: 0.85rem; font-weight: 500; }
+        .copyright-text { color: #888; font-size: 0.75rem; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px; }
 
         /* BOTTOM NAV */
         .bottom-nav {
             position: fixed; bottom: 0; left: 0; width: 100%; height: 65px;
-            background: #17191e; border-top: 1px solid #222;
+            background: rgba(23, 25, 30, 0.95); backdrop-filter: blur(10px); border-top: 1px solid rgba(255,255,255,0.1);
             display: flex; justify-content: space-around; align-items: center; z-index: 2000;
         }
         .nav-item { display: flex; flex-direction: column; align-items: center; color: #888; font-size: 10px; cursor: pointer; text-decoration: none; width: 33%; }
-        .nav-item.active { color: #00d084; }
+        /* Blood Red Active */
+        .nav-item.active { color: #ff2a2a; }
         .nav-icon { font-size: 22px; margin-bottom: 2px; }
 
         .center-nav-item { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; width: 33%; cursor: pointer; }
@@ -142,7 +158,7 @@
         .center-nav-text { color: #ffcc00; font-size: 11px; font-weight: 700; margin-top: 4px; }
 
         /* SEARCH OVERLAY */
-        .search-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(18,19,23,0.9); z-index: 900; opacity: 0; visibility: hidden; transition: 0.3s; backdrop-filter: blur(5px); }
+        .search-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(10,10,15,0.9); z-index: 900; opacity: 0; visibility: hidden; transition: 0.3s; backdrop-filter: blur(5px); }
         .search-overlay.active { opacity: 1; visibility: visible; }
     </style>
 </head>
@@ -160,28 +176,26 @@
     </header>
 
     <div class="category-nav-scroll" id="catNav">
-        <a href="#trending" class="active">Trending</a>
-        <a href="#movies">Movies</a>
-        <a href="#series">TV Series</a>
-        <a href="#fantasy">Fantasy</a>
-        <a href="#action">Action</a>
-        <a href="#adventure">Adventure</a>
-        <a href="#romance">Romance</a>
-        <a href="#scifi">Sci-Fi</a>
-        <a href="#horror">Horror</a>
-        <a href="#comedy">Comedy</a>
-        <a href="#drama">Drama</a>
+        <a href="trending.html" class="active">Trending</a>
+        <a href="movies.html">Movies</a>
+        <a href="series.html">TV Series</a>
+        <a href="fantasy.html">Fantasy</a>
+        <a href="action.html">Action</a>
+        <a href="adventure.html">Adventure</a>
+        <a href="romance.html">Romance</a>
+        <a href="scifi.html">Sci-Fi</a>
+        <a href="horror.html">Horror</a>
+        <a href="comedy.html">Comedy</a>
+        <a href="drama.html">Drama</a>
     </div>
 
     <div id="searchResultsArea" class="search-results-grid" style="display: none; position: relative; z-index: 999;"></div>
 
     <div id="mainContentBody">
         
-        <!-- Updated Hero Slider -->
         <div class="hero-section">
             <div class="swiper mySwiper">
                 <div class="swiper-wrapper">
-                    <!-- Slide 1 -->
                     <div class="swiper-slide">
                         <img src="assets/A.O.T bannar.jpeg" class="main-banner">
                         <div class="slider-info-card">
@@ -190,55 +204,51 @@
                                 <h3>Attack on Titan</h3>
                                 <p>Action | 2024 | Horror</p>
                             </div>
-                            <a href="#" class="play-button-green">▶</a>
+                            <a href="#" class="play-button-red">▶</a>
                         </div>
                     </div>
-                    <!-- Slide 2 -->
                     <div class="swiper-slide">
                         <img src="assets/S.L Bannar.jpeg" class="main-banner">
                         <div class="slider-info-card">
                             <img src="assets/logo.png" class="mini-poster">
                             <div class="card-details">
                                 <h3>Solo Leveling [Hindi]</h3>
-                                <p>Fantasy | 2024 | Adventure</p>
+                                <p>Fantasy | 2024</p>
                             </div>
-                            <a href="#" class="play-button-green">▶</a>
+                            <a href="#" class="play-button-red">▶</a>
                         </div>
                     </div>
-                    <!-- Slide 3 -->
                     <div class="swiper-slide">
                         <img src="assets/D.S movie.jpeg" class="main-banner">
                         <div class="slider-info-card">
                             <img src="assets/logo.png" class="mini-poster">
                             <div class="card-details">
                                 <h3>Demon Slayer Movie</h3>
-                                <p>Action | 2024 | Supernatural</p>
+                                <p>Action | 2024</p>
                             </div>
-                            <a href="#" class="play-button-green">▶</a>
+                            <a href="#" class="play-button-red">▶</a>
                         </div>
                     </div>
-                    <!-- Slide 4 -->
                     <div class="swiper-slide">
                         <img src="assets/D.N bannar.jpeg" class="main-banner">
                         <div class="slider-info-card">
                             <img src="assets/logo.png" class="mini-poster">
                             <div class="card-details">
                                 <h3>Death Note</h3>
-                                <p>Thriller | Mystery | Drama</p>
+                                <p>Thriller | Mystery</p>
                             </div>
-                            <a href="#" class="play-button-green">▶</a>
+                            <a href="#" class="play-button-red">▶</a>
                         </div>
                     </div>
-                    <!-- Slide 5 -->
                     <div class="swiper-slide">
                         <img src="assets/T.R bannar.jpeg" class="main-banner">
                         <div class="slider-info-card">
                             <img src="assets/logo.png" class="mini-poster">
                             <div class="card-details">
                                 <h3>Tokyo Revengers</h3>
-                                <p>Action | Drama | Shonen</p>
+                                <p>Action | Drama</p>
                             </div>
-                            <a href="#" class="play-button-green">▶</a>
+                            <a href="#" class="play-button-red">▶</a>
                         </div>
                     </div>
                 </div>
@@ -249,71 +259,69 @@
             
             <div class="filter-opt-container">
                 <a href="#all" class="filter-tag active">⚙️ All</a>
-                <a href="#movies" class="filter-tag">Bollywood</a>
-                <a href="#movies" class="filter-tag">Hollywood</a>
-                <a href="#series" class="filter-tag">Web Series</a>
-                <a href="#trending" class="filter-tag">K-Drama</a>
+                <a href="movies.html" class="filter-tag">Bollywood</a>
+                <a href="movies.html" class="filter-tag">Hollywood</a>
+                <a href="series.html" class="filter-tag">Web Series</a>
+                <a href="trending.html" class="filter-tag">K-Drama</a>
             </div>
 
-            <!-- Content Sections -->
             <section id="trending" class="content-section">
-                <div class="section-header"><h2 class="section-title">🔥 Trending Now</h2><a href="#" class="section-all">All ></a></div>
+                <div class="section-header"><h2 class="section-title">🔥 Trending Now</h2><a href="trending.html" class="section-all">All ></a></div>
                 <div class="grid-container" id="trending-grid"></div>
             </section>
 
             <section id="movies" class="content-section">
-                <div class="section-header"><h2 class="section-title">🎬 Latest Movies</h2><a href="#" class="section-all">All ></a></div>
+                <div class="section-header"><h2 class="section-title">🎬 Latest Movies</h2><a href="movies.html" class="section-all">All ></a></div>
                 <div class="grid-container" id="movies-grid"></div>
             </section>
 
             <section id="fantasy" class="content-section">
-                <div class="section-header"><h2 class="section-title">🪄 Fantasy</h2><a href="#" class="section-all">All ></a></div>
+                <div class="section-header"><h2 class="section-title">🪄 Fantasy</h2><a href="fantasy.html" class="section-all">All ></a></div>
                 <div class="grid-container" id="fantasy-grid"></div>
             </section>
 
             <section id="series" class="content-section">
-                <div class="section-header"><h2 class="section-title">📺 Web Series</h2><a href="#" class="section-all">All ></a></div>
+                <div class="section-header"><h2 class="section-title">📺 Web Series</h2><a href="series.html" class="section-all">All ></a></div>
                 <div class="grid-container" id="series-grid"></div>
             </section>
 
             <section id="action" class="content-section">
-                <div class="section-header"><h2 class="section-title">⚔️ Action Anime</h2><a href="#" class="section-all">All ></a></div>
+                <div class="section-header"><h2 class="section-title">⚔️ Action Anime</h2><a href="action.html" class="section-all">All ></a></div>
                 <div class="grid-container" id="action-grid"></div>
             </section>
             
             <section id="adventure" class="content-section">
-                <div class="section-header"><h2 class="section-title">🗺️ Adventure</h2><a href="#" class="section-all">All ></a></div>
+                <div class="section-header"><h2 class="section-title">🗺️ Adventure</h2><a href="adventure.html" class="section-all">All ></a></div>
                 <div class="grid-container" id="adventure-grid"></div>
             </section>
 
             <section id="romance" class="content-section">
-                <div class="section-header"><h2 class="section-title">💖 Romance</h2><a href="#" class="section-all">All ></a></div>
+                <div class="section-header"><h2 class="section-title">💖 Romance</h2><a href="romance.html" class="section-all">All ></a></div>
                 <div class="grid-container" id="romance-grid"></div>
             </section>
 
             <section id="scifi" class="content-section">
-                <div class="section-header"><h2 class="section-title">🚀 Sci-Fi</h2><a href="#" class="section-all">All ></a></div>
+                <div class="section-header"><h2 class="section-title">🚀 Sci-Fi</h2><a href="scifi.html" class="section-all">All ></a></div>
                 <div class="grid-container" id="scifi-grid"></div>
             </section>
 
             <section id="horror" class="content-section">
-                <div class="section-header"><h2 class="section-title">👻 Horror</h2><a href="#" class="section-all">All ></a></div>
+                <div class="section-header"><h2 class="section-title">👻 Horror</h2><a href="horror.html" class="section-all">All ></a></div>
                 <div class="grid-container" id="horror-grid"></div>
             </section>
 
             <section id="comedy" class="content-section">
-                <div class="section-header"><h2 class="section-title">😂 Comedy</h2><a href="#" class="section-all">All ></a></div>
+                <div class="section-header"><h2 class="section-title">😂 Comedy</h2><a href="comedy.html" class="section-all">All ></a></div>
                 <div class="grid-container" id="comedy-grid"></div>
             </section>
 
             <section id="drama" class="content-section">
-                <div class="section-header"><h2 class="section-title">🎭 Drama</h2><a href="#" class="section-all">All ></a></div>
+                <div class="section-header"><h2 class="section-title">🎭 Drama</h2><a href="drama.html" class="section-all">All ></a></div>
                 <div class="grid-container" id="drama-grid"></div>
             </section>
 
         </div>
 
-        <!-- NEW FOOTER SECTION -->
         <footer class="main-footer">
             <div class="footer-links">
                 <a href="#">About Us</a>
@@ -327,7 +335,6 @@
         </footer>
     </div>
 
-    <!-- BOTTOM NAV -->
     <nav class="bottom-nav">
         <div class="nav-item active" onclick="window.scrollTo({top:0, behavior:'smooth'})">
             <span class="nav-icon">🏠</span>
@@ -347,17 +354,15 @@
         </a>
     </nav>
 
-    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="data.js"></script>
     
     <script>
-        // Swiper Initializing
+        // SLIDING EFFECT ADDED (effect: "slide")
         var swiper = new Swiper(".mySwiper", { 
             autoplay: { delay: 4000, disableOnInteraction: false }, 
             loop: true, 
-            effect: "fade",
-            fadeEffect: { crossFade: true }
+            effect: "slide" 
         });
 
         // Search Overlay
@@ -367,10 +372,10 @@
             else { overlay.classList.remove('active'); document.getElementById('searchInput').blur(); }
         }
 
-        // --- Category Glow & Scroll Logic ---
         const catLinks = document.querySelectorAll('#catNav a');
         catLinks.forEach(link => {
             link.addEventListener('click', function(e) {
+                // Not preventing default since we are navigating to real HTML pages now
                 catLinks.forEach(l => l.classList.remove('active'));
                 this.classList.add('active');
             });
