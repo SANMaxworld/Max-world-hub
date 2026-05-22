@@ -73,7 +73,7 @@ const animeData = [
         categories: ["series"]
     },
     {
-        id: "C.Man-S1",
+        id: "Chainsaw-Man-S1",
         title: "chainshow Man",
         img: "assets/adv_sample.jpeg",
         lang: "HINDI",
