@@ -20,11 +20,161 @@
         .seo-about-section h2 { font-size: 16px; color: #fff; margin-bottom: 10px; border-left: 3px solid #ff0000; padding-left: 10px; }
         .seo-about-section p { font-size: 12px; color: #aaa; line-height: 1.6; text-align: justify; margin: 0; }
         .player-wrapper { position: relative; }
-        .custom-select { position: relative; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+        
+        /* Updated Custom Select Style */
+        .custom-select { 
+            position: relative; 
+            cursor: pointer; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+            background: rgba(4, 12, 24, 0.9);
+            border: 1.5px solid #00e5ff;
+            color: #ffffff;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+        }
         .custom-select select { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
         .dropdown-icon { font-size: 9px; margin-left: 6px; color: #888; }
-        .support-link { display: block; text-align: center; font-size: 11px; color: #666; text-decoration: none; margin-top: 10px; transition: 0.3s; }
-        .support-link:hover { color: #ff0000; text-decoration: underline; }
+        
+        /* ==========================================================================
+           SUNG JIN-WOO SYSTEM LEVEL UP PANEL - CUSTOM DROPDOWN SUB-SYSTEM
+           ========================================================================== */
+        .solo-dropdown-system {
+            position: relative;
+            display: inline-block;
+            z-index: 999;
+        }
+
+        .solo-system-trigger {
+            background: rgba(4, 12, 24, 0.9);
+            border: 1.5px solid #00e5ff;
+            color: #ffffff;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            box-shadow: 0 0 10px rgba(0, 229, 255, 0.25), inset 0 0 5px rgba(0, 229, 255, 0.1);
+            transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+            user-select: none;
+        }
+
+        .solo-system-trigger:hover {
+            background: rgba(0, 229, 255, 0.15);
+            box-shadow: 0 0 15px rgba(0, 229, 255, 0.6), inset 0 0 8px rgba(0, 229, 255, 0.2);
+            text-shadow: 0 0 5px #fff;
+        }
+
+        .solo-system-trigger .system-icon-arrow {
+            font-size: 8px;
+            color: #00e5ff;
+            transition: transform 0.25s ease;
+            text-shadow: 0 0 4px #00e5ff;
+        }
+
+        .solo-system-trigger.active-panel .system-icon-arrow {
+            transform: rotate(180deg);
+        }
+
+        .solo-system-menu {
+            display: none;
+            position: absolute;
+            top: calc(100% + 6px);
+            left: 0;
+            min-width: 230px;
+            background: rgba(2, 6, 14, 0.98);
+            border: 2px solid #00e5ff;
+            border-radius: 4px;
+            box-shadow: 0 0 25px rgba(0, 229, 255, 0.55), inset 0 0 15px rgba(0, 229, 255, 0.15);
+            backdrop-filter: blur(10px);
+            overflow: hidden;
+        }
+
+        .solo-system-menu.show-panel {
+            display: block;
+            animation: systemPanelGlow 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        .solo-system-item {
+            display: block;
+            padding: 12px 16px;
+            color: #8ab4f8;
+            text-decoration: none;
+            font-size: 11px;
+            font-weight: bold;
+            border-bottom: 1px solid rgba(0, 229, 255, 0.15);
+            transition: all 0.2s ease;
+            text-align: left;
+        }
+
+        .solo-system-item:last-child {
+            border-bottom: none;
+        }
+
+        .solo-system-item:hover {
+            background: rgba(0, 229, 255, 0.25);
+            color: #ffffff;
+            text-shadow: 0 0 8px #ffffff;
+            padding-left: 22px;
+        }
+
+        .solo-system-item.selected-item {
+            background: rgba(0, 229, 255, 0.1);
+            color: #00e5ff;
+            text-shadow: 0 0 5px rgba(0, 229, 255, 0.5);
+        }
+
+        @keyframes systemPanelGlow {
+            from { opacity: 0; transform: translateY(-8px) scale(0.98); filter: brightness(1.5); }
+            to { opacity: 1; transform: translateY(0) scale(1); filter: brightness(1); }
+        }
+
+        /* ==========================================================================
+           UPDATED BASE FUNCTIONS: TITLE TRUNCATION & PC SLIDER SCROLL
+           ========================================================================== */
+        .title-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            overflow: hidden;
+            gap: 15px;
+        }
+        
+        .title-row h1 {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            flex: 1;
+            min-width: 0;
+            margin: 0;
+        }
+
+        .episode-slider {
+            cursor: grab;
+            overflow-x: auto;
+            user-select: none;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .episode-slider:active {
+            cursor: grabbing;
+        }
+
+        .episode-slider::-webkit-scrollbar {
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -57,10 +207,16 @@
             </div>
             <div class="dropdown-row">
                 <div class="custom-select">Hindi Dubbed</div>
-                <div class="custom-select">Season 01 <span class="dropdown-icon">▼</span><select onchange="location = this.value;">
-                    <option value="#" selected>Season 01 (Arise)</option>
-                    <option value="#">Season 02 (Arise from the Shadow)</option>
-                </select></div>
+                
+                <div class="solo-dropdown-system">
+                    <div class="solo-system-trigger" id="soloSeasonTrigger" onclick="window.toggleSystemDropdown(event)">
+                        <span>Season 01</span> <span class="system-icon-arrow">▼</span>
+                    </div>
+                    <div class="solo-system-menu" id="soloSystemMenu">
+                        <a href="#" class="solo-system-item selected-item" onclick="window.triggerSystemRedirect('#')">Season 01 (Arise)</a>
+                        <a href="#" class="solo-system-item" onclick="window.triggerSystemRedirect('#')">Season 02 (Arise from the Shadow)</a>
+                    </div>
+                </div>
             </div>
             
             <div class="episode-slider" id="epSlider">
@@ -78,7 +234,7 @@
                 <div class="ep-box" onclick="playEpisode('stsar6yeujuu', this)">12</div>
             </div>
 
-            <div class="tabs-container"><div class="tab active">Recommended</div><div class="tab">Similar Anime</div></div>
+            <div class="tabs-container"><div class="tab active">Recommended</div></div>
             <div class="rec-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 15px;">
                 <a href="#" class="rec-card">
                     <div class="lang-tag">Hindi</div>
@@ -126,10 +282,34 @@
         // CONFIGURATION
         const ANIME_ID = "solo-leveling-s1";
         const ANIME_TITLE = "Solo Leveling S1";
-        // Root relative path for consistent Dashboard (mi.html) rendering
         const ANIME_POSTER = "assets/soloposter.jpeg"; 
         
         let isBookmarked = false;
+
+        // --- JIN-WOO SYSTEM DROPDOWN ENGINE ---
+        window.toggleSystemDropdown = function(event) {
+            event.stopPropagation();
+            const menu = document.getElementById('soloSystemMenu');
+            const trigger = document.getElementById('soloSeasonTrigger');
+            
+            menu.classList.toggle('show-panel');
+            trigger.classList.toggle('active-panel');
+        };
+
+        window.triggerSystemRedirect = function(url) {
+            if (url && url !== '#') {
+                window.location.href = url;
+            }
+        };
+
+        document.addEventListener('click', function(e) {
+            const menu = document.getElementById('soloSystemMenu');
+            const trigger = document.getElementById('soloSeasonTrigger');
+            if (menu && menu.classList.contains('show-panel')) {
+                menu.classList.remove('show-panel');
+                trigger.classList.remove('active-panel');
+            }
+        });
 
         window.playEpisode = async function(voeId, element) {
             const player = document.getElementById('mainPlayer');
@@ -222,6 +402,30 @@
             if (navigator.share) { navigator.share({ title: document.querySelector('h1').innerText, url: window.location.href }); }
             else { navigator.clipboard.writeText(window.location.href); alert('URL Copied!'); }
         };
+
+        // PC MOUSE DRAG TO SCROLL ENGINE
+        const epSlider = document.getElementById('epSlider');
+        let isDown = false;
+        let startX;
+        let scrollLeft;
+
+        epSlider.addEventListener('mousedown', (e) => {
+            isDown = true;
+            startX = e.pageX - epSlider.offsetLeft;
+            scrollLeft = epSlider.scrollLeft;
+        });
+
+        epSlider.addEventListener('mouseleave', () => { isDown = false; });
+        epSlider.addEventListener('mouseup', () => { isDown = false; });
+
+        epSlider.addEventListener('mousemove', (e) => {
+            if (!isDown) return;
+            e.preventDefault();
+            const x = e.pageX - epSlider.offsetLeft;
+            const walk = (x - startX) * 2;
+            epSlider.scrollLeft = scrollLeft - walk;
+        });
     </script>
 </body>
 </html>
+
