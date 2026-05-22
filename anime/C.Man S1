@@ -279,7 +279,7 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        const ANIME_ID = "chainsaw-man-s1";
+        const ANIME_ID = "C.Man S1";
         const ANIME_TITLE = "Chainsaw Man S1";
         const ANIME_POSTER = "assets/chainsaw_man_poster.jpeg"; 
         
