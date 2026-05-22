@@ -77,7 +77,7 @@ const animeData = [
         title: "chainshow Man",
         img: "assets/adv_sample.jpeg",
         lang: "HINDI",
-        link: "C.Man-S1",
+        link: "anime/Chainsaw-Man-S1.html",
         desc: "Adventure",
         categories: ["adventure"]
     },
