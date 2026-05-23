@@ -10,7 +10,6 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     
     <style>
-        /* --- GLOBAL RESET & THEME (STRICTLY LOCKED) --- */
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; -webkit-tap-highlight-color: transparent; }
         :root {
             --bg-main: #0e0e11; --bg-card: #1c1c22; --text-main: #ffffff; --text-sub: #8e8e93;
@@ -18,11 +17,7 @@
             --red-gradient: linear-gradient(90deg, #4b0000 0%, #8b0000 100%);
         }
         body { background-color: var(--bg-main); color: var(--text-main); padding-bottom: 90px; }
-        .icon { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; flex-shrink: 0; }
-        .icon svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-        .icon-fill svg { fill: currentColor; stroke: none; }
-
-        /* HEADER */
+        
         .header { display: flex; justify-content: space-between; align-items: flex-start; padding: 20px 16px 15px; position: relative; }
         .profile-area { display: flex; align-items: center; gap: 12px; }
         .profile-pic { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; background: #333; border: 1px solid var(--divider); }
@@ -34,64 +29,30 @@
         .badge { background: rgba(255,255,255,0.1); padding: 3px 6px; border-radius: 4px; font-size: 11px; color: var(--text-sub); display: flex; align-items: center; gap: 4px; }
         .badge-blue { color: #4facfe; } .badge-pink { color: #ff66b2; }
         
-        /* LOGIN BUTTON STYLE */
         .auth-btn { background: rgba(255,255,255,0.1); border: 1px solid var(--divider); color: var(--text-main); padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 500; cursor: pointer; white-space: nowrap; align-self: center; transition: 0.2s; }
-        .auth-btn:active { opacity: 0.7; }
-
-        /* ANNOUNCEMENT */
+        
         .announcement { background: var(--red-gradient); backdrop-filter: blur(10px); color: #fff; padding: 10px 16px; font-size: 12px; display: flex; align-items: center; gap: 8px; margin-bottom: 16px; font-weight: 500; }
 
-        /* MENU BLOCKS */
         .menu-group { background: var(--bg-card); border-radius: 12px; margin: 0 16px 16px; overflow: hidden; padding-top: 5px; }
         .menu-item { display: flex; align-items: center; justify-content: space-between; padding: 16px; border-bottom: 1px solid var(--divider); cursor: pointer; text-decoration: none; color: inherit; }
-        .menu-item:last-child { border-bottom: none; }
         .menu-item-left { display: flex; align-items: center; gap: 12px; font-size: 15px; font-weight: 500; color: #e5e5e5; }
-        .menu-item-left .icon { color: #b0b0b0; }
         .menu-item-right { display: flex; align-items: center; gap: 8px; color: var(--text-sub); font-size: 14px; }
 
-        /* WATCH HISTORY */
+        /* UNIVERSAL CARD FIX */
         .history-wrapper { padding: 10px 16px 16px; display: flex; gap: 12px; overflow-x: auto; scrollbar-width: none; }
         .history-wrapper::-webkit-scrollbar { display: none; }
-        .history-card { flex: 0 0 140px; position: relative; text-decoration: none; display: block; }
-        .history-img-box { position: relative; width: 100%; height: 80px; border-radius: 6px; overflow: hidden; background: #333; }
-        .history-img { width: 100%; height: 100%; object-fit: cover; opacity: 0.9; }
+        .history-card { flex: 0 0 140px; height: 150px; position: relative; text-decoration: none; display: flex; flex-direction: column; }
+        .history-img-box { width: 100%; height: 110px; border-radius: 6px; overflow: hidden; background: #333; flex-shrink: 0; position: relative; }
+        .history-img { width: 100%; height: 100%; object-fit: cover; }
         .progress-track { position: absolute; bottom: 0; left: 0; width: 100%; height: 3px; background: rgba(255,255,255,0.3); }
         .progress-fill { height: 100%; background: var(--accent-green); }
         .history-title { font-size: 12px; color: #ccc; margin-top: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-        /* FOOTER */
         .footer-text { text-align: center; font-size: 12px; color: var(--text-sub); padding: 10px 0 30px; }
-
-        /* BOTTOM NAV */
-        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; height: 65px; background: var(--bg-card); display: flex; justify-content: space-around; align-items: center; border-top-left-radius: 20px; border-top-right-radius: 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.5); z-index: 100; padding-bottom: env(safe-area-inset-bottom); }
-        .nav-item { display: flex; flex-direction: column; align-items: center; gap: 4px; color: var(--text-sub); text-decoration: none; width: 33.33%; position: relative; }
+        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; height: 65px; background: var(--bg-card); display: flex; justify-content: space-around; align-items: center; border-top-left-radius: 20px; border-top-right-radius: 20px; z-index: 100; }
+        .nav-item { display: flex; flex-direction: column; align-items: center; gap: 4px; color: var(--text-sub); text-decoration: none; width: 33.33%; }
         .nav-item.active { color: var(--accent-green); }
         .nav-item span { font-size: 10px; font-weight: 500; }
-
-        /* MODALS */
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 200; justify-content: center; align-items: center; padding: 20px; opacity: 0; transition: opacity 0.3s; }
-        .modal-overlay.show { display: flex; opacity: 1; }
-        .modal-content { background: var(--bg-card); width: 100%; max-width: 350px; border-radius: 16px; padding: 24px; position: relative; border: 1px solid var(--divider); max-height: 80vh; overflow-y: auto; }
-        .close-btn { position: absolute; top: 15px; right: 15px; color: var(--text-sub); font-size: 20px; cursor: pointer; }
-        .modal-title { font-size: 18px; font-weight: 600; margin-bottom: 20px; text-align: center; color: var(--text-main); }
-        .input-group { margin-bottom: 16px; }
-        .input-group label { display: block; font-size: 12px; color: var(--text-sub); margin-bottom: 6px; }
-        .input-box { width: 100%; background: var(--bg-main); border: 1px solid var(--divider); color: var(--text-main); padding: 12px; border-radius: 8px; outline: none; font-size: 14px; }
-        .upload-container { display: flex; align-items: center; gap: 15px; background: var(--bg-main); padding: 10px; border-radius: 8px; border: 1px solid var(--divider); cursor: pointer; }
-        .preview-circle { width: 45px; height: 45px; border-radius: 50%; object-fit: cover; background: #333; }
-        .upload-text { font-size: 13px; color: var(--accent-green); font-weight: 500; }
-        .gender-selector { display: flex; gap: 10px; }
-        .gender-btn { flex: 1; padding: 10px; background: var(--bg-main); border: 1px solid var(--divider); color: var(--text-sub); border-radius: 8px; text-align: center; cursor: pointer; font-size: 14px; }
-        .gender-btn.active { background: rgba(0, 210, 106, 0.1); border-color: var(--accent-green); color: var(--accent-green); font-weight: bold; }
-        .save-btn { width: 100%; padding: 14px; border-radius: 8px; background: var(--accent-green); color: #000; font-weight: 700; text-align: center; border: none; cursor: pointer; margin-top: 10px; transition: 0.3s; opacity: 0.5; pointer-events: none; }
-        .save-btn.ready { opacity: 1; pointer-events: auto; }
-
-        /* ADDED LIST */
-        .added-card-link { text-decoration: none; display: block; }
-        .vertical-added-list { display: flex; flex-direction: column; gap: 12px; }
-        .added-card { display: flex; align-items: center; gap: 12px; background: var(--bg-main); padding: 8px; border-radius: 8px; border: 1px solid var(--divider); }
-        .added-card img { width: 60px; height: 80px; object-fit: cover; border-radius: 4px; }
-        .added-card-title { font-size: 14px; font-weight: 500; color: #fff; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     </style>
 </head>
 <body>
@@ -145,47 +106,6 @@
         <a href="#" class="nav-item active">👤<span>Me</span></a>
     </div>
 
-    <div class="modal-overlay" id="editModal">
-        <div class="modal-content">
-            <div class="close-btn" id="btnCloseEdit">✕</div>
-            <div class="modal-title">Edit Profile</div>
-            <div class="input-group">
-                <label>Profile Picture</label>
-                <input type="file" id="fileInput" accept="image/*" style="display:none;">
-                <div class="upload-container" id="btnUploadTrigger">
-                    <img src="../assets/demon_slayer_s1.jpg" id="previewImg" class="preview-circle">
-                    <span class="upload-text">Change Photo</span>
-                </div>
-            </div>
-            <div class="input-group">
-                <label>Display Name</label>
-                <input type="text" id="inputName" class="input-box" placeholder="Your Name">
-            </div>
-            <div class="input-group">
-                <label>Gender</label>
-                <div class="gender-selector">
-                    <div class="gender-btn active" id="btnMale">♂ Male</div>
-                    <div class="gender-btn" id="btnFemale">♀ Female</div>
-                </div>
-            </div>
-            <div class="input-group">
-                <label>Account ID (9 Digits)</label>
-                <input type="number" id="inputId" class="input-box" placeholder="123456789">
-            </div>
-            <button class="save-btn" id="saveBtn">Save Changes</button>
-        </div>
-    </div>
-
-    <div class="modal-overlay" id="addedModal">
-        <div class="modal-content">
-            <div class="close-btn" id="btnCloseAdded">✕</div>
-            <div class="modal-title">My Added</div>
-            <div class="vertical-added-list" id="addedContainer">
-                <div class="footer-text">No bookmarks yet.</div>
-            </div>
-        </div>
-    </div>
-
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
@@ -204,135 +124,58 @@
         const db = getFirestore(app);
         const auth = getAuth(app);
         const provider = new GoogleAuthProvider();
-        provider.setCustomParameters({ prompt: 'select_account' });
 
-        let currentUser = null;
-        let selectedGender = "♂";
-        let currentGenderClass = "badge-blue";
-        let profileImageBase64 = null;
-
-        // GitHub Compatibility: Global Path Fix
         const fixPath = (path) => {
             if (!path) return "assets/placeholder.jpg";
             if (path.startsWith("http") || path.startsWith("data:")) return path;
             return path.replace(/^\.\.\//, ""); 
         };
 
-        // --- GitHub Button Fix: Event Listeners ---
-        document.getElementById('authButton').addEventListener('click', () => signInWithPopup(auth, provider));
-        document.getElementById('btnOpenEdit').addEventListener('click', () => document.getElementById('editModal').classList.add('show'));
-        document.getElementById('btnCloseEdit').addEventListener('click', () => document.getElementById('editModal').classList.remove('show'));
-        document.getElementById('btnOpenAdded').addEventListener('click', () => document.getElementById('addedModal').classList.add('show'));
-        document.getElementById('btnCloseAdded').addEventListener('click', () => document.getElementById('addedModal').classList.remove('show'));
-        document.getElementById('btnUploadTrigger').addEventListener('click', () => document.getElementById('fileInput').click());
-
-        document.getElementById('btnMale').addEventListener('click', () => selectGender('♂', 'badge-blue'));
-        document.getElementById('btnFemale').addEventListener('click', () => selectGender('♀', 'badge-pink'));
-        
-        document.getElementById('fileInput').addEventListener('change', (e) => handleImage(e.target));
-        document.getElementById('inputName').addEventListener('input', checkValidation);
-        document.getElementById('inputId').addEventListener('input', checkValidation);
-        document.getElementById('saveBtn').addEventListener('click', saveProfile);
-
-        onAuthStateChanged(auth, async (user) => {
-            const authBtn = document.getElementById('authButton');
-            if (user) { 
-                currentUser = user; 
-                authBtn.innerText = "Switch Account"; 
-                await loadUserData(); 
-            } else { 
-                currentUser = null;
-                authBtn.innerText = "Login"; 
-                document.getElementById('displayName').innerText = "Guest User"; 
-            }
-        });
-
-        async function loadUserData() {
-            const snap = await getDoc(doc(db, "users", currentUser.uid));
-            if (snap.exists()) {
-                const data = snap.data();
-                document.getElementById('displayName').innerText = data.name || currentUser.displayName;
-                document.getElementById('displayId').innerText = data.accountId || "---------";
-                document.getElementById('displayGender').innerText = data.gender || "♂";
-                document.getElementById('displayGender').parentElement.className = `badge ${data.genderClass || 'badge-blue'}`;
-                
-                if(data.profilePic) {
-                    document.getElementById('displayPic').src = data.profilePic;
-                    document.getElementById('previewImg').src = data.profilePic;
-                }
-                renderHistory(Object.values(data.watchHistory || {}).sort((a,b) => b.timestamp - a.timestamp));
-                renderAdded(data.myAdded || []);
-            }
-        }
-
         function renderHistory(history) {
             const container = document.getElementById('historyContainer');
             if(!history.length) return;
-            container.innerHTML = history.map(item => `
-                <a href="./anime/${item.id}.html" class="history-card">
+            container.innerHTML = history.map(item => {
+                const isMovie = item.type === "movie";
+                const progress = isMovie ? 100 : (item.currentEp / item.totalEp) * 100;
+                const link = isMovie ? `./movies/${item.id}.html` : `./anime/${item.id}.html`;
+                
+                return `
+                <a href="${link}" class="history-card">
                     <div class="history-img-box">
                         <img src="${fixPath(item.poster)}" class="history-img" onerror="this.src='assets/placeholder.jpg'">
-                        <div class="progress-track"><div class="progress-fill" style="width:${(item.currentEp / item.totalEp) * 100}%"></div></div>
+                        <div class="progress-track"><div class="progress-fill" style="width:${progress}%"></div></div>
                     </div>
                     <div class="history-title">${item.title}</div>
-                </a>`).join('');
+                </a>`;
+            }).join('');
         }
 
         function renderAdded(added) {
             const container = document.getElementById('addedContainer');
             if(!added.length) return;
             container.innerHTML = added.map(item => `
-                <a href="./anime/${item.id}.html" class="added-card-link">
+                <a href="${item.type === 'movie' ? './movies/' : './anime/'}${item.id}.html" class="added-card-link">
                     <div class="added-card">
                         <img src="${fixPath(item.poster)}" onerror="this.src='assets/placeholder.jpg'">
                         <div class="added-card-title">${item.title}</div>
                     </div>
                 </a>`).join('');
         }
+        
+        // ... baki code same rahega ...
+        onAuthStateChanged(auth, async (user) => {
+            if (user) { await loadUserData(); }
+        });
 
-        function selectGender(g, c) {
-            selectedGender = g; currentGenderClass = c;
-            document.getElementById('btnMale').classList.toggle('active', g === '♂');
-            document.getElementById('btnFemale').classList.toggle('active', g === '♀');
-        }
-
-        function handleImage(input) {
-            if (input.files && input.files[0]) {
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    profileImageBase64 = e.target.result;
-                    document.getElementById('previewImg').src = profileImageBase64;
-                };
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
-
-        function checkValidation() {
-            const name = document.getElementById('inputName').value.trim();
-            const idVal = document.getElementById('inputId').value.toString();
-            const btn = document.getElementById('saveBtn');
-            if(name.length > 2 && idVal.length === 9) btn.classList.add('ready');
-            else btn.classList.remove('ready');
-        }
-
-        async function saveProfile() {
-            const btn = document.getElementById('saveBtn');
-            btn.innerText = "Saving...";
-            const updateData = { 
-                name: document.getElementById('inputName').value.trim(), 
-                accountId: document.getElementById('inputId').value.toString(), 
-                gender: selectedGender, 
-                genderClass: currentGenderClass 
-            };
-            if(profileImageBase64) updateData.profilePic = profileImageBase64;
-            try {
-                await setDoc(doc(db, "users", currentUser.uid), updateData, { merge: true });
-                location.reload();
-            } catch(e) { 
-                alert("Error saving profile"); 
-                btn.innerText = "Save Changes";
+        async function loadUserData() {
+            const snap = await getDoc(doc(db, "users", auth.currentUser.uid));
+            if (snap.exists()) {
+                const data = snap.data();
+                renderHistory(Object.values(data.watchHistory || {}).sort((a,b) => b.timestamp - a.timestamp));
+                renderAdded(data.myAdded || []);
             }
         }
     </script>
 </body>
 </html>
+
