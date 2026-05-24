@@ -120,7 +120,7 @@ const animeData = [
     {
         id: "shang-chi",
         title: "Shang-chi and the legend of the ten rings",
-        img: "assets/A.O.T.jpeg",
+        img: "assets/S.C.T.R.jpeg",
         lang: "HINDI",
         link: "movie/Shang-Chi.html",
         desc: "Action",
