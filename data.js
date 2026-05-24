@@ -43,7 +43,7 @@ const animeData = [
         lang: "HINDI",
         link: "#",
         desc: "Romance",
-        categories: ["movies", "romance"]
+        categories: ["movies"]
     },
     {
         id: "suzume",
@@ -52,7 +52,7 @@ const animeData = [
         lang: "HINDI",
         link: "#",
         desc: "Fantasy",
-        categories: ["movies", "fantasy"]
+        categories: ["movies"]
     },
     {
         id: "money-heist",
@@ -116,41 +116,6 @@ const animeData = [
         link: "#",
         desc: "Comedy",
         categories: ["comedy"]
-    },
-    {
-        id: "shang-chi",
-        title: "Shang-Chi and the Legend of the Ten Rings",
-        img: "assets/shang_chi.jpeg",
-        lang: "HINDI",
-        link: "#",
-        desc: "Action",
-        categories: ["movies", "action", "fantasy"]
-    },
-    {
-        id: "mufasa-lion-king",
-        title: "Mufasa: The Lion King",
-        img: "assets/mufasa.jpeg",
-        lang: "HINDI",
-        link: "#",
-        desc: "Adventure",
-        categories: ["movies", "adventure", "drama"]
-    },
-    {
-        id: "a-silent-voice",
-        title: "A Silent Voice",
-        img: "assets/silent_voice.jpeg",
-        lang: "HINDI",
-        link: "#",
-        desc: "Drama",
-        categories: ["movies", "drama", "romance"]
-    },
-    {
-        id: "ds-infinity-castle",
-        title: "Demon Sla...",
-        img: "assets/ds_infinity_castle.jpeg",
-        lang: "HINDI",
-        link: "#",
-        desc: "Action",
-        categories: ["movies", "action", "fantasy"]
     }
+    
 ];
