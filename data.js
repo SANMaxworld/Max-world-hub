@@ -146,7 +146,7 @@ const animeData = [
     },
     {
         id: "ds-infinity-castle",
-        title: "Demon Slayer: Infinity Castle",
+        title: "Demon Sla...",
         img: "assets/ds_infinity_castle.jpeg",
         lang: "HINDI",
         link: "#",
