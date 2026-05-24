@@ -116,15 +116,7 @@ const animeData = [
         link: "#",
         desc: "Comedy",
         categories: ["comedy"]
-    },
-    {
-        id: "shang-chi",
-        title: "Shang-chi and the legend of the ten rings",
-        img: "assets/S.C.T.R.jpeg",
-        lang: "HINDI",
-        link: "movie/Shang-Chi.html",
-        desc: "Action",
-        categories: ["trending", "movies"]
     }
+    
 ];
       
