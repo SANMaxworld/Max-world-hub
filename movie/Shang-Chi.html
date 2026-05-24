@@ -5,22 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Watch Shang-Chi Legend of the 10 Rings [Hindi Dubbed] Online - Max World Hub</title>
     
-    <meta name="color-scheme" content="dark">
-    <meta name="theme-color" content="#000000">
-    <link rel="manifest" href="../manifest.json">
+    <meta name="color-scheme" content="dark only"> <meta name="theme-color" content="#000000">
+    
+    <link rel="manifest" href="../manifest.json" crossorigin="use-credentials">
     
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
     <link rel="stylesheet" href="../style.css">
     <style>
         /* ==========================================================================
-           🛡️ GLOBAL LAYOUT & BLEED PREVENTION (FORCES TOTAL BLACK BACKGROUND)
+           🛡️ ROOT SYSTEM LEVEL OVERRIDE (CRITICAL BLEED PREVENTION)
            ========================================================================== */
+        :root {
+            color-scheme: dark !important; /* रूट लेवल पर ही डार्क स्कीम इंजेक्ट कर दी */
+        }
+
         html, body {
             background-color: #000000 !important;
+            background: #000000 !important; /* कुछ ओल्डर क्रोम इंजनों के फॉलबैक के लिए */
             min-height: 100vh;
             margin: 0;
             padding: 0;
+            overflow-x: hidden;
         }
 
         /* DESIGN IS LOCKED - CORE STYLES */
@@ -73,7 +80,7 @@
         .movie-active-banner {
             width: 100%;
             background: linear-gradient(180deg, rgba(4, 12, 24, 0.95), rgba(0, 30, 40, 0.85));
-            border: 1.5px solid #00e5ff; /* Solid Neon Border */
+            border: 1.5px solid #00e5ff; 
             color: #00e5ff;
             padding: 16px;
             text-align: center;
@@ -84,11 +91,10 @@
             text-shadow: 0 0 12px #00e5ff;
             margin: 18px 0;
             user-select: none;
-            cursor: default; /* Not a button */
-            animation: movieNeonPulse 1.5s infinite alternate; /* Continuous Glow Animation */
+            cursor: default; 
+            animation: movieNeonPulse 1.5s infinite alternate; 
         }
 
-        /* Keyframes for the glowing breathing effect */
         @keyframes movieNeonPulse {
             0% { 
                 box-shadow: 0 0 10px rgba(0, 229, 255, 0.3), inset 0 0 5px rgba(0, 229, 255, 0.1); 
@@ -216,7 +222,7 @@
                         [ANIME_ID]: {
                             id: ANIME_ID,
                             title: ANIME_TITLE,
-                            type: "movie", // Set as movie for Dashboard
+                            type: "movie", 
                             poster: ANIME_POSTER,
                             timestamp: Date.now()
                         }
@@ -257,7 +263,6 @@
                     document.getElementById('bookmarkBtn').innerText = isBookmarked ? "📂 Added" : "📂 Add to List";
                 }
             }
-            // Trigger the movie instantly
             playEpisode(MOVIE_VOE_ID);
         });
 
