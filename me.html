@@ -268,14 +268,24 @@
         function renderHistory(history) {
             const container = document.getElementById('historyContainer');
             if(!history.length) return;
-            container.innerHTML = history.map(item => `
-                <a href="./anime/${item.id}.html" class="history-card">
+            container.innerHTML = history.map(item => {
+                // Safe evaluation for calculations to avoid breaks
+                let progressWidth = 0;
+                if (item.currentEp && item.totalEp) {
+                    progressWidth = (parseInt(item.currentEp) / parseInt(item.totalEp)) * 100;
+                }
+                // Determine layout path safely based on media type
+                const pathPrefix = (item.type === "movie") ? "./movie/" : "./anime/";
+                
+                return `
+                <a href="${pathPrefix}${item.id}.html" class="history-card">
                     <div class="history-img-box">
                         <img src="${fixPath(item.poster)}" class="history-img" onerror="this.src='assets/placeholder.jpg'">
-                        <div class="progress-track"><div class="progress-fill" style="width:${(item.currentEp / item.totalEp) * 100}%"></div></div>
+                        <div class="progress-track"><div class="progress-fill" style="width:${progressWidth}%"></div></div>
                     </div>
                     <div class="history-title">${item.title}</div>
-                </a>`).join('');
+                </a>`;
+            }).join('');
         }
 
         function renderAdded(added) {
@@ -324,15 +334,4 @@
                 gender: selectedGender, 
                 genderClass: currentGenderClass 
             };
-            if(profileImageBase64) updateData.profilePic = profileImageBase64;
-            try {
-                await setDoc(doc(db, "users", currentUser.uid), updateData, { merge: true });
-                location.reload();
-            } catch(e) { 
-                alert("Error saving profile"); 
-                btn.innerText = "Save Changes";
-            }
-        }
-    </script>
-</body>
-</html>
+            if(profileImageBase64) updateData.profile
