@@ -52,12 +52,34 @@
         /* WATCH HISTORY */
         .history-wrapper { padding: 10px 16px 16px; display: flex; gap: 12px; overflow-x: auto; scrollbar-width: none; }
         .history-wrapper::-webkit-scrollbar { display: none; }
-        .history-card { flex: 0 0 140px; position: relative; text-decoration: none; display: block; }
+        
+        /* 🚨 FIX: Cards ki width ko strict kar diya, ab overflow nahi hoga */
+        .history-card { 
+            flex: 0 0 140px; 
+            width: 140px; 
+            max-width: 140px; 
+            position: relative; 
+            text-decoration: none; 
+            display: block; 
+            overflow: hidden; 
+        }
+        
         .history-img-box { position: relative; width: 100%; height: 80px; border-radius: 6px; overflow: hidden; background: #333; }
         .history-img { width: 100%; height: 100%; object-fit: cover; opacity: 0.9; }
         .progress-track { position: absolute; bottom: 0; left: 0; width: 100%; height: 3px; background: rgba(255,255,255,0.3); }
         .progress-fill { height: 100%; background: var(--accent-green); }
-        .history-title { font-size: 12px; color: #ccc; margin-top: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        
+        /* 🚨 FIX: Text truncate karne ke liye width 100% and block set kiya */
+        .history-title { 
+            font-size: 12px; 
+            color: #ccc; 
+            margin-top: 6px; 
+            white-space: nowrap; 
+            overflow: hidden; 
+            text-overflow: ellipsis; 
+            display: block; 
+            width: 100%; 
+        }
 
         /* FOOTER */
         .footer-text { text-align: center; font-size: 12px; color: var(--text-sub); padding: 10px 0 30px; }
@@ -89,9 +111,24 @@
         /* ADDED LIST */
         .added-card-link { text-decoration: none; display: block; }
         .vertical-added-list { display: flex; flex-direction: column; gap: 12px; }
-        .added-card { display: flex; align-items: center; gap: 12px; background: var(--bg-main); padding: 8px; border-radius: 8px; border: 1px solid var(--divider); }
-        .added-card img { width: 60px; height: 80px; object-fit: cover; border-radius: 4px; }
-        .added-card-title { font-size: 14px; font-weight: 500; color: #fff; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .added-card { display: flex; align-items: center; gap: 12px; background: var(--bg-main); padding: 8px; border-radius: 8px; border: 1px solid var(--divider); overflow: hidden; }
+        
+        /* 🚨 FIX: Image ko chota hone se rokne ke liye flex-shrink 0 */
+        .added-card img { width: 60px; height: 80px; object-fit: cover; border-radius: 4px; flex-shrink: 0; }
+        
+        /* 🚨 FIX: Flex layout me text truncate hone ke liye min-width: 0 zaruri hai */
+        .added-card-title { 
+            font-size: 14px; 
+            font-weight: 500; 
+            color: #fff; 
+            margin-bottom: 4px; 
+            white-space: nowrap; 
+            overflow: hidden; 
+            text-overflow: ellipsis; 
+            flex: 1; 
+            min-width: 0; 
+            display: block; 
+        }
     </style>
 </head>
 <body>
@@ -211,14 +248,12 @@
         let currentGenderClass = "badge-blue";
         let profileImageBase64 = null;
 
-        // GitHub Compatibility: Global Path Fix
         const fixPath = (path) => {
             if (!path) return "assets/placeholder.jpg";
             if (path.startsWith("http") || path.startsWith("data:")) return path;
             return path.replace(/^\.\.\//, ""); 
         };
 
-        // --- GitHub Button Fix: Event Listeners ---
         document.getElementById('authButton').addEventListener('click', () => signInWithPopup(auth, provider));
         document.getElementById('btnOpenEdit').addEventListener('click', () => document.getElementById('editModal').classList.add('show'));
         document.getElementById('btnCloseEdit').addEventListener('click', () => document.getElementById('editModal').classList.remove('show'));
@@ -269,12 +304,10 @@
             const container = document.getElementById('historyContainer');
             if(!history.length) return;
             container.innerHTML = history.map(item => {
-                // Safe evaluation for calculations to avoid breaks
                 let progressWidth = 0;
                 if (item.currentEp && item.totalEp) {
                     progressWidth = (parseInt(item.currentEp) / parseInt(item.totalEp)) * 100;
                 }
-                // Determine layout path safely based on media type
                 const pathPrefix = (item.type === "movie") ? "./movie/" : "./anime/";
                 
                 return `
