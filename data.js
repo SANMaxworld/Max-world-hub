@@ -52,7 +52,7 @@ const animeData = [
         lang: "HINDI",
         link: "#",
         desc: "Fantasy",
-        categories: ["movies"]
+        categories: ["movies", "fantasy"]
     },
     {
         id: "money-heist",
@@ -116,6 +116,113 @@ const animeData = [
         link: "#",
         desc: "Comedy",
         categories: ["comedy"]
+    },
+    {
+        id: "mufasa-the-lion-king",
+        title: "Mufasa: The Lion King",
+        img: "assets/mufasa.jpeg",
+        lang: "HINDI",
+        link: "#",
+        desc: "Adventure",
+        categories: ["movies", "adventure", "drama"]
+    },
+    {
+        id: "shang-chi-legend-of-the-ten-rings",
+        title: "Shang-Chi and the Legend of the Ten Rings",
+        img: "assets/shang_chi.jpeg",
+        lang: "HINDI",
+        link: "#",
+        desc: "Action",
+        categories: ["movies", "action", "fantasy"]
+    },
+    {
+        id: "the-conjuring",
+        title: "The Conjuring",
+        img: "assets/conjuring.jpeg",
+        lang: "HINDI",
+        link: "#",
+        desc: "Horror",
+        categories: ["movies", "horror"]
+    },
+    {
+        id: "a-silent-voice",
+        title: "A Silent Voice",
+        img: "assets/silent_voice.jpeg",
+        lang: "HINDI",
+        link: "#",
+        desc: "Drama",
+        categories: ["movies", "drama", "romance"]
+    },
+    {
+        id: "the-pradeeps-of-pittsburgh",
+        title: "The Pradeeps of Pittsburgh",
+        img: "assets/pradeeps.jpeg",
+        lang: "HINDI",
+        link: "#",
+        desc: "Comedy",
+        categories: ["series", "comedy"]
+    },
+    {
+        id: "shin-chan-the-flower-of-tenkazu-academy",
+        title: "Crayon Shin-chan: Shrouded in Mystery! The Flowers of Tenkazu Academy",
+        img: "assets/shinchan_tenkazu.jpeg",
+        lang: "HINDI",
+        link: "#",
+        desc: "Comedy",
+        categories: ["movies", "comedy", "adventure"]
+    },
+    {
+        id: "shin-chan-the-spicy-kasukabe-dancers",
+        title: "Crayon Shin-chan: Fierceness! Intense Jump! Spicy Kasukabe Boys",
+        img: "assets/shinchan_spicy.jpeg",
+        lang: "HINDI",
+        link: "#",
+        desc: "Comedy",
+        categories: ["movies", "comedy", "adventure"]
+    },
+    {
+        id: "final-destination-bloodlines",
+        title: "Final Destination: Bloodlines",
+        img: "assets/final_destination.jpeg",
+        lang: "HINDI",
+        link: "#",
+        desc: "Horror",
+        categories: ["movies", "horror"]
+    },
+    {
+        id: "solo-leveling-s2",
+        title: "Solo Leveling S2 -Arise from the Shadow-",
+        img: "assets/solo_leveling_s2.jpeg",
+        lang: "HINDI",
+        link: "#",
+        desc: "Fantasy",
+        categories: ["action", "fantasy"]
+    },
+    {
+        id: "re-zero-s1",
+        title: "Re:ZERO -Starting Life in Another World- S1",
+        img: "assets/rezero_s1.jpeg",
+        lang: "HINDI",
+        link: "#",
+        desc: "Fantasy",
+        categories: ["fantasy", "drama", "horror"]
+    },
+    {
+        id: "re-zero-s2",
+        title: "Re:ZERO -Starting Life in Another World- S2",
+        img: "assets/rezero_s2.jpeg",
+        lang: "HINDI",
+        link: "#",
+        desc: "Fantasy",
+        categories: ["fantasy", "drama", "horror"]
+    },
+    {
+        id: "the-angel-next-door-spoils-me-rotten",
+        title: "The Angel Next Door Spoils Me Rotten",
+        img: "assets/angel_next_door.jpeg",
+        lang: "HINDI",
+        link: "#",
+        desc: "Romance",
+        categories: ["romance", "comedy"]
     }
-    
 ];
