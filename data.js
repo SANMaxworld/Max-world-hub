@@ -156,9 +156,9 @@ const animeData = [
     {
         id: "the-pradeeps-of-pittsburgh",
         title: "The Pradeeps of Pittsburgh",
-        img: "assets/pradeeps.jpeg",
+        img: "assets/the_pradeeps_of_pittsburgh.jpg",
         lang: "HINDI",
-        link: "#",
+        link: "the_pradeeps_of_pittsburgh.html",
         desc: "Comedy",
         categories: ["series", "comedy"]
     },
