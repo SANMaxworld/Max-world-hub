@@ -116,15 +116,16 @@
         .grid-container::-webkit-scrollbar { display: none; }
 
         /* CARDS */
-        .search-item { flex: 0 0 115px; position: relative; text-decoration: none; display: flex; flex-direction: column; }
+        .search-item { flex: 0 0 115px; width: 115px; max-width: 115px; min-width: 0; position: relative; text-decoration: none; display: flex; flex-direction: column; overflow: hidden; }
+        .hq-results-grid .search-item { width: 100%; max-width: 100%; }
         .icon-poster { width: 100%; aspect-ratio: 2/3; object-fit: cover; border-radius: 0px; }
         .badge-hindi {
             position: absolute; top: 6px; right: 6px; background: rgba(0,0,0,0.75);
             color: #fff; font-size: 0.6rem; padding: 3px 6px; border-radius: 0px; font-weight: 600;
         }
-        .content-box { padding: 6px 2px 0; }
-        .content-box h4 { font-size: 0.8rem; color: rgba(255,255,255,0.9); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 500; }
-        .desc-text { font-size: 0.65rem; color: #999; margin-top: 2px; }
+        .content-box { padding: 6px 2px 0; min-width: 0; overflow: hidden; width: 100%; }
+        .content-box h4 { font-size: 0.8rem; color: rgba(255,255,255,0.9); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 500; display: block; width: 100%; }
+        .desc-text { font-size: 0.65rem; color: #999; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; width: 100%; }
 
         /* FOOTER SECTION */
         .main-footer { margin-top: 50px; padding: 30px 15px 100px; border-top: 1px solid rgba(255,255,255,0.1); text-align: center; }
@@ -160,7 +161,7 @@
         @media (min-width: 768px) {
             .hero-section { aspect-ratio: 21/9; }
             .grid-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); overflow-x: visible; }
-            .search-item { flex: auto; }
+            .search-item { flex: auto; width: 100%; max-width: 100%; }
             .bottom-nav { width: 500px; left: 50%; transform: translateX(-50%); border-radius: 20px 20px 0 0; border: 1px solid rgba(255,42,42,0.3); bottom: 0; }
         }
 
@@ -478,6 +479,7 @@
             </a>`;
         }
 
+        /* Load sections */
         function loadSections() {
             const categories = ['trending', 'movies', 'fantasy', 'series', 'action', 'adventure', 'romance', 'scifi', 'horror', 'comedy', 'drama'];
             categories.forEach(cat => {
