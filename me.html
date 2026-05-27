@@ -4,11 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>MW Hub - My Dashboard</title>
-    <link rel="manifest" href="manifest.json">
+    <link rel="manifest" href="../manifest.json">
     <meta name="theme-color" content="#000000">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <link rel="stylesheet" href="style.css">
     
     <style>
         /* --- GLOBAL RESET & THEME (STRICTLY LOCKED) --- */
@@ -54,7 +53,7 @@
         .history-wrapper { padding: 10px 16px 16px; display: flex; gap: 12px; overflow-x: auto; scrollbar-width: none; }
         .history-wrapper::-webkit-scrollbar { display: none; }
         
-        /* STRICT WIDTH */
+        /* 🚨 FIX: Cards ki width ko strict kar diya, ab overflow nahi hoga */
         .history-card { 
             flex: 0 0 140px; 
             width: 140px; 
@@ -70,7 +69,7 @@
         .progress-track { position: absolute; bottom: 0; left: 0; width: 100%; height: 3px; background: rgba(255,255,255,0.3); }
         .progress-fill { height: 100%; background: var(--accent-green); }
         
-        /* TRUNCATE TITLE */
+        /* 🚨 FIX: Text truncate karne ke liye width 100% and block set kiya */
         .history-title { 
             font-size: 12px; 
             color: #ccc; 
@@ -114,8 +113,10 @@
         .vertical-added-list { display: flex; flex-direction: column; gap: 12px; }
         .added-card { display: flex; align-items: center; gap: 12px; background: var(--bg-main); padding: 8px; border-radius: 8px; border: 1px solid var(--divider); overflow: hidden; }
         
+        /* 🚨 FIX: Image ko chota hone se rokne ke liye flex-shrink 0 */
         .added-card img { width: 60px; height: 80px; object-fit: cover; border-radius: 4px; flex-shrink: 0; }
         
+        /* 🚨 FIX: Flex layout me text truncate hone ke liye min-width: 0 zaruri hai */
         .added-card-title { 
             font-size: 14px; 
             font-weight: 500; 
@@ -134,7 +135,7 @@
 
     <div class="header">
         <div class="profile-area">
-            <img src="assets/demon_slayer.jpg" class="profile-pic" id="displayPic" onerror="this.src='assets/placeholder.jpg'">
+            <img src="../assets/demon_slayer_s1.jpg" class="profile-pic" id="displayPic">
             <div class="profile-info">
                 <div class="profile-name-row"><span class="profile-name" id="displayName">Loading...</span><span class="arrow-right">›</span></div>
                 <div class="badge-row">
@@ -189,7 +190,7 @@
                 <label>Profile Picture</label>
                 <input type="file" id="fileInput" accept="image/*" style="display:none;">
                 <div class="upload-container" id="btnUploadTrigger">
-                    <img src="assets/demon_slayer.jpg" id="previewImg" class="preview-circle" onerror="this.src='assets/placeholder.jpg'">
+                    <img src="../assets/demon_slayer_s1.jpg" id="previewImg" class="preview-circle">
                     <span class="upload-text">Change Photo</span>
                 </div>
             </div>
@@ -223,9 +224,9 @@
     </div>
 
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-        import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyAE_oP6wv4A1UxfEdcT82f4KZkhSBzfH3M",
@@ -299,7 +300,6 @@
             }
         }
 
-        // 🚨 FIX: Removed hardcoded ./movie/ and ./anime/. Uses exact item.id which already contains series/ prefix.
         function renderHistory(history) {
             const container = document.getElementById('historyContainer');
             if(!history.length) return;
@@ -308,9 +308,10 @@
                 if (item.currentEp && item.totalEp) {
                     progressWidth = (parseInt(item.currentEp) / parseInt(item.totalEp)) * 100;
                 }
+                const pathPrefix = (item.type === "movie") ? "./movie/" : "./anime/";
                 
                 return `
-                <a href="./${item.id}.html" class="history-card">
+                <a href="${pathPrefix}${item.id}.html" class="history-card">
                     <div class="history-img-box">
                         <img src="${fixPath(item.poster)}" class="history-img" onerror="this.src='assets/placeholder.jpg'">
                         <div class="progress-track"><div class="progress-fill" style="width:${progressWidth}%"></div></div>
@@ -320,12 +321,11 @@
             }).join('');
         }
 
-        // 🚨 FIX: Removed hardcoded ./anime/. Uses exact item.id for perfect routing.
         function renderAdded(added) {
             const container = document.getElementById('addedContainer');
             if(!added.length) return;
             container.innerHTML = added.map(item => `
-                <a href="./${item.id}.html" class="added-card-link">
+                <a href="./anime/${item.id}.html" class="added-card-link">
                     <div class="added-card">
                         <img src="${fixPath(item.poster)}" onerror="this.src='assets/placeholder.jpg'">
                         <div class="added-card-title">${item.title}</div>
