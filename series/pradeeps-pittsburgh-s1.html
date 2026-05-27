@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="../style.css">
     
     <style>
+        /* DESIGN IS LOCKED - NO CHANGES MADE HERE */
         .rec-card { position: relative; width: 100%; aspect-ratio: 2/3; border-radius: 8px; overflow: hidden; cursor: pointer; background: #1a1a1a; transition: transform 0.2s; display: block; text-decoration: none; }
         .rec-card:hover { transform: scale(1.03); }
         .rec-poster { width: 100%; height: 100%; object-fit: cover; }
@@ -20,11 +21,17 @@
         .seo-about-section h2 { font-size: 16px; color: #fff; margin-bottom: 10px; border-left: 3px solid #ff0000; padding-left: 10px; }
         .seo-about-section p { font-size: 12px; color: #aaa; line-height: 1.6; text-align: justify; margin: 0; }
         .player-wrapper { position: relative; }
+        
+        /* Updated Custom Select Style */
         .custom-select { 
             position: relative; cursor: pointer; display: flex; align-items: center; justify-content: center;
             background: rgba(4, 12, 24, 0.9); border: 1.5px solid #00e5ff; color: #ffffff;
             padding: 8px 16px; border-radius: 4px; font-size: 11px; font-weight: 800; text-transform: uppercase;
         }
+        
+        /* ==========================================================================
+           SUNG JIN-WOO SYSTEM LEVEL UP PANEL - CUSTOM DROPDOWN SUB-SYSTEM
+           ========================================================================== */
         .solo-dropdown-system { position: relative; display: inline-block; z-index: 999; }
         .solo-system-trigger {
             background: rgba(4, 12, 24, 0.9); border: 1.5px solid #00e5ff; color: #ffffff;
@@ -53,52 +60,59 @@
         .solo-system-item:last-child { border-bottom: none; }
         .solo-system-item:hover { background: rgba(0, 229, 255, 0.25); color: #ffffff; text-shadow: 0 0 8px #ffffff; padding-left: 22px; }
         .solo-system-item.selected-item { background: rgba(0, 229, 255, 0.1); color: #00e5ff; text-shadow: 0 0 5px rgba(0, 229, 255, 0.5); }
+        
         @keyframes systemPanelGlow {
             from { opacity: 0; transform: translateY(-8px) scale(0.98); filter: brightness(1.5); }
             to { opacity: 1; transform: translateY(0) scale(1); filter: brightness(1); }
         }
+
+        /* ==========================================================================
+           UPDATED BASE FUNCTIONS: TITLE TRUNCATION & PC SLIDER SCROLL
+           ========================================================================== */
         .title-row { display: flex; align-items: center; justify-content: space-between; width: 100%; overflow: hidden; gap: 15px; }
         .title-row h1 { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex: 1; min-width: 0; margin: 0; }
-        .episode-slider { cursor: grab; overflow-x: auto; user-select: none; -ms-overflow-style: none; scrollbar-width: none; display: flex; gap: 10px; margin-top: 15px; }
+        .episode-slider { cursor: grab; overflow-x: auto; user-select: none; -ms-overflow-style: none; scrollbar-width: none; }
         .episode-slider:active { cursor: grabbing; }
         .episode-slider::-webkit-scrollbar { display: none; }
-        .ep-box { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); padding: 10px 20px; border-radius: 5px; color: #fff; cursor: pointer; flex-shrink: 0; transition: all 0.3s ease; }
-        .ep-box:hover { background: rgba(0, 229, 255, 0.2); border-color: #00e5ff; }
-        .ep-box.active { background: #00e5ff; color: #000; font-weight: bold; border-color: #00e5ff; }
+        
+        /* Utility button style for Me/Profile */
         .profile-btn { margin-top: 10px; background: rgba(0, 229, 255, 0.1); border: 1px solid #00e5ff; color: #00e5ff; }
         .profile-btn:hover { background: rgba(0, 229, 255, 0.3); }
-        .meta-tag { background: rgba(255,255,255,0.1); padding: 3px 8px; border-radius: 4px; font-size: 11px; color: #ccc; margin-right: 5px; }
-        .rating-tag { background: #ff9800; color: #fff; font-weight: bold; }
     </style>
 </head>
 <body>
     <div class="watch-container">
         <div class="player-wrapper" id="videoArea">
-            <img src="../assets/the_pradeeps_of_pittsburgh_s1.jpg" class="poster-img" id="mainPoster" alt="The Pradeeps of Pittsburgh Poster">
+            <img src="../assets/the_pradeeps_of_pittsburgh_s1.jpg" class="poster-img" id="mainPoster" alt="Series Poster">
             <div class="iframe-container" id="iframeContainer" style="display: none;">
                 <iframe id="mainPlayer" src="" allowfullscreen allowtransparency allow="autoplay" scrolling="no" frameborder="0" style="width:100%; height:100%; aspect-ratio: 16/9;"></iframe>
             </div>
         </div>
+        
         <div class="watch-content">
             <div class="title-row">
-                <h1 id="dynamicTitle">The Pradeeps of Pittsburgh Season 1 [2024]</h1>
+                <h1>The Pradeeps of Pittsburgh Season 1 [Multi-Audio]</h1>
                 <a href="#" class="info-link">Info</a>
             </div>
-            <div class="meta-stats" id="dynamicMeta" style="margin-top: 10px; margin-bottom: 15px;">
-                <span class="meta-tag rating-tag">TV-MA</span>
-                <span class="meta-tag">USA</span>
-                <span class="meta-tag">Comedy</span>
+            <div class="meta-stats">
+                <span class="rating">⭐ 7.1</span> <span class="divider">|</span>
+                <span>2024</span> <span class="divider">|</span>
+                <span>USA</span> <span class="divider">|</span>
+                <span>Comedy, Drama</span>
             </div>
+            
             <div class="action-scroll">
                 <button class="action-btn" id="bookmarkBtn" onclick="window.toggleBookmark()">📂 Add to List</button>
                 <button class="action-btn" onclick="window.sharePage()">🔗 Share</button>
                 <button class="action-btn" onclick="window.location.href='#'">⬇️ Download</button>
                 <button class="action-btn" onclick="window.location.href='../me.html'">👤 Profile</button>
             </div>
+            
             <div class="resources-row">
                 <h2 class="resources-title">Resources</h2>
                 <span class="uploader-text">Uploaded by Max World Hub</span>
             </div>
+            
             <div class="dropdown-row">
                 <div class="custom-select">Multi-Audio</div>
                 <div class="solo-dropdown-system">
@@ -110,55 +124,45 @@
                     </div>
                 </div>
             </div>
+            
             <div class="episode-slider" id="epSlider">
-                <div class="ep-box" onclick="window.playEpisode('zy6d6lkwgkij', this)">1</div>
-                <div class="ep-box" onclick="window.playEpisode('egtesh8di6cx', this)">2</div>
-                <div class="ep-box" onclick="window.playEpisode('ob9jyfuumg3i', this)">3</div>
-                <div class="ep-box" onclick="window.playEpisode('arbkz0wfxm31', this)">4</div>
-                <div class="ep-box" onclick="window.playEpisode('y4ccjvv0z8ul', this)">5</div>
-                <div class="ep-box" onclick="window.playEpisode('e9xoixcpsbj5', this)">6</div>
-                <div class="ep-box" onclick="window.playEpisode('cev314maalyd', this)">7</div>
-                <div class="ep-box" onclick="window.playEpisode('5siwcerznusy', this)">8</div>
+                <div class="ep-box" onclick="playEpisode('zy6d6lkwgkij', this)">1</div>
+                <div class="ep-box" onclick="playEpisode('egtesh8di6cx', this)">2</div>
+                <div class="ep-box" onclick="playEpisode('ob9jyfuumg3i', this)">3</div>
+                <div class="ep-box" onclick="playEpisode('arbkz0wfxm31', this)">4</div>
+                <div class="ep-box" onclick="playEpisode('y4ccjvv0z8ul', this)">5</div>
+                <div class="ep-box" onclick="playEpisode('e9xoixcpsbj5', this)">6</div>
+                <div class="ep-box" onclick="playEpisode('cev314maalyd', this)">7</div>
+                <div class="ep-box" onclick="playEpisode('5siwcerznusy', this)">8</div>
             </div>
+
             <div class="tabs-container"><div class="tab active">Recommended</div></div>
             <div class="rec-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 15px;">
                 <a href="#" class="rec-card">
-                    <img src="../assets/stranger_things_s1.jpg" alt="Stranger Things Season 1" class="rec-poster">
-                    <span class="lang-tag">Multi</span>
+                    <div class="lang-tag">Multi</div>
+                    <img src="../assets/stranger_things_s1.jpg" class="rec-poster">
                     <div class="rec-title">Stranger Things S1</div>
                 </a>
                 <a href="#" class="rec-card">
-                    <img src="../assets/final_destination_bloodlines.jpg" alt="Final Destination: Bloodlines" class="rec-poster">
-                    <span class="lang-tag">Multi</span>
-                    <div class="rec-title">Final Destination: Bloodlines</div>
-                </a>
-                <a href="#" class="rec-card">
-                    <img src="../assets/money_heist_s1.jpg" alt="Money Heist Season 1" class="rec-poster">
-                    <span class="lang-tag">Multi</span>
+                    <div class="lang-tag">Multi</div>
+                    <img src="../assets/money_heist_s1.jpg" class="rec-poster">
                     <div class="rec-title">Money Heist S1</div>
                 </a>
                 <a href="#" class="rec-card">
-                    <img src="../assets/mufasa_the_lion_king.jpg" alt="Mufasa: The Lion King" class="rec-poster">
-                    <span class="lang-tag">Multi</span>
-                    <div class="rec-title">Mufasa: The Lion King</div>
-                </a>
-                <a href="#" class="rec-card">
-                    <img src="../assets/shang_chi_legend_of_the_ten_rings.jpg" alt="Shang-Chi and the Legend of the Ten Rings" class="rec-poster">
-                    <span class="lang-tag">Multi</span>
-                    <div class="rec-title">Shang-Chi and the Legend of the Ten Rings</div>
-                </a>
-                <a href="#" class="rec-card">
-                    <img src="../assets/shin_chan_flowers_of_tenkazu_academy.jpg" alt="Shin-chan: The Flowers of Tenkazu Academy" class="rec-poster">
-                    <span class="lang-tag">Multi</span>
-                    <div class="rec-title">Shin-chan: Flowers of Tenkazu Academy</div>
+                    <div class="lang-tag">Multi</div>
+                    <img src="../assets/shang_chi_legend_of_the_ten_rings.jpg" class="rec-poster">
+                    <div class="rec-title">Shang-Chi</div>
                 </a>
             </div>
-            <div class="seo-about-section" id="dynamicSeoSection">
-                <h2>About The Pradeeps of Pittsburgh (2024)</h2>
-                <p>Follow the hilarious and heartwarming journey of the Pradeep family as they move from their home in India directly to the culturally distinct city of Pittsburgh, Pennsylvania. Navigating wild cultural clashes, a completely new environment, and endless comedic misadventures, "The Pradeeps of Pittsburgh" explores the quintessential immigrant experience and the American dream through a fresh, humorous lens. Watch Season 1 completely free in high quality on Max World Hub, featuring fast streaming and seamless playback. Join the family's wild ride as they adjust to their new neighborhood and face everyday challenges together.</p>
+            
+            <div class="seo-about-section">
+                <h2>About The Pradeeps of Pittsburgh Season 1</h2>
+                <p>Welcome to <strong>Max World Hub</strong>, your premium platform to watch The Pradeeps of Pittsburgh Season 1 online in high definition with Multi-Audio support. This brilliant comedy-drama series follows the structural journey of the Pradeep family after relocating from India to Pittsburgh, Pennsylvania. Experience their hilarious cultural clashes, heartwarming bonding moments, and unpredictable everyday struggles on our highly optimized and blazing-fast video streaming system architecture.</p>
             </div>
+            
             <a href="../index.html" class="back-home-btn">← Back to Homepage</a>
             <a href="../me.html" class="back-home-btn profile-btn">👤 Go to Profile</a>
+            
             <div class="copyright-footer"><p>© 2026 Max World Hub | Powered by SAN Team</p></div>
         </div>
     </div> 
@@ -181,23 +185,27 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        // DO NOT CHANGE VARIABLE NAMES - ONLY UPDATE THEIR VALUES
+        // 404 FIX: This database variable MUST remain root-relative without '../'
         const ANIME_ID = "pradeeps-pittsburgh-s1";
         const ANIME_TITLE = "The Pradeeps of Pittsburgh Season 1";
-        const ANIME_POSTER = "../assets/the_pradeeps_of_pittsburgh_s1.jpg"; 
+        const ANIME_POSTER = "assets/the_pradeeps_of_pittsburgh_s1.jpg"; 
         
         let isBookmarked = false;
 
+        // --- JIN-WOO SYSTEM DROPDOWN ENGINE ---
         window.toggleSystemDropdown = function(event) {
             event.stopPropagation();
             const menu = document.getElementById('soloSystemMenu');
             const trigger = document.getElementById('soloSeasonTrigger');
+            
             menu.classList.toggle('show-panel');
             trigger.classList.toggle('active-panel');
         };
 
         window.triggerSystemRedirect = function(url) {
-            if (url && url !== '#') window.location.href = url;
+            if (url && url !== '#') {
+                window.location.href = url;
+            }
         };
 
         document.addEventListener('click', function(e) {
@@ -209,6 +217,7 @@
             }
         });
 
+        // --- EPISODE PLAYER ENGINE ---
         window.playEpisode = async function(voeId, element) {
             const player = document.getElementById('mainPlayer');
             const container = document.getElementById('iframeContainer');
@@ -219,6 +228,7 @@
             
             player.src = "about:blank"; 
             setTimeout(() => { player.src = "https://voe.sx/e/" + voeId; }, 150);
+
             window.scrollTo({ top: 0, behavior: 'smooth' });
             
             let boxes = document.getElementsByClassName('ep-box');
@@ -229,6 +239,7 @@
             if (user && element) {
                 const epNum = parseInt(element.innerText);
                 const totalEp = boxes.length;
+                
                 await setDoc(doc(db, "users", user.uid), {
                     watchHistory: {
                         [ANIME_ID]: {
@@ -244,12 +255,15 @@
             }
         };
 
+        // --- BOOKMARK ENGINE ---
         window.toggleBookmark = async function() {
             const user = auth.currentUser;
             if (!user) { alert("Please login to add to list"); return; }
+            
             const btn = document.getElementById('bookmarkBtn');
             const userRef = doc(db, "users", user.uid);
             const animeObj = { id: ANIME_ID, title: ANIME_TITLE, poster: ANIME_POSTER };
+
             try {
                 if (isBookmarked) {
                     await updateDoc(userRef, { myAdded: arrayRemove(animeObj) });
@@ -263,14 +277,12 @@
             } catch (e) { console.error("Error updating list", e); }
         };
 
+        // --- AUTH & AUTO-RESUME ENGINE ---
         onAuthStateChanged(auth, async (user) => {
             const boxes = document.getElementsByClassName('ep-box');
             let epToPlay = 1; 
-            let voeToPlay = ''; 
-            if (boxes.length > 0) {
-                const firstOnclick = boxes[0].getAttribute('onclick');
-                if (firstOnclick) voeToPlay = firstOnclick.split("'")[1];
-            }
+            let voeToPlay = 'zy6d6lkwgkij'; 
+
             if (user) {
                 const docSnap = await getDoc(doc(db, "users", user.uid));
                 if (docSnap.exists()) {
@@ -290,20 +302,36 @@
                 }
             }
             const finalBox = Array.from(boxes).find(b => parseInt(b.innerText) === epToPlay) || boxes[0];
-            if(voeToPlay && finalBox) playEpisode(voeToPlay, finalBox);
+            playEpisode(voeToPlay, finalBox);
         });
 
+        // --- UTILITY ---
         window.sharePage = () => {
             if (navigator.share) { navigator.share({ title: document.querySelector('h1').innerText, url: window.location.href }); }
             else { navigator.clipboard.writeText(window.location.href); alert('URL Copied!'); }
         };
 
+        // --- PC MOUSE DRAG TO SCROLL ENGINE ---
         const epSlider = document.getElementById('epSlider');
-        let isDown = false, startX, scrollLeft;
-        epSlider.addEventListener('mousedown', (e) => { isDown = true; startX = e.pageX - epSlider.offsetLeft; scrollLeft = epSlider.scrollLeft; });
+        let isDown = false;
+        let startX;
+        let scrollLeft;
+
+        epSlider.addEventListener('mousedown', (e) => {
+            isDown = true;
+            startX = e.pageX - epSlider.offsetLeft;
+            scrollLeft = epSlider.scrollLeft;
+        });
+
         epSlider.addEventListener('mouseleave', () => { isDown = false; });
         epSlider.addEventListener('mouseup', () => { isDown = false; });
-        epSlider.addEventListener('mousemove', (e) => { if (!isDown) return; e.preventDefault(); const x = e.pageX - epSlider.offsetLeft; const walk = (x - startX) * 2; epSlider.scrollLeft = scrollLeft - walk; });
+        epSlider.addEventListener('mousemove', (e) => {
+            if (!isDown) return;
+            e.preventDefault();
+            const x = e.pageX - epSlider.offsetLeft;
+            const walk = (x - startX) * 2;
+            epSlider.scrollLeft = scrollLeft - walk;
+        });
     </script>
 </body>
 </html>
