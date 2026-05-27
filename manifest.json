@@ -1,21 +1,24 @@
 {
   "name": "Max World Hub",
   "short_name": "MW Hub",
-  "description": "Watch Anime Hindi Dubbed Online",
-  "start_url": "./index.html",
+  "description": "Watch your favorite series and movies online on Max World Hub.",
+  "start_url": "index.html",
   "display": "standalone",
-  "background_color": "#000000",
+  "orientation": "portrait",
+  "background_color": "#0e0e11",
   "theme_color": "#000000",
   "icons": [
     {
       "src": "assets/logo.png",
       "sizes": "192x192",
-      "type": "image/jpeg"
+      "type": "image/png",
+      "purpose": "any maskable"
     },
     {
-      "src": "icon-512.png",
+      "src": "assets/logo.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ]
 }
