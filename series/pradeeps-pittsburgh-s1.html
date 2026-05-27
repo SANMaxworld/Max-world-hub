@@ -22,16 +22,12 @@
         .seo-about-section p { font-size: 12px; color: #aaa; line-height: 1.6; text-align: justify; margin: 0; }
         .player-wrapper { position: relative; }
         
-        /* Updated Custom Select Style */
         .custom-select { 
             position: relative; cursor: pointer; display: flex; align-items: center; justify-content: center;
             background: rgba(4, 12, 24, 0.9); border: 1.5px solid #00e5ff; color: #ffffff;
             padding: 8px 16px; border-radius: 4px; font-size: 11px; font-weight: 800; text-transform: uppercase;
         }
         
-        /* ==========================================================================
-           SUNG JIN-WOO SYSTEM LEVEL UP PANEL - CUSTOM DROPDOWN SUB-SYSTEM
-           ========================================================================== */
         .solo-dropdown-system { position: relative; display: inline-block; z-index: 999; }
         .solo-system-trigger {
             background: rgba(4, 12, 24, 0.9); border: 1.5px solid #00e5ff; color: #ffffff;
@@ -66,16 +62,12 @@
             to { opacity: 1; transform: translateY(0) scale(1); filter: brightness(1); }
         }
 
-        /* ==========================================================================
-           UPDATED BASE FUNCTIONS: TITLE TRUNCATION & PC SLIDER SCROLL
-           ========================================================================== */
         .title-row { display: flex; align-items: center; justify-content: space-between; width: 100%; overflow: hidden; gap: 15px; }
         .title-row h1 { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex: 1; min-width: 0; margin: 0; }
         .episode-slider { cursor: grab; overflow-x: auto; user-select: none; -ms-overflow-style: none; scrollbar-width: none; }
         .episode-slider:active { cursor: grabbing; }
         .episode-slider::-webkit-scrollbar { display: none; }
         
-        /* Utility button style for Me/Profile */
         .profile-btn { margin-top: 10px; background: rgba(0, 229, 255, 0.1); border: 1px solid #00e5ff; color: #00e5ff; }
         .profile-btn:hover { background: rgba(0, 229, 255, 0.3); }
     </style>
@@ -185,7 +177,6 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        // Update these for new series templates
         const ANIME_ID = "The-Pradeeps-Of-Pittsburgh-S1";
         const ANIME_TITLE = "The Pradeeps of Pittsburgh S1";
         const ANIME_POSTER = "assets/the_pradeeps_of_pittsburgh_s1.jpg"; 
@@ -240,6 +231,7 @@
                 const epNum = parseInt(element.innerText);
                 const totalEp = boxes.length;
                 
+                // 🚨 ADDED TYPE: "series" FOR CORRECT ROUTING IN ME.HTML
                 await setDoc(doc(db, "users", user.uid), {
                     watchHistory: {
                         [ANIME_ID]: {
@@ -248,6 +240,7 @@
                             currentEp: epNum,
                             totalEp: totalEp,
                             poster: ANIME_POSTER,
+                            type: "series",
                             timestamp: Date.now()
                         }
                     }
@@ -262,7 +255,8 @@
             
             const btn = document.getElementById('bookmarkBtn');
             const userRef = doc(db, "users", user.uid);
-            const animeObj = { id: ANIME_ID, title: ANIME_TITLE, poster: ANIME_POSTER };
+            // 🚨 ADDED TYPE: "series" IN THE BOOKMARK OBJECT BELOW
+            const animeObj = { id: ANIME_ID, title: ANIME_TITLE, poster: ANIME_POSTER, type: "series" };
 
             try {
                 if (isBookmarked) {
