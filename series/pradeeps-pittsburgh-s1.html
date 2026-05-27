@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Watch The Pradeeps of Pittsburgh Season 1 Online - Max World Hub</title>
+    <title>Watch The Pradeeps of Pittsburgh Season 1 Hindi Dubbed Online - Max World Hub</title>
     <link rel="manifest" href="../manifest.json">
     <meta name="theme-color" content="#000000">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -71,9 +71,12 @@
            ========================================================================== */
         .title-row { display: flex; align-items: center; justify-content: space-between; width: 100%; overflow: hidden; gap: 15px; }
         .title-row h1 { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex: 1; min-width: 0; margin: 0; }
-        .episode-slider { cursor: grab; overflow-x: auto; user-select: none; -ms-overflow-style: none; scrollbar-width: none; }
+        .episode-slider { cursor: grab; overflow-x: auto; user-select: none; -ms-overflow-style: none; scrollbar-width: none; display: flex; gap: 10px; margin-top: 15px; }
         .episode-slider:active { cursor: grabbing; }
         .episode-slider::-webkit-scrollbar { display: none; }
+        .ep-box { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); padding: 10px 20px; border-radius: 5px; color: #fff; cursor: pointer; flex-shrink: 0; transition: all 0.3s ease; }
+        .ep-box:hover { background: rgba(0, 229, 255, 0.2); border-color: #00e5ff; }
+        .ep-box.active { background: #00e5ff; color: #000; font-weight: bold; border-color: #00e5ff; }
         
         /* Utility button style for Me/Profile */
         .profile-btn { margin-top: 10px; background: rgba(0, 229, 255, 0.1); border: 1px solid #00e5ff; color: #00e5ff; }
@@ -185,7 +188,7 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        // 404 FIX: This database variable MUST remain root-relative without '../'
+        // STRICT 404 FIX: NEVER USE '../' IN DATABASE VARIABLES!
         const ANIME_ID = "pradeeps-pittsburgh-s1";
         const ANIME_TITLE = "The Pradeeps of Pittsburgh Season 1";
         const ANIME_POSTER = "assets/the_pradeeps_of_pittsburgh_s1.jpg"; 
