@@ -48,9 +48,9 @@ const animeData = [
     {
         id: "suzume",
         title: "Suzume",
-        img: "assets/movie2_sample.jpeg",
+        img: "assets/suzume-poster.jpg",
         lang: "HINDI",
-        link: "#",
+        link: "movie/suzume.html",
         desc: "Fantasy",
         categories: ["movies", "fantasy"]
     },
@@ -120,18 +120,18 @@ const animeData = [
     {
         id: "mufasa-the-lion-king",
         title: "Mufasa: The Lion King",
-        img: "assets/mufasa.jpeg",
+        img: "assets/mufasa-the-lion-king-poster.jpg",
         lang: "HINDI",
-        link: "#",
+        link: "movie/mufasa-the-lion-king.html",
         desc: "Adventure",
         categories: ["movies", "adventure", "drama"]
     },
     {
         id: "shang-chi-legend-of-the-ten-rings",
         title: "Shang-Chi and the Legend of the Ten Rings",
-        img: "assets/shang_chi.jpeg",
+        img: "assets/S.C.T.R.jpeg",
         lang: "HINDI",
-        link: "#",
+        link: "movie/Shang-Chi.html",
         desc: "Action",
         categories: ["movies", "action", "fantasy"]
     },
