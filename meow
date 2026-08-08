@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catbox Blob Download Test</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #0d0d12;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .card {
+            background: #161622;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 30px;
+            max-width: 420px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        h2 {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+
+        p {
+            font-size: 13px;
+            color: #a1a1aa;
+            margin-bottom: 24px;
+        }
+
+        .btn {
+            width: 100%;
+            background: linear-gradient(135deg, #7c3aed, #9333ea);
+            color: #ffffff;
+            border: none;
+            padding: 14px;
+            font-size: 15px;
+            font-weight: 600;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(124, 58, 237, 0.4);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(124, 58, 237, 0.6);
+        }
+
+        .btn:disabled {
+            background: #4c1d95;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+            opacity: 0.7;
+        }
+
+        #status {
+            margin-top: 20px;
+            font-size: 13px;
+            font-weight: 500;
+            min-height: 20px;
+            color: #a1a1aa;
+        }
+
+        .status-loading { color: #06b6d4; }
+        .status-success { color: #22c55e; }
+        .status-error { color: #ef4444; }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <h2>Catbox Download Tester</h2>
+        <p>Direct JS Blob method se video download test karne ke liye button dabaen.</p>
+        
+        <button id="dlBtn" class="btn" onclick="startBlobDownload()">
+            ⬇️ Direct Download Video
+        </button>
+
+        <div id="status">Status: Ready</div>
+    </div>
+
+    <script>
+        function startBlobDownload() {
+            const videoUrl = 'https://files.catbox.moe/lz21c6.mp4';
+            const fileName = 'MaxPlay_DemonSlayer.mp4';
+            
+            const btn = document.getElementById('dlBtn');
+            const status = document.getElementById('status');
+
+            // UI Loading State
+            btn.disabled = true;
+            status.className = "status-loading";
+            status.innerText = "⏳ Video fetch ho raha hai... (Please wait)";
+
+            // 1. Fetching Video Data as Blob
+            fetch(videoUrl)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response failed with status: ' + response.status);
+                    }
+                    return response.blob();
+                })
+                .then(blob => {
+                    // 2. Local Object URL Creation
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.style.display = 'none';
+                    a.href = url;
+                    a.download = fileName;
+
+                    // 3. Auto Trigger Download Prompt
+                    document.body.appendChild(a);
+                    a.click();
+
+                    // 4. Cleanup Memory
+                    window.URL.revokeObjectURL(url);
+                    document.body.removeChild(a);
+
+                    // UI Success State
+                    status.className = "status-success";
+                    status.innerText = "✅ Download Chrome me shuru ho gaya!";
+                    btn.disabled = false;
+                })
+                .catch(error => {
+                    console.error('Download error:', error);
+                    
+                    // UI Error & Fallback State
+                    status.className = "status-error";
+                    status.innerText = "⚠️ Fetch Blocked! Direct Tab me open kar rahe hain...";
+                    
+                    setTimeout(() => {
+                        window.open(videoUrl, '_blank');
+                        btn.disabled = false;
+                    }, 1500);
+                });
+        }
+    </script>
+
+</body>
+</html>
