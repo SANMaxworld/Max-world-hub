@@ -3,295 +3,211 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MaxPlay Complete Feature Test Studio</title>
+  <title>MaxPlay - Live Stream Tester</title>
   
-  <!-- Tailwind CSS CDN for Modern UI -->
+  <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- HLS.js CDN for Live TV .m3u8 Streaming -->
+  <!-- HLS.js CDN for .m3u8 Video Playback -->
   <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 </head>
-<body class="bg-zinc-950 text-white font-sans min-h-screen pb-12">
+<body class="bg-zinc-950 text-white font-sans min-h-screen">
 
-  <!-- Header Navigation / Tab Switcher -->
-  <header class="bg-zinc-900 border-b border-zinc-800 p-4 sticky top-0 z-50 flex items-center justify-between">
+  <!-- Header -->
+  <header class="bg-zinc-900 border-b border-zinc-800 p-4 sticky top-0 z-50 flex flex-wrap items-center justify-between gap-4">
     <div class="flex items-center gap-3">
       <span class="text-red-600 font-extrabold text-2xl tracking-wider">MAXPLAY</span>
-      <span class="text-xs bg-red-600/20 text-red-400 px-2.5 py-1 rounded-full border border-red-500/30 font-mono">Test Environment</span>
+      <span class="text-xs bg-red-600/20 text-red-400 px-2.5 py-1 rounded-full border border-red-500/30 font-mono">LIVE TV TEST</span>
     </div>
-    
-    <div class="flex bg-zinc-800 p-1 rounded-xl">
-      <button onclick="switchTab('vod')" id="tabVodBtn" class="px-4 py-1.5 text-xs font-bold rounded-lg bg-red-600 text-white transition-all">
-        🎬 VOD & Audio/Quality Player
-      </button>
-      <button onclick="switchTab('live')" id="tabLiveBtn" class="px-4 py-1.5 text-xs font-bold rounded-lg text-zinc-400 hover:text-white transition-all">
-        📺 Live TV (.m3u8 HLS)
+
+    <!-- M3U Playlist URL Input -->
+    <div class="flex flex-1 max-w-xl gap-2">
+      <input 
+        type="url" 
+        id="m3uUrlInput" 
+        value="https://iptv-org.github.io/iptv/countries/af.m3u" 
+        class="flex-1 bg-zinc-800 border border-zinc-700 text-xs text-white rounded-lg px-3 py-2 focus:outline-none focus:border-red-500"
+      />
+      <button 
+        onclick="fetchAndParseM3U()" 
+        class="bg-red-600 hover:bg-red-700 text-white text-xs font-bold px-4 py-2 rounded-lg transition-all"
+      >
+        Load Playlist
       </button>
     </div>
   </header>
 
-  <main class="max-w-4xl mx-auto px-4 mt-6">
+  <main class="max-w-7xl mx-auto p-4 grid grid-cols-1 lg:grid-cols-3 gap-6">
 
-    <!-- ==================== TAB 1: VOD PLAYER & CONTENT DETAILS ==================== -->
-    <section id="vodTab" class="space-y-6">
-      
-      <!-- Video Player Container -->
-      <div class="relative bg-black rounded-2xl overflow-hidden shadow-2xl border border-zinc-800">
-        <video id="mainVideo" class="w-full aspect-video bg-black object-contain" controls crossorigin="anonymous">
-          <!-- Default Source -->
-          <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" type="video/mp4">
-          <!-- Test Subtitle Track -->
-          <track id="subHindi" kind="subtitles" srclang="hi" label="Hindi" src="data:text/vtt;charset=utf-8,WEBVTT%0A%0A1%0A00:00:01.000%20--%3E%2000:00:05.000%0AYeh%20Hindi%20Subtitle%20Testing%20Hai">
-          <track id="subEnglish" kind="subtitles" srclang="en" label="English" src="data:text/vtt;charset=utf-8,WEBVTT%0A%0A1%0A00:00:01.000%20--%3E%2000:00:05.000%0AThis%20is%20English%20Subtitle%20Testing">
-        </video>
+    <!-- Left Column: Main Live Video Player (2 Cols on Large Screens) -->
+    <div class="lg:col-span-2 space-y-4">
+      <div class="relative bg-black rounded-2xl overflow-hidden shadow-2xl border border-zinc-800 aspect-video">
+        <video id="liveVideo" class="w-full h-full object-contain" controls autoplay></video>
       </div>
 
-      <!-- Controls Panel: Multi-Audio, Resolutions & Subtitles -->
-      <div class="bg-zinc-900 border border-zinc-800 p-4 rounded-xl space-y-4">
-        <h3 class="text-sm font-bold text-zinc-400 uppercase tracking-wider">Player Controls & Stream Swapper</h3>
-        
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-          
-          <!-- 1. Multi Audio / Catbox Links Swapper -->
-          <div class="space-y-1.5">
-            <label class="text-xs text-zinc-400 font-semibold">🎧 Audio Track (Catbox Links)</label>
-            <select id="audioSelect" onchange="handleStreamChange()" class="w-full bg-zinc-800 border border-zinc-700 text-white rounded-lg p-2 text-xs font-semibold focus:outline-none focus:border-red-500">
-              <option value="Hindi">Hindi Dubbed</option>
-              <option value="Japanese">Japanese (Original)</option>
-              <option value="English">English Dubbed</option>
-            </select>
-          </div>
-
-          <!-- 2. Dynamic Resolutions (No 4K) -->
-          <div class="space-y-1.5">
-            <label class="text-xs text-zinc-400 font-semibold">⚙️ Quality Resolution</label>
-            <select id="qualitySelect" onchange="handleStreamChange()" class="w-full bg-zinc-800 border border-zinc-700 text-white rounded-lg p-2 text-xs font-semibold focus:outline-none focus:border-red-500">
-              <option value="360p">360p (Low Data)</option>
-              <option value="480p">480p (Standard)</option>
-              <option value="720p" selected>720p (HD)</option>
-              <option value="1080p">1080p (Full HD)</option>
-            </select>
-          </div>
-
-          <!-- 3. Subtitle Tracks -->
-          <div class="space-y-1.5">
-            <label class="text-xs text-zinc-400 font-semibold">💬 Subtitles (.vtt)</label>
-            <select id="subSelect" onchange="handleSubtitleChange()" class="w-full bg-zinc-800 border border-zinc-700 text-white rounded-lg p-2 text-xs font-semibold focus:outline-none focus:border-red-500">
-              <option value="off">Off</option>
-              <option value="hi">Hindi</option>
-              <option value="en">English</option>
-            </select>
-          </div>
-
-        </div>
-        <p class="text-[11px] text-zinc-500 italic">* Audio/Quality switch karne par video current timestamp se continue hoga.</p>
-      </div>
-
-      <!-- Detail Card Section -->
-      <div class="bg-zinc-900/50 border border-zinc-800 p-5 rounded-2xl space-y-4">
+      <!-- Channel Active Info -->
+      <div class="bg-zinc-900 border border-zinc-800 p-4 rounded-xl flex items-center justify-between">
         <div>
-          <h1 class="text-2xl font-black text-white">Demon Slayer: Infinity Castle</h1>
-          <div class="flex items-center gap-3 mt-1.5 text-xs text-zinc-400">
-            <span class="bg-yellow-500/20 text-yellow-400 font-bold px-2 py-0.5 rounded">⭐ 9.8</span>
-            <span>2026</span>
-            <span class="bg-zinc-800 text-zinc-300 px-2 py-0.5 rounded">Anime</span>
-            <span class="text-zinc-500 font-mono">ID: content-101</span>
-          </div>
+          <h2 id="activeChannelTitle" class="text-lg font-bold text-white">Select a Channel</h2>
+          <p id="activeChannelUrl" class="text-xs text-zinc-500 font-mono truncate max-w-md mt-1">No stream loaded</p>
         </div>
+        <span id="liveBadge" class="hidden bg-red-600 text-white text-[10px] font-extrabold px-2.5 py-1 rounded-full animate-pulse">
+          LIVE
+        </span>
+      </div>
+    </div>
 
-        <p class="text-xs text-zinc-300 leading-relaxed">
-          The Demon Slayer Corps plunges into the Infinity Castle to defeat Muzan Kibutsuji. An epic final battle unfolds as Tanjiro and the Hashira face the highest-ranking Upper Moon Demons.
-        </p>
-
-        <!-- Cast & Crew Horizontal Scroll Cards -->
-        <div class="pt-2">
-          <h3 class="text-sm font-bold text-white mb-3">Cast & Crew</h3>
-          <div class="flex gap-4 overflow-x-auto pb-2 scrollbar-none">
-            
-            <!-- Cast Card 1 -->
-            <div class="flex-shrink-0 w-24 text-center">
-              <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150" class="w-16 h-16 rounded-full object-cover mx-auto border-2 border-zinc-700 shadow-md">
-              <p class="text-xs font-bold text-white mt-2 truncate">Natsuki Hanae</p>
-              <p class="text-[10px] text-zinc-400 truncate">Tanjiro Kamado</p>
-              <span class="text-[9px] bg-red-950 text-red-400 px-1.5 py-0.2 rounded mt-1 inline-block">Voice Actor</span>
-            </div>
-
-            <!-- Cast Card 2 -->
-            <div class="flex-shrink-0 w-24 text-center">
-              <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150" class="w-16 h-16 rounded-full object-cover mx-auto border-2 border-zinc-700 shadow-md">
-              <p class="text-xs font-bold text-white mt-2 truncate">Hiro Shimono</p>
-              <p class="text-[10px] text-zinc-400 truncate">Zenitsu Agatsuma</p>
-              <span class="text-[9px] bg-red-950 text-red-400 px-1.5 py-0.2 rounded mt-1 inline-block">Voice Actor</span>
-            </div>
-
-            <!-- Cast Card 3 -->
-            <div class="flex-shrink-0 w-24 text-center">
-              <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150" class="w-16 h-16 rounded-full object-cover mx-auto border-2 border-zinc-700 shadow-md">
-              <p class="text-xs font-bold text-white mt-2 truncate">Haruo Sotozaki</p>
-              <p class="text-[10px] text-zinc-400 truncate">Director</p>
-              <span class="text-[9px] bg-blue-950 text-blue-400 px-1.5 py-0.2 rounded mt-1 inline-block">Director</span>
-            </div>
-
-          </div>
-        </div>
-
+    <!-- Right Column: Channels List Sidebar -->
+    <div class="bg-zinc-900 border border-zinc-800 rounded-2xl p-4 flex flex-col h-[600px]">
+      <div class="flex items-center justify-between mb-3 pb-2 border-b border-zinc-800">
+        <h3 class="text-sm font-bold text-zinc-300">Channels List</h3>
+        <span id="channelCount" class="text-xs bg-zinc-800 text-zinc-400 px-2 py-0.5 rounded-full">0 Loaded</span>
       </div>
 
-    </section>
+      <!-- Status/Loading Text -->
+      <div id="statusText" class="text-xs text-yellow-400 mb-2">Loading playlist automatically...</div>
 
-
-    <!-- ==================== TAB 2: LIVE TV HLS PLAYER ==================== -->
-    <section id="liveTab" class="hidden space-y-6">
-      
-      <!-- Live Video Player -->
-      <div class="relative bg-black rounded-2xl overflow-hidden shadow-2xl border border-zinc-800">
-        <video id="liveVideo" class="w-full aspect-video bg-black object-contain" controls></video>
+      <!-- Scrollable Channel List -->
+      <div id="channelList" class="flex-1 overflow-y-auto space-y-2 pr-1">
+        <!-- Dynamic Channel Items Will Render Here -->
       </div>
-
-      <!-- Live Stream Input & Sample Selector -->
-      <div class="bg-zinc-900 border border-zinc-800 p-5 rounded-xl space-y-4">
-        <h3 class="text-sm font-bold text-zinc-400 uppercase tracking-wider">📺 Live TV Stream (.m3u8 HLS Tester)</h3>
-        
-        <div class="space-y-2">
-          <label class="text-xs text-zinc-400 font-semibold">Custom .m3u8 Stream Link</label>
-          <div class="flex gap-2">
-            <input type="url" id="liveUrlInput" placeholder="https://example.com/live/index.m3u8" class="flex-1 bg-zinc-800 border border-zinc-700 text-white rounded-lg px-3 py-2 text-xs focus:outline-none focus:border-red-500">
-            <button onclick="loadCustomLiveTv()" class="bg-red-600 hover:bg-red-700 text-white text-xs font-bold px-4 py-2 rounded-lg transition-all">
-              Play Live
-            </button>
-          </div>
-        </div>
-
-        <div class="pt-2">
-          <p class="text-xs text-zinc-400 font-semibold mb-2">Test Sample Public Channels:</p>
-          <div class="flex gap-2 flex-wrap">
-            <button onclick="playSampleLive('https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8')" class="bg-zinc-800 hover:bg-zinc-700 text-xs text-zinc-300 px-3 py-1.5 rounded-lg border border-zinc-700">
-              ⚡ Test HLS Stream 1
-            </button>
-            <button onclick="playSampleLive('https://playertest.longtailvideo.com/adaptive/bbbbb/bbbbb.m3u8')" class="bg-zinc-800 hover:bg-zinc-700 text-xs text-zinc-300 px-3 py-1.5 rounded-lg border border-zinc-700">
-              🎬 Test HLS Stream 2
-            </button>
-          </div>
-        </div>
-      </div>
-
-    </section>
+    </div>
 
   </main>
 
-  <!-- ==================== JAVASCRIPT LOGIC ==================== -->
   <script>
-    // 1. Mock Catbox/Direct MP4 Database (Language + Resolution Matrix)
-    const streamDatabase = {
-      Hindi: {
-        '360p': 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',
-        '480p': 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4',
-        '720p': 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4',
-        '1080p': 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4'
-      },
-      Japanese: {
-        '360p': 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4',
-        '480p': 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4',
-        '720p': 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/SubaruOutback2012.mp4',
-        '1080p': 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4'
-      },
-      English: {
-        '360p': 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
-        '480p': 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WhatCarCanYouGetForAGrand.mp4',
-        '720p': 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
-        '1080p': 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4'
-      }
-    };
-
-    // Tab Switching Logic
-    function switchTab(tab) {
-      const vodTab = document.getElementById('vodTab');
-      const liveTab = document.getElementById('liveTab');
-      const tabVodBtn = document.getElementById('tabVodBtn');
-      const tabLiveBtn = document.getElementById('tabLiveBtn');
-
-      if (tab === 'vod') {
-        vodTab.classList.remove('hidden');
-        liveTab.classList.add('hidden');
-        tabVodBtn.className = "px-4 py-1.5 text-xs font-bold rounded-lg bg-red-600 text-white transition-all";
-        tabLiveBtn.className = "px-4 py-1.5 text-xs font-bold rounded-lg text-zinc-400 hover:text-white transition-all";
-      } else {
-        vodTab.classList.add('hidden');
-        liveTab.classList.remove('hidden');
-        tabLiveBtn.className = "px-4 py-1.5 text-xs font-bold rounded-lg bg-red-600 text-white transition-all";
-        tabVodBtn.className = "px-4 py-1.5 text-xs font-bold rounded-lg text-zinc-400 hover:text-white transition-all";
-      }
-    }
-
-    // 2. Stream Switching Logic (Retaining Timestamp)
-    function handleStreamChange() {
-      const video = document.getElementById('mainVideo');
-      const selectedAudio = document.getElementById('audioSelect').value;
-      const selectedQuality = document.getElementById('qualitySelect').value;
-
-      const currentTimestamp = video.currentTime;
-      const isPlaying = !video.paused;
-
-      const newSourceUrl = streamDatabase[selectedAudio]?.[selectedQuality];
-
-      if (newSourceUrl) {
-        console.log(`Switching Stream -> Audio: ${selectedAudio}, Quality: ${selectedQuality}`);
-        video.src = newSourceUrl;
-        video.currentTime = currentTimestamp;
-
-        if (isPlaying) {
-          video.play().catch(err => console.log("Auto-play error:", err));
-        }
-      }
-    }
-
-    // 3. Subtitle Switching Logic
-    function handleSubtitleChange() {
-      const video = document.getElementById('mainVideo');
-      const selectedSub = document.getElementById('subSelect').value;
-
-      for (let i = 0; i < video.textTracks.length; i++) {
-        const track = video.textTracks[i];
-        if (selectedSub === 'off') {
-          track.mode = 'disabled';
-        } else if (track.language === selectedSub) {
-          track.mode = 'showing';
-        } else {
-          track.mode = 'disabled';
-        }
-      }
-    }
-
-    // 4. Live TV HLS (.m3u8) Streaming Engine
     let hlsInstance = null;
+    let parsedChannels = [];
 
-    function playLiveHls(streamUrl) {
+    // Auto load on page start
+    window.addEventListener('DOMContentLoaded', () => {
+      fetchAndParseM3U();
+    });
+
+    // 1. Fetch M3U file and Parse channels dynamically
+    async function fetchAndParseM3U() {
+      const url = document.getElementById('m3uUrlInput').value;
+      const statusText = document.getElementById('statusText');
+      const channelList = document.getElementById('channelList');
+
+      if (!url) return;
+
+      statusText.innerText = "Fetching M3U playlist...";
+      channelList.innerHTML = "";
+
+      try {
+        const response = await fetch(url);
+        if (!response.ok) throw new Error("Network response failed");
+        
+        const m3uText = await response.text();
+        parsedChannels = parseM3UContent(m3uText);
+
+        document.getElementById('channelCount').innerText = `${parsedChannels.length} Channels`;
+        statusText.innerText = `Loaded ${parsedChannels.length} channels successfully!`;
+        statusText.className = "text-xs text-green-400 mb-2";
+
+        renderChannelList(parsedChannels);
+
+        // Auto play 1st channel if available
+        if (parsedChannels.length > 0) {
+          playStream(parsedChannels[0].url, parsedChannels[0].title);
+        }
+
+      } catch (error) {
+        console.error(error);
+        statusText.innerText = "Error fetching M3U. Check CORS or URL.";
+        statusText.className = "text-xs text-red-400 mb-2";
+      }
+    }
+
+    // 2. M3U Parser Function
+    function parseM3UContent(text) {
+      const lines = text.split('\n');
+      const channels = [];
+      let currentChannel = {};
+
+      for (let i = 0; i < lines.length; i++) {
+        const line = lines[i].trim();
+
+        if (line.startsWith('#EXTINF:')) {
+          // Extract Name
+          const nameMatch = line.match(/,(.+)$/);
+          const name = nameMatch ? nameMatch[1].trim() : 'Unknown Channel';
+
+          // Extract Logo
+          const logoMatch = line.match(/tvg-logo="([^"]+)"/);
+          const logo = logoMatch ? logoMatch[1] : '';
+
+          currentChannel = { title: name, logo: logo };
+        } else if (line.startsWith('http://') || line.startsWith('https://')) {
+          currentChannel.url = line;
+          channels.push(currentChannel);
+          currentChannel = {};
+        }
+      }
+
+      return channels;
+    }
+
+    // 3. Render Channels to UI
+    function renderChannelList(channels) {
+      const channelList = document.getElementById('channelList');
+      channelList.innerHTML = "";
+
+      channels.forEach((ch, index) => {
+        const item = document.createElement('div');
+        item.className = "flex items-center gap-3 p-2.5 rounded-xl bg-zinc-800/50 hover:bg-red-600/20 border border-zinc-700/50 hover:border-red-500/50 cursor-pointer transition-all";
+        item.onclick = () => playStream(ch.url, ch.title);
+
+        const imgHtml = ch.logo 
+          ? `<img src="${ch.logo}" onerror="this.src='https://via.placeholder.com/40?text=TV'" class="w-8 h-8 rounded-lg object-contain bg-black p-0.5" />`
+          : `<div class="w-8 h-8 rounded-lg bg-zinc-700 flex items-center justify-center text-xs font-bold">TV</div>`;
+
+        item.innerHTML = `
+          ${imgHtml}
+          <div class="flex-1 overflow-hidden">
+            <p class="text-xs font-bold text-white truncate">${ch.title}</p>
+            <p class="text-[10px] text-zinc-500 truncate">${ch.url}</p>
+          </div>
+        `;
+
+        channelList.appendChild(item);
+      });
+    }
+
+    // 4. Play Selected Stream with HLS.js
+    function playStream(streamUrl, title) {
       const video = document.getElementById('liveVideo');
-      if (!streamUrl) return;
+      document.getElementById('activeChannelTitle').innerText = title;
+      document.getElementById('activeChannelUrl').innerText = streamUrl;
+      document.getElementById('liveBadge').classList.remove('hidden');
 
       if (Hls.isSupported()) {
-        if (hlsInstance) hlsInstance.destroy();
+        if (hlsInstance) {
+          hlsInstance.destroy();
+        }
 
-        hlsInstance = new Hls({ enableWorker: true, lowLatencyMode: true });
+        hlsInstance = new Hls({
+          enableWorker: true,
+          lowLatencyMode: true
+        });
+
         hlsInstance.loadSource(streamUrl);
         hlsInstance.attachMedia(video);
 
         hlsInstance.on(Hls.Events.MANIFEST_PARSED, () => {
-          video.play().catch(e => console.log("Live autoplay blocked"));
+          video.play().catch(e => console.log("Autoplay click required"));
         });
+
+        hlsInstance.on(Hls.Events.ERROR, (event, data) => {
+          if (data.fatal) {
+            console.warn("HLS Error:", data);
+          }
+        });
+
       } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
         video.src = streamUrl;
         video.play();
       }
-    }
-
-    function loadCustomLiveTv() {
-      const url = document.getElementById('liveUrlInput').value;
-      if (url) playLiveHls(url);
-    }
-
-    function playSampleLive(url) {
-      document.getElementById('liveUrlInput').value = url;
-      playLiveHls(url);
     }
   </script>
 </body>
