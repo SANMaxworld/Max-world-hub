@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>MaxPlay - Mehmet: Fetihler Sultanı</title>
+  
+  <!-- Fonts: Inter for UI & Cinzel for Ottoman Elegance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome Icons CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            royal: {
+              950: '#0c0714', // Deepest background
+              900: '#150b24', // Card background
+              800: '#221238', // Dark violet highlight
+              border: '#331b52',
+            },
+            gold: {
+              main: '#d4af37',
+              bright: '#ffdf00',
+              dark: '#997a22'
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            royal: ['Cinzel', 'serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Custom High-Performance CSS (No heavy blurs or laggy filters) */
+    body {
+      background-color: #0c0714;
+      color: #e2e8f0;
+      font-family: 'Inter', sans-serif;
+    }
+
+    /* Gold Gradient Text */
+    .text-gold-gradient {
+      background: linear-gradient(135deg, #ffdf00 0%, #d4af37 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* Range Input Custom Slider for Seekbar and Volume */
+    input[type="range"] {
+      -webkit-appearance: none; appearance: none; background: transparent; cursor: pointer;
+    }
+    input[type="range"]:focus { outline: none; }
+    input[type="range"]::-webkit-slider-runnable-track {
+      height: 4px; border-radius: 2px; background: rgba(255, 255, 255, 0.25);
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none; height: 12px; width: 12px; border-radius: 50%;
+      background: #ffdf00; margin-top: -4px;
+      box-shadow: 0 0 6px rgba(212, 175, 55, 0.8);
+    }
+
+    /* Fullscreen Strict Overrides - Keeps Video Aspect Ratio & Controls Visible */
+    #videoContainer:fullscreen,
+    #videoContainer:-webkit-full-screen,
+    #videoContainer:-moz-full-screen,
+    #videoContainer:-ms-fullscreen {
+      width: 100vw !important;
+      height: 100vh !important;
+      max-width: 100vw !important;
+      max-height: 100vh !important;
+      border-radius: 0 !important;
+      border: none !important;
+      background: #000 !important;
+      display: flex !important;
+      items-center: center !important;
+      justify-content: center !important;
+    }
+
+    /* Controls Overlay Visibility Management */
+    .player-controls-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 2147483647; /* Maximum possible z-index for full visibility */
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.7) 100%);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease-in-out;
+    }
+
+    .video-container.user-active .player-controls-overlay,
+    .video-container.paused .player-controls-overlay {
+      opacity: 1 !important;
+      pointer-events: auto !important;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #0c0714; }
+    ::-webkit-scrollbar-thumb { background: #d4af37; border-radius: 3px; }
+  </style>
+</head>
+
+<body class="min-h-screen flex flex-col antialiased selection:bg-gold-main selection:text-black">
+
+  <!-- Top Navigation Header -->
+  <header class="sticky top-0 z-50 bg-royal-950/95 border-b border-royal-border px-4 lg:px-8 py-3">
+    <div class="max-w-[1500px] mx-auto flex items-center justify-between gap-4">
+      
+      <!-- Brand Logo -->
+      <a href="#" class="flex items-center gap-3">
+        <img 
+          src="https://i.ibb.co/G4bcVYwY/Picsart-26-07-03-00-56-20-216-removebg-preview.png" 
+          alt="MaxPlay Logo" 
+          class="h-8 sm:h-10 w-auto object-contain"
+        />
+        <span class="font-royal text-xl sm:text-2xl font-black tracking-widest text-white uppercase">
+          MAX<span class="text-gold-gradient">PLAY</span>
+        </span>
+      </a>
+
+      <!-- Category Tag -->
+      <div class="hidden sm:flex items-center gap-2 text-xs font-semibold text-gold-main bg-royal-900 border border-gold-main/30 px-3 py-1 rounded-full">
+        <i class="fa-solid fa-crown text-[10px]"></i> Historical Epic
+      </div>
+
+      <!-- Quick Search Bar -->
+      <div class="flex-1 max-w-xs ml-auto">
+        <div class="relative">
+          <input 
+            type="text" 
+            placeholder="Search series..." 
+            class="w-full bg-royal-900 text-xs text-gray-200 placeholder-gray-500 rounded-full py-2 pl-9 pr-4 border border-royal-border focus:outline-none focus:border-gold-main transition-colors"
+          />
+          <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 text-xs"></i>
+        </div>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- Notification Toast Container -->
+  <div id="toastContainer" class="fixed top-16 right-4 z-[60] flex flex-col gap-2 pointer-events-none"></div>
+
+  <main class="flex-1 max-w-[1500px] w-full mx-auto p-3 sm:p-5 lg:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
+    
+    <!-- LEFT SECTION: Player & Info (8 Columns) -->
+    <section class="lg:col-span-8 flex flex-col gap-4">
+      
+      <!-- Video Player Container -->
+      <div 
+        id="videoContainer" 
+        class="video-container paused relative w-full aspect-video bg-black rounded-xl overflow-hidden border border-royal-border shadow-xl select-none"
+      >
+        <!-- HTML5 Video Element (Strict object-contain to prevent stretching) -->
+        <video 
+          id="mainVideo" 
+          class="w-full h-full object-contain bg-black" 
+          preload="metadata" 
+          playsinline
+        >
+          <source src="https://files.catbox.moe/qzeyzq.mp4" type="video/mp4" />
+        </video>
+
+        <!-- Touch Double Tap Skip Zones -->
+        <div id="touchZoneLeft" class="absolute left-0 top-0 w-[35%] h-[80%] z-10"></div>
+        <div id="touchZoneRight" class="absolute right-0 top-0 w-[35%] h-[80%] z-10"></div>
+
+        <!-- Center Play Flash Overlay -->
+        <div id="centerPlayIndicator" class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-0 transition-opacity duration-200 z-20">
+          <div class="w-16 h-16 bg-black/70 border border-gold-main rounded-full flex items-center justify-center text-gold-bright text-2xl shadow-lg">
+            <i id="centerPlayIcon" class="fa-solid fa-play ml-1"></i>
+          </div>
+        </div>
+
+        <!-- Loading / Buffering Spinner -->
+        <div id="videoSpinner" class="absolute inset-0 bg-black/75 flex items-center justify-center pointer-events-none hidden z-30">
+          <div class="flex flex-col items-center gap-3 bg-royal-950/90 px-5 py-4 rounded-xl border border-gold-main/40 shadow-2xl">
+            <div class="w-10 h-10 border-3 border-royal-border border-t-gold-bright rounded-full animate-spin"></div>
+            <span class="text-[11px] font-bold text-gold-bright tracking-widest uppercase font-royal">Buffering...</span>
+          </div>
+        </div>
+
+        <!-- Custom Controls Overlay -->
+        <div id="customOverlay" class="player-controls-overlay p-3 sm:p-4">
+          
+          <!-- Top Control Bar -->
+          <div class="flex items-center justify-between gap-2">
+            <div class="flex items-center gap-2 min-w-0">
+              <span class="bg-gold-main text-black font-extrabold text-[10px] px-2 py-0.5 rounded tracking-wider uppercase shrink-0">
+                360P
+              </span>
+              <h2 id="playerEpTitle" class="text-xs sm:text-sm font-bold text-white tracking-wide truncate font-royal">
+                Mehmet: Fetihler Sultanı - Ep 1
+              </h2>
+            </div>
+          </div>
+
+          <!-- Bottom Control Bar -->
+          <div class="flex flex-col gap-2 w-full">
+            
+            <!-- Timeline Seekbar -->
+            <div class="relative w-full flex items-center py-1 cursor-pointer group" id="timelineContainer">
+              <div class="w-full h-1.5 bg-white/20 rounded-full overflow-hidden relative group-hover:h-2 transition-all">
+                <div id="bufferedBar" class="absolute top-0 left-0 h-full bg-white/30 w-0"></div>
+                <div id="progressBar" class="absolute top-0 left-0 h-full bg-gold-main w-0"></div>
+              </div>
+              <div id="timeTooltip" class="absolute -top-7 hidden -translate-x-1/2 bg-royal-900 text-gold-bright text-[10px] font-bold px-2 py-0.5 rounded border border-gold-main/50 pointer-events-none whitespace-nowrap">
+                00:00
+              </div>
+            </div>
+
+            <!-- Control Buttons Row -->
+            <div class="flex items-center justify-between gap-2 w-full pt-1">
+              
+              <!-- Left Controls -->
+              <div class="flex items-center gap-3 sm:gap-4 shrink-0">
+                <button id="playPauseBtn" class="text-white hover:text-gold-bright transition-colors text-lg w-7 h-7 flex items-center justify-center">
+                  <i class="fa-solid fa-play ml-0.5"></i>
+                </button>
+
+                <button id="rewind10Btn" class="text-gray-300 hover:text-gold-bright transition-colors text-xs flex items-center gap-1">
+                  <i class="fa-solid fa-rotate-left"></i> <span class="text-[10px] font-bold hidden sm:inline">10s</span>
+                </button>
+
+                <button id="forward10Btn" class="text-gray-300 hover:text-gold-bright transition-colors text-xs flex items-center gap-1">
+                  <i class="fa-solid fa-rotate-right"></i> <span class="text-[10px] font-bold hidden sm:inline">10s</span>
+                </button>
+
+                <div class="flex items-center gap-2">
+                  <button id="muteBtn" class="text-gray-300 hover:text-white transition-colors text-xs">
+                    <i class="fa-solid fa-volume-high"></i>
+                  </button>
+                  <input type="range" id="volumeSlider" min="0" max="1" step="0.05" value="1" class="w-14 sm:w-20 hidden sm:block" />
+                </div>
+
+                <div class="text-[10px] font-mono text-gray-300">
+                  <span id="currentTime">00:00</span> / <span id="durationTime">00:00</span>
+                </div>
+              </div>
+
+              <!-- Right Controls -->
+              <div class="flex items-center gap-3 shrink-0">
+                <!-- Playback Speed Menu -->
+                <div class="relative">
+                  <button id="speedBtn" class="text-gray-200 hover:text-gold-bright font-bold text-[10px] px-2 py-1 rounded bg-black/60 border border-white/20">
+                    1.0x
+                  </button>
+                  <div id="speedMenu" class="absolute bottom-full mb-2 right-0 bg-royal-900 border border-royal-border rounded-md shadow-xl py-1 hidden flex-col w-20 text-[10px] z-50">
+                    <button data-speed="0.5" class="speed-option px-3 py-1 text-left text-gray-300 hover:bg-royal-800">0.5x</button>
+                    <button data-speed="1.0" class="speed-option px-3 py-1 text-left text-gold-bright font-bold hover:bg-royal-800">1.0x</button>
+                    <button data-speed="1.5" class="speed-option px-3 py-1 text-left text-gray-300 hover:bg-royal-800">1.5x</button>
+                    <button data-speed="2.0" class="speed-option px-3 py-1 text-left text-gray-300 hover:bg-royal-800">2.0x</button>
+                  </div>
+                </div>
+
+                <!-- Picture in Picture -->
+                <button id="pipBtn" class="text-gray-300 hover:text-gold-bright transition-colors text-xs hidden sm:block">
+                  <i class="fa-solid fa-clone"></i>
+                </button>
+
+                <!-- Fullscreen Button -->
+                <button id="fullscreenBtn" class="text-white hover:text-gold-bright transition-colors text-sm w-7 h-7 rounded flex items-center justify-center bg-royal-800 border border-white/20">
+                  <i id="fullscreenIcon" class="fa-solid fa-expand"></i>
+                </button>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- Series Details Card -->
+      <div class="bg-royal-900 rounded-xl p-4 sm:p-5 border border-royal-border flex flex-col gap-3">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-royal-border pb-3">
+          <div>
+            <div class="flex items-center gap-2 text-[10px] font-bold text-gold-main uppercase tracking-widest font-royal mb-1">
+              <i class="fa-solid fa-shield-halved"></i> Ottoman Imperial Saga
+            </div>
+            <h1 class="text-lg sm:text-2xl font-black text-white font-royal">
+              Mehmet: Fetihler Sultanı
+            </h1>
+            <p class="text-[11px] text-gray-400 mt-1">Season 1 • Historical Drama • 2024</p>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <button id="watchlistBtn" class="px-3 py-1.5 bg-royal-800 hover:bg-royal-700 text-gold-bright text-xs font-semibold rounded-lg border border-gold-main/30 flex items-center gap-2 transition-colors">
+              <i class="fa-regular fa-bookmark" id="watchlistIcon"></i>
+              <span id="watchlistText">Save</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="text-xs text-gray-300 leading-relaxed">
+          <p id="synopsisText" class="line-clamp-3">
+            Experience the grand rise of Sultan Mehmed II. Ascending the Ottoman throne amidst internal court rivalries and looming external threats, he conceives the impossible plan: the epic siege and conquest of Constantinople.
+          </p>
+          <button id="readMoreBtn" class="text-gold-main hover:text-gold-bright font-semibold text-xs mt-1">
+            Read More
+          </button>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- RIGHT SECTION: Episode Selector Sidebar (4 Columns) -->
+    <aside class="lg:col-span-4 flex flex-col gap-3">
+      
+      <div class="bg-royal-900 rounded-xl p-3 border border-royal-border flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-lg bg-gold-main text-black flex items-center justify-center font-bold">
+            <i class="fa-solid fa-chess-rook text-sm"></i>
+          </div>
+          <div>
+            <h3 class="text-xs font-black uppercase tracking-wider text-white font-royal">Season 1</h3>
+            <p class="text-[10px] text-gold-main">The Rise of an Empire</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-between px-1 mt-1">
+        <h3 class="text-xs font-bold text-white font-royal uppercase tracking-wider">Episode List</h3>
+        <span class="text-[10px] text-gray-400">1 Episode</span>
+      </div>
+
+      <!-- Episode Cards Container -->
+      <div id="episodeGrid" class="flex flex-col gap-2">
+        
+        <!-- Episode 1 Card -->
+        <div id="epCard1" onclick="playEpisode1()" class="group flex gap-3 p-2.5 rounded-xl border bg-royal-900 border-gold-main cursor-pointer transition-all relative overflow-hidden">
+          
+          <!-- Thumbnail -->
+          <div class="relative w-28 aspect-video rounded-lg overflow-hidden shrink-0 bg-black border border-royal-border">
+            <img 
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSsH5mz1PBAX1ohG2EeeRxpGlZEqvJd9fUSb82OT6xQvA&s=10" 
+              alt="Episode 1 Thumbnail" 
+              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+            />
+            
+            <div class="absolute inset-0 bg-black/40 flex items-center justify-center group-hover:bg-black/20 transition-colors">
+              <div class="w-7 h-7 rounded-full bg-gold-main text-black flex items-center justify-center text-xs">
+                <i class="fa-solid fa-play ml-0.5"></i>
+              </div>
+            </div>
+
+            <!-- Card Bottom Watch Progress Bar -->
+            <div class="absolute bottom-0 left-0 right-0 h-1 bg-black/80">
+              <div id="ep1CardProgress" class="h-full bg-gold-bright transition-all" style="width: 0%"></div>
+            </div>
+          </div>
+
+          <!-- Episode Info -->
+          <div class="flex flex-col justify-center flex-1 min-w-0 pr-1">
+            <div class="flex items-center justify-between gap-1 mb-1">
+              <span class="text-[10px] font-black text-gold-main uppercase tracking-widest font-royal">Ep 1</span>
+              <span class="text-[8px] font-bold uppercase bg-gold-main text-black px-1.5 py-0.5 rounded tracking-wider">
+                Playing
+              </span>
+            </div>
+            <h4 class="text-xs font-semibold text-white group-hover:text-gold-bright transition-colors truncate">
+              The Path to Conquest
+            </h4>
+            <p class="text-[10px] text-gray-400 mt-0.5 line-clamp-1">Mehmed prepares to ascend the throne.</p>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Local Auto Save Notice -->
+      <div class="bg-royal-950 rounded-lg p-3 border border-royal-border mt-1 flex items-center gap-2.5">
+        <i class="fa-solid fa-floppy-disk text-gold-main text-sm"></i>
+        <p class="text-[10px] text-gray-400 leading-tight">
+          Watch progress auto-saved locally in Chrome.
+        </p>
+      </div>
+
+    </aside>
+
+  </main>
+
+  <script>
+    const STORAGE_KEY = "maxplay_mehmet_ep1_progress";
+
+    const videoContainer = document.getElementById('videoContainer');
+    const video = document.getElementById('mainVideo');
+    const playPauseBtn = document.getElementById('playPauseBtn');
+    const centerPlayIndicator = document.getElementById('centerPlayIndicator');
+    const centerPlayIcon = document.getElementById('centerPlayIcon');
+    const progressBar = document.getElementById('progressBar');
+    const bufferedBar = document.getElementById('bufferedBar');
+    const timelineContainer = document.getElementById('timelineContainer');
+    const timeTooltip = document.getElementById('timeTooltip');
+    const currentTimeEl = document.getElementById('currentTime');
+    const durationTimeEl = document.getElementById('durationTime');
+    const volumeSlider = document.getElementById('volumeSlider');
+    const muteBtn = document.getElementById('muteBtn');
+    const speedBtn = document.getElementById('speedBtn');
+    const speedMenu = document.getElementById('speedMenu');
+    const fullscreenBtn = document.getElementById('fullscreenBtn');
+    const fullscreenIcon = document.getElementById('fullscreenIcon');
+    const pipBtn = document.getElementById('pipBtn');
+    const videoSpinner = document.getElementById('videoSpinner');
+    const ep1CardProgress = document.getElementById('ep1CardProgress');
+    const touchZoneLeft = document.getElementById('touchZoneLeft');
+    const touchZoneRight = document.getElementById('touchZoneRight');
+
+    let userActivityTimeout;
+
+    // Toast Notification System
+    function showToast(msg) {
+      const t = document.createElement('div');
+      t.className = 'bg-royal-900 text-gold-bright text-xs font-semibold px-3 py-2 rounded border border-gold-main/50 shadow-lg transition-opacity duration-200';
+      t.innerHTML = `<i class="fa-solid fa-circle-info mr-1.5"></i> ${msg}`;
+      document.getElementById('toastContainer').appendChild(t);
+      
+      setTimeout(() => {
+        t.style.opacity = '0';
+        setTimeout(() => t.remove(), 200);
+      }, 2500);
+    }
+
+    // Auto-Hide Controls Logic
+    function resetActivityTimeout() {
+      videoContainer.classList.add('user-active');
+      clearTimeout(userActivityTimeout);
+      if (!video.paused) {
+        userActivityTimeout = setTimeout(() => {
+          videoContainer.classList.remove('user-active');
+        }, 3000);
+      }
+    }
+
+    ['mousemove', 'touchstart', 'pointermove'].forEach(evt => {
+      videoContainer.addEventListener(evt, resetActivityTimeout);
+    });
+
+    // Play / Pause Toggle
+    function togglePlay() {
+      if (video.paused) {
+        video.play();
+        playPauseBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
+        videoContainer.classList.remove('paused');
+        flashCenterIcon('fa-play');
+        resetActivityTimeout();
+      } else {
+        video.pause();
+        playPauseBtn.innerHTML = '<i class="fa-solid fa-play ml-0.5"></i>';
+        videoContainer.classList.add('paused');
+        flashCenterIcon('fa-pause');
+      }
+    }
+
+    function flashCenterIcon(iconCls) {
+      centerPlayIcon.className = `fa-solid ${iconCls}`;
+      centerPlayIndicator.style.opacity = '1';
+      setTimeout(() => {
+        centerPlayIndicator.style.opacity = '0';
+      }, 300);
+    }
+
+    playPauseBtn.addEventListener('click', togglePlay);
+    video.addEventListener('click', togglePlay);
+
+    // Time Format Helper
+    function formatTime(s) {
+      if (isNaN(s)) return "00:00";
+      const m = Math.floor(s / 60);
+      const secs = Math.floor(s % 60);
+      return `${m.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    }
+
+    // Video Time Updates
+    video.addEventListener('timeupdate', () => {
+      if (!video.duration) return;
+      const pct = (video.currentTime / video.duration) * 100;
+      progressBar.style.width = `${pct}%`;
+      currentTimeEl.textContent = formatTime(video.currentTime);
+      durationTimeEl.textContent = formatTime(video.duration);
+      saveProgress(video.currentTime, video.duration);
+    });
+
+    // Buffering & Loading Spinner Event Handlers
+    const showSpinner = () => videoSpinner.classList.remove('hidden');
+    const hideSpinner = () => videoSpinner.classList.add('hidden');
+
+    video.addEventListener('waiting', showSpinner);
+    video.addEventListener('stalled', showSpinner);
+    video.addEventListener('seeking', showSpinner);
+    video.addEventListener('playing', hideSpinner);
+    video.addEventListener('canplay', hideSpinner);
+    video.addEventListener('canplaythrough', hideSpinner);
+    video.addEventListener('pause', hideSpinner);
+    video.addEventListener('error', hideSpinner);
+
+    // Buffer Updates
+    video.addEventListener('progress', () => {
+      if (video.buffered.length > 0) {
+        const buf = (video.buffered.end(video.buffered.length - 1) / video.duration) * 100;
+        bufferedBar.style.width = `${buf}%`;
+      }
+    });
+
+    // Seekbar Interaction
+    let isDragging = false;
+    function updateScrub(e) {
+      const rect = timelineContainer.getBoundingClientRect();
+      let clientX = e.clientX || e.touches?.[0]?.clientX || 0;
+      let pos = (clientX - rect.left) / rect.width;
+      pos = Math.max(0, Math.min(1, pos));
+      video.currentTime = pos * video.duration;
+      progressBar.style.width = `${pos * 100}%`;
+    }
+
+    timelineContainer.addEventListener('mousedown', (e) => { isDragging = true; updateScrub(e); });
+    document.addEventListener('mousemove', (e) => {
+      if (isDragging) updateScrub(e);
+      const rect = timelineContainer.getBoundingClientRect();
+      if (e.clientX >= rect.left && e.clientX <= rect.right && video.duration) {
+        const pos = (e.clientX - rect.left) / rect.width;
+        timeTooltip.textContent = formatTime(pos * video.duration);
+        timeTooltip.style.left = `${e.clientX - rect.left}px`;
+      }
+    });
+    document.addEventListener('mouseup', () => isDragging = false);
+    
+    timelineContainer.addEventListener('mouseenter', () => timeTooltip.classList.remove('hidden'));
+    timelineContainer.addEventListener('mouseleave', () => timeTooltip.classList.add('hidden'));
+
+    // Volume Controls
+    volumeSlider.addEventListener('input', (e) => {
+      video.volume = e.target.value;
+      video.muted = video.volume === 0;
+      updateVolumeIcon();
+    });
+    muteBtn.addEventListener('click', () => {
+      video.muted = !video.muted;
+      updateVolumeIcon();
+    });
+    function updateVolumeIcon() {
+      if (video.muted || video.volume === 0) muteBtn.innerHTML = '<i class="fa-solid fa-volume-xmark text-gold-main"></i>';
+      else muteBtn.innerHTML = '<i class="fa-solid fa-volume-high"></i>';
+    }
+
+    // Skip Functions
+    function skip(sec) {
+      video.currentTime = Math.max(0, Math.min(video.duration, video.currentTime + sec));
+    }
+    document.getElementById('rewind10Btn').addEventListener('click', () => skip(-10));
+    document.getElementById('forward10Btn').addEventListener('click', () => skip(10));
+
+    // Double-Tap Mobile Seeking
+    let lastTapL = 0, lastTapR = 0;
+    touchZoneLeft.addEventListener('touchend', (e) => {
+      const now = Date.now();
+      if (now - lastTapL < 300) { e.preventDefault(); skip(-10); showToast('-10s'); }
+      lastTapL = now;
+    });
+    touchZoneRight.addEventListener('touchend', (e) => {
+      const now = Date.now();
+      if (now - lastTapR < 300) { e.preventDefault(); skip(10); showToast('+10s'); }
+      lastTapR = now;
+    });
+
+    // Fullscreen Logic (Targeting videoContainer)
+    function toggleFullscreen() {
+      const isFS = document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement;
+      
+      if (!isFS) {
+        if (videoContainer.requestFullscreen) {
+          videoContainer.requestFullscreen();
+        } else if (videoContainer.webkitRequestFullscreen) {
+          videoContainer.webkitRequestFullscreen();
+        } else if (videoContainer.mozRequestFullScreen) {
+          videoContainer.mozRequestFullScreen();
+        } else if (videoContainer.msRequestFullscreen) {
+          videoContainer.msRequestFullscreen();
+        }
+      } else {
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+        } else if (document.webkitExitFullscreen) {
+          document.webkitExitFullscreen();
+        } else if (document.mozCancelFullScreen) {
+          document.mozCancelFullScreen();
+        } else if (document.msExitFullscreen) {
+          document.msExitFullscreen();
+        }
+      }
+    }
+
+    fullscreenBtn.addEventListener('click', toggleFullscreen);
+
+    ['fullscreenchange', 'webkitfullscreenchange', 'mozfullscreenchange', 'MSFullscreenChange'].forEach(evt => {
+      document.addEventListener(evt, () => {
+        const isFS = document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement;
+        if (isFS) {
+          fullscreenIcon.className = 'fa-solid fa-compress text-gold-bright';
+        } else {
+          fullscreenIcon.className = 'fa-solid fa-expand';
+        }
+      });
+    });
+
+    // Picture-in-Picture
+    pipBtn.addEventListener('click', async () => {
+      try {
+        if (document.pictureInPictureElement) await document.exitPictureInPicture();
+        else await video.requestPictureInPicture();
+      } catch (e) { showToast("PIP unavailable"); }
+    });
+
+    // LocalStorage Watch Progress
+    function saveProgress(time, duration) {
+      if (!duration || duration <= 0) return;
+      const pct = (time / duration) * 100;
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({ time, pct }));
+      ep1CardProgress.style.width = `${pct}%`;
+    }
+
+    function playEpisode1() {
+      videoSpinner.classList.remove('hidden');
+      const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{"time":0, "pct":0}');
+      
+      video.addEventListener('loadedmetadata', function onLoaded() {
+        videoSpinner.classList.add('hidden');
+        if (saved.time > 5 && saved.time < video.duration - 10) {
+          video.currentTime = saved.time;
+          showToast(`Resumed from ${formatTime(saved.time)}`);
+        }
+        ep1CardProgress.style.width = `${saved.pct}%`;
+        video.removeEventListener('loadedmetadata', onLoaded);
+      });
+      video.load();
+    }
+
+    // Keybindings
+    document.addEventListener('keydown', (e) => {
+      if (e.target.tagName === 'INPUT') return;
+      switch(e.code) {
+        case 'Space': e.preventDefault(); togglePlay(); break;
+        case 'KeyF': e.preventDefault(); toggleFullscreen(); break;
+        case 'KeyM': e.preventDefault(); muteBtn.click(); break;
+        case 'ArrowLeft': e.preventDefault(); skip(-10); break;
+        case 'ArrowRight': e.preventDefault(); skip(10); break;
+      }
+    });
+
+    // Playback Speed Options
+    speedBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      speedMenu.classList.toggle('hidden');
+      speedMenu.classList.toggle('flex');
+    });
+    document.querySelectorAll('.speed-option').forEach(btn => {
+      btn.addEventListener('click', () => {
+        video.playbackRate = parseFloat(btn.dataset.speed);
+        speedBtn.textContent = btn.dataset.speed + 'x';
+        speedMenu.classList.add('hidden');
+        showToast(`Speed set to ${btn.dataset.speed}x`);
+      });
+    });
+    document.addEventListener('click', () => speedMenu.classList.add('hidden'));
+
+    // UI Buttons
+    document.getElementById('watchlistBtn').addEventListener('click', function() {
+      const i = this.querySelector('i');
+      i.classList.toggle('fa-solid'); 
+      i.classList.toggle('fa-regular');
+      showToast(i.classList.contains('fa-solid') ? 'Saved to Watchlist' : 'Removed from Watchlist');
+    });
+    
+    document.getElementById('readMoreBtn').addEventListener('click', function() {
+      const p = document.getElementById('synopsisText');
+      if (p.classList.contains('line-clamp-3')) {
+        p.classList.remove('line-clamp-3');
+        this.textContent = 'Show Less';
+      } else {
+        p.classList.add('line-clamp-3');
+        this.textContent = 'Read More';
+      }
+    });
+
+    // Page Load Initialization
+    window.onload = () => {
+      playEpisode1();
+    };
+  </script>
+</body>
+</html>
