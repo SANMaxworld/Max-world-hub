@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IndexedDB Video Downloader & Player Test</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+        body {
+            background-color: #0f172a;
+            color: #f8fafc;
+            display: flex;
+            justify-content: center;
+            padding: 24px 16px;
+        }
+        .container {
+            width: 100%;
+            max-width: 680px;
+            background: #1e293b;
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.5);
+            border: 1px solid #334155;
+        }
+        h2 {
+            margin-bottom: 16px;
+            color: #38bdf8;
+            font-size: 1.25rem;
+        }
+        .field-group {
+            margin-bottom: 14px;
+        }
+        label {
+            display: block;
+            font-size: 0.85rem;
+            color: #94a3b8;
+            margin-bottom: 4px;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 6px;
+            color: #e2e8f0;
+            font-size: 0.85rem;
+        }
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            margin: 18px 0;
+            flex-wrap: wrap;
+        }
+        button {
+            flex: 1;
+            min-width: 130px;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+        button:hover { opacity: 0.9; }
+        button:disabled { opacity: 0.5; cursor: not-allowed; }
+        .btn-download { background: #0284c7; color: white; }
+        .btn-play { background: #16a34a; color: white; }
+        .btn-delete { background: #dc2626; color: white; }
+        
+        .progress-box {
+            background: #0f172a;
+            border-radius: 6px;
+            padding: 12px;
+            margin-bottom: 16px;
+            border: 1px solid #334155;
+        }
+        .progress-bar-bg {
+            background: #334155;
+            height: 10px;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-top: 8px;
+        }
+        .progress-bar-fill {
+            background: #38bdf8;
+            height: 100%;
+            width: 0%;
+            transition: width 0.2s;
+        }
+        .status-text {
+            font-size: 0.85rem;
+            color: #cbd5e1;
+            display: flex;
+            justify-content: space-between;
+        }
+        video {
+            width: 100%;
+            border-radius: 8px;
+            background: black;
+            margin-top: 12px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>CORS Proxy & IndexedDB Video Downloader</h2>
+
+    <div class="field-group">
+        <label>Proxy Base URL</label>
+        <input type="text" id="proxyUrl" value="https://maxplay-cors-proxy.nawaz1ops.workers.dev/?url=">
+    </div>
+
+    <div class="field-group">
+        <label>Target Video URL</label>
+        <input type="text" id="targetUrl" value="https://stream.vidhosting.in/videos/8b10f407.mp4">
+    </div>
+
+    <div class="btn-group">
+        <button class="btn-download" id="downloadBtn" onclick="startDownload()">1. Download & Store</button>
+        <button class="btn-play" id="playBtn" onclick="loadAndPlayVideo()">2. Play Stored Video</button>
+        <button class="btn-delete" id="deleteBtn" onclick="deleteVideo()">Clear DB</button>
+    </div>
+
+    <div class="progress-box">
+        <div class="status-text">
+            <span id="statusLabel">Status: Ready</span>
+            <span id="percentLabel">0%</span>
+        </div>
+        <div class="progress-bar-bg">
+            <div class="progress-bar-fill" id="progressFill"></div>
+        </div>
+    </div>
+
+    <video id="videoPlayer" controls></video>
+</div>
+
+<script>
+    const DB_NAME = "MediaStorageDB";
+    const DB_VERSION = 1;
+    const STORE_NAME = "videos";
+    const VIDEO_KEY = "stored_mp4_video";
+
+    // Initialize IndexedDB
+    function openDatabase() {
+        return new Promise((resolve, reject) => {
+            const request = indexedDB.open(DB_NAME, DB_VERSION);
+
+            request.onupgradeneeded = (event) => {
+                const db = event.target.result;
+                if (!db.objectStoreNames.contains(STORE_NAME)) {
+                    db.createObjectStore(STORE_NAME);
+                }
+            };
+
+            request.onsuccess = () => resolve(request.result);
+            request.onerror = () => reject(request.error);
+        });
+    }
+
+    // Store Blob in IndexedDB
+    async function saveBlobToDB(blob) {
+        const db = await openDatabase();
+        return new Promise((resolve, reject) => {
+            const tx = db.transaction(STORE_NAME, "readwrite");
+            const store = tx.objectStore(STORE_NAME);
+            const request = store.put(blob, VIDEO_KEY);
+
+            request.onsuccess = () => resolve();
+            request.onerror = () => reject(request.error);
+        });
+    }
+
+    // Get Blob from IndexedDB
+    async function getBlobFromDB() {
+        const db = await openDatabase();
+        return new Promise((resolve, reject) => {
+            const tx = db.transaction(STORE_NAME, "readonly");
+            const store = tx.objectStore(STORE_NAME);
+            const request = store.get(VIDEO_KEY);
+
+            request.onsuccess = () => resolve(request.result);
+            request.onerror = () => reject(request.error);
+        });
+    }
+
+    // Delete Blob from IndexedDB
+    async function deleteVideo() {
+        try {
+            const db = await openDatabase();
+            const tx = db.transaction(STORE_NAME, "readwrite");
+            const store = tx.objectStore(STORE_NAME);
+            store.delete(VIDEO_KEY);
+            
+            tx.oncomplete = () => {
+                updateUI(0, "Status: DB Cleared", "0%");
+                const video = document.getElementById('videoPlayer');
+                video.pause();
+                video.src = "";
+                video.style.display = "none";
+                alert("IndexedDB data cleared successfully!");
+            };
+        } catch (err) {
+            alert("Error clearing DB: " + err.message);
+        }
+    }
+
+    // Download Video through Proxy and Save
+    async function startDownload() {
+        const proxy = document.getElementById('proxyUrl').value.trim();
+        const target = document.getElementById('targetUrl').value.trim();
+        const fullUrl = proxy + encodeURIComponent(target);
+
+        const downloadBtn = document.getElementById('downloadBtn');
+        downloadBtn.disabled = true;
+
+        updateUI(0, "Status: Fetching through Proxy...", "0%");
+
+        try {
+            const response = await fetch(fullUrl);
+
+            if (!response.ok) {
+                throw new Error(`HTTP Error! Status: ${response.status}`);
+            }
+
+            const contentLength = response.headers.get('content-length');
+            const totalBytes = contentLength ? parseInt(contentLength, 10) : 0;
+
+            const reader = response.body.getReader();
+            let receivedBytes = 0;
+            const chunks = [];
+
+            while (true) {
+                const { done, value } = await reader.read();
+                if (done) break;
+
+                chunks.push(value);
+                receivedBytes += value.length;
+
+                if (totalBytes) {
+                    const percent = Math.round((receivedBytes / totalBytes) * 100);
+                    const mbLoaded = (receivedBytes / (1024 * 1024)).toFixed(2);
+                    const mbTotal = (totalBytes / (1024 * 1024)).toFixed(2);
+                    updateUI(percent, `Downloading: ${mbLoaded} MB / ${mbTotal} MB`, `${percent}%`);
+                } else {
+                    const mbLoaded = (receivedBytes / (1024 * 1024)).toFixed(2);
+                    updateUI(50, `Downloading: ${mbLoaded} MB downloaded...`, "Processing");
+                }
+            }
+
+            updateUI(95, "Status: Saving to IndexedDB...", "95%");
+            const videoBlob = new Blob(chunks, { type: 'video/mp4' });
+            await saveBlobToDB(videoBlob);
+
+            updateUI(100, "Status: Saved to IndexedDB successfully!", "100%");
+            alert("Video successfully stored in IndexedDB!");
+
+        } catch (error) {
+            console.error("Download Error:", error);
+            updateUI(0, `Error: ${error.message}`, "Failed");
+            alert("Download failed: " + error.message);
+        } finally {
+            downloadBtn.disabled = false;
+        }
+    }
+
+    // Retrieve Blob from IndexedDB and play
+    async function loadAndPlayVideo() {
+        try {
+            updateUI(100, "Status: Fetching from IndexedDB...", "100%");
+            const blob = await getBlobFromDB();
+
+            if (!blob) {
+                alert("No video found in IndexedDB. Please download first!");
+                updateUI(0, "Status: No video in DB", "0%");
+                return;
+            }
+
+            const video = document.getElementById('videoPlayer');
+            const videoUrl = URL.createObjectURL(blob);
+            
+            video.src = videoUrl;
+            video.style.display = "block";
+            video.play();
+
+            updateUI(100, "Status: Playing from IndexedDB", "100%");
+
+        } catch (err) {
+            console.error("Playback Error:", err);
+            alert("Failed to read video from IndexedDB: " + err.message);
+        }
+    }
+
+    function updateUI(percent, statusText, percentText) {
+        document.getElementById('progressFill').style.width = percent + "%";
+        document.getElementById('statusLabel').innerText = statusText;
+        document.getElementById('percentLabel').innerText = percentText;
+    }
+</script>
+
+</body>
+          </html>
+  
