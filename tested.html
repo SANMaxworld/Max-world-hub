@@ -1,117 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MaxPlay HLS Player Tester</title>
-    <!-- HLS.js CDN -->
+    <title>MaxPlay RAM Proxy Tester</title>
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #121212;
-            color: #ffffff;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            margin: 0;
-            padding: 20px;
-        }
-        .player-card {
-            background-color: #1e1e1e;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
-            max-width: 720px;
-            width: 100%;
-            text-align: center;
-        }
-        input {
-            width: 90%;
-            padding: 12px;
-            margin-bottom: 12px;
-            border-radius: 6px;
-            border: 1px solid #333;
-            background: #2a2a2a;
-            color: #fff;
-            font-size: 14px;
-        }
-        button {
-            padding: 10px 24px;
-            background-color: #e50914;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-weight: bold;
-            cursor: pointer;
-            margin-bottom: 15px;
-        }
-        button:hover {
-            background-color: #b80710;
-        }
-        video {
-            width: 100%;
-            border-radius: 8px;
-            background: #000;
-        }
-        #status {
-            margin-top: 10px;
-            font-size: 14px;
-            color: #aaa;
-        }
-    </style>
 </head>
-<body>
+<body style="background: #121212; color: white; text-align: center; padding: 20px; font-family: sans-serif;">
 
-    <div class="player-card">
-        <h2>MaxPlay Stream Tester 🎬</h2>
-        <input type="text" id="streamUrl" value="https://ugc-cdn-caching-n3wk6kvuwrus5kegph.cloudwindow-route.com/engine/hls2/01/18483/xouthv9ic56y_,n,.urlset/master.m3u8">
-        <br>
-        <button onclick="loadAndPlay()">Play Stream</button>
-        <br>
-        <video id="videoPlayer" controls></video>
-        <div id="status">Status: Click "Play Stream" to start</div>
-    </div>
+    <h2>MaxPlay Proxy Player 🎬</h2>
+    
+    <!-- Yahan Exact HF Proxy Link Dala Gaya Hai -->
+    <input type="text" id="streamUrl" value="https://nawazkhan001-mw-hub-master.hf.space/proxy/m3u8?url=https%3A%2F%2Fugc-cdn-caching-n3wk6kvuwrus5kegph.cloudwindow-route.com%2Fengine%2Fhls2%2F01%2F18483%2Fxouthv9ic56y_%2Cn%2C.urlset%2Fmaster.m3u8%3Ft%3DkaoH8ZggR-1uD28WgDOUSOuUihEvvfbaJb7weEe5kic%26s%3D1791573724%26e%3D14400%26f%3D92418558%26node%3DDboe2dQdJ65w4E9azG6vnDXzsebIfa7wG0FnNWCve98%3D%26i%3D3.216%26sp%3D2500%26asn%3D14618%26q%3Dn%26rq%3Ds0ipidxRZJ59YrURVc1CKq9Yr606ae3A5pt8X5aa" style="width: 80%; padding: 10px; margin-bottom: 10px;">
+    
+    <br>
+    <button onclick="playVideo()" style="padding: 10px 20px; background: red; color: white; border: none; cursor: pointer;">Play Proxy Stream</button>
+    <br><br>
+    
+    <video id="video" controls style="width: 80%; background: black;"></video>
 
     <script>
-        function loadAndPlay() {
-            var video = document.getElementById('videoPlayer');
-            var url = document.getElementById('streamUrl').value;
-            var status = document.getElementById('status');
-
-            status.innerText = "Loading stream...";
-            status.style.color = "#FFC107";
-
+        function playVideo() {
+            const url = document.getElementById('streamUrl').value;
+            const video = document.getElementById('video');
+            
             if (Hls.isSupported()) {
-                var hls = new Hls();
+                const hls = new Hls();
                 hls.loadSource(url);
                 hls.attachMedia(video);
-
-                hls.on(Hls.Events.MANIFEST_PARSED, function() {
-                    status.innerText = "Status: Playing successfully!";
-                    status.style.color = "#4CAF50";
-                    video.play();
-                });
-
-                hls.on(Hls.Events.ERROR, function(event, data) {
-                    if (data.fatal) {
-                        status.innerText = "Error: " + data.type + " - " + data.details + " (Browser blocked request / Referer missing)";
-                        status.style.color = "#f44336";
-                    }
-                });
-            } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-                // Safari support
-                video.src = url;
-                video.addEventListener('loadedmetadata', function() {
-                    video.play();
-                });
-            } else {
-                status.innerText = "HLS not supported in this browser.";
+                hls.on(Hls.Events.MANIFEST_PARSED, () => video.play());
             }
         }
     </script>
 </body>
-  </html>
-  
+</html>
