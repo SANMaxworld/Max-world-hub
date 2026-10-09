@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
     <title>MaxPlay RAM Proxy Tester</title>
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 </head>
@@ -8,11 +9,10 @@
 
     <h2>MaxPlay Proxy Player 🎬</h2>
     
-    <!-- Yahan Exact HF Proxy Link Dala Gaya Hai -->
-    <input type="text" id="streamUrl" value="https://nawazkhan001-mw-hub-master.hf.space/proxy/m3u8?url=https%3A%2F%2Fugc-cdn-caching-n3wk6kvuwrus5kegph.cloudwindow-route.com%2Fengine%2Fhls2%2F01%2F18483%2Fxouthv9ic56y_%2Cn%2C.urlset%2Fmaster.m3u8%3Ft%3DkaoH8ZggR-1uD28WgDOUSOuUihEvvfbaJb7weEe5kic%26s%3D1791573724%26e%3D14400%26f%3D92418558%26node%3DDboe2dQdJ65w4E9azG6vnDXzsebIfa7wG0FnNWCve98%3D%26i%3D3.216%26sp%3D2500%26asn%3D14618%26q%3Dn%26rq%3Ds0ipidxRZJ59YrURVc1CKq9Yr606ae3A5pt8X5aa" style="width: 80%; padding: 10px; margin-bottom: 10px;">
+    <input type="text" id="streamUrl" value="https://nawazkhan001-mw-hub-master.hf.space/proxy/m3u8?url=https%3A%2F%2Fugc-cdn-caching-n3wk6kvuwrus5kegph.cloudwindow-route.com%2Fengine%2Fhls2%2F01%2F18483%2Fxouthv9ic56y_%2Cn%2C.urlset%2Fmaster.m3u8%3Ft%3DmbbBvhoMz86fjAyW6CZY-2cY_NJCrKVYHNvGlKf5zBU%26s%3D1791574447%26e%3D14400%26f%3D92418558%26node%3DDboe2dQdJ65w4E9azG6vnDXzsebIfa7wG0FnNWCve98%3D%26i%3D3.216%26sp%3D2500%26asn%3D14618%26q%3Dn%26rq%3DRexsAqHZt0JRf3iE8rekWuXOd2dOJLDeMIw4yqV3" style="width: 80%; padding: 10px; margin-bottom: 10px;">
     
     <br>
-    <button onclick="playVideo()" style="padding: 10px 20px; background: red; color: white; border: none; cursor: pointer;">Play Proxy Stream</button>
+    <button onclick="playVideo()" style="padding: 10px 20px; background: red; color: white; border: none; cursor: pointer; font-weight: bold;">Play Proxy Stream</button>
     <br><br>
     
     <video id="video" controls style="width: 80%; background: black;"></video>
@@ -26,7 +26,31 @@
                 const hls = new Hls();
                 hls.loadSource(url);
                 hls.attachMedia(video);
-                hls.on(Hls.Events.MANIFEST_PARSED, () => video.play());
+                
+                hls.on(Hls.Events.MANIFEST_PARSED, () => {
+                    console.log("RAM Proxy Streaming Started!");
+                    video.play();
+                });
+                
+                // Debugging ke liye error logger
+                hls.on(Hls.Events.ERROR, function (event, data) {
+                    console.error("HLS.js Error details:", data);
+                    if (data.fatal) {
+                        switch (data.type) {
+                            case Hls.ErrorTypes.NETWORK_ERROR:
+                                console.error("Network error encountered, try to recover");
+                                hls.startLoad();
+                                break;
+                            case Hls.ErrorTypes.MEDIA_ERROR:
+                                console.error("Media error encountered, try to recover");
+                                hls.recoverMediaError();
+                                break;
+                            default:
+                                hls.destroy();
+                                break;
+                        }
+                    }
+                });
             }
         }
     </script>
