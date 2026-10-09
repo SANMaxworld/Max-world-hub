@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MaxPlay HLS Player Tester</title>
+    <!-- HLS.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #121212;
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        .player-card {
+            background-color: #1e1e1e;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+            max-width: 720px;
+            width: 100%;
+            text-align: center;
+        }
+        input {
+            width: 90%;
+            padding: 12px;
+            margin-bottom: 12px;
+            border-radius: 6px;
+            border: 1px solid #333;
+            background: #2a2a2a;
+            color: #fff;
+            font-size: 14px;
+        }
+        button {
+            padding: 10px 24px;
+            background-color: #e50914;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-bottom: 15px;
+        }
+        button:hover {
+            background-color: #b80710;
+        }
+        video {
+            width: 100%;
+            border-radius: 8px;
+            background: #000;
+        }
+        #status {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #aaa;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="player-card">
+        <h2>MaxPlay Stream Tester 🎬</h2>
+        <input type="text" id="streamUrl" value="https://ugc-cdn-caching-n3wk6kvuwrus5kegph.cloudwindow-route.com/engine/hls2/01/18483/xouthv9ic56y_,n,.urlset/master.m3u8">
+        <br>
+        <button onclick="loadAndPlay()">Play Stream</button>
+        <br>
+        <video id="videoPlayer" controls></video>
+        <div id="status">Status: Click "Play Stream" to start</div>
+    </div>
+
+    <script>
+        function loadAndPlay() {
+            var video = document.getElementById('videoPlayer');
+            var url = document.getElementById('streamUrl').value;
+            var status = document.getElementById('status');
+
+            status.innerText = "Loading stream...";
+            status.style.color = "#FFC107";
+
+            if (Hls.isSupported()) {
+                var hls = new Hls();
+                hls.loadSource(url);
+                hls.attachMedia(video);
+
+                hls.on(Hls.Events.MANIFEST_PARSED, function() {
+                    status.innerText = "Status: Playing successfully!";
+                    status.style.color = "#4CAF50";
+                    video.play();
+                });
+
+                hls.on(Hls.Events.ERROR, function(event, data) {
+                    if (data.fatal) {
+                        status.innerText = "Error: " + data.type + " - " + data.details + " (Browser blocked request / Referer missing)";
+                        status.style.color = "#f44336";
+                    }
+                });
+            } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+                // Safari support
+                video.src = url;
+                video.addEventListener('loadedmetadata', function() {
+                    video.play();
+                });
+            } else {
+                status.innerText = "HLS not supported in this browser.";
+            }
+        }
+    </script>
+</body>
+  </html>
+  
