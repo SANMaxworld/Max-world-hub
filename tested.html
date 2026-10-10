@@ -2,47 +2,106 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>MaxPlay RAM Proxy Tester</title>
+    <title>MaxPlay Smart HLS Player 🎬</title>
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <style>
+        body { background: #121212; color: white; text-align: center; font-family: sans-serif; padding: 20px; }
+        .controls { margin: 15px 0; }
+        select { background: #222; color: white; padding: 8px; border: 1px solid #444; border-radius: 4px; margin: 0 5px; }
+        video { width: 80%; background: black; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.7); }
+        button { padding: 8px 15px; background: #e50914; color: white; border: none; cursor: pointer; font-weight: bold; border-radius: 4px; }
+        button:hover { background: #b20710; }
+    </style>
 </head>
-<body style="background: #121212; color: white; text-align: center; padding: 20px; font-family: sans-serif;">
+<body>
 
-    <h2>MaxPlay Proxy Player 🎬</h2>
+    <h2>MaxPlay Smart Proxy Player 🎛️</h2>
     
-    <input type="text" id="streamUrl" value="https://nawazkhan001-mw-hub-master.hf.space/proxy/m3u8?url=https%3A%2F%2Fugc-cdn-caching-n3wk6kvuwrus5kegph.cloudwindow-route.com%2Fengine%2Fhls2%2F01%2F18483%2Fxouthv9ic56y_%2Cn%2C.urlset%2Fmaster.m3u8%3Ft%3DmbbBvhoMz86fjAyW6CZY-2cY_NJCrKVYHNvGlKf5zBU%26s%3D1791574447%26e%3D14400%26f%3D92418558%26node%3DDboe2dQdJ65w4E9azG6vnDXzsebIfa7wG0FnNWCve98%3D%26i%3D3.216%26sp%3D2500%26asn%3D14618%26q%3Dn%26rq%3DRexsAqHZt0JRf3iE8rekWuXOd2dOJLDeMIw4yqV3" style="width: 80%; padding: 10px; margin-bottom: 10px;">
+    <input type="text" id="streamUrl" value="https://nawazkhan001-mw-hub-master.hf.space/proxy/m3u8?url=https%3A%2F%2Fugc-cdn-caching-n3h2gp0ogjc0mfi0a5.cloudwindow-route.com%2Fengine%2Fhls2-c%2F01%2F18483%2Fxouthv9ic56y_%2Cn%2C.urlset%2Fmaster.m3u8%3Ft%3DqfyBmVUt7JfKGYZNEM0FBZG-cIuDQOvlfiI3SFnTxPI%26s%3D1791626687%26e%3D14400%26f%3D92418558%26node%3DjEH%2BLZZt%2B9avlxWinrVBlorAMPEplhqQtb%2FaHla%2BH2M%3D%26i%3D3.216%26sp%3D2500%26asn%3D14618%26q%3Dn%26rq%3DRVEkgrZgi6ceItjVhuyxy7fQEWOuzoW1bRqhlae1" style="width: 70%; padding: 8px; margin-bottom: 10px; background: #222; color: #fff; border: 1px solid #444;">
+    <button onclick="initPlayer()">Play Stream</button>
+
+    <!-- Smart Controls Bar -->
+    <div class="controls">
+        <label for="qualitySelect">Quality: </label>
+        <select id="qualitySelect" onchange="changeQuality(this.value)">
+            <option value="-1">Auto (ABR)</option>
+        </select>
+
+        <span id="audioContainer" style="margin-left: 20px; display: none;">
+            <label for="audioSelect">Soundtrack: </label>
+            <select id="audioSelect" onchange="changeAudio(this.value)"></select>
+        </span>
+    </div>
     
     <br>
-    <button onclick="playVideo()" style="padding: 10px 20px; background: red; color: white; border: none; cursor: pointer; font-weight: bold;">Play Proxy Stream</button>
-    <br><br>
-    
-    <video id="video" controls style="width: 80%; background: black;"></video>
+    <video id="video" controls autoplay></video>
 
     <script>
-        function playVideo() {
+        let hls;
+
+        function initPlayer() {
             const url = document.getElementById('streamUrl').value;
             const video = document.getElementById('video');
             
             if (Hls.isSupported()) {
-                const hls = new Hls();
+                if (hls) {
+                    hls.destroy(); // Purana instance clear karo agar ho toh
+                }
+                
+                hls = new Hls();
                 hls.loadSource(url);
                 hls.attachMedia(video);
                 
-                hls.on(Hls.Events.MANIFEST_PARSED, () => {
-                    console.log("RAM Proxy Streaming Started!");
-                    video.play();
+                hls.on(Hls.Events.MANIFEST_PARSED, (event, data) => {
+                    console.log("Manifest parsed, found levels:", data.levels.length);
+                    
+                    // 1. Populate Video Quality Dropdown
+                    const qualitySelect = document.getElementById('qualitySelect');
+                    qualitySelect.innerHTML = '<option value="-1">Auto (ABR)</option>';
+                    
+                    data.levels.forEach((level, index) => {
+                        const option = document.createElement('option');
+                        option.value = index;
+                        // Resolution height ya bitrate dikhane ke liye
+                        const label = level.height ? `${level.height}p` : `Bitrate ${Math.round(level.bitrate / 1000)}kbps`;
+                        option.text = label;
+                        qualitySelect.appendChild(option);
+                    });
+
+                    // 2. Populate Audio Tracks Dropdown (Agar multiple audio hain)
+                    const audioContainer = document.getElementById('audioContainer');
+                    const audioSelect = document.getElementById('audioSelect');
+                    
+                    if (hls.audioTracks && hls.audioTracks.length > 1) {
+                        audioContainer.style.display = 'inline-block';
+                        audioSelect.innerHTML = '';
+                        hls.audioTracks.forEach((track, index) => {
+                            const option = document.createElement('option');
+                            option.value = index;
+                            option.text = track.name || `Track ${index + 1} (${track.lang || 'Default'})`;
+                            audioSelect.appendChild(option);
+                        });
+                    } else {
+                        audioContainer.style.display = 'none';
+                    }
+
+                    video.play().catch(e => console.log("Auto-play blocked:", e));
                 });
-                
-                // Debugging ke liye error logger
-                hls.on(Hls.Events.ERROR, function (event, data) {
-                    console.error("HLS.js Error details:", data);
+
+                // Quality level change hone par active state sync karne ke liye
+                hls.on(Hls.Events.LEVEL_SWITCHED, (event, data) => {
+                    console.log("Switched to quality level index:", data.level);
+                });
+
+                hls.on(Hls.Events.ERROR, (event, data) => {
                     if (data.fatal) {
                         switch (data.type) {
                             case Hls.ErrorTypes.NETWORK_ERROR:
-                                console.error("Network error encountered, try to recover");
+                                console.error("Network error, trying to recover...");
                                 hls.startLoad();
                                 break;
                             case Hls.ErrorTypes.MEDIA_ERROR:
-                                console.error("Media error encountered, try to recover");
+                                console.error("Media error, recovering...");
                                 hls.recoverMediaError();
                                 break;
                             default:
@@ -51,8 +110,35 @@
                         }
                     }
                 });
+            } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+                // Safari native HLS support
+                video.src = url;
+                video.addEventListener('loadedmetadata', () => {
+                    video.play();
+                });
             }
         }
+
+        // Manual Quality Switcher Function
+        function changeQuality(newLevel) {
+            if (hls) {
+                hls.currentLevel = parseInt(newLevel); // -1 matlab Auto, 0, 1, 2... matlab specific resolution
+                console.log("Manual quality set to level:", newLevel);
+            }
+        }
+
+        // Manual Audio Track Switcher Function
+        function changeAudio(newAudioIndex) {
+            if (hls) {
+                hls.audioTrack = parseInt(newAudioIndex);
+                console.log("Audio track switched to index:", newAudioIndex);
+            }
+        }
+
+        // Page load hote hi auto initialize karne ke liye
+        window.onload = () => {
+            initPlayer();
+        };
     </script>
 </body>
 </html>
