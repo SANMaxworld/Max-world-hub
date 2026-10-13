@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MaxPlay Bulk Link Generator 🚀</title>
+<style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #0d1117; color: #e6edf3; font-family: 'Segoe UI', system-ui, sans-serif; padding: 20px; min-height: 100vh; }
+    .container { max-width: 1100px; margin: 0 auto; }
+    h1 { text-align: center; margin-bottom: 5px; font-size: 26px; }
+    .subtitle { text-align: center; color: #8b949e; font-size: 13px; margin-bottom: 25px; }
+    .card { background: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 20px; margin-bottom: 20px; }
+    label { display: block; font-size: 13px; color: #8b949e; margin-bottom: 6px; font-weight: 600; }
+    textarea, input[type="text"], input[type="password"] {
+        width: 100%; background: #0d1117; border: 1px solid #30363d; border-radius: 8px;
+        color: #e6edf3; padding: 12px; font-size: 14px; font-family: 'Consolas', monospace;
+    }
+    textarea { min-height: 180px; resize: vertical; line-height: 1.7; }
+    textarea:focus, input:focus { border-color: #e50914; outline: none; }
+    .grid { display: grid; grid-template-columns: 2fr 1fr; gap: 15px; margin-top: 15px; }
+    @media (max-width: 700px) { .grid { grid-template-columns: 1fr; } }
+    .btn {
+        padding: 14px 30px; border: none; border-radius: 8px; font-size: 16px; font-weight: bold;
+        cursor: pointer; transition: all 0.2s;
+    }
+    .btn-primary { background: #e50914; color: white; width: 100%; margin-top: 15px; }
+    .btn-primary:hover { background: #b20710; transform: translateY(-1px); }
+    .btn-copy { background: #238636; color: white; padding: 8px 14px; font-size: 12px; border-radius: 6px; }
+    .btn-copy:hover { background: #2ea043; }
+    .btn-sm { background: #1f6feb; color: white; padding: 4px 10px; font-size: 11px; border-radius: 5px; }
+    .stats { display: flex; gap: 20px; justify-content: center; margin: 15px 0; flex-wrap: wrap; }
+    .stat { background: #161b22; border: 1px solid #30363d; padding: 10px 22px; border-radius: 10px; text-align: center; }
+    .stat b { font-size: 22px; display: block; color: #e50914; }
+    .stat span { font-size: 12px; color: #8b949e; }
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+    th { text-align: left; padding: 10px 12px; font-size: 12px; color: #8b949e; border-bottom: 2px solid #30363d; }
+    td { padding: 10px 12px; border-bottom: 1px solid #21262d; font-size: 13px; vertical-align: middle; }
+    tr:hover td { background: #1c2128; }
+    .url-cell { word-break: break-all; max-width: 480px; font-family: Consolas, monospace; font-size: 12px; color: #79c0ff; }
+    .name-cell { font-weight: 600; }
+    .ok { color: #3fb950; } .warn { color: #d29922; } .bad { color: #f85149; }
+    .hint { font-size: 12px; color: #8b949e; margin-top: 8px; line-height: 1.8; }
+    .hint code { background: #21262d; padding: 2px 6px; border-radius: 4px; color: #79c0ff; }
+    #toast {
+        position: fixed; bottom: 25px; right: 25px; background: #238636; color: white;
+        padding: 12px 24px; border-radius: 8px; font-weight: bold; display: none; z-index: 99;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    }
+    .actions-bar { display: flex; gap: 10px; justify-content: center; margin: 15px 0; flex-wrap: wrap; }
+</style>
+</head>
+<body>
+<div class="container">
+    <h1>🚀 MaxPlay Bulk Link Generator</h1>
+    <div class="subtitle">Telegram links → Filemoon-ready proxied URLs — ek saath kitne bhi!</div>
+
+    <!-- CONFIG -->
+    <div class="card">
+        <div class="grid">
+            <div>
+                <label>🔗 Space URL</label>
+                <input type="text" id="spaceUrl" value="https://nawazkhan001-dinosaur.hf.space">
+            </div>
+            <div>
+                <label>🔑 Secret Key</label>
+                <input type="password" id="secretKey" value="MaxPlayMasterPass777!">
+            </div>
+        </div>
+    </div>
+
+    <!-- INPUT -->
+    <div class="card">
+        <label>📥 Telegram Links (har line pe ek link — naam dene ke liye <code style="background:#21262d;padding:2px 6px;border-radius:4px;">|</code> lagao)</label>
+        <textarea id="linksInput" placeholder="https://bot.domain/dl/123 | Demon Slayer Ep 01
+https://bot.domain/dl/456 | Demon Slayer Ep 02
+https://bot.domain/dl/789"></textarea>
+        <div class="hint">
+            📖 <b>Format:</b> <code>LINK</code> ya <code>LINK | Naam</code> — naame na doge to line number se ban jayega (Video_1, Video_2...)<br>
+            💡 Ek saath kitne bhi links daal sakte ho — sab instant generate honge
+        </div>
+        <button class="btn btn-primary" onclick="generateAll()">⚡ Sab Generate Karo</button>
+    </div>
+
+    <!-- STATS -->
+    <div class="stats" id="statsBar" style="display:none;">
+        <div class="stat"><b id="statTotal">0</b><span>Total</span></div>
+        <div class="stat"><b id="statOk" class="ok">0</b><span>✅ Ready</span></div>
+        <div class="stat"><b id="statWarn" class="warn">0</b><span>⚠️ No Name</span></div>
+        <div class="stat"><b id="statBad" class="bad">0</b><span>❌ Invalid</span></div>
+    </div>
+
+    <!-- ACTIONS -->
+    <div class="actions-bar" id="actionsBar" style="display:none;">
+        <button class="btn btn-copy" onclick="copyAll()">📋 Sab URLs Copy Karo (Filemoon ke liye)</button>
+        <button class="btn btn-copy" style="background:#1f6feb;" onclick="copyAllWithNames()">📋 Naam + URL Copy</button>
+        <button class="btn btn-copy" style="background:#8957e5;" onclick="downloadTxt()">💾 .txt Download</button>
+    </div>
+
+    <!-- RESULTS -->
+    <div class="card" id="resultsCard" style="display:none;">
+        <table>
+            <thead>
+                <tr><th>#</th><th>Naam</th><th>Filemoon-Ready URL</th><th>Action</th></tr>
+            </thead>
+            <tbody id="resultsBody"></tbody>
+        </table>
+    </div>
+</div>
+
+<div id="toast">✅ Copy ho gaya!</div>
+
+<script>
+let generated = [];  // {name, url, status}
+
+function sanitize(name) {
+    // Filemoon-safe filename: sirf letters, numbers, space, dash, underscore
+    return name.replace(/[^\w\s\-().]/g, '').trim().replace(/\s+/g, '_') || 'Video';
+}
+
+function generateAll() {
+    const space = document.getElementById('spaceUrl').value.trim().replace(/\/+$/, '');
+    const key = document.getElementById('secretKey').value.trim();
+    const raw = document.getElementById('linksInput').value;
+
+    if (!space || !key) { alert('⚠️ Space URL aur Secret Key dono bharna zaroori hai'); return; }
+
+    const lines = raw.split('\n').map(l => l.trim()).filter(l => l);
+    if (!lines.length) { alert('⚠️ Pehle links daalo'); return; }
+
+    generated = [];
+    let noName = 0, invalid = 0;
+
+    lines.forEach((line, i) => {
+        const parts = line.split('|').map(p => p.trim());
+        const link = parts[0];
+        let name = parts[1] || '';
+
+        if (!/^https?:\/\/.+/.test(link)) {
+            generated.push({ name: name || 'Line ' + (i+1), url: '', status: 'invalid', raw: line });
+            invalid++;
+            return;
+        }
+        if (!name) { name = 'Video_' + (i + 1); noName++; }
+
+        const fname = sanitize(name) + '.mp4';
+        const encoded = encodeURIComponent(link);
+        const fullUrl = `${space}/dl/${fname}?u=${encoded}&key=${encodeURIComponent(key)}`;
+        generated.push({ name, url: fullUrl, status: 'ok', raw: line });
+    });
+
+    renderTable();
+    document.getElementById('statTotal').textContent = lines.length;
+    document.getElementById('statOk').textContent = generated.filter(g => g.status === 'ok').length;
+    document.getElementById('statWarn').textContent = noName;
+    document.getElementById('statBad').textContent = invalid;
+    document.getElementById('statsBar').style.display = 'flex';
+    document.getElementById('actionsBar').style.display = 'flex';
+}
+
+function renderTable() {
+    const tbody = document.getElementById('resultsBody');
+    tbody.innerHTML = '';
+    document.getElementById('resultsCard').style.display = 'block';
+
+    generated.forEach((g, i) => {
+        const tr = document.createElement('tr');
+        if (g.status === 'invalid') {
+            tr.innerHTML = `<td>${i+1}</td>
+                <td class="name-cell bad">${g.name}</td>
+                <td class="url-cell bad">❌ Invalid link: ${g.raw.substring(0,60)}...</td>
+                <td>—</td>`;
+        } else {
+            tr.innerHTML = `<td>${i+1}</td>
+                <td class="name-cell">${g.name}.mp4</td>
+                <td class="url-cell">${g.url}</td>
+                <td>
+                    <button class="btn-sm" onclick="copyOne(${i})">📋 Copy</button>
+                    <a href="${g.url}" target="_blank" style="margin-left:6px;"><button class="btn-sm">▶ Test</button></a>
+                </td>`;
+        }
+        tbody.appendChild(tr);
+    });
+}
+
+function copyText(text, msg) {
+    navigator.clipboard.writeText(text).then(() => {
+        const toast = document.getElementById('toast');
+        toast.textContent = msg;
+        toast.style.display = 'block';
+        setTimeout(() => toast.style.display = 'none', 2000);
+    });
+}
+
+function copyOne(i) {
+    copyText(generated[i].url, '✅ URL copy ho gaya!');
+}
+
+function copyAll() {
+    // Sirf URLs — Filemoon remote upload mein directly paste karo
+    const urls = generated.filter(g => g.status === 'ok').map(g => g.url).join('\n');
+    if (!urls) { alert('Koi valid URL nahi bana'); return; }
+    copyText(urls, `✅ ${urls.split('\n').length} URLs copy ho gaye!`);
+}
+
+function copyAllWithNames() {
+    const lines = generated.filter(g => g.status === 'ok').map(g => `${g.name} → ${g.url}`).join('\n');
+    copyText(lines, '✅ Naam + URL copy ho gaye!');
+}
+
+function downloadTxt() {
+    const lines = generated.filter(g => g.status === 'ok').map(g => g.url).join('\n');
+    const blob = new Blob([lines], { type: 'text/plain' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'filemoon_links.txt';
+    a.click();
+}
+</script>
+</body>
+                  </html>
+              
