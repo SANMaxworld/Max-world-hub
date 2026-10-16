@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Keep-Alive Bot Control 🤖</title>
+<style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #0d1117; color: #e6edf3; font-family: 'Segoe UI', system-ui, sans-serif; padding: 20px; min-height: 100vh; }
+    .container { max-width: 900px; margin: 0 auto; }
+    h1 { text-align: center; margin-bottom: 4px; font-size: 24px; }
+    .subtitle { text-align: center; color: #8b949e; font-size: 13px; margin-bottom: 22px; }
+    .card { background: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 18px; margin-bottom: 18px; }
+    .card h3 { font-size: 14px; color: #8b949e; margin-bottom: 12px; }
+    label { display: block; font-size: 12px; color: #8b949e; margin-bottom: 5px; font-weight: 600; }
+    input, textarea { width: 100%; background: #0d1117; border: 1px solid #30363d; border-radius: 8px; color: #e6edf3; padding: 11px; font-size: 14px; font-family: Consolas, monospace; }
+    textarea { min-height: 110px; resize: vertical; line-height: 1.7; }
+    input:focus, textarea:focus { border-color: #238636; outline: none; }
+    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    @media (max-width: 650px) { .grid2 { grid-template-columns: 1fr; } }
+    .btn { padding: 11px 20px; border: none; border-radius: 8px; font-size: 14px; font-weight: bold; cursor: pointer; transition: all 0.15s; }
+    .btn:hover { transform: translateY(-1px); filter: brightness(1.1); }
+    .btn-green { background: #238636; color: white; }
+    .btn-blue { background: #1f6feb; color: white; }
+    .btn-red { background: #e50914; color: white; }
+    .btn-gray { background: #21262d; color: #c9d1d9; border: 1px solid #30363d; }
+    .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 18px; }
+    @media (max-width: 650px) { .stats { grid-template-columns: repeat(2, 1fr); } }
+    .stat { background: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 16px; text-align: center; }
+    .stat b { font-size: 30px; display: block; }
+    .stat span { font-size: 11px; color: #8b949e; text-transform: uppercase; letter-spacing: 1px; }
+    .c-total { color: #79c0ff; } .c-pend { color: #d29922; } .c-act { color: #3fb950; } .c-err { color: #f85149; }
+    .row { display: flex; gap: 10px; margin-top: 12px; flex-wrap: wrap; }
+    #log { background: #0d1117; border: 1px solid #30363d; border-radius: 8px; padding: 12px; font-family: Consolas, monospace; font-size: 12px; min-height: 100px; max-height: 220px; overflow-y: auto; line-height: 1.8; }
+    .ok { color: #3fb950; } .warn { color: #d29922; } .bad { color: #f85149; } .info { color: #79c0ff; }
+    #toast { position: fixed; bottom: 22px; right: 22px; padding: 12px 22px; border-radius: 8px; font-weight: bold; color: white; display: none; z-index: 99; box-shadow: 0 4px 20px rgba(0,0,0,0.6); }
+    .badge { display: inline-block; font-size: 10px; padding: 2px 8px; border-radius: 10px; margin-left: 8px; vertical-align: middle; }
+    .badge.on { background: #23863633; color: #3fb950; border: 1px solid #238636; }
+    .badge.off { background: #f8514933; color: #f85149; border: 1px solid #f85149; }
+    .auto-row { display: flex; align-items: center; gap: 8px; font-size: 12px; color: #8b949e; }
+    .auto-row input[type=checkbox] { width: auto; }
+</style>
+</head>
+<body>
+<div class="container">
+    <h1>🤖 Keep-Alive Bot Control</h1>
+    <div class="subtitle">Voe.sx files ko 60-din deletion se bachane wala system</div>
+
+    <!-- STATUS -->
+    <div class="stats">
+        <div class="stat"><b class="c-total" id="stTotal">—</b><span>Total Links</span></div>
+        <div class="stat"><b class="c-pend" id="stPend">—</b><span>Pending</span></div>
+        <div class="stat"><b class="c-act" id="stAct">—</b><span>Active ✅</span></div>
+        <div class="stat"><b class="c-err" id="stErr">—</b><span>Errors ❌</span></div>
+    </div>
+
+    <!-- CONFIG -->
+    <div class="card">
+        <h3>⚙️ Settings <span id="healthBadge" class="badge off">checking…</span></h3>
+        <div class="grid2">
+            <div>
+                <label>Bot Space URL</label>
+                <input type="text" id="spaceUrl" value="https://nawazkhan001-mw-hub-worker-1.hf.space">
+            </div>
+            <div>
+                <label>Secret Key</label>
+                <input type="password" id="secretKey" value="maxplaysecure123">
+            </div>
+        </div>
+        <div class="auto-row" style="margin-top:12px;">
+            <input type="checkbox" id="autoRefresh" checked>
+            <label for="autoRefresh" style="display:inline;">Auto-refresh har <b>10 second</b> pe</label>
+        </div>
+    </div>
+
+    <!-- ADD LINKS -->
+    <div class="card">
+        <h3>➕ Links Add Karo</h3>
+        <label>Ek link (voe.sx):</label>
+        <div class="row" style="margin-top:0;">
+            <input type="text" id="singleLink" placeholder="https://voe.sx/e/xxxxx" style="flex:1;">
+            <button class="btn btn-green" onclick="addSingle()">Add</button>
+        </div>
+        <div style="margin:14px 0 6px; color:#484f58; font-size:12px; text-align:center;">— ya bulk mein —</div>
+        <label>Ek se zyada links (har line pe ek):</label>
+        <textarea id="bulkLinks" placeholder="https://voe.sx/e/aaa
+https://voe.sx/e/bbb
+https://voe.sx/e/ccc"></textarea>
+        <div class="row">
+            <button class="btn btn-green" onclick="addBulk()">📋 Sab Add Karo</button>
+        </div>
+    </div>
+
+    <!-- ACTIONS -->
+    <div class="card">
+        <h3>🚀 Actions</h3>
+        <div class="row" style="margin-top:0;">
+            <button class="btn btn-red" onclick="triggerBatch()">🚀 Turant Batch Chalao</button>
+            <button class="btn btn-blue" onclick="refreshStatus(true)">🔄 Status Refresh</button>
+        </div>
+        <p style="font-size:11px; color:#8b949e; margin-top:10px;">
+            💡 Batch = bot har queued link pe visit karta hai. Scheduler khud har 24 ghante chalata hai,
+            ye button turant chalane ke liye hai.
+        </p>
+    </div>
+
+    <!-- LOG -->
+    <div class="card">
+        <h3>📋 Activity Log</h3>
+        <div id="log"><div class="info">Panel ready — status load ho raha hai…</div></div>
+    </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+const $ = id => document.getElementById(id);
+let refreshTimer = null;
+
+function log(msg, cls) {
+    const el = document.createElement('div');
+    el.className = cls || 'info';
+    el.textContent = `[${new Date().toLocaleTimeString()}] ${msg}`;
+    const box = $('log');
+    box.prepend(el);
+    while (box.children.length > 60) box.removeChild(box.lastChild);
+}
+
+function toast(msg, color) {
+    const t = $('toast');
+    t.textContent = msg;
+    t.style.background = color || '#238636';
+    t.style.display = 'block';
+    setTimeout(() => t.style.display = 'none', 2500);
+}
+
+async function api(path) {
+    const base = $('spaceUrl').value.trim().replace(/\/+$/, '');
+    const ctrl = new AbortController();
+    const to = setTimeout(() => ctrl.abort(), 30000);
+    try {
+        const r = await fetch(base + path, { signal: ctrl.signal });
+        clearTimeout(to);
+        return { ok: r.ok, status: r.status, data: await r.json() };
+    } catch (e) {
+        clearTimeout(to);
+        return { ok: false, status: 0, data: { error: e.name === 'AbortError'
+            ? '⏱️ Timeout — space sleep ho sakta hai. 30s baad retry, ya space URL kholo ek baar.' : String(e) } };
+    }
+}
+
+async function refreshStatus(manual) {
+    const res = await api('/api/status');
+    const b = $('healthBadge');
+    if (res.ok && res.data) {
+        $('stTotal').textContent = res.data.totalLinks ?? '—';
+        $('stPend').textContent = res.data.pendingLinks ?? '—';
+        $('stAct').textContent = res.data.activeLinks ?? '—';
+        $('stErr').textContent = res.data.errorLinks ?? '—';
+        b.textContent = '● online';
+        b.className = 'badge on';
+        if (manual) { log(`Status: ${res.data.totalLinks} total, ${res.data.pendingLinks} pending, ${res.data.activeLinks} active`, 'info'); toast('✅ Status updated'); }
+    } else {
+        b.textContent = '● offline';
+        b.className = 'badge off';
+        if (manual) { log('Status fail: ' + (res.data?.error || res.status), 'bad'); toast('❌ Bot offline/sleeping', '#f85149'); }
+    }
+}
+
+async function addSingle() {
+    const url = $('singleLink').value.trim();
+    if (!url) { toast('⚠️ Link daalo', '#d29922'); return; }
+    if (!url.includes('voe.sx')) { toast('⚠️ Sirf voe.sx links', '#d29922'); return; }
+    const res = await api(`/api/add-link?url=${encodeURIComponent(url)}&secretKey=${encodeURIComponent($('secretKey').value)}`);
+    const msg = res.data?.message || res.data?.error || JSON.stringify(res.data);
+    log(msg + (res.ok ? '' : ` (HTTP ${res.status})`), res.ok ? 'ok' : 'bad');
+    toast(res.ok ? '✅ ' + msg : '❌ ' + msg, res.ok ? '#238636' : '#f85149');
+    if (res.ok) $('singleLink').value = '';
+    refreshStatus(false);
+}
+
+async function addBulk() {
+    const lines = $('bulkLinks').value.split('\n').map(l => l.trim()).filter(l => l && l.includes('voe.sx'));
+    if (!lines.length) { toast('⚠️ Koi valid voe.sx link nahi mila', '#d29922'); return; }
+    log(`${lines.length} links add ho rahe hain…`, 'info');
+    let ok = 0, dup = 0, fail = 0;
+    for (const url of lines) {
+        const res = await api(`/api/add-link?url=${encodeURIComponent(url)}&secretKey=${encodeURIComponent($('secretKey').value)}`);
+        if (res.ok && res.data?.success) ok++;
+        else if (res.data?.message?.includes('already')) dup++;
+        else fail++;
+        await new Promise(r => setTimeout(r, 300)); // server ko saans lene do
+    }
+    log(`Bulk done: ${ok} added, ${dup} duplicate, ${fail} failed`, fail ? 'warn' : 'ok');
+    toast(`✅ ${ok} added${dup ? `, ${dup} dup` : ''}`, '#238636');
+    $('bulkLinks').value = '';
+    refreshStatus(false);
+}
+
+async function triggerBatch() {
+    if (!confirm('Batch turant chalao? Bot saari queued links pe visit karega.')) return;
+    const res = await api(`/api/trigger-batch?key=${encodeURIComponent($('secretKey').value)}`);
+    const msg = res.data?.status || res.data?.error || JSON.stringify(res.data);
+    log('Batch: ' + msg, res.ok ? 'ok' : 'bad');
+    toast(res.ok ? '🚀 Batch chal gaya' : '❌ ' + msg, res.ok ? '#e50914' : '#f85149');
+}
+
+// Auto-refresh
+function setupTimer() {
+    if (refreshTimer) clearInterval(refreshTimer);
+    if ($('autoRefresh').checked) refreshTimer = setInterval(() => refreshStatus(false), 10000);
+}
+$('autoRefresh').addEventListener('change', setupTimer);
+
+// Settings localStorage mein save
+['spaceUrl', 'secretKey'].forEach(id => {
+    const saved = localStorage.getItem('ka_' + id);
+    if (saved) $(id).value = saved;
+    $(id).addEventListener('change', () => localStorage.setItem('ka_' + id, $(id).value));
+});
+
+// Start
+setupTimer();
+refreshStatus(false);
+log('Panel started — auto-refresh ON (10s)', 'info');
+</script>
+</body>
+</html>
