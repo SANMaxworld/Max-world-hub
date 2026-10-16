@@ -28,7 +28,7 @@
     .btn-primary:hover { background: #b20710; transform: translateY(-1px); }
     .btn-copy { background: #238636; color: white; padding: 8px 14px; font-size: 12px; border-radius: 6px; }
     .btn-copy:hover { background: #2ea043; }
-    .btn-sm { background: #1f6feb; color: white; padding: 4px 10px; font-size: 11px; border-radius: 5px; }
+    .btn-sm { background: #1f6feb; color: white; padding: 4px 10px; font-size: 11px; border-radius: 5px; border: none; cursor: pointer; }
     .stats { display: flex; gap: 20px; justify-content: center; margin: 15px 0; flex-wrap: wrap; }
     .stat { background: #161b22; border: 1px solid #30363d; padding: 10px 22px; border-radius: 10px; text-align: center; }
     .stat b { font-size: 22px; display: block; color: #e50914; }
@@ -48,6 +48,27 @@
         box-shadow: 0 4px 20px rgba(0,0,0,0.5);
     }
     .actions-bar { display: flex; gap: 10px; justify-content: center; margin: 15px 0; flex-wrap: wrap; }
+
+    /* ===== WORKER TOGGLE ===== */
+    .worker-row { display: flex; gap: 12px; align-items: stretch; margin-bottom: 15px; }
+    .worker-btn {
+        flex: 1; padding: 14px; border: 2px solid #30363d; border-radius: 10px;
+        background: #0d1117; color: #8b949e; cursor: pointer; text-align: center;
+        transition: all 0.2s; font-family: inherit;
+    }
+    .worker-btn:hover { border-color: #484f58; }
+    .worker-btn.active {
+        border-color: #e50914; background: #e5091411; color: white;
+        box-shadow: 0 0 15px rgba(229, 9, 20, 0.25);
+    }
+    .worker-btn .w-name { font-size: 16px; font-weight: bold; display: block; }
+    .worker-btn .w-url { font-size: 10px; color: #8b949e; font-family: Consolas, monospace; display: block; margin-top: 4px; word-break: break-all; }
+    .worker-btn.active .w-url { color: #ff9d9d; }
+    .worker-btn .w-badge {
+        display: inline-block; font-size: 9px; padding: 1px 8px; border-radius: 8px;
+        margin-top: 6px; background: #21262d; color: #8b949e;
+    }
+    .worker-btn.active .w-badge { background: #e50914; color: white; }
 </style>
 </head>
 <body>
@@ -55,15 +76,29 @@
     <h1>🚀 MaxPlay Bulk Link Generator</h1>
     <div class="subtitle">Telegram links → Filemoon-ready proxied URLs — ek saath kitne bhi!</div>
 
-    <!-- CONFIG -->
+    <!-- WORKER SELECTOR -->
     <div class="card">
+        <label>🤖 Worker Select Karo (jo selected hai, sirf wahi links banayega):</label>
+        <div class="worker-row">
+            <button class="worker-btn" id="worker1Btn" onclick="selectWorker(1)">
+                <span class="w-name">Worker 1</span>
+                <span class="w-url">nawazkhan001-dinosaur.hf.space</span>
+                <span class="w-badge">PRIMARY</span>
+            </button>
+            <button class="worker-btn" id="worker2Btn" onclick="selectWorker(2)">
+                <span class="w-name">Worker 2</span>
+                <span class="w-url">nawazkhan001-maxplaydinosaur.hf.space</span>
+                <span class="w-badge">SECONDARY</span>
+            </button>
+        </div>
+
         <div class="grid">
             <div>
-                <label>🔗 Space URL</label>
-                <input type="text" id="spaceUrl" value="https://nawazkhan001-dinosaur.hf.space">
+                <label>🔗 Active Worker URL (auto-set hota hai)</label>
+                <input type="text" id="spaceUrl" value="" readonly style="opacity:0.8;">
             </div>
             <div>
-                <label>🔑 Secret Key</label>
+                <label>🔑 Secret Key (dono workers ki same)</label>
                 <input type="password" id="secretKey" value="MaxPlayMasterPass777!">
             </div>
         </div>
@@ -111,10 +146,39 @@ https://bot.domain/dl/789"></textarea>
 <div id="toast">✅ Copy ho gaya!</div>
 
 <script>
+// ================== WORKER CONFIG ==================
+const WORKERS = {
+    1: "https://nawazkhan001-dinosaur.hf.space",
+    2: "https://nawazkhan001-maxplaydinosaur.hf.space"
+};
+let activeWorker = 1;
+
+function selectWorker(n) {
+    activeWorker = n;
+    localStorage.setItem('mp_active_worker', n);   // ← memory mein save
+    document.getElementById('spaceUrl').value = WORKERS[n];
+    document.getElementById('worker1Btn').classList.toggle('active', n === 1);
+    document.getElementById('worker2Btn').classList.toggle('active', n === 2);
+    showToast(`🤖 Worker ${n} selected: ${WORKERS[n].replace('https://','')}`, '#1f6feb');
+}
+
+// Page load pe saved worker restore karo
+(function init() {
+    const saved = localStorage.getItem('mp_active_worker');
+    selectWorker(saved === '2' ? 2 : 1);
+})();
+
+function showToast(msg, color) {
+    const toast = document.getElementById('toast');
+    toast.textContent = msg;
+    toast.style.background = color || '#238636';
+    toast.style.display = 'block';
+    setTimeout(() => toast.style.display = 'none', 2000);
+}
+
 let generated = [];  // {name, url, status}
 
 function sanitize(name) {
-    // Filemoon-safe filename: sirf letters, numbers, space, dash, underscore
     return name.replace(/[^\w\s\-().]/g, '').trim().replace(/\s+/g, '_') || 'Video';
 }
 
@@ -156,6 +220,8 @@ function generateAll() {
     document.getElementById('statBad').textContent = invalid;
     document.getElementById('statsBar').style.display = 'flex';
     document.getElementById('actionsBar').style.display = 'flex';
+
+    showToast(`⚡ Worker ${activeWorker} se ${generated.filter(g => g.status==='ok').length} URLs bane!`, '#238636');
 }
 
 function renderTable() {
@@ -184,12 +250,7 @@ function renderTable() {
 }
 
 function copyText(text, msg) {
-    navigator.clipboard.writeText(text).then(() => {
-        const toast = document.getElementById('toast');
-        toast.textContent = msg;
-        toast.style.display = 'block';
-        setTimeout(() => toast.style.display = 'none', 2000);
-    });
+    navigator.clipboard.writeText(text).then(() => showToast(msg));
 }
 
 function copyOne(i) {
@@ -197,7 +258,6 @@ function copyOne(i) {
 }
 
 function copyAll() {
-    // Sirf URLs — Filemoon remote upload mein directly paste karo
     const urls = generated.filter(g => g.status === 'ok').map(g => g.url).join('\n');
     if (!urls) { alert('Koi valid URL nahi bana'); return; }
     copyText(urls, `✅ ${urls.split('\n').length} URLs copy ho gaye!`);
@@ -213,10 +273,9 @@ function downloadTxt() {
     const blob = new Blob([lines], { type: 'text/plain' });
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
-    a.download = 'filemoon_links.txt';
+    a.download = 'filemoon_links_worker' + activeWorker + '.txt';
     a.click();
 }
 </script>
 </body>
-                  </html>
-              
+</html>
